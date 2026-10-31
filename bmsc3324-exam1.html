@@ -281,7 +281,8 @@ const SHEET = {
 <tr><td>Adrenaline</td><td>Fight or flight: ↑ heart rate and blood flow, heightened awareness</td></tr>
 <tr><td>Noradrenaline</td><td>Concentration, attention; contracts blood vessels, ↑ blood flow</td></tr>
 <tr><td>Endorphins</td><td>Euphoria, well-being, reduced pain (exercise, excitement, sex)</td></tr>
-</table>`,
+</table>
+<p class="mix"><b>Calming vs activating:</b> GABA calms firing nerves. Adrenaline (↑ heart rate, blood flow, awareness) and noradrenaline (↑ attention, contracts blood vessels) ramp activity up. The chart describes the others by function only.</p>`,
 
 'm2-study': `
 <p>Thoughts, emotions, and behaviors are rooted in biology: chemical and electrical signals in the brain.</p>
@@ -405,6 +406,7 @@ const CARDS = [
  ['Adrenaline','Fight or flight; ↑ heart rate and blood flow','m2-neuro',''],
  ['Noradrenaline','Concentration and attention; contracts blood vessels','m2-neuro',''],
  ['Endorphins','Euphoria and reduced pain; exercise, excitement, sex','m2-neuro',''],
+ ['Calms vs ramps up activity','Calms firing nerves: GABA\nRamps activity up: adrenaline (↑ heart rate, blood flow), noradrenaline (↑ attention)','m2-neuro',''],
  ['Prefrontal cortex','Front of the brain; executive functions: deciding, problem-solving, planning','m2-study','b'],
  ['Brain activity in depression','Lower prefrontal cortex, higher amygdala: emotion-cognition imbalance','m2-study',''],
  ['fMRI and PET scans','Brain imaging technologies that let researchers study the brain in unprecedented detail','m2-study','b'],
@@ -1020,6 +1022,21 @@ Q('m2-adapt','a','Two siblings share the same genes but have very different earl
  ['phenotype','DNA sequence','phylogeny','homeostasis'],
  'Early experiences can alter the expression of specific genes, so the environment shapes phenotype even when the genes themselves are the same.',{lo:'2.6'});
 
+/* ---- calming vs activating (chart wording; Kerr objective on neural responses) ---- */
+Q('m2-neuro','c','Which neurotransmitter\'s primary response is to calm firing nerves rather than heighten arousal?',
+ ['GABA','Adrenaline','Noradrenaline','Acetylcholine'],
+ 'GABA calms firing nerves in the central nervous system. Adrenaline and noradrenaline increase heart rate, blood flow, and attention, and acetylcholine activates muscle action.',{lo:'K3'});
+Q('m2-neuro','a','A drug quiets overactive nerve firing in the central nervous system and eases anxiety. Which neurotransmitter is it most likely mimicking?',
+ ['GABA','Adrenaline','Noradrenaline','Acetylcholine'],
+ 'GABA calms firing nerves, and low GABA levels cause anxiety, so a drug that mimics it would quiet firing and ease anxiety.',{lo:'K3'});
+Q('m2-neuro','c','Which pair of neurotransmitters both ramp up the body\'s activity rather than calm it?',
+ ['Adrenaline and noradrenaline','GABA and adrenaline','GABA and noradrenaline','Serotonin and GABA'],
+ 'Adrenaline raises heart rate and blood flow (fight or flight), and noradrenaline sharpens attention and contracts blood vessels, increasing blood flow. GABA calms firing nerves.',{lo:'K3'});
+TF('m2-neuro','c','GABA and adrenaline have opposite primary effects: GABA calms firing nerves, while adrenaline increases heart rate and heightens awareness.',true,
+ 'True. GABA calms firing nerves in the central nervous system. Adrenaline is the fight-or-flight neurotransmitter.',{lo:'K3'});
+TF('m2-neuro','c','Like adrenaline, GABA heightens awareness and increases blood flow during stressful situations.',false,
+ 'False. That describes adrenaline. GABA does the opposite: it calms firing nerves.',{lo:'K3'});
+
 // ===== BMSC 3324 Exam 1 study tool (v3) =====
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -1110,7 +1127,7 @@ function mockHome() {
   <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
   <button class="btn" id="startSec">Practice section</button></div>
   <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.2</p>`;
+  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.3</p>`;
   $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
   $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
   $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
