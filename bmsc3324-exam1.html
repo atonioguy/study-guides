@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BMSC 3324 Exam 1</title>
+<title>BMSC 3324 · Exam 1 (Modules 1–2)</title>
 <style>
 :root{--fg:#1c1c1c;--mut:#666;--line:#ddd;--soft:#f5f5f3;--acc:#1f4b8f;--ok:#1d7a3a;--okbg:#eef7f0;--bad:#b42318;--badbg:#fdf1f0;--bt:#2347a8;--hh:53px}
 *{box-sizing:border-box}
@@ -13,6 +13,7 @@ body.noscroll{overflow:hidden}
 header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line)}
 .hin{max-width:760px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .brand{font-weight:600;font-size:15px;margin-right:auto}
+.mods{font-weight:400;color:var(--mut)}
 nav{display:flex;gap:4px}
 nav button{font:inherit;font-size:15px;background:none;border:0;padding:8px 10px;border-radius:6px;color:var(--mut);cursor:pointer}
 nav button.on{color:var(--fg);background:var(--soft);font-weight:600}
@@ -71,15 +72,21 @@ th{font-weight:600;background:var(--soft)}
 .ctext{margin:auto 0;font-size:20px;padding:12px 0;white-space:pre-line}
 .card.back .ctext{font-size:17px}
 .ctext.bt{font-weight:600}
-.cnav{flex-wrap:nowrap}
+.ctl2{margin-top:-2px}
+.cnav{flex-wrap:nowrap;gap:8px;align-items:stretch}
 .cnav .btn{flex:1 1 0;padding:11px 6px}
-.cnav #cp{flex:0 0 auto;padding:11px 14px}
+.cnav .btn.on{border-color:#b7791f;background:#fdf6e7}
+.cnav .arr{flex:0 0 52px;font-size:22px;line-height:1;padding:0}
+.tlh{display:flex;align-items:center;gap:6px;width:100%;font:inherit;font-size:16px;font-weight:600;color:var(--fg);background:none;border:0;border-top:1px solid var(--line);padding:14px 2px;margin-top:16px;cursor:pointer;text-align:left}
+.chev{display:inline-block;transition:transform .15s;font-size:18px;line-height:1;margin-top:-6px}
+.chev.up{transform:rotate(180deg);margin-top:4px}
 #terms{display:flex;flex-direction:column;border-top:1px solid var(--line)}
 .term{display:grid;grid-template-columns:minmax(120px,1fr) 2fr auto;gap:4px 16px;text-align:left;font:inherit;font-size:15px;color:var(--fg);background:none;border:0;border-bottom:1px solid var(--line);padding:10px 4px;cursor:pointer}
 .term.cur{background:var(--soft)}
 .tt{font-weight:600}
 .td{color:#333;white-space:pre-line}
-.tk{font-size:12px;color:var(--ok);align-self:start;padding-top:2px}
+.tk{font-size:12px;align-self:start;padding-top:2px;white-space:nowrap}
+.tk.got{color:var(--ok)}.tk.uns{color:#b7791f}
 @media(max-width:520px){.term{grid-template-columns:1fr auto}.td{grid-column:1/2;grid-row:2}.tk{grid-column:2/3;grid-row:1}}
 /* cheat sheet */
 .jump{position:sticky;top:var(--hh);z-index:4;background:#fff;padding:6px 0;box-shadow:0 1px 0 var(--line)}
@@ -101,8 +108,8 @@ h2.mod+section.sheet{border-top:0}
 .pkh{position:sticky;top:0;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
 @media(min-width:521px){.pk{min-height:0;margin:48px auto;border-radius:8px}}
 @media (max-width:520px){
- .brand{display:none}
- .hin{padding:4px 8px}
+ .brand{width:100%;font-size:14px;padding:2px 4px 0}
+ .hin{padding:4px 8px;gap:0}
  nav{width:100%}
  nav button{flex:1;padding:8px 4px}
  main{padding:12px 14px 56px}
@@ -111,7 +118,7 @@ h2.mod+section.sheet{border-top:0}
 </style>
 </head>
 <body>
-<header><div class="hin"><span class="brand">BMSC 3324 · Exam 1</span>
+<header><div class="hin"><span class="brand">BMSC 3324 · Exam 1 <span class="mods">Modules 1–2</span></span>
 <nav><button data-v="cards">Flashcards</button><button data-v="mock">Mock exam</button><button data-v="sheet">Cheat sheet</button></nav></div></header>
 <main id="app"></main>
 <div id="peek" hidden></div>
@@ -1103,11 +1110,11 @@ function mockHome() {
   <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
   <button class="btn" id="startSec">Practice section</button></div>
   <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.1</p>`;
+  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.2</p>`;
   $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
   $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
   $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
-  $('#reset').onclick = e => { e.preventDefault(); if (confirm('Erase all scores and flashcard progress?')) { S = { seen: {}, wrong: {}, mocks: [], cur: null, known: {}, view: 'mock' }; save(); mockHome(); } };
+  $('#reset').onclick = e => { e.preventDefault(); if (confirm('Erase all scores and flashcard progress?')) { S = { seen: {}, wrong: {}, mocks: [], cur: null, known: {}, mark: {}, fc: S.fc, view: 'mock' }; save(); mockHome(); } };
 }
 
 function showQ() {
@@ -1185,60 +1192,72 @@ function peek(t) {
 function closePeek() { $('#peek').hidden = true; document.body.classList.remove('noscroll'); }
 
 // ---------- flashcards ----------
-let FC = { filt: 'all', onlyNew: false, list: [], i: 0, flip: false };
+if (!S.mark) { S.mark = {}; Object.keys(S.known || {}).forEach(k => S.mark[k] = 'got'); }
+S.fc = Object.assign({ filt: 'all', hideGot: false, blue: false, open: false }, S.fc || {});
+let FC = { list: [], i: 0, flip: false, built: false };
 function cardKey(c) { return c[2] + '|' + c[0]; }
-function fcBuild(keepOrder) {
-  let l = CARDS.filter(c => FC.filt === 'all' || (FC.filt === 'm1' && c[2].startsWith('m1')) || (FC.filt === 'm2' && c[2].startsWith('m2')) || c[2] === FC.filt);
-  if (FC.onlyNew) l = l.filter(c => !S.known[cardKey(c)]);
-  FC.list = keepOrder ? l : l; FC.i = 0; FC.flip = false;
+const markOf = c => S.mark[cardKey(c)];
+function fcBuild() {
+  const f = S.fc.filt;
+  let l = CARDS.filter(c => f === 'all' || (f === 'm1' && c[2].startsWith('m1')) || (f === 'm2' && c[2].startsWith('m2')) || c[2] === f);
+  if (S.fc.blue) l = l.filter(c => c[3].includes('b'));
+  if (S.fc.hideGot) l = l.filter(c => markOf(c) !== 'got');
+  FC.list = l; FC.i = 0; FC.flip = false; FC.built = true;
 }
 function cardsView() {
-  if (!FC.list.length && !FC.onlyNew) fcBuild();
-  const known = CARDS.filter(c => S.known[cardKey(c)]).length;
+  if (!FC.built) fcBuild();
   $('#app').innerHTML = `
-  <h1>Flashcards</h1>
   <div class="row ctl"><select id="ff">
     <option value="all">All sections</option><option value="m1">Module 1</option><option value="m2">Module 2</option>
-    ${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name}</option>`).join('')}</select>
-    <label class="chk"><input type="checkbox" id="fn" ${FC.onlyNew ? 'checked' : ''}> Hide known</label>
+    ${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name}</option>`).join('')}</select></div>
+  <div class="row ctl2">
+    <label class="chk"><input type="checkbox" id="fb" ${S.fc.blue ? 'checked' : ''}> Blue terms only</label>
+    <label class="chk"><input type="checkbox" id="fn" ${S.fc.hideGot ? 'checked' : ''}> Hide "got it"</label>
     <button class="btn" id="fs">Shuffle</button></div>
   <div id="cardwrap"></div>
-  <p class="mut sm" id="knownN">Known: ${known} of ${CARDS.length}</p><p class="mut sm kbd">Space to flip, ← → to move</p>
-  <h2 id="tlh">Terms in this set (${FC.list.length})</h2>
-  <div id="terms"></div>`;
-  $('#ff').value = FC.filt;
-  $('#ff').onchange = e => { FC.filt = e.target.value; fcBuild(); cardsView(); };
-  $('#fn').onchange = e => { FC.onlyNew = e.target.checked; fcBuild(); cardsView(); };
+  <p class="mut sm" id="knownN"></p><p class="mut sm kbd">Space to flip, ← → to move</p>
+  <button class="tlh" id="tlh" aria-expanded="${S.fc.open}"></button>
+  <div id="terms" ${S.fc.open ? '' : 'hidden'}></div>`;
+  $('#ff').value = S.fc.filt;
+  $('#ff').onchange = e => { S.fc.filt = e.target.value; save(); fcBuild(); cardsView(); };
+  $('#fb').onchange = e => { S.fc.blue = e.target.checked; save(); fcBuild(); cardsView(); };
+  $('#fn').onchange = e => { S.fc.hideGot = e.target.checked; save(); fcBuild(); cardsView(); };
   $('#fs').onclick = () => { FC.list = shuffle(FC.list); FC.i = 0; FC.flip = false; drawCard(); drawTerms(); };
+  $('#tlh').onclick = () => { S.fc.open = !S.fc.open; save(); $('#terms').hidden = !S.fc.open; drawTerms(); };
   drawCard(); drawTerms();
 }
+const tag = m => m === 'got' ? '<span class="tk got">got it</span>' : m === 'unsure' ? '<span class="tk uns">unsure</span>' : '';
 function drawTerms() {
   const t = $('#terms'); if (!t) return;
-  $('#tlh').textContent = `Terms in this set (${FC.list.length})`;
-  $('#knownN').textContent = `Known: ${CARDS.filter(c => S.known[cardKey(c)]).length} of ${CARDS.length}`;
+  $('#tlh').innerHTML = `${S.fc.open ? 'Hide terms' : 'See all terms'} (${FC.list.length}) <span class="chev ${S.fc.open ? 'up' : ''}">⌄</span>`;
+  $('#tlh').setAttribute('aria-expanded', S.fc.open);
+  const got = CARDS.filter(c => markOf(c) === 'got').length, uns = CARDS.filter(c => markOf(c) === 'unsure').length;
+  $('#knownN').textContent = `${CARDS.length} cards · ${got} got it · ${uns} unsure`;
+  if (!S.fc.open) { t.innerHTML = ''; return; }
   t.innerHTML = FC.list.map((c, i) => `<button class="term ${i === FC.i ? 'cur' : ''}" data-i="${i}">
     <span class="tt ${c[3].includes('b') ? 'bt' : ''}">${esc(c[0])}${c[3].includes('t') ? ' <span class="tbm">textbook</span>' : ''}</span>
-    <span class="td">${esc(c[1])}</span>${S.known[cardKey(c)] ? '<span class="tk">known</span>' : ''}</button>`).join('');
+    <span class="td">${esc(c[1])}</span>${tag(markOf(c))}</button>`).join('');
   t.querySelectorAll('.term').forEach(b => b.onclick = () => { FC.i = +b.dataset.i; FC.flip = false; drawCard(); $('#cardwrap').scrollIntoView({ block: 'center', behavior: 'smooth' }); });
 }
 function drawCard() {
   const w = $('#cardwrap'); if (!w) return;
-  if (!FC.list.length) { w.innerHTML = `<div class="card empty">No cards left in this set.</div>`; return; }
-  const c = FC.list[FC.i]; const k = S.known[cardKey(c)];
+  if (!FC.list.length) { w.innerHTML = `<div class="card empty">No cards in this set.</div>`; return; }
+  const c = FC.list[FC.i]; const m = markOf(c);
   w.innerHTML = `
   <button class="card ${FC.flip ? 'back' : ''}" id="card">
-    <span class="cmeta"><span>${FC.flip ? esc(c[0]) : esc(TOPICS[c[2]].name)}${c[3].includes('t') ? ' · textbook' : ''}${k ? ' · known' : ''}</span><span>${FC.i + 1} of ${FC.list.length}</span></span>
+    <span class="cmeta"><span>${FC.flip ? esc(c[0]) : esc(TOPICS[c[2]].name)}${c[3].includes('t') ? ' · textbook' : ''}${m ? ' · ' + (m === 'got' ? 'got it' : 'unsure') : ''}</span><span>${FC.i + 1} of ${FC.list.length}</span></span>
     <span class="ctext ${!FC.flip && c[3].includes('b') ? 'bt' : ''}">${esc(FC.flip ? c[1] : c[0])}</span>
   </button>
-  <div class="row cnav"><button class="btn" id="cp">Back</button><button class="btn" id="cno">Still learning</button><button class="btn pri" id="cyes">Know it</button></div>`;
+  <div class="row cnav"><button class="btn ${m === 'unsure' ? 'on' : ''}" id="cno">Unsure</button><button class="btn pri" id="cyes">Got it</button>
+  <button class="btn arr" id="cp" aria-label="Previous card">‹</button><button class="btn arr" id="cn" aria-label="Next card">›</button></div>`;
   $('#card').onclick = () => { FC.flip = !FC.flip; drawCard(); };
-  $('#cp').onclick = () => fcMove(-1);
-  $('#cyes').onclick = () => { S.known[cardKey(c)] = 1; save(); fcAfterMark(); drawTerms(); };
-  $('#cno').onclick = () => { delete S.known[cardKey(c)]; save(); fcMove(1); drawTerms(); };
+  $('#cp').onclick = () => fcMove(-1); $('#cn').onclick = () => fcMove(1);
+  $('#cyes').onclick = () => { S.mark[cardKey(c)] = 'got'; save(); fcAfterMark(); drawTerms(); };
+  $('#cno').onclick = () => { S.mark[cardKey(c)] = 'unsure'; save(); fcMove(1); drawTerms(); };
   document.querySelectorAll('.term').forEach(b => b.classList.toggle('cur', +b.dataset.i === FC.i));
 }
-function fcAfterMark() { if (FC.onlyNew) { FC.list.splice(FC.i, 1); if (FC.i >= FC.list.length) FC.i = 0; FC.flip = false; drawCard(); } else fcMove(1); }
-function fcMove(d) { if (!FC.list.length) return; FC.i = (FC.i + d + FC.list.length) % FC.list.length; FC.flip = false; drawCard(); }
+function fcAfterMark() { if (S.fc.hideGot) { FC.list.splice(FC.i, 1); if (FC.i >= FC.list.length) FC.i = 0; FC.flip = false; drawCard(); } else fcMove(1); }
+function fcMove(d) { if (!FC.list.length) return; FC.i = (FC.i + d + FC.list.length) % FC.list.length; FC.flip = false; drawCard(); document.querySelectorAll('.term').forEach(b => b.classList.toggle('cur', +b.dataset.i === FC.i)); }
 document.addEventListener('keydown', e => {
   if (S.view !== 'cards' || e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') return;
   if (e.key === ' ') { e.preventDefault(); FC.flip = !FC.flip; drawCard(); }
@@ -1267,7 +1286,7 @@ const setHH = () => document.documentElement.style.setProperty('--hh', document.
 setHH(); window.addEventListener('resize', setHH);
 $('#zoom').onclick = () => { $('#zoom').hidden = true; };
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (!$('#zoom').hidden) $('#zoom').hidden = true; else if (!$('#peek').hidden) closePeek(); } });
-go(['cards', 'mock', 'sheet'].includes(S.view) ? S.view : 'mock');
+go('cards');
 
 </script>
 </body>
