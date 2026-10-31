@@ -107,6 +107,9 @@ h2.mod+section.sheet{border-top:0}
 .sheet li{margin:3px 0}
 .steps{background:var(--soft);padding:8px 10px;border-radius:6px}
 .mix{padding:8px 12px;background:var(--soft);border-radius:6px;font-size:15px}
+.sheet .hl{background:#fff1a8;box-shadow:-6px 0 0 #fff1a8,6px 0 0 #fff1a8;border-radius:2px}
+.sheet tr.hl td{background:#fff1a8}
+.sheet dt.hl{padding-top:2px}
 /* peek */
 #peek{position:fixed;inset:0;z-index:10;background:rgba(0,0,0,.35);overflow:auto}
 .pk{background:#fff;max-width:760px;margin:0 auto;min-height:100%;padding:0 16px 40px}
@@ -155,7 +158,7 @@ const SHEET = {
 <dt>${B('Science')}</dt><dd>Understanding the natural world through testing and observation, using two methods:
 <ul><li>${B('Systematic observation')}: careful observation of the natural world to understand it. Best if non-participatory.</li>
 <li>${B('Empirical methods')}: inquiry tied to actual measurement, controls, and observation.</li></ul></dd>
-<dt>${B('Psychology')}</dt><dd>The science of behavior and mental processes.</dd>
+<dt>${B('Psychology')}</dt><dd>The science of behavior and mental processes. A biological science: thoughts, emotions, and behavior arise from chemical and electrical signals in the brain.</dd>
 </dl>
 <h4>Three goals of psychology</h4>
 <ol>
@@ -310,6 +313,7 @@ const SHEET = {
 <p>Psychopathology: low serotonin → depression and mood disorders (SSRIs). Elevated cortisol → anxiety disorders and PTSD (cortisol-lowering drugs in development).</p>
 <h4>Sex differences ${TB}</h4>
 <p>Both sexes make androgens and estrogens; they differ in the <b>ratio</b>. Testosterone is often converted to estradiol in nerve cells. Early exposure has <b>organizational</b> (permanent) effects; adult exposure has <b>activational</b> (temporary) effects.</p>
+<p>Embryonic testes secrete androgens that steer development in a male direction; embryonic ovaries secrete little, and development follows a female pathway. ${TB}</p>
 <p class="mix"><b>Easy to confuse:</b> cortisol comes from the adrenal gland, not the pituitary. Testosterone is not male-only.</p>`,
 
 'm2-adapt': `
@@ -1133,7 +1137,7 @@ function mockHome() {
   <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
   <button class="btn" id="startSec">Practice section</button></div>
   <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.4</p>`;
+  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.5</p>`;
   $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
   $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
   $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
@@ -1170,7 +1174,7 @@ function showQ() {
 function fb(q, picked) {
   const ok = picked === q.ans;
   return `<div class="fb ${ok ? 'ok' : 'bad'}"><b>${ok ? 'Correct.' : 'Incorrect.'}</b>${ok ? '' : ` Answer: ${esc(q.o[q.ans])}.`}
-  <p>${esc(q.type === 'tf' ? q.ex.replace(/^(True|False)[.,] (it is the reverse\. )?/, '') : q.ex)}</p><a href="#" onclick="peek('${q.t}');return false">Review: ${esc(TOPICS[q.t].name)}</a></div>`;
+  <p>${esc(q.type === 'tf' ? q.ex.replace(/^(True|False)[.,] (it is the reverse\. )?/, '') : q.ex)}</p><a href="#" onclick="peek('${peekTopic(q)}','${q.id}');return false">Review: ${esc(TOPICS[peekTopic(q)].name)}</a></div>`;
 }
 function answer(q, i) {
   const c = S.cur; if (c.picks[q.id] !== undefined) return;
@@ -1202,15 +1206,70 @@ function finish() {
   ${missed.length ? `<button class="btn" onclick="startRun('wrong',[${missed.map(q => `'${q.id}'`).join(',')}],'Missed questions')">Retry missed (${missed.length})</button>` : ''}</div>
   ${missed.length ? `<h2>Missed questions</h2>${missed.map(q => `<div class="miss"><p class="stem">${esc(q.q)}</p>
     ${q.fig ? img(q.fig) : ''}
-    <p class="sm">Your answer: ${c.picks[q.id] === undefined ? '(none)' : esc(q.o[c.picks[q.id]])}<br>Correct: <b>${esc(q.o[q.ans])}</b></p><p class="sm mut">${esc(q.type === 'tf' ? q.ex.replace(/^(True|False)[.,] (it is the reverse\. )?/, '') : q.ex)}</p></div>`).join('')}` : ''}`;
+    <p class="sm">Your answer: ${c.picks[q.id] === undefined ? '(none)' : esc(q.o[c.picks[q.id]])}<br>Correct: <b>${esc(q.o[q.ans])}</b></p><p class="sm mut">${esc(q.type === 'tf' ? q.ex.replace(/^(True|False)[.,] (it is the reverse\. )?/, '') : q.ex)} <a href="#" onclick="peek('${peekTopic(q)}','${q.id}');return false">Review</a></p></div>`).join('')}` : ''}`;
   window.scrollTo(0, 0);
 }
 
 // ---------- peek panel ----------
-function peek(t) {
+// ---------- review highlight: find the cheat-sheet line that answers a question ----------
+const STOP = new Set('a an the and or of to in on for by with is are was were be been it its this that these those as at from into than then so such not no can may might will would which what who whom whose when where why how most more less very also only both each other their there they them he she his her we you your our i do does did done has have had about after before over under between during while if but because via vs per e g eg one two three four five'.split(' '));
+function toks(str) {
+  return String(str).toLowerCase().replace(/<[^>]+>/g, ' ').replace(/[’']s\b/g, '').replace(/[^a-z0-9%]+/g, ' ').split(' ')
+    .filter(w => w.length > 1 && !STOP.has(w)).map(w => w.length > 4 ? w.replace(/(ing|ed|es|s)$/, '') : w);
+}
+function chunksOf(root) {
+  const out = [];
+  root.querySelectorAll('dt').forEach(dt => { const els = [dt]; let n = dt.nextElementSibling; while (n && n.tagName === 'DD') { els.push(n); n = n.nextElementSibling; } out.push(els); });
+  root.querySelectorAll('tr').forEach(tr => { if (!tr.querySelector('th')) out.push([tr]); });
+  root.querySelectorAll('li, p').forEach(el => out.push([el]));
+  return out.map(els => {
+    const txt = els.map(e => { const c = e.cloneNode(true); if (e.tagName === 'DD') c.querySelectorAll('li').forEach(li => li.remove()); return c.textContent; }).join(' ');
+    return { els, t: toks(txt) };
+  }).filter(c => c.t.length);
+}
+let IDF = null;
+function buildIDF() {
+  const df = {}; let n = 0;
+  ORDER.forEach(t => { const d = document.createElement('div'); d.innerHTML = SHEET[t].replace(/@(o_\w+)/g, ''); chunksOf(d).forEach(c => { n++; new Set(c.t).forEach(w => df[w] = (df[w] || 0) + 1); }); });
+  IDF = w => Math.log((n + 1) / ((df[w] || 0) + 0.5));
+}
+const HL_OVR = [
+ ['A testable set of assumptions', null, 'A testable set of assumptions'],
+ ['A review board decides', null, 'Benefits must outweigh'],
+ ['Debriefing takes place before', null, 'After data collection'],
+ ['To study how people cope with ridicule', null, 'Do no harm'],
+ ['Which pairing of structure and likely result of damage', null, 'Damage: blindness likely'],
+ ['Which is NOT one of the five primary components', null, 'Five parts'],
+ ['Region C in the figure mainly aids in', null, 'Visual cortex. Damage'],
+ ['The occipital lobe is the largest lobe', null, 'Largest. Decision-making'],
+ ['What is structure E in the figure?', 'm2-cortex', 'Two hemispheres joined'],
+ ['Damage to structure B in the figure would most likely cause', 'm2-lower', 'Start and coordinate large movements'],
+];
+const ovrOf = q => HL_OVR.find(o => q.q.startsWith(o[0]));
+const peekTopic = q => { const o = ovrOf(q); return (o && o[1]) || q.t; };
+function bestChunks(root, q) {
+  const o = ovrOf(q);
+  if (o) { const c = chunksOf(root).find(c => c.els.map(e => e.textContent).join(' ').replace(/\s+/g, ' ').includes(o[2])); if (c) return [c]; }
+  if (!IDF) buildIDF();
+  const qw = {};
+  toks(q.o[q.ans] + ' ' + q.ex).forEach(w => qw[w] = Math.max(qw[w] || 0, 1));
+  if (q.type === 'tf') toks(q.q).forEach(w => qw[w] = Math.max(qw[w] || 0, 0.6)); else toks(q.q).forEach(w => qw[w] = Math.max(qw[w] || 0, 0.5));
+  ['true', 'false', 'answer'].forEach(w => delete qw[w]);
+  const cs = chunksOf(root).map(c => { const set = new Set(c.t); let sc = 0; set.forEach(w => { if (qw[w]) sc += qw[w] * IDF(w); }); return { c, sc: sc / Math.pow(set.size, 0.35) }; })
+    .sort((a, b) => b.sc - a.sc);
+  if (!cs.length || cs[0].sc <= 0) return [];
+  const pick = [cs[0].c];
+  if (cs[1] && cs[1].sc >= cs[0].sc * 0.9) pick.push(cs[1].c);
+  return pick;
+}
+function peek(t, qid) {
   const p = $('#peek');
-  p.innerHTML = `<div class="pk"><div class="pkh"><b>${esc(TOPICS[t].name)}</b><button class="btn" onclick="closePeek()">Close</button></div><div class="sheet">${sheetHTML(t)}</div></div>`;
+  p.innerHTML = `<div class="pk"><div class="pkh"><b>${esc(TOPICS[t].name)}</b><button class="btn" onclick="closePeek()">Close</button></div><div class="sheet" id="pks">${sheetHTML(t)}</div></div>`;
   p.hidden = false; document.body.classList.add('noscroll'); p.scrollTop = 0;
+  const q = qid && QBYID[qid]; if (!q) return;
+  const hits = bestChunks($('#pks'), q);
+  hits.forEach(c => c.els.forEach(e => e.classList.add('hl')));
+  if (hits.length) { const first = hits[0].els[0]; requestAnimationFrame(() => { const r = first.getBoundingClientRect(); p.scrollTop += r.top - p.clientHeight * 0.3; }); }
 }
 function closePeek() { $('#peek').hidden = true; document.body.classList.remove('noscroll'); }
 
