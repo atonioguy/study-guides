@@ -7,9 +7,10 @@ page is a single HTML file you can open directly or serve over GitHub Pages.
 
 | File | What it is |
 |------|------------|
+| `bmsc3324-exam1.html` | BMSC 3324 Psychology — Exam 1 (Modules 1 & 2): flashcards, mock exams, cheat sheet. Images embedded, no `images/` files. |
 | `exam3.html` | Microbiology — Exam 3 (Modules 5 & 6) review |
 | `exam2.html` | BMSC 3404 — Exam 2 (Modules 3 & 4) review |
-| `index.html` | Landing page linking to both |
+| `index.html` | Landing page linking to each guide |
 
 Figures for the exam pages live in `images/`.
 
