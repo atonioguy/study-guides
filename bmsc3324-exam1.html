@@ -325,8 +325,8 @@ const SHEET = {
 <dl>
 <dt>${B('Oxytocin')}</dt><dd>"Cuddle hormone." Released with touch and affection; mother-child and partner bonding; ↑ trust, generosity, empathy; relationship satisfaction.</dd>
 <dt>${B('Parental behavior')}</dt><dd>Any behavior that contributes directly to the survival of fertilized eggs or offspring that have left the female's body.</dd>
-<dt>Love is "${B('epigenetic')}"</dt><dd>Positive early experiences can alter the expression of specific genes (and negative ones can too).</dd>
-<dt>${B('Phenotype')} (gene expression)</dt><dd>Changed by early experiences; these changes can have behavioral consequences through simple biochemical changes, e.g., adding a methyl group to a site in the genome. Epigenetics studies this interplay of genes and environment.</dd>
+<dt>Love is "${B('epigenetic')}"</dt><dd>Positive early experiences can alter the expression of specific genes (and negative ones can too), through simple biochemical changes like adding a methyl group to a site in the genome. These changes can have behavioral consequences.</dd>
+<dt>${B('Phenotype')}</dt><dd>Gene expression: what epigenetic changes alter.</dd>
 </dl>
 <p>Dopamine: euphoria and reward of being in love. Serotonin: love may raise it → better mood. Testosterone: men with higher T → mate-seeking; women with higher T → more assertive in relationships.</p>
 <p>High-cortisol new mothers were <b>more</b> affectionate and talked more to their babies. Cortisol + positive maternal attitudes in pregnancy ≈ half the variation in maternal behavior.</p>
@@ -434,8 +434,8 @@ const CARDS = [
  ['Testosterone in love','Men: mate-seeking. Women: more assertive in relationships','m2-adapt',''],
  ['Parental behavior','Any behavior contributing directly to survival of fertilized eggs or offspring that have left the female\'s body','m2-adapt','b'],
  ['High-cortisol new mothers','More affectionate, talked more to babies','m2-adapt',''],
- ['Love is "epigenetic"','Early experiences can alter the expression of specific genes','m2-adapt','b'],
- ['Phenotype','Gene expression. Early experiences can change it, with behavioral consequences (e.g., adding a methyl group to a site in the genome)','m2-adapt','b'],
+ ['Love is "epigenetic"','Early experiences can alter the expression of specific genes (and vice versa), through simple biochemical changes like adding a methyl group to a site in the genome','m2-adapt','b'],
+ ['Phenotype','Gene expression','m2-adapt','b'],
  ['Epigenetics','The interplay of genes and environment: experiences change gene expression, not just the genes you inherit','m2-adapt',''],
  ['Postnatal vasopressin in voles','More aggressive later, especially males','m2-adapt',''],
  ['Effect of social isolation','↓ oxytocin receptor gene, ↑ vasopressin genes','m2-adapt',''],
@@ -1142,7 +1142,7 @@ function mockHome() {
   <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
   <button class="btn" id="startSec">Practice section</button></div>
   <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.11</p>`;
+  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.12</p>`;
   $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
   $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
   $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
