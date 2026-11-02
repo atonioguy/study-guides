@@ -79,6 +79,10 @@ th{font-weight:600;background:var(--soft)}
 .cfig .hi{fill:#ffe600;fill-opacity:.5;stroke:#f0b400;stroke-opacity:.95;stroke-width:3.5px}
 .ctext.bt{font-weight:600}
 .ctl2{margin-top:-2px}
+.ctl3{margin-top:-2px}
+.qz{display:inline-flex;gap:6px;align-items:center;margin-left:auto}
+.qz select{padding:8px 6px}
+.qzp{font-size:19px;font-weight:600;white-space:pre-line}
 .cnav{flex-wrap:nowrap;gap:8px;align-items:stretch}
 .cnav .btn{flex:1 1 0;padding:11px 6px}
 .cnav .btn.on{border-color:#b7791f;background:#fdf6e7}
@@ -1073,7 +1077,7 @@ const sheetHTML = t => SHEET[t].replace(/@(o_\w+)/g, (m, k) => IMG[k] || '');
 
 // ---------- nav ----------
 function go(v) {
-  S.view = v; save(); stopTimer();
+  S.view = v; save(); stopTimer(); QZ = null;
   document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
   window.scrollTo(0, 0);
   ({ cards: cardsView, mock: mockHome, sheet: sheetView })[v]();
@@ -1138,7 +1142,7 @@ function mockHome() {
   <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
   <button class="btn" id="startSec">Practice section</button></div>
   <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.7</p>`;
+  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.8</p>`;
   $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
   $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
   $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
@@ -1276,7 +1280,8 @@ function closePeek() { $('#peek').hidden = true; document.body.classList.remove(
 
 // ---------- flashcards ----------
 if (!S.mark) { S.mark = {}; Object.keys(S.known || {}).forEach(k => S.mark[k] = 'got'); }
-S.fc = Object.assign({ filt: 'all', hideGot: false, blue: false, open: false }, S.fc || {});
+S.fc = Object.assign({ filt: 'all', hideGot: false, blue: false, open: false, defFirst: false, qn: '20' }, S.fc || {});
+let QZ = null;
 let FC = { list: [], i: 0, flip: false, built: false };
 function cardKey(c) { return c[2] + '|' + c[0]; }
 const markOf = c => S.mark[cardKey(c)];
@@ -1296,7 +1301,9 @@ function cardsView() {
   <div class="row ctl2">
     <label class="chk"><input type="checkbox" id="fb" ${S.fc.blue ? 'checked' : ''}> Blue terms only</label>
     <label class="chk"><input type="checkbox" id="fn" ${S.fc.hideGot ? 'checked' : ''}> Hide "got it"</label>
-    <button class="btn" id="fs">Shuffle</button></div>
+    <label class="chk"><input type="checkbox" id="fd" ${S.fc.defFirst ? 'checked' : ''}> Definition first</label></div>
+  <div class="row ctl3"><button class="btn" id="fs">Shuffle</button>
+    <span class="qz"><button class="btn" id="fq">Quiz</button><select id="fqn" aria-label="Quiz length"><option value="10">10</option><option value="20">20</option><option value="all">All</option></select></span></div>
   <div id="cardwrap"></div>
   <p class="mut sm" id="knownN"></p><p class="mut sm kbd">Space to flip, ← → to move</p>
   <button class="tlh" id="tlh" aria-expanded="${S.fc.open}"></button>
@@ -1306,6 +1313,9 @@ function cardsView() {
   $('#fb').onchange = e => { S.fc.blue = e.target.checked; save(); fcBuild(); cardsView(); };
   $('#fn').onchange = e => { S.fc.hideGot = e.target.checked; save(); fcBuild(); cardsView(); };
   $('#fs').onclick = () => { FC.list = shuffle(FC.list); FC.i = 0; FC.flip = false; drawCard(); drawTerms(); };
+  $('#fd').onchange = e => { S.fc.defFirst = e.target.checked; save(); FC.flip = false; drawCard(); };
+  $('#fqn').value = S.fc.qn; $('#fqn').onchange = e => { S.fc.qn = e.target.value; save(); };
+  $('#fq').onclick = () => startQuiz(FC.list.slice());
   $('#tlh').onclick = () => { S.fc.open = !S.fc.open; save(); $('#terms').hidden = !S.fc.open; drawTerms(); };
   drawCard(); drawTerms();
 }
@@ -1333,10 +1343,11 @@ function drawCard() {
   const w = $('#cardwrap'); if (!w) return;
   if (!FC.list.length) { w.innerHTML = `<div class="card empty">No cards in this set.</div>`; return; }
   const c = FC.list[FC.i]; const m = markOf(c);
+  const showTerm = FC.flip ? S.fc.defFirst : !S.fc.defFirst;
   w.innerHTML = `
   <button class="card ${FC.flip ? 'back' : ''}" id="card">
-    <span class="cmeta"><span>${FC.flip ? esc(c[0]) : esc(TOPICS[c[2]].name)}${c[3].includes('t') ? ' · textbook' : ''}${m ? ' · ' + (m === 'got' ? 'got it' : 'unsure') : ''}</span><span>${FC.i + 1} of ${FC.list.length}</span></span>
-    <span class="ctext ${!FC.flip && c[3].includes('b') ? 'bt' : ''}">${esc(FC.flip ? c[1] : c[0])}</span>
+    <span class="cmeta"><span>${FC.flip && !S.fc.defFirst ? esc(c[0]) : esc(TOPICS[c[2]].name)}${c[3].includes('t') ? ' · textbook' : ''}${m ? ' · ' + (m === 'got' ? 'got it' : 'unsure') : ''}</span><span>${FC.i + 1} of ${FC.list.length}</span></span>
+    <span class="ctext ${showTerm && c[3].includes('b') ? 'bt' : ''}">${esc(showTerm ? c[0] : c[1])}</span>
     ${FC.flip ? cardFig(c[0]) : ''}
   </button>
   <div class="row cnav"><button class="btn ${m === 'unsure' ? 'on' : ''}" id="cno">Unsure</button><button class="btn pri" id="cyes">Got it</button>
@@ -1349,8 +1360,73 @@ function drawCard() {
 }
 function fcAfterMark() { if (S.fc.hideGot) { FC.list.splice(FC.i, 1); if (FC.i >= FC.list.length) FC.i = 0; FC.flip = false; drawCard(); } else fcMove(1); }
 function fcMove(d) { if (!FC.list.length) return; FC.i = (FC.i + d + FC.list.length) % FC.list.length; FC.flip = false; drawCard(); document.querySelectorAll('.term').forEach(b => b.classList.toggle('cur', +b.dataset.i === FC.i)); }
+// ---------- flashcard quiz (multiple choice from the current deck) ----------
+function qzOptions(c, pool, askTerm) {
+  const val = x => askTerm ? x[1] : x[0];
+  const seen = new Set([val(c)]); const picks = [];
+  const tiers = [CARDS.filter(x => x[2] === c[2]), CARDS.filter(x => x[2].slice(0, 2) === c[2].slice(0, 2)), CARDS];
+  for (const tier of tiers) {
+    for (const x of shuffle(tier)) { if (picks.length >= 3) break; const v = val(x); if (x !== c && !seen.has(v)) { seen.add(v); picks.push(x); } }
+    if (picks.length >= 3) break;
+  }
+  return shuffle([c, ...picks]);
+}
+function startQuiz(pool) {
+  if (!pool.length) return;
+  const n = S.fc.qn === 'all' ? pool.length : Math.min(+S.fc.qn, pool.length);
+  const askTerm = !S.fc.defFirst; // term shown -> pick the definition; definition shown -> pick the term
+  const items = shuffle(pool).slice(0, n).map(c => ({ c, opts: qzOptions(c, pool, askTerm), pick: null }));
+  QZ = { items, i: 0, askTerm }; window.scrollTo(0, 0); drawQuiz();
+}
+function drawQuiz() {
+  const it = QZ.items[QZ.i]; if (!it) return quizDone();
+  const done = it.pick !== null; const ok = done && it.opts[it.pick] === it.c;
+  const prompt = QZ.askTerm ? it.c[0] : it.c[1];
+  const optTxt = x => QZ.askTerm ? x[1] : x[0];
+  $('#app').innerHTML = `
+  <div class="qhead"><span>Flashcard quiz · ${QZ.i + 1} of ${QZ.items.length}</span><a href="#" id="qx" class="quiet">Exit quiz</a></div>
+  <div class="bar"><i style="width:${QZ.i / QZ.items.length * 100}%"></i></div>
+  <p class="mut sm">${QZ.askTerm ? 'Choose the definition' : 'Choose the term'}</p>
+  <p class="stem qzp ${QZ.askTerm && it.c[3].includes('b') ? 'bt' : ''}">${esc(prompt)}</p>
+  <div class="opts">${it.opts.map((x, i) => {
+    let cls = 'opt'; if (done) { if (x === it.c) cls += ' right'; else if (i === it.pick) cls += ' wrongpick'; }
+    return `<button class="${cls}" data-i="${i}" ${done ? 'disabled' : ''}>${esc(optTxt(x))}</button>`; }).join('')}</div>
+  <div id="fb">${done ? `<div class="fb ${ok ? 'ok' : 'bad'}"><b>${ok ? 'Correct.' : 'Incorrect.'}</b>${ok ? '' : ` Answer: ${esc(optTxt(it.c))}`}</div>` : ''}</div>
+  <div class="row nav2"><button class="btn ${done ? 'pri' : ''}" id="qn">${QZ.i === QZ.items.length - 1 ? 'Finish' : done ? 'Next' : 'Skip'}</button></div>
+  <p class="mut sm kbd">1–4 to answer, Enter for next</p>`;
+  document.querySelectorAll('.opt').forEach(b => b.onclick = () => qzAnswer(+b.dataset.i));
+  $('#qn').onclick = () => { QZ.i++; window.scrollTo(0, 0); drawQuiz(); };
+  $('#qx').onclick = e => { e.preventDefault(); QZ = null; cardsView(); };
+}
+function qzAnswer(i) {
+  const it = QZ.items[QZ.i]; if (it.pick !== null) return;
+  it.pick = i;
+  if (it.opts[i] !== it.c) { S.mark[cardKey(it.c)] = 'unsure'; save(); }
+  drawQuiz();
+}
+function quizDone() {
+  const right = QZ.items.filter(it => it.pick !== null && it.opts[it.pick] === it.c);
+  const missed = QZ.items.filter(it => !(it.pick !== null && it.opts[it.pick] === it.c));
+  const n = QZ.items.length;
+  $('#app').innerHTML = `
+  <h1>Flashcard quiz: ${right.length}/${n} correct (${Math.round(right.length / n * 100)}%)</h1>
+  ${missed.length ? '<p class="mut sm">Missed cards are now marked unsure.</p>' : ''}
+  <div class="row"><button class="btn pri" id="qback">Back to flashcards</button>
+  ${missed.length ? `<button class="btn" id="qretry">Retry missed (${missed.length})</button>` : ''}<button class="btn" id="qnew">New quiz</button></div>
+  ${missed.length ? `<h2>Missed</h2>${missed.map(it => `<div class="miss"><p><b class="${it.c[3].includes('b') ? 'bt' : ''}">${esc(it.c[0])}</b>: ${esc(it.c[1])}</p>${it.pick !== null ? `<p class="sm mut">You picked: ${esc(QZ.askTerm ? it.opts[it.pick][1] : it.opts[it.pick][0])}</p>` : '<p class="sm mut">Skipped</p>'}</div>`).join('')}` : ''}`;
+  $('#qback').onclick = () => { QZ = null; cardsView(); };
+  $('#qnew').onclick = () => startQuiz(FC.list.slice());
+  if (missed.length) $('#qretry').onclick = () => { const keep = S.fc.qn; S.fc.qn = 'all'; startQuiz(missed.map(it => it.c)); S.fc.qn = keep; };
+  window.scrollTo(0, 0);
+}
 document.addEventListener('keydown', e => {
   if (S.view !== 'cards' || e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') return;
+  if (QZ) {
+    const it = QZ.items[QZ.i]; if (!it) return;
+    if (/^[1-4]$/.test(e.key) && it.pick === null) qzAnswer(+e.key - 1);
+    else if (e.key === 'Enter' && $('#qn')) $('#qn').click();
+    return;
+  }
   if (e.key === ' ') { e.preventDefault(); FC.flip = !FC.flip; drawCard(); }
   else if (e.key === 'ArrowRight') fcMove(1); else if (e.key === 'ArrowLeft') fcMove(-1);
 });
