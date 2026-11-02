@@ -1249,6 +1249,8 @@ const HL_OVR = [
  ['The occipital lobe is the largest lobe', null, 'Largest. Decision-making'],
  ['What is structure E in the figure?', 'm2-cortex', 'Two hemispheres joined'],
  ['Damage to structure B in the figure would most likely cause', 'm2-lower', 'Start and coordinate large movements'],
+ ['Changes in gene expression that can have behavioral consequences', null, 'what epigenetic changes alter'],
+ ['Two siblings share the same genes', null, 'what epigenetic changes alter'],
 ];
 const ovrOf = q => HL_OVR.find(o => q.q.startsWith(o[0]));
 const peekTopic = q => { const o = ovrOf(q); return (o && o[1]) || q.t; };
