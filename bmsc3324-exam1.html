@@ -1142,7 +1142,7 @@ function mockHome() {
   <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
   <button class="btn" id="startSec">Practice section</button></div>
   <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.8</p>`;
+  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.9</p>`;
   $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
   $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
   $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
@@ -1280,7 +1280,8 @@ function closePeek() { $('#peek').hidden = true; document.body.classList.remove(
 
 // ---------- flashcards ----------
 if (!S.mark) { S.mark = {}; Object.keys(S.known || {}).forEach(k => S.mark[k] = 'got'); }
-S.fc = Object.assign({ filt: 'all', hideGot: false, blue: false, open: false, defFirst: false, qn: '20' }, S.fc || {});
+S.fc = Object.assign({ filt: 'all', hideGot: false, blue: false, open: false, defFirst: true, qn: '20' }, S.fc || {});
+if (!S.fc.df2) { S.fc.defFirst = true; S.fc.df2 = 1; save(); }
 let QZ = null;
 let FC = { list: [], i: 0, flip: false, built: false };
 function cardKey(c) { return c[2] + '|' + c[0]; }
