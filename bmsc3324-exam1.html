@@ -578,7 +578,7 @@ Q('m1-hist','a','A researcher raises a light\'s brightness in tiny steps to find
  'Psychophysics measures the relationship between physical stimuli and human perception.');
 Q('m1-hist','a','Students in an early lab listen to a metronome and then describe, in detail, their own reactions to each beat. This method is',
  ['introspection','structuralism','psychophysics','empiricism'],
- 'Introspection is self-report that focuses on internal processes. Wundt trained his students in it.');
+ 'Introspection is self-report that focuses on internal processes; Wundt trained students to give detailed reports of their reactions to stimuli. It is not psychophysics, which measures how perception changes as a stimulus is varied (e.g., the smallest change people can detect), not a description of inner experience.');
 Q('m1-hist','r','The formal development of modern psychology, including the founding of experimental psychology, is usually credited to',
  ['Wilhelm Wundt','Edward Titchener','Hermann von Helmholtz','John Locke'],
  'Wundt, a German physician, physiologist, and philosopher, established experimental psychology and trained students in introspection.');
@@ -1154,7 +1154,7 @@ function mockHome() {
   <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
   <button class="btn" id="startSec">Practice section</button></div>
   <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.15</p>`;
+  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.16</p>`;
   $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
   $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
   $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
