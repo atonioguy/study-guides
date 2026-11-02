@@ -155,7 +155,7 @@ const TOPICS = {
  'm2-adapt':   {m:2, name:'Adaptive behavior, love, epigenetics', quota:2},
 };
 const B = s => `<b class="bt">${s}</b>`;
-const TB = '<span class="tbm" title="Textbook detail">TB</span>';
+const TB = '<span class="tbm">textbook</span>';
 
 const SHEET = {
 'm1-sci': `
@@ -326,7 +326,10 @@ const SHEET = {
 <dt>${B('Oxytocin')}</dt><dd>"Cuddle hormone." Released with touch and affection; mother-child and partner bonding; ↑ trust, generosity, empathy; relationship satisfaction.</dd>
 <dt>${B('Parental behavior')}</dt><dd>Any behavior that contributes directly to the survival of fertilized eggs or offspring that have left the female's body.</dd>
 <dt>Love is "${B('epigenetic')}"</dt><dd>Positive early experiences can alter the expression of specific genes (and negative ones can too), through simple biochemical changes like adding a methyl group to a site in the genome. These changes can have behavioral consequences.</dd>
-<dt>${B('Phenotype')}</dt><dd>Gene expression: what epigenetic changes alter.</dd>
+<dt>${B('Phenotype')}</dt><dd>Gene expression: what epigenetic changes alter.
+<ul><li>${TB} The pattern of expression of the genotype: an observable trait such as body form, development, biochemistry, physiology, or behavior.</li>
+<li>${TB} Phenotypic plasticity: one genome producing different body forms, physiology, and behavior in response to changes in the environment.</li>
+<li>${TB} Epigenetics: changes in phenotype (gene expression) without changes in the DNA sequence.</li></ul></dd>
 </dl>
 <p>Dopamine: euphoria and reward of being in love. Serotonin: love may raise it → better mood. Testosterone: men with higher T → mate-seeking; women with higher T → more assertive in relationships.</p>
 <p>High-cortisol new mothers were <b>more</b> affectionate and talked more to their babies. Cortisol + positive maternal attitudes in pregnancy ≈ half the variation in maternal behavior.</p>
@@ -435,9 +438,10 @@ const CARDS = [
  ['Parental behavior','Any behavior contributing directly to survival of fertilized eggs or offspring that have left the female\'s body','m2-adapt','b'],
  ['High-cortisol new mothers','More affectionate, talked more to babies','m2-adapt',''],
  ['Love is "epigenetic"','Early experiences can alter the expression of specific genes (and vice versa), through simple biochemical changes like adding a methyl group to a site in the genome','m2-adapt','b'],
- ['Phenotype','Gene expression','m2-adapt','b'],
- ['Epigenetics','The interplay of genes and environment: experiences change gene expression, not just the genes you inherit','m2-adapt',''],
+ ['Phenotype','Gene expression.\nTextbook: the pattern of expression of the genotype, i.e., an observable trait such as body form, development, biochemistry, physiology, or behavior','m2-adapt','b'],
+ ['Epigenetics','The interplay of genes and environment: experiences change gene expression, not just the genes you inherit.\nTextbook: changes in phenotype (gene expression) without changes in the DNA sequence','m2-adapt',''],
  ['Postnatal vasopressin in voles','More aggressive later, especially males','m2-adapt',''],
+ ['Phenotypic plasticity','One genome producing different body forms, physiology, and behavior in response to changes in the environment','m2-adapt','t'],
  ['Effect of social isolation','↓ oxytocin receptor gene, ↑ vasopressin genes','m2-adapt',''],
  ['Vasopressin in defensive-aggression regions','Androgen-dependent; threatened males may have higher central levels','m2-adapt',''],
  ['Which sex is more vulnerable to negative early experiences?','Males (may explain greater sensitivity to developmental disorders)','m2-adapt',''],
@@ -1051,6 +1055,12 @@ TF('m2-neuro','c','GABA and adrenaline have opposite primary effects: GABA calms
 TF('m2-neuro','c','Like adrenaline, GABA heightens awareness and increases blood flow during stressful situations.',false,
  'False. That describes adrenaline. GABA does the opposite: it calms firing nerves.',{lo:'K3'});
 
+Q('m2-adapt','a','Genetically identical seedlings grown in different conditions develop different shapes, physiology, and behavior. A single genome producing different outcomes in response to the environment is called',
+ ['phenotypic plasticity','homeostasis','ontogeny','phylogeny'],
+ 'Phenotypic plasticity is one genome producing different body forms, physiology, and behavior depending on the environment. It is how the environment shapes phenotype.',{tb:1,lo:'2.6'});
+TF('m2-adapt','r','A phenotype is an observable characteristic of an organism, such as its development, physiology, or behavior, reflecting how its genes are expressed.',true,
+ 'True. The textbook defines phenotype as the pattern of expression of the genotype: an observable trait such as body form, development, biochemistry, physiology, or behavior.',{tb:1,lo:'2.6'});
+
 const CARDFIG={"Hindbrain": {"f": "o_regions", "r": [["r", 67.7, 64.82, 27.84, 21.11]]}, "Midbrain": {"f": "o_regions", "r": [["r", 67.7, 37.69, 27.84, 13.57]]}, "Forebrain": {"f": "o_regions", "r": [["r", 67.7, 5.53, 27.84, 21.61]]}, "Brain stem": {"f": "o_stem", "r": [["rn", 48.5, 68.66, 8.97, 6.34], ["rn", 53.49, 77.82, 10.63, 11.62]]}, "Medulla": {"f": "o_stem", "r": [["rn", 53.49, 77.82, 10.63, 11.62]]}, "Pons": {"f": "o_stem", "r": [["rn", 48.5, 68.66, 8.97, 6.34]]}, "Cerebellum": {"f": "o_stem", "r": [["rn", 66.78, 69.37, 15.95, 5.99]]}, "Corpus callosum": {"f": "o_stem", "r": [["rn", 29.24, 34.86, 21.26, 5.28]]}, "Amygdala": {"f": "o_limbic", "r": [["r", 50.51, 68.61, 16.33, 6.2]]}, "Hippocampus": {"f": "o_limbic", "r": [["r", 1.53, 43.07, 21.43, 6.2]]}, "Hypothalamus": {"f": "o_limbic", "r": [["r", 69.9, 54.01, 21.94, 5.84]]}, "Thalamus": {"f": "o_limbic", "r": [["r", 19.39, 13.87, 14.8, 5.84]]}, "Basal ganglia": {"f": "o_limbic", "r": [["r", 75.0, 24.09, 20.41, 6.2]]}, "Frontal lobe": {"f": "o_lobes", "r": [[25.21, 41.1, 20.3, 25.68]]}, "Parietal lobe": {"f": "o_lobes", "r": [[61.97, 24.66, 13.25, 15.41]]}, "Occipital lobe": {"f": "o_lobes", "r": [[77.35, 51.37, 6.41, 19.86]]}, "Temporal lobe": {"f": "o_lobes", "r": [[45.94, 70.89, 16.67, 11.64]]}, "Broca's area": {"f": "o_lobes", "r": [["r", 2.56, 27.05, 13.68, 6.51]]}, "Wernicke's area": {"f": "o_lobes", "r": [["r", 80.34, 20.89, 14.53, 7.19]]}, "Motor cortex": {"f": "o_lobes", "r": [["r", 18.38, 1.03, 20.94, 6.51]]}, "Somatosensory cortex": {"f": "o_lobes", "r": [["r", 53.42, 1.37, 29.49, 6.51]]}, "Prefrontal cortex": {"f": "o_lobes", "r": [["r", 4.7, 68.84, 15.81, 8.22]]}, "Neurons": {"f": "o_synapse", "r": [["r", 22.51, 47.62, 19.94, 12.12], ["r", 18.01, 75.76, 22.51, 12.12]]}, "Synapse": {"f": "o_synapse", "r": [["r", 25.72, 60.17, 14.79, 12.12]]}, "Neurotransmitters": {"f": "o_synapse", "r": [["r", 75.88, 48.48, 24.12, 10.39]]}, "fMRI and PET scans": {"f": "o_scans", "r": [["rn", 10.32, 91.39, 13.18, 8.61], ["rn", 75.07, 91.39, 24.36, 8.61]]}, "Limbic system": {"f": "o_limbic", "r": []}, "Cortisol": {"f": "o_cortisol", "r": []}, "Scientific method steps": {"f": "o_sci", "r": []}, "Dopamine": {"f": "c_dopa", "r": []}, "Serotonin": {"f": "c_sero", "r": []}, "GABA": {"f": "c_gaba", "r": []}, "Glutamate": {"f": "c_glut", "r": []}, "Acetylcholine": {"f": "c_ach", "r": []}, "Adrenaline": {"f": "c_adren", "r": []}, "Noradrenaline": {"f": "c_nor", "r": []}, "Endorphins": {"f": "c_endo", "r": []}};
 // ===== BMSC 3324 Exam 1 study tool (v3) =====
 const $ = s => document.querySelector(s);
@@ -1142,7 +1152,7 @@ function mockHome() {
   <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
   <button class="btn" id="startSec">Practice section</button></div>
   <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.12</p>`;
+  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.13</p>`;
   $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
   $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
   $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
@@ -1377,7 +1387,7 @@ const QZ_GROUPS = {
   study: ['Behavior', 'Cognitions', 'Affects', 'Operational definition'],
   science: ['Science', 'Systematic observation', 'Empirical methods', 'Psychology', 'Theory', 'Scientific method'],
   hormones: ['Testosterone', 'Cortisol', 'Oxytocin'],
-  dev: ['Phylogeny', 'Ontogeny', 'Homeostasis', 'Phenotype', 'Epigenetics', 'Love is "epigenetic"'],
+  dev: ['Phylogeny', 'Ontogeny', 'Homeostasis', 'Phenotype', 'Phenotypic plasticity', 'Epigenetics', 'Love is "epigenetic"'],
 };
 const GROUP_OF = {}; Object.entries(QZ_GROUPS).forEach(([g, ts]) => ts.forEach(t => GROUP_OF[t] = g));
 const groupOf = t => GROUP_OF[t] || null;
