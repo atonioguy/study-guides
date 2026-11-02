@@ -344,7 +344,7 @@ const SHEET = {
 // Flashcards: [front, back, topic, flags] flags: b = blue term, t = textbook
 const CARDS = [
  ['Science','Understanding the natural world through testing and observation','m1-sci','b'],
- ['Systematic observation','Careful observation of the natural world to understand it; best if non-participatory','m1-sci','b'],
+ ['Systematic observation','Carefully watching the natural world to understand it; best if the watcher doesn\'t take part','m1-sci','b'],
  ['Empirical methods','Inquiry tied to actual measurement, controls, and observation','m1-sci','b'],
  ['Psychology','The science of behavior and mental processes','m1-sci','b'],
  ['Three goals of psychology','1. Explore the world scientifically\n2. Understand what influences behavior and mental processes\n3. Apply that understanding to real-world problems','m1-sci',''],
@@ -362,7 +362,7 @@ const CARDS = [
  ['Informed consent','Participants understand what will happen and how their data will be used','m1-ethics',''],
  ['Confidentiality','Information collected by researchers is not made public','m1-ethics',''],
  ['Privacy','No data collected in private settings without informed consent','m1-ethics',''],
- ['Benefits','Benefits must outweigh risks; principle of beneficence','m1-ethics',''],
+ ['Benefits (beneficence)','Must outweigh the risks to participants','m1-ethics',''],
  ['Protection from harm','Principle of non-malfeasance (non-maleficence)','m1-ethics',''],
  ['Deception','Only if absolutely necessary; requires a thorough, respectful debriefing','m1-ethics',''],
  ['Debriefing','After data collection, educate participants about the true nature of the study','m1-ethics',''],
@@ -377,7 +377,7 @@ const CARDS = [
  ['1892 / 1904 / 1988','APA / Society of Experimental Psychologists / American Psychological Society (now Association for Psychological Science)','m1-hist',''],
  ['Labs by 1900','More than 40 in the U.S. and Canada','m1-hist',''],
  ['Functionalism','William James; what the mind does and how it helps us adapt','m1-hist','t'],
- ['Behaviorism','Watson, Skinner; observable behavior only; dominated U.S. psychology for decades','m1-hist','t'],
+ ['Behaviorism','Watson, Skinner; studied only what can be seen, with no reference to the mind; dominated U.S. psychology for decades','m1-hist','t'],
  ['Where psychologists work','Every discipline and every job sector','m1-apply',''],
  ['Hindbrain','Base of the brain; breathing, vestibular balance, heart rate','m2-regions','b'],
  ['Midbrain','Above the hindbrain; controlling movement, processing sensory information','m2-regions','b'],
@@ -413,35 +413,35 @@ const CARDS = [
  ['Neurotransmitters','Chemical messengers that carry signals between neurons','m2-neuro','b'],
  ['Dopamine','Reward and pleasure; makes you repeat the behavior. Also addiction, movement, motivation','m2-neuro','b'],
  ['Serotonin','Mood and emotion, well-being; sleep and digestion. Low in depression','m2-neuro','b'],
- ['SSRIs','Selective serotonin reuptake inhibitors; boost serotonin to treat depression and anxiety','m2-neuro','b'],
+ ['SSRIs (selective serotonin reuptake inhibitors)','Medications that target the serotonin system to treat depression and anxiety disorders','m2-neuro','b'],
  ['GABA','Calms firing nerves; low levels cause anxiety','m2-neuro',''],
  ['Glutamate','Most common neurotransmitter; learning and memory','m2-neuro',''],
  ['Acetylcholine','Thought, learning, memory; activates muscle action','m2-neuro',''],
  ['Adrenaline','Fight or flight; ↑ heart rate and blood flow','m2-neuro',''],
  ['Noradrenaline','Concentration and attention; contracts blood vessels','m2-neuro',''],
  ['Endorphins','Euphoria and reduced pain; exercise, excitement, sex','m2-neuro',''],
- ['Calms vs ramps up activity','Calms firing nerves: GABA\nRamps activity up: adrenaline (↑ heart rate, blood flow), noradrenaline (↑ attention)','m2-neuro',''],
+ ['GABA vs adrenaline and noradrenaline','First calms firing nerves.\nThe other two ramp activity up (↑ heart rate, blood flow, attention).','m2-neuro',''],
  ['Prefrontal cortex','Front of the brain; executive functions: deciding, problem-solving, planning','m2-study','b'],
  ['Brain activity in depression','Lower prefrontal cortex, higher amygdala: emotion-cognition imbalance','m2-study',''],
  ['fMRI and PET scans','Brain imaging technologies that let researchers study the brain in unprecedented detail','m2-study','b'],
  ['Endocrine glands','Pituitary, thyroid, adrenal, gonads','m2-horm',''],
  ['Testosterone','Mainly testes, smaller amounts in ovaries; sex organs, secondary sex traits, muscle and bone, aggression','m2-horm','b'],
  ['Cortisol','Adrenal gland; stress response; mobilizes energy, suppresses inflammation; chronic → depression, anxiety','m2-horm','b'],
- ['Low serotonin / high cortisol','Low serotonin → depression, mood disorders. High cortisol → anxiety disorders, PTSD','m2-horm',''],
+ ['Low serotonin / high cortisol','First → depression and mood disorders.\nSecond → anxiety disorders and PTSD.','m2-horm',''],
  ['Androgens and estrogens','Both sexes make both; they differ in ratio','m2-horm','t'],
- ['Organizational vs activational','Organizational: early, permanent. Activational: adult, temporary','m2-horm','t'],
+ ['Organizational vs activational','First: early, permanent brain programming.\nSecond: adult, temporary, switches circuits on.','m2-horm','t'],
  ['Oxytocin','"Cuddle hormone"; touch, mother-child and partner bonding; trust, generosity, empathy','m2-adapt','b'],
  ['Testosterone in love','Men: mate-seeking. Women: more assertive in relationships','m2-adapt',''],
- ['Parental behavior','Any behavior contributing directly to survival of fertilized eggs or offspring that have left the female\'s body','m2-adapt','b'],
+ ['Parental behavior','Anything that directly helps fertilized eggs or offspring that have left the female\'s body survive','m2-adapt','b'],
  ['High-cortisol new mothers','More affectionate, talked more to babies','m2-adapt',''],
  ['Love is "epigenetic"','Early experiences can alter the expression of specific genes','m2-adapt','b'],
  ['Phenotype','Gene expression. Early experiences can change it, with behavioral consequences (e.g., adding a methyl group to a site in the genome)','m2-adapt','b'],
- ['Epigenetics','The interplay of genes and environment: experiences change gene expression, not just the genes you inherit','m2-adapt',''],
+ ['Epigenetics','Field exploring how heredity and environment interact to shape physical and psychological development','m2-adapt',''],
  ['Postnatal vasopressin in voles','More aggressive later, especially males','m2-adapt',''],
- ['Social isolation and genes','↓ oxytocin receptor gene, ↑ vasopressin genes','m2-adapt',''],
+ ['Effect of social isolation','↓ oxytocin receptor gene, ↑ vasopressin genes','m2-adapt',''],
  ['Vasopressin in defensive-aggression regions','Androgen-dependent; threatened males may have higher central levels','m2-adapt',''],
  ['Which sex is more vulnerable to negative early experiences?','Males (may explain greater sensitivity to developmental disorders)','m2-adapt',''],
- ['Brief stressor and pair bonding','Unpaired males (not females) quickly formed new pair bonds','m2-adapt','t'],
+ ['Brief stressor and pair bonding','Males (not females) without a partner quickly bonded with a new one','m2-adapt','t'],
 ];
 
 // Question bank. Key is always the first option in o[]; options are shuffled at display unless fixed.
@@ -1142,7 +1142,7 @@ function mockHome() {
   <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
   <button class="btn" id="startSec">Practice section</button></div>
   <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.9</p>`;
+  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.10</p>`;
   $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
   $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
   $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
