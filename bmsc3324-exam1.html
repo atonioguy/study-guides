@@ -362,7 +362,7 @@ const CARDS = [
  ['Informed consent','Participants understand what will happen and how their data will be used','m1-ethics',''],
  ['Confidentiality','Information collected by researchers is not made public','m1-ethics',''],
  ['Privacy','No data collected in private settings without informed consent','m1-ethics',''],
- ['Benefits (beneficence)','Must outweigh the risks to participants','m1-ethics',''],
+ ['Benefits','Benefits must outweigh risks; principle of beneficence','m1-ethics',''],
  ['Protection from harm','Principle of non-malfeasance (non-maleficence)','m1-ethics',''],
  ['Deception','Only if absolutely necessary; requires a thorough, respectful debriefing','m1-ethics',''],
  ['Debriefing','After data collection, educate participants about the true nature of the study','m1-ethics',''],
@@ -377,7 +377,7 @@ const CARDS = [
  ['1892 / 1904 / 1988','APA / Society of Experimental Psychologists / American Psychological Society (now Association for Psychological Science)','m1-hist',''],
  ['Labs by 1900','More than 40 in the U.S. and Canada','m1-hist',''],
  ['Functionalism','William James; what the mind does and how it helps us adapt','m1-hist','t'],
- ['Behaviorism','Watson, Skinner; studied only what can be seen, with no reference to the mind; dominated U.S. psychology for decades','m1-hist','t'],
+ ['Behaviorism','Watson, Skinner; observable behavior only; dominated U.S. psychology for decades','m1-hist','t'],
  ['Where psychologists work','Every discipline and every job sector','m1-apply',''],
  ['Hindbrain','Base of the brain; breathing, vestibular balance, heart rate','m2-regions','b'],
  ['Midbrain','Above the hindbrain; controlling movement, processing sensory information','m2-regions','b'],
@@ -432,16 +432,16 @@ const CARDS = [
  ['Organizational vs activational','First: early, permanent brain programming.\nSecond: adult, temporary, switches circuits on.','m2-horm','t'],
  ['Oxytocin','"Cuddle hormone"; touch, mother-child and partner bonding; trust, generosity, empathy','m2-adapt','b'],
  ['Testosterone in love','Men: mate-seeking. Women: more assertive in relationships','m2-adapt',''],
- ['Parental behavior','Anything that directly helps fertilized eggs or offspring that have left the female\'s body survive','m2-adapt','b'],
+ ['Parental behavior','Any behavior contributing directly to survival of fertilized eggs or offspring that have left the female\'s body','m2-adapt','b'],
  ['High-cortisol new mothers','More affectionate, talked more to babies','m2-adapt',''],
  ['Love is "epigenetic"','Early experiences can alter the expression of specific genes','m2-adapt','b'],
  ['Phenotype','Gene expression. Early experiences can change it, with behavioral consequences (e.g., adding a methyl group to a site in the genome)','m2-adapt','b'],
- ['Epigenetics','Field exploring how heredity and environment interact to shape physical and psychological development','m2-adapt',''],
+ ['Epigenetics','The interplay of genes and environment: experiences change gene expression, not just the genes you inherit','m2-adapt',''],
  ['Postnatal vasopressin in voles','More aggressive later, especially males','m2-adapt',''],
  ['Effect of social isolation','↓ oxytocin receptor gene, ↑ vasopressin genes','m2-adapt',''],
  ['Vasopressin in defensive-aggression regions','Androgen-dependent; threatened males may have higher central levels','m2-adapt',''],
  ['Which sex is more vulnerable to negative early experiences?','Males (may explain greater sensitivity to developmental disorders)','m2-adapt',''],
- ['Brief stressor and pair bonding','Males (not females) without a partner quickly bonded with a new one','m2-adapt','t'],
+ ['Brief stressor and pair bonding','Unpaired males (not females) quickly formed new pair bonds','m2-adapt','t'],
 ];
 
 // Question bank. Key is always the first option in o[]; options are shuffled at display unless fixed.
@@ -1142,7 +1142,7 @@ function mockHome() {
   <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
   <button class="btn" id="startSec">Practice section</button></div>
   <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.10</p>`;
+  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.11</p>`;
   $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
   $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
   $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
@@ -1362,10 +1362,28 @@ function drawCard() {
 function fcAfterMark() { if (S.fc.hideGot) { FC.list.splice(FC.i, 1); if (FC.i >= FC.list.length) FC.i = 0; FC.flip = false; drawCard(); } else fcMove(1); }
 function fcMove(d) { if (!FC.list.length) return; FC.i = (FC.i + d + FC.list.length) % FC.list.length; FC.flip = false; drawCard(); document.querySelectorAll('.term').forEach(b => b.classList.toggle('cur', +b.dataset.i === FC.i)); }
 // ---------- flashcard quiz (multiple choice from the current deck) ----------
+const QZ_GROUPS = {
+  regions: ['Hindbrain', 'Midbrain', 'Forebrain'],
+  lower: ['Brain stem', 'Medulla', 'Pons', 'Cerebellum', 'Reticular formation', 'Basal ganglia'],
+  limbic: ['Amygdala', 'Hippocampus', 'Septum', 'Hypothalamus', 'Thalamus'],
+  cortex: ['Frontal lobe', 'Parietal lobe', 'Occipital lobe', 'Temporal lobe', "Broca's area", "Wernicke's area", 'Motor cortex', 'Sensory cortex', 'Somatosensory cortex', 'Association cortex', 'Prefrontal cortex', 'Corpus callosum'],
+  nt: ['Dopamine', 'Serotonin', 'GABA', 'Glutamate', 'Acetylcholine', 'Adrenaline', 'Noradrenaline', 'Endorphins'],
+  neuro: ['Neurons', 'Synapse', 'Neurotransmitters', 'Neural impulse'],
+  ethics: ['Informed consent', 'Confidentiality', 'Privacy', 'Benefits', 'Protection from harm', 'Deception', 'Debriefing'],
+  hist: ['Empiricism', 'Psychophysics', 'Introspection', 'Structuralism', 'Functionalism', 'Behaviorism'],
+  people: ['Wilhelm Wundt', 'Edward Titchener'],
+  study: ['Behavior', 'Cognitions', 'Affects', 'Operational definition'],
+  science: ['Science', 'Systematic observation', 'Empirical methods', 'Psychology', 'Theory', 'Scientific method'],
+  hormones: ['Testosterone', 'Cortisol', 'Oxytocin'],
+  dev: ['Phylogeny', 'Ontogeny', 'Homeostasis', 'Phenotype', 'Epigenetics', 'Love is "epigenetic"'],
+};
+const GROUP_OF = {}; Object.entries(QZ_GROUPS).forEach(([g, ts]) => ts.forEach(t => GROUP_OF[t] = g));
+const groupOf = t => GROUP_OF[t] || null;
 function qzOptions(c, pool, askTerm) {
   const val = x => askTerm ? x[1] : x[0];
   const seen = new Set([val(c)]); const picks = [];
-  const tiers = [CARDS.filter(x => x[2] === c[2]), CARDS.filter(x => x[2].slice(0, 2) === c[2].slice(0, 2)), CARDS];
+  const g = groupOf(c[0]);
+  const tiers = [g ? CARDS.filter(x => groupOf(x[0]) === g) : [], CARDS.filter(x => x[2] === c[2]), CARDS.filter(x => x[2].slice(0, 2) === c[2].slice(0, 2)), CARDS];
   for (const tier of tiers) {
     for (const x of shuffle(tier)) { if (picks.length >= 3) break; const v = val(x); if (x !== c && !seen.has(v)) { seen.add(v); picks.push(x); } }
     if (picks.length >= 3) break;
