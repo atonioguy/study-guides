@@ -1082,11 +1082,16 @@ function zoom(src) { const z = $('#zoom'); z.innerHTML = `<img src="${src}" alt=
 const sheetHTML = t => SHEET[t].replace(/@(o_\w+)/g, (m, k) => IMG[k] || '');
 
 // ---------- nav ----------
+// remember where you were on each tab
+const SCROLL = {}; let CUR_VIEW = null; let MOCK_SCREEN = 'home';
 function go(v) {
-  S.view = v; save(); stopTimer(); QZ = null;
+  if (CUR_VIEW) SCROLL[CUR_VIEW] = window.scrollY;
+  CUR_VIEW = v; S.view = v; save(); stopTimer();
   document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
-  window.scrollTo(0, 0);
-  ({ cards: cardsView, mock: mockHome, sheet: sheetView })[v]();
+  if (v === 'cards') { if (QZ) drawQuiz(); else cardsView(); }
+  else if (v === 'mock') { if (S.cur && MOCK_SCREEN === 'q') showQ(); else if (S.cur && MOCK_SCREEN === 'res') finish(); else mockHome(); }
+  else sheetView();
+  const y = SCROLL[v] || 0; window.scrollTo(0, y); requestAnimationFrame(() => window.scrollTo(0, y));
 }
 
 // ---------- option order ----------
@@ -1132,6 +1137,7 @@ function tick() {
 }
 
 function mockHome() {
+  MOCK_SCREEN = 'home';
   const c = S.cur;
   const seenN = BANK.filter(q => S.seen[q.id]).length;
   const wrongN = Object.keys(S.wrong).length;
@@ -1148,7 +1154,7 @@ function mockHome() {
   <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
   <button class="btn" id="startSec">Practice section</button></div>
   <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.14</p>`;
+  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.15</p>`;
   $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
   $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
   $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
@@ -1156,6 +1162,7 @@ function mockHome() {
 }
 
 function showQ() {
+  MOCK_SCREEN = 'q';
   const c = S.cur; if (!c) return mockHome();
   if (c.i >= c.ids.length) return finish();
   const q = QBYID[c.ids[c.i]];
@@ -1177,7 +1184,7 @@ function showQ() {
   <div class="row nav2">
     <button class="btn" onclick="prevQ()" ${c.i ? '' : 'disabled'}>Back</button>
     <button class="btn ${done ? 'pri' : ''}" id="next" onclick="nextQ()">${c.i === c.ids.length - 1 ? 'Finish' : done ? 'Next' : 'Skip'}</button>
-    <button class="btn link" onclick="go('mock')">Exit</button>
+    <button class="btn link" onclick="stopTimer();mockHome();window.scrollTo(0,0)">Exit</button>
   </div>`;
   document.querySelectorAll('.opt').forEach(b => b.onclick = () => answer(q, +b.dataset.i));
   stopTimer(); if (c.timed) { tick(); timerH = setInterval(tick, 1000); }
@@ -1199,6 +1206,7 @@ function nextQ() { S.cur.i++; save(); window.scrollTo(0, 0); showQ(); }
 function prevQ() { if (S.cur.i > 0) { S.cur.i--; save(); window.scrollTo(0, 0); showQ(); } }
 
 function finish() {
+  MOCK_SCREEN = 'res';
   stopTimer();
   const c = S.cur; const qs = c.ids.map(id => QBYID[id]).filter(Boolean);
   const score = qs.filter(q => c.picks[q.id] === q.ans).length;
