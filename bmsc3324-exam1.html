@@ -441,7 +441,6 @@ const CARDS = [
  ['Phenotype','Gene expression.\nTextbook: the pattern of expression of the genotype, i.e., an observable trait such as body form, development, biochemistry, physiology, or behavior','m2-adapt','b'],
  ['Epigenetics','The interplay of genes and environment: experiences change gene expression, not just the genes you inherit.\nTextbook: changes in phenotype (gene expression) without changes in the DNA sequence','m2-adapt',''],
  ['Postnatal vasopressin in voles','More aggressive later, especially males','m2-adapt',''],
- ['Phenotypic plasticity','One genome producing different body forms, physiology, and behavior in response to changes in the environment','m2-adapt','t'],
  ['Effect of social isolation','↓ oxytocin receptor gene, ↑ vasopressin genes','m2-adapt',''],
  ['Vasopressin in defensive-aggression regions','Androgen-dependent; threatened males may have higher central levels','m2-adapt',''],
  ['Which sex is more vulnerable to negative early experiences?','Males (may explain greater sensitivity to developmental disorders)','m2-adapt',''],
@@ -1055,9 +1054,6 @@ TF('m2-neuro','c','GABA and adrenaline have opposite primary effects: GABA calms
 TF('m2-neuro','c','Like adrenaline, GABA heightens awareness and increases blood flow during stressful situations.',false,
  'False. That describes adrenaline. GABA does the opposite: it calms firing nerves.',{lo:'K3'});
 
-Q('m2-adapt','a','Genetically identical seedlings grown in different conditions develop different shapes, physiology, and behavior. A single genome producing different outcomes in response to the environment is called',
- ['phenotypic plasticity','homeostasis','ontogeny','phylogeny'],
- 'Phenotypic plasticity is one genome producing different body forms, physiology, and behavior depending on the environment. It is how the environment shapes phenotype.',{tb:1,lo:'2.6'});
 TF('m2-adapt','r','A phenotype is an observable characteristic of an organism, such as its development, physiology, or behavior, reflecting how its genes are expressed.',true,
  'True. The textbook defines phenotype as the pattern of expression of the genotype: an observable trait such as body form, development, biochemistry, physiology, or behavior.',{tb:1,lo:'2.6'});
 
@@ -1152,7 +1148,7 @@ function mockHome() {
   <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
   <button class="btn" id="startSec">Practice section</button></div>
   <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.13</p>`;
+  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.14</p>`;
   $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
   $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
   $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
@@ -1387,7 +1383,7 @@ const QZ_GROUPS = {
   study: ['Behavior', 'Cognitions', 'Affects', 'Operational definition'],
   science: ['Science', 'Systematic observation', 'Empirical methods', 'Psychology', 'Theory', 'Scientific method'],
   hormones: ['Testosterone', 'Cortisol', 'Oxytocin'],
-  dev: ['Phylogeny', 'Ontogeny', 'Homeostasis', 'Phenotype', 'Phenotypic plasticity', 'Epigenetics', 'Love is "epigenetic"'],
+  dev: ['Phylogeny', 'Ontogeny', 'Homeostasis', 'Phenotype', 'Epigenetics', 'Love is "epigenetic"'],
 };
 const GROUP_OF = {}; Object.entries(QZ_GROUPS).forEach(([g, ts]) => ts.forEach(t => GROUP_OF[t] = g));
 const groupOf = t => GROUP_OF[t] || null;
