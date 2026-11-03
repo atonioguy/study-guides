@@ -41,6 +41,15 @@ select{font:inherit;font-size:15px;padding:8px;border:1px solid #c8c8c8;border-r
 .stem{font-size:17px;margin:12px 0}
 .fig{display:block;max-width:100%;height:auto;margin:10px 0;border:1px solid var(--line);border-radius:4px;cursor:zoom-in}
 .miss .fig{max-height:200px;width:auto}
+.qlsec{margin:22px 0 4px;font-size:16px;color:var(--mut);font-weight:600}
+.qli{border-top:1px solid var(--line);padding:10px 0}
+.qli .stem{font-size:16px;margin:4px 0 8px}
+.qli .fig{max-height:220px;width:auto}
+.qlo{list-style:none;padding:0;margin:0 0 6px}
+.qlo li{padding:4px 8px 4px 28px;position:relative;border-radius:4px;font-size:15px}
+.qlo li.ok{background:var(--okbg);font-weight:600}
+.qlo .ck{position:absolute;left:8px;color:var(--ok)}
+#qlf{margin:6px 0 4px}#qlf select{width:100%}
 #zoom{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.85);overflow:auto;display:flex;align-items:center;justify-content:center}
 #zoom[hidden]{display:none}
 #zoom img{width:auto;max-width:none;min-width:100%;height:auto;background:#fff}
@@ -1136,6 +1145,28 @@ function tick() {
   el.classList.toggle('late', left <= 300);
 }
 
+S.ql = Object.assign({ open: false, filt: 'all' }, S.ql || {});
+function qlItems() {
+  const f = S.ql.filt;
+  return BANK.filter(q => f === 'all' || (f === 'm1' && q.t.startsWith('m1')) || (f === 'm2' && q.t.startsWith('m2')) || q.t === f)
+    .sort((a, b) => ORDER.indexOf(a.t) - ORDER.indexOf(b.t));
+}
+function drawQList() {
+  const h = $('#qlh'), box = $('#qlist'); if (!h || !box) return;
+  const items = qlItems();
+  h.innerHTML = `${S.ql.open ? 'Hide questions' : 'See all questions'} (${items.length}) <span class="chev ${S.ql.open ? 'up' : ''}">⌄</span>`;
+  h.setAttribute('aria-expanded', S.ql.open);
+  if (!S.ql.open) { box.innerHTML = ''; return; }
+  let last = null;
+  box.innerHTML = items.map((q, n) => {
+    const head = q.t !== last ? `<h3 class="qlsec">M${TOPICS[q.t].m}: ${esc(TOPICS[q.t].name)}</h3>` : ''; last = q.t;
+    const order = optOrder(q, 'list');
+    return `${head}<div class="qli"><p class="stem">${esc(q.q)}${q.tb ? ' <span class="tbm">textbook</span>' : ''}</p>
+      ${q.fig ? img(q.fig) : ''}
+      <ul class="qlo">${order.map(i => `<li class="${i === q.ans ? 'ok' : ''}">${i === q.ans ? '<span class="ck" aria-label="Correct answer">✓</span>' : ''}${esc(q.o[i])}</li>`).join('')}</ul>
+      <p class="sm mut">${esc(q.type === 'tf' ? q.ex.replace(/^(True|False)[.,] (it is the reverse\. )?/, '') : q.ex)} <a href="#" onclick="peek('${peekTopic(q)}','${q.id}');return false">Review</a></p></div>`;
+  }).join('');
+}
 function mockHome() {
   MOCK_SCREEN = 'home';
   const c = S.cur;
@@ -1154,9 +1185,17 @@ function mockHome() {
   <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
   <button class="btn" id="startSec">Practice section</button></div>
   <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.18</p>`;
+  <button class="tlh" id="qlh"></button>
+  <div id="qlf" ${S.ql.open ? '' : 'hidden'}><select id="qls" aria-label="Filter questions by section"><option value="all">All sections</option><option value="m1">Module 1</option><option value="m2">Module 2</option>
+    ${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name}</option>`).join('')}</select></div>
+  <div id="qlist"></div>
+  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v3.19</p>`;
   $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
   $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
+  $('#qls').value = S.ql.filt;
+  $('#qls').onchange = e => { S.ql.filt = e.target.value; save(); drawQList(); };
+  $('#qlh').onclick = () => { S.ql.open = !S.ql.open; save(); $('#qlf').hidden = !S.ql.open; drawQList(); };
+  drawQList();
   $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
   $('#reset').onclick = e => { e.preventDefault(); if (confirm('Erase all scores and flashcard progress?')) { S = { seen: {}, wrong: {}, mocks: [], cur: null, known: {}, mark: {}, fc: S.fc, view: 'mock' }; save(); mockHome(); } };
 }
