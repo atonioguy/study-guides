@@ -235,7 +235,7 @@ details.drills{margin:6px 0 2px}details.drills summary{cursor:pointer;color:var(
 <button data-t="sheet">Study guide</button><button data-t="practice">Practice</button><button data-t="mock">Mock exam</button>
 </nav></div></header>
 <main id="main"></main>
-<footer>v1.3 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
+<footer>v1.4 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
 <script>
 const MODS=[];
 </script>
@@ -742,7 +742,7 @@ function optsFor(q,shuf){
   if(q.fixed)return o;
   return shuf==="seed"?seededShuffle(o,q.id):shuffle(o);
 }
-function record(q,ok){const r=S.q[q.id]||{n:0,t:0,c:null};r.n++;r.t=Date.now();r.c=ok;S.q[q.id]=r;save();}
+function record(q,ok,pick){const r=S.q[q.id]||{n:0,t:0,c:null};r.n++;r.t=Date.now();r.c=ok;if(pick!=null)r.pp=pick;else delete r.pp;S.q[q.id]=r;save();}
 
 // ---- question view (shared) ----
 // opts: {onAnswer(ok, idx), reveal:bool, picked:idx}
@@ -787,8 +787,8 @@ function openLesson(id,hl){
 // ---- tabs ----
 let tab=null;const tabs={};
 document.getElementById("nav").addEventListener("click",e=>{const t=e.target.dataset.t;if(t){go(t);}});
-function go(t,arg){savePos();tab=t;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(tabs[t].cleanup)tabs[t].cleanup();main.innerHTML="";document.body.dataset.tab=t;tabs[t].render(arg);window.scrollTo(0,t==="sheet"?(S.pos.sheet||0):0);S.tab=t;save();try{history.replaceState(null,"","#"+t);}catch(e){}}
-function savePos(){if(tab==="sheet"&&main.querySelector(".sheet")){S.pos.sheet=Math.round(window.scrollY);save();}}
+function go(t,arg){savePos();tab=t;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(tabs[t].cleanup)tabs[t].cleanup();main.innerHTML="";document.body.dataset.tab=t;tabs[t].render(arg);window.scrollTo(0,(t==="sheet"||t==="practice")?(S.pos[t]||0):0);S.tab=t;save();try{history.replaceState(null,"","#"+t);}catch(e){}}
+function savePos(){if((tab==="sheet"&&main.querySelector(".gwrap"))||(tab==="practice"&&main.querySelector(".plist"))){S.pos[tab]=Math.round(window.scrollY);save();}}
 let st_;window.addEventListener("scroll",()=>{clearTimeout(st_);st_=setTimeout(savePos,250);},{passive:true});
 window.addEventListener("pagehide",savePos);
 
@@ -801,7 +801,7 @@ function loSelect(id,withAll){
 function filterQ(v){if(v==="all")return Q.slice();if(v.startsWith("mod:"))return Q.filter(q=>q.mod.id===v.slice(4));return Q.filter(q=>q.lo===v);}
 
 // ===== PRACTICE (full list) =====
-const PF={lo:"all",ty:"",missed:false,flag:false,un:false,show:false};
+const PF=Object.assign({lo:"all",ty:"",missed:false,flag:false,un:false,show:false},S.set.pf||{});PF.ty="";
 tabs.practice={render(){
   main.append(h("h1",null,"Practice"));
   main.append(h("p",{class:"mut"},"Every question the mock exams draw from. Answer any of them right here, or reveal them all."));
@@ -809,16 +809,16 @@ tabs.practice={render(){
     const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);draw();}},l);return b;};
   const cnt=h("span",{class:"mut sm"});
   const quiz=h("button",{class:"btn pri",onclick:()=>runPractice(pool(),"Practice")},"Quiz me one at a time");
-  const clr=h("button",{class:"btn link sm",type:"button",onclick(){const P=pool().filter(q=>S.q[q.id]);if(!P.length)return;if(!clr.dataset.arm){clr.dataset.arm="1";clr.textContent="Tap again to clear "+P.length;setTimeout(()=>{delete clr.dataset.arm;draw();},3000);return;}delete clr.dataset.arm;P.forEach(q=>delete S.q[q.id]);save();draw();}});
+  const clr=h("button",{class:"btn sm",type:"button",onclick(){const P=pool().filter(q=>S.q[q.id]);if(!P.length)return;if(!clr.dataset.arm){clr.dataset.arm="1";clr.textContent="Tap again to reset "+P.length;setTimeout(()=>{delete clr.dataset.arm;draw();},3000);return;}delete clr.dataset.arm;P.forEach(q=>delete S.q[q.id]);save();draw();}});
   main.append(h("div",{class:"filters"},h("div",{class:"row"},sel),h("div",{class:"row"},tg("missed","Missed"),tg("flag","Flagged"),tg("un","Unanswered"),tg("show","Show all answers")),h("div",{class:"row"},quiz,cnt,clr)));
   const ds=[];MODS.forEach(m=>(m.drills||[]).forEach(d=>ds.push(d)));
   if(ds.length){const dw=h("details",{class:"drills"},h("summary",null,"Drills ("+ds.length+")"));ds.forEach(d=>{const st=S.drills[d.id];dw.append(h("div",{class:"card link",onclick:()=>openDrill(d)},h("b",null,d.title),h("span",{class:"mut sm"}," LO "+d.lo+(st?" · last: "+st:""))));});main.append(dw);}
-  const list=h("div");main.append(list);
+  const list=h("div",{class:"plist"});main.append(list);
   sel.addEventListener("change",()=>{PF.lo=sel.value;draw();});
   function pool(){return filterQ(PF.lo).filter(q=>(!PF.ty||q.type===PF.ty)&&(!PF.missed||(S.q[q.id]&&S.q[q.id].c===false))&&(!PF.flag||S.flag[q.id])&&(!PF.un||!S.q[q.id]));}
   function draw(){
-    list.innerHTML="";const P=pool();cnt.textContent=P.length+" question"+(P.length===1?"":"s");quiz.disabled=!P.length;
-    const na=P.filter(q=>S.q[q.id]).length;if(!clr.dataset.arm){clr.textContent="Clear answers for these ("+na+")";clr.disabled=!na;clr.title="Marks the questions shown here as unanswered. Flags and mocks are kept.";}
+    S.set.pf=PF;save();list.innerHTML="";const P=pool();cnt.textContent=P.length+" question"+(P.length===1?"":"s");quiz.disabled=!P.length;
+    const na=P.filter(q=>S.q[q.id]).length;if(!clr.dataset.arm){clr.textContent="Reset answers";clr.disabled=!na;clr.title="Clears your answers to the questions shown with the current filters. Flags, bookmarks and mock history are kept.";}
     if(!P.length){list.append(h("p",{class:"mut"},"No questions match these filters."));return;}
     LOS.forEach(l=>{const qs=P.filter(q=>q.lo===l.id);if(!qs.length)return;
       list.append(h("h2",{class:"lohead"},h("span",{class:"eyebrow"},"LO "+l.id+" · "+qs.length),l.title));
@@ -831,8 +831,9 @@ function qCard(q,show,label){
   const c=h("div",{class:"qcard"});
   c.append(h("div",{class:"qhead"},h("span",null,label||loLabel(q)),flagBtn(q)));
   const order=optsFor(q,"seed");let done=false;
-  const v=qView(q,order,{onPick(k){if(done)return;done=true;record(q,order[k].c);v.paint(k,true);}});
-  c.append(v.el);if(show){done=true;v.paint(null,"show");}
+  const v=qView(q,order,{onPick(k){if(done)return;done=true;record(q,order[k].c,order[k].t);v.paint(k,true);}});
+  c.append(v.el);const r=S.q[q.id];const pk=r&&r.pp!=null?order.findIndex(o=>o.t===r.pp):-1;
+  if(pk>=0){done=true;v.paint(pk,true);}else if(show){done=true;v.paint(null,"show");}
   return c;
 }
 
@@ -852,7 +853,7 @@ function runPractice(pool,title){
     main.append(h("div",{class:"qhead"},h("span",null,(i+1)+" / "+qs.length),h("span",null,loLabel(q)+" ",flagBtn(q))));
     main.append(h("div",{class:"bar"},h("i",{style:"width:"+(i/qs.length*100)+"%"})));
     let done=false;
-    const v=qView(q,order,{onPick(k){if(done)return;done=true;const ok=order[k].c;if(ok)right++;else missedIds.push(q.id);record(q,ok);v.paint(k,true);nx.disabled=false;nx.focus();}});
+    const v=qView(q,order,{onPick(k){if(done)return;done=true;const ok=order[k].c;if(ok)right++;else missedIds.push(q.id);record(q,ok,order[k].t);v.paint(k,true);nx.disabled=false;nx.focus();}});
     main.append(v.el);
     const nx=h("button",{class:"btn pri",disabled:true,onclick:()=>{i++;show();}},i===qs.length-1?"Finish":"Next");
     main.append(h("div",{class:"row"},nx,h("button",{class:"btn link",onclick:()=>{i=qs.length;show();}},"End")));
@@ -1027,7 +1028,7 @@ function runMock(qs){
     const answered=st.filter(s=>s.pick!=null).length;
     main.append(h("div",{class:"qhead"},h("span",null,"Mock "+num+" · "+(i+1)+" / "+st.length),h("span",{id:"timer"},deadline?fmtT(deadline-Date.now()):""),h("span",null,(each?loLabel(x.q):answered+" answered")+" ",flagBtn(x.q))));
     main.append(h("div",{class:"bar"},h("i",{style:"width:"+((i+(x.pick!=null?1:0))/st.length*100)+"%"})));
-    const v=qView(x.q,x.order,{onPick(k){if(x.locked)return;x.pick=k;if(each){x.locked=true;record(x.q,x.order[k].c);v.paint(k,true);}else v.paint(k,false);nav();}});
+    const v=qView(x.q,x.order,{onPick(k){if(x.locked)return;x.pick=k;if(each){x.locked=true;record(x.q,x.order[k].c,x.order[k].t);v.paint(k,true);}else v.paint(k,false);nav();}});
     main.append(v.el);v.paint(x.pick,x.locked);
     const row=h("div",{class:"row"});main.append(row);
     function nav(){row.innerHTML="";
@@ -1047,7 +1048,7 @@ function runMock(qs){
   }
   function finish(){
     if(timerId){clearInterval(timerId);timerId=null;}
-    if(!each)st.forEach(s=>record(s.q,s.pick!=null&&s.order[s.pick].c));
+    if(!each)st.forEach(s=>record(s.q,s.pick!=null&&s.order[s.pick].c,s.pick!=null?s.order[s.pick].t:null));
     else st.forEach(s=>{if(!s.locked)record(s.q,false);});
     const right=st.filter(s=>s.pick!=null&&s.order[s.pick].c).length;
     S.hist=(S.hist||[]);S.hist.push({n:num,d:Date.now(),s:right,of:st.length});save();
