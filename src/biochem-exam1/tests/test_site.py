@@ -112,7 +112,8 @@ def run(p, name, vw, vh):
     # open the window from an L1 question
     btns = page.query_selector_all(".lecb")
     tags = [b.inner_text().strip() for b in btns]
-    check(all(t.startswith("M3") for t in tags), "only M3 questions have lecture buttons (%d)" % len(btns))
+    check(all(t[:2] in ("M2", "M3") for t in tags), "only M2/M3 questions have lecture buttons (%d)" % len(btns))
+    check(any(t.startswith("M2") for t in tags) and any(t.startswith("M3") for t in tags), "both M2 and M3 have lecture buttons")
     b1 = btns[tags.index("M3 L1")]
     tap(page, b1)
     page.wait_for_selector(".lw mark.lwhl", timeout=5000)

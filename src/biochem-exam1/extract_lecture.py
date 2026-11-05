@@ -163,6 +163,10 @@ def stars(text, blank):
     return re.sub(r"\*([^*]+)\*", rep, text)
 
 
+# DragQuestion has no instruction text of its own; per-module wording
+DRAGQ = {"m3": "Place each label on the step it affects (- inhibits, + activates)."}
+
+
 # ---------- renderer ----------
 def render(c, ctx):
     lib = (c.get("library") or "").split(" ")[0]
@@ -176,6 +180,10 @@ def render(c, ctx):
         return video(p, title)
     if lib == "H5P.Column":
         return "".join(render(x["content"], ctx) for x in p.get("content", []))
+    if lib == "H5P.Row":  # newer Interactive Book layout: row -> columns -> content
+        return "".join(render(x["content"], ctx) for x in p.get("columns", []) if x.get("content"))
+    if lib == "H5P.RowColumn":
+        return "".join(render(x, ctx) for x in p.get("content", []))
     if lib == "H5P.Accordion":
         return "".join('<details class="lw-acc"><summary>%s</summary>%s</details>' % (txt(x.get("title")), render(x["content"], ctx))
                        for x in p.get("panels", []))
@@ -201,6 +209,13 @@ def render(c, ctx):
             else:
                 out += "<li>%s</li>" % render(q, ctx)
         return out + "</ol></div>"
+    if lib == "H5P.SingleChoiceSet":  # first answer is the correct one
+        out = '<div class="lw-q"><div class="lw-qh">Check yourself</div><ol>'
+        for ch in p.get("choices", []):
+            ans = ch.get("answers", [])
+            out += "<li>%s<ul>%s</ul>%s</li>" % (san(ch.get("question")), "".join("<li>%s</li>" % txt(a) for a in ans),
+                                                 answer("<p>%s</p>" % txt(ans[0])) if ans else "")
+        return out + "</ol></div>"
     if lib in ("H5P.Blanks", "H5P.DragText"):
         if lib == "H5P.Blanks":
             intro = san(p.get("text")); qs = p.get("questions", [])
@@ -221,9 +236,9 @@ def render(c, ctx):
         els = [txt(e["type"]["params"].get("text") or e["type"]["params"].get("alt")) for e in t["elements"]]
         rows = "".join("<tr><td>%s</td><td>%s</td></tr>" % (txt(z.get("label")), ", ".join(els[int(i)] for i in z.get("correctElements", []) if i.isdigit() and int(i) < len(els)))
                        for z in t["dropZones"])
-        return ('<div class="lw-q"><div class="lw-qh">Drag and drop</div><p>Place each label on the step it affects (- inhibits, + activates).</p>'
+        return ('<div class="lw-q"><div class="lw-qh">Drag and drop</div><p>%s</p>'
                 '<figure class="lw-fig">%s</figure><p>Labels: %s</p>%s</div>') % (
-            ctx.img(s.get("background"), "Drag and drop background"), ", ".join(els), answer('<table><tr><th>Step</th><th>Labels</th></tr>%s</table>' % rows))
+            DRAGQ.get(ctx.mod, "Place each label on its drop zone."), ctx.img(s.get("background"), "Drag and drop background"), ", ".join(els), answer('<table><tr><th>Step</th><th>Labels</th></tr>%s</table>' % rows))
     if lib == "H5P.Link":
         w = p.get("linkWidget") or {}
         url = (w.get("protocol") or "https://") + (w.get("url") or "").replace("https://", "").replace("http://", "")
