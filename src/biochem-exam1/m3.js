@@ -501,3 +501,59 @@ cases:[
 // Review highlight: each hl appears verbatim in one p, li, tr or note of its ref lesson.
 (function(){const HL={m3a01:"Building costs energy, so anabolism consumes it.",m3a02:"-lysis or oxidation means catabolic",m3a03:"Many steps in a pathway are reversible",m3a04:"Those steps are the bottlenecks and the usual targets of regulation",m3a05:"catch the energy from each step in activated carriers",m3a06:"A pathway runs if the sum of its ΔG values is negative",m3a07:"The link between the steps is a shared intermediate",m3a08:"A kinetically unstable one would react in the cytosol before reaching an enzyme and waste its energy as heat.",m3a09:"Kinetically stable: that reaction is very slow without a catalyst",m3a10:"so they can phosphorylate ADP to make ATP",m3a11:"If ATP were at the top, nothing could recharge it.",m3a12:"NADPH does a different job: it's the reducing agent for anabolism.",m3a13:"transfers a carboxyl group (from CO₂)",m3a14:"both need NAD⁺, which comes from niacin",m3a15:"Inducers or repressors change the rate of enzyme synthesis",m3a16:"Mostly compartmentalization: the pathway sits in a compartment away from its substrate",m3a17:"Feedback inhibition: excess product binds the enzyme.",m3a18:"The cell's neutralizing systems can keep up only if ox phos isn't running flat out all the time.",m3a19:"Muscle and heart need a lot of ATP; red blood cells need little.",m3a20:"Hormones alter an enzyme's activation site, so control can be tissue-specific",m3a21:"Nucleic acid breakdown is not a source.",m3a22:"Forming acetyl CoA is decisive and irreversible, with limited options afterward.",m3a23:"Loading NADH and FADH₂ is the main point of the cycle.",m3a24:"Per turn: 2 CO₂, 3 NADH, 1 FADH₂ and 1 ATP (made indirectly, as GTP).",m3a25:"the cycle can't run without a supply of NAD⁺ and FAD",m3a26:"First CO₂, NADH",m3a27:"succinate dehydrogenase is also Complex II",m3a28:"Citrate (its own product, feedback); high ATP",m3a29:"so it doesn't count as an input",m3a30:"The complexes are embedded in the inner mitochondrial membrane",m3a31:"Ca²⁺ rises when muscle contracts",m3a32:"When NADH builds up, little free NAD⁺ is left, and the cycle slows.",m3a33:"FADH₂ (2 e⁻) → coenzyme Q",m3a34:"The protons can only get back into the matrix through ATP synthase",m3a35:"FADH₂'s electrons skip Complex I's pump, which is why FADH₂ is worth less ATP.",m3a36:"Paths: NADH → I → Q → III → cyt c → IV → O₂.",m3a37:"The whole chain stops: no O₂ use, no pumping, the gradient decreases, and ATP synthesis stops.",m3a38:"Electrons from FADH₂ still enter at Complex II and flow through III and IV, so some pumping and some ATP continue.",m3a39:"NADH builds up and NAD⁺ runs out, so the citric acid cycle stops too.",m3a40:"With the gradient draining, nothing holds the chain back, so O₂ use goes up.",m3a41:"In prolonged cold it opens, and the fuel burned becomes heat that keeps core temperature up.",m3a42:"a second route lets H⁺ back into the matrix without going through ATP synthase",m3a43:"Malonate looks like succinate and competitively inhibits succinate dehydrogenase.",m3a44:"inhibits the α-KG dehydrogenase complex",m3a45:"so the gradient climbs until pumping against it gets too hard",m3a46:"Complex II feeds into the same Q → III → IV path, so it's blocked too.",m3a47:"Proteins, polysaccharides and fats are broken into simple subunits",m3a48:"Prokaryotes have no mitochondria and pump across the plasma membrane."};
 MODS[MODS.length-1].questions.forEach(q=>{if(HL[q.id])q.hl=HL[q.id];});})();
+
+// Lecture window map: question id -> [lecture block id, verbatim lecture snippet to highlight].
+// Block ids come from extract_lecture.py (lectures/biochem-exam1/m3.json). tests/validate_lec.js checks every entry.
+// LECNOTES: lecture blocks with wrong wording -> study-guide lesson(s) holding the "Lecture wording" note.
+(function(){const LEC={
+m3a01:["m3L1-b8","These pathways consume energy."],
+m3a02:["m3L1-b9","anything that says lysis or oxidation is for breakdown of molecules"],
+m3a03:["m3L1-b13","While many reactions within a given pathway are reversible"],
+m3a04:["m3L1-b13","often the reactions targeted for regulating the progression of the pathway"],
+m3a05:["m3L3-b4","we do it in a stepwise manner controlled by enzymes instead of in a single burning step"],
+m3a06:["m3L2-b2","a pathway will take place spontaneously if the sum of the free-energy change for the entire system is negative"],
+m3a07:["m3L2-b9","Reactions can be coupled together with an activated carrier because it creates a shared intermediate."],
+m3a08:["m3L2-b10","In order for a molecule to be a good energy carrier, it must be kinetically stable"],
+m3a09:["m3L2-b10","will happen spontaneously, but will take a very long time without the presence of the appropriate enzyme"],
+m3a10:["m3L2-b27","ADP will pick up Pi from those with higher"],
+m3a11:["m3L2-b27","ATP has an intermediate phosphoryl-transfer potential"],
+m3a12:["m3L2-b34","NADP+ is converted to NADPH to act as a reducing agent for anabolic reactions"],
+m3a13:["m3L2-b34","Biotin is a vitamin that is used by a number of enzymes to transfer a carboxyl group to a substrate."],
+m3a14:["m3L2-b38","Vitamin B deficiencies will result in inefficient metabolism"],
+m3a15:["m3L1-b19","A cell will utilize molecular inducers or repressors to signal the cell to increase or decrease the synthesis of the enzyme on an as-needed basis."],
+m3a16:["m3L1-b19","This is most frequently accomplished by compartmentalizing pathways within cells away from the substrate."],
+m3a17:["m3L1-b19","Feedback inhibition where an excess of product from a pathway will bind to the enzyme and block its availability to the substrate."],
+m3a18:["m3L1-b17","it creates hydrogen peroxides, which are damaging to cells"],
+m3a19:["m3L1-b17","Your muscle tissues, including your heart, require a large amount of energy to function properly"],
+m3a20:["m3L1-b19","Hormones will trigger the alteration of an enzyme activation site, therefore controlling the availability of the enzyme to the target substrate."],
+m3a21:["m3L3-b16","We will ultimately learn about three pathways that generate Acetyl CoA."],
+m3a22:["m3L3-b17","The formation of Acetyl CoA is decisive and irreversible."],
+m3a23:["m3L3-b20","it will reduce additional activated carriers that we will then utilize in the next lesson, the electron transport chain, to generate ATP"],
+m3a24:["m3L4-b4","from one turn of the citric acid cycle, we will be able to make 9 ATP, plus the one we made during the cycle is 10."],
+m3a25:["m3L4-b4","regenerate our carriers so we can return them to the citric acid cycle to keep the shuttle running"],
+m3a26:["m3L3-b37","This process will release a carbon in the form of carbon dioxide."],
+m3a27:["m3L3-b44","step six where we convert succinate to fumarate by transfering two hydrogen atoms from succinate to FAD to create FADH2"],
+m3a28:["m3L3-b52","will inhibit the reaction itself, therefore stopping the cycle"],
+m3a29:["m3L3-b22","we are going to regenerate the material it binds to (thus creating a circle), so it is not going on our input list"],
+m3a30:["m3L4-b14","The protein complexes of OxPhos are actually embedded within the inner membrane itself."],
+m3a31:["m3L3-b52","When your muscles contract, calcium levels go up, so these dehydrogenases are kicked on"],
+m3a32:["m3L3-b52","in the absence of free NAD+ to accept hydrogens, the cycle will slow down"],
+m3a33:["m3L4-b24","This is the entrypoint of FADH2."],
+m3a34:["m3L4-b19","The protons (hydrogen ions) fall back down their chemiosmotic gradient through the enzyme ATP synthase."],
+m3a35:["m3L4-b24","11 protons from an NADH entering complex I and 7 protons from an FADH2 entering complex II"],
+m3a36:["m3L4-b24","Complex II --> Coenzyme Q (AKA ubiquinone) --> Complex III --> Cytochrome C --> Complex IV --> oxygen"],
+m3a37:["m3L4-b31","The entire system backs up."],
+m3a38:["m3L4-b31","Complex II may be a second entry point, but it is not as efficient as Complex I"],
+m3a39:["m3L4-b14","Once they drop electrons, they will go back to the citric acid cycle to pick up more."],
+m3a40:["m3L4-b29","The electron transport chain goes on as we discussed."],
+m3a41:["m3L4-b29","This is the tissue that helps regulate our core temperature to keep our organs running if we are exposed to cold temperatures for too long."],
+m3a42:["m3L4-b29","Dinitrophenol (DNP) is a chemical that acts as an uncoupling agent, making the inner mitochondrial membrane leaky to protons."],
+m3a43:["m3L4-b31","Malonate inhibits Complex II, which, as we mentioned, is technically part of the citric acid cycle."],
+m3a44:["m3L3-b56","High concentrations of ammonia can also inhibit the enzyme."],
+m3a46:["m3L4-b31","If you don't accept that final electron, it will sit with cytochrome c"],
+m3a47:["m3L3-b8","Simple subunits are broken down into acetyl CoA."],
+m3a48:["m3L4-b14","They pump protons across their cellular membrane and produce a chemiosmotic gradient there to drive ATP production."]};
+const M=MODS[MODS.length-1];
+M.lecture="m3";
+M.lecnotes={"m3L1-b13":["m3-path"],"m3L1-b16":["m3-path"],"m3L2-b12":["m3-carrier"],"m3L2-b27":["m3-ptp"],"m3L2-b34":["m3-carriers"],"m3L3-b22":["m3-cacio","m3-carriers"],"m3L4-b14":["m3-etc"],"m3L4-b24":["m3-pmf"],"m3L4-b29":["m3-uncouple"],"m3L4-b31":["m3-etcinhib"]};
+M.questions.forEach(q=>{if(LEC[q.id])q.lec={b:LEC[q.id][0],hl:LEC[q.id][1]};});})();
