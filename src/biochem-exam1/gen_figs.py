@@ -80,8 +80,101 @@ def titr():
     o.append(T(14,(TOP+B)/2,"pH",fill=MUT,transform=f"rotate(-90 14 {(TOP+B)/2})",text_anchor="middle"))
     o.append('</svg>'); return "".join(o)
 
-figs={"hydro":hydro(),"bicarb":bicarb(),"titr":titr()}
+
+def classes():
+    o=['<svg viewBox="0 0 680 210" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="13">','<rect width="680" height="210" fill="#fff"/>']
+    def hexa(cx,cy,r=13):
+        pts=" ".join(f"{cx+r*math.cos(math.pi/6+k*math.pi/3):.1f},{cy+r*math.sin(math.pi/6+k*math.pi/3):.1f}" for k in range(6))
+        return f'<polygon points="{pts}" fill="#e6c87a" stroke="{FG}" stroke-width="1.2"/>'
+    # carb
+    xs=[30,62,94,126]
+    for i in range(3): o.append(f'<line x1="{xs[i]+13}" y1="70" x2="{xs[i+1]-13}" y2="70" stroke="{FG}" stroke-width="2"/>')
+    o.append(f'<line x1="94" y1="83" x2="94" y2="104" stroke="{FG}" stroke-width="2"/><line x1="105" y1="117" x2="122" y2="117" stroke="{FG}" stroke-width="2"/>')
+    for x in xs: o.append(hexa(x,70))
+    o.append(hexa(94,117));o.append(hexa(135,117))
+    # lipid
+    o.append(f'<rect x="200" y="45" width="26" height="90" rx="4" fill="#cfd8e6" stroke="{FG}" stroke-width="1.2"/>')
+    o.append(T(213,150,"glycerol",text_anchor="middle",fill=MUT,font_size="11"))
+    for k,y in enumerate([58,90,122]):
+        pts=" ".join(f"{230+i*12},{y+(5 if i%2 else -5)}" for i in range(9))
+        o.append(f'<polyline points="{pts}" fill="none" stroke="{OIL}" stroke-width="3"/>')
+    # protein beads: serpentine fold, hydrophobic row buried in the middle
+    pts=[]
+    for r,y in enumerate([55,90,125]):
+        xs=[350+k*16 for k in range(7)]
+        if r%2: xs=xs[::-1]
+        pts+= [(x,y,r==1) for x in xs]
+    o.append(f'<polyline points="{" ".join(f"{x},{y}" for x,y,_ in pts)}" fill="none" stroke="{FG}" stroke-width="1.5"/>')
+    for x,y,hyd in pts: o.append(f'<circle cx="{x}" cy="{y}" r="7" fill="{OIL if hyd else "#fff"}" stroke="{FG}" stroke-width="1.2"/>')
+    o.append(T(400,150,"hydrophobic R groups tucked inside",text_anchor="middle",fill=MUT,font_size="11"))
+    # nucleic
+    for i in range(4):
+        y=40+i*30
+        o.append(f'<circle cx="540" cy="{y}" r="6" fill="#fff" stroke="{FG}" stroke-width="1.2"/>')
+        if i<3: o.append(f'<line x1="540" y1="{y+6}" x2="540" y2="{y+24}" stroke="{FG}" stroke-width="2"/>')
+        o.append(f'<polygon points="{548},{y+8} {566},{y+3} {574},{y+15} {562},{y+26} {548},{y+21}" fill="#cfd8e6" stroke="{FG}" stroke-width="1.2"/>')
+        o.append(f'<line x1="574" y1="{y+15}" x2="592" y2="{y+15}" stroke="{FG}" stroke-width="1.5"/><rect x="592" y="{y+7}" width="34" height="16" rx="3" fill="{ACC}"/>')
+        o.append(T(609,y+19,"ATGC"[i],text_anchor="middle",fill="#fff",font_size="11",font_weight="600"))
+    labs=[(85,"Carbohydrate","glycosidic bonds","branched sugar chains"),(255,"Lipid","ester bonds","no repeating unit"),(400,"Protein","peptide bonds","unbranched chain folds"),(585,"Nucleic acid","phosphodiester bonds","sugar–phosphate backbone")]
+    for x,a,b,c in labs:
+        o.append(T(x,176,a,text_anchor="middle",fill=FG,font_weight="600",font_size="14"))
+        o.append(T(x,194,b,text_anchor="middle",fill=ACC,font_size="12"))
+        o.append(T(x,22,c,text_anchor="middle",fill=MUT,font_size="12"))
+    o.append('</svg>');return "".join(o)
+
+def water():
+    o=['<svg viewBox="0 0 520 170" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="14">','<rect width="520" height="170" fill="#fff"/>']
+    ox,oy=140,70
+    for hx,hy in [(95,125),(185,125)]:
+        o.append(f'<line x1="{ox}" y1="{oy}" x2="{hx}" y2="{hy}" stroke="{FG}" stroke-width="5"/>')
+        o.append(f'<circle cx="{hx}" cy="{hy}" r="17" fill="#fff" stroke="{FG}" stroke-width="1.5"/>'+T(hx,hy+5,"H",text_anchor="middle",fill=FG,font_weight="600"))
+        o.append(T(hx+(-22 if hx<ox else 22),hy+26,"δ+",text_anchor="middle",fill=ACC,font_weight="600"))
+    o.append(f'<circle cx="{ox}" cy="{oy}" r="27" fill="{ACC}"/>'+T(ox,oy+6,"O",text_anchor="middle",fill="#fff",font_weight="600",font_size="18"))
+    o.append(T(ox,oy-36,"δ−",text_anchor="middle",fill="#b42318",font_weight="600"))
+    # right: ion hydration
+    cx,cy=390,85
+    o.append(f'<circle cx="{cx}" cy="{cy}" r="16" fill="#e6c87a" stroke="{FG}"/>'+T(cx,cy+5,"Na⁺",text_anchor="middle",fill=FG,font_size="12",font_weight="600"))
+    for k in range(6):
+        a=k*math.pi/3; x=cx+52*math.cos(a); y=cy+52*math.sin(a)
+        o.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="11" fill="{ACC}"/>')
+        for d in (-0.7,0.7):
+            hx=x+16*math.cos(a+d);hy=y+16*math.sin(a+d)
+            o.append(f'<circle cx="{hx:.1f}" cy="{hy:.1f}" r="5.5" fill="#fff" stroke="{FG}"/>')
+    o.append(T(cx,163,"δ− oxygens face the cation",text_anchor="middle",fill=MUT,font_size="12"))
+    o.append(T(140,163,"permanent dipole",text_anchor="middle",fill=MUT,font_size="12"))
+    o.append('</svg>');return "".join(o)
+
+def aagrid():
+    groups=[("Aliphatic",[("Ala",1),("Gly",0,"!"),("Ile",1),("Leu",1),("Pro",1),("Val",1)]),("Aromatic",[("Phe",1),("Trp",1),("Tyr",1,"!")]),
+            ("Acidic (−)",[("Asp",0),("Glu",0)]),("Basic (+)",[("Arg",0),("His",0),("Lys",0)]),("Hydroxylic",[("Ser",0),("Thr",0)]),("Amidic",[("Asn",0),("Gln",0)]),("Sulfur",[("Cys",0,"!"),("Met",1,"!")])]
+    h=['<div class="aag">']
+    for g,items in groups:
+        h.append(f'<div class="aagc"><b>{g}</b>')
+        for it in items:
+            cls="pho" if it[1] else "phi"
+            if len(it)>2: cls+=" ex"
+            h.append(f'<span class="{cls}">{it[0]}</span>')
+        h.append('</div>')
+    h.append('</div><div class="aagl"><span class="pho">hydrophobic</span><span class="phi">hydrophilic</span><span class="phi ex">exception to memorize</span></div>')
+    return "".join(h)
+
+def forces():
+    rows=[("Ion–dipole",100,"Na⁺ in water; charged side chains"),("Hydrogen bond",72,"DNA strands, water cohesion"),("Dipole–dipole",48,"polar groups lining up"),("van der Waals",22,"all molecules, even nonpolar; gecko feet")]
+    h=['<div class="fbars">']
+    for n,w,e in rows: h.append(f'<div class="fbr"><span class="fn">{n}</span><span class="fbg"><i style="width:{w}%"></i></span><span class="fe">{e}</span></div>')
+    h.append('<div class="fnote">relative strength (illustrative)</div></div>')
+    return "".join(h)
+
+def phscale():
+    h=['<div class="phs"><div class="phrow">']
+    for p in range(15): h.append(f'<span style="background:hsl({int(p*14+5)},55%,{72 if p!=7 else 88}%)">{p}</span>')
+    h.append('</div><div class="phlab"><span>more H⁺ · acidic</span><span>neutral 7</span><span>basic · less H⁺</span></div>')
+    h.append('<div class="phmk"><span style="left:calc(1.75/15*100%)">stomach ~1.5–2</span><span style="left:calc(7.9/15*100%)">blood 7.4</span></div></div>')
+    return "".join(h)
+
+figs={"hydro":hydro(),"bicarb":bicarb(),"titr":titr(),"classes":classes(),"water":water(),"aagrid":aagrid(),"forces":forces(),"phscale":phscale()}
 here=os.path.dirname(os.path.abspath(__file__))
 open(os.path.join(here,"figs.js"),"w").write("const FIGS="+json.dumps(figs,ensure_ascii=False)+";\n")
-for k,v in figs.items(): open(f"/tmp/fig_{k}.svg","w").write(v)
+for k,v in figs.items():
+    if v.startswith("<svg"): open(f"/tmp/fig_{k}.svg","w").write(v)
 print("ok")

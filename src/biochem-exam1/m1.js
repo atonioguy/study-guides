@@ -3,137 +3,116 @@
 MODS.push({
 id:"m1", short:"M1", name:"Module 1: Biomolecules, water, pH",
 los:[
-{id:"1.1", title:"Relate the structure and function of biomolecules to their cellular role"},
-{id:"1.2", title:"Describe how the properties of water facilitate biological interactions"},
-{id:"1.3", title:"Determine the pH of a solution by direct measurement and calculation"},
-{id:"1.4", title:"Apply knowledge of the bicarbonate buffer system to predict pathophysiologic effects of acidosis and alkalosis"}
+{id:"1.1", nick:"Biomolecules", title:"Relate the structure and function of biomolecules to their cellular role"},
+{id:"1.2", nick:"Water and weak forces", title:"Describe how the properties of water facilitate biological interactions"},
+{id:"1.3", nick:"pH and buffers", title:"Determine the pH of a solution by direct measurement and calculation"},
+{id:"1.4", nick:"Bicarbonate and acid–base", title:"Apply knowledge of the bicarbonate buffer system to predict pathophysiologic effects of acidosis and alkalosis"}
 ],
 
-sheets:{
-"1.1":`
-<h4>Four classes, what holds them together, what they do</h4>
-<table>
-<tr><th>Class</th><th>Building block</th><th>Bond</th><th>Role</th></tr>
-<tr><td>Carbohydrate</td><td>monosaccharide</td><td>glycosidic</td><td>main fuel (glucose); storage as glycogen (animals) / starch (plants); branched chains for structure, cell ID, cell–cell contact</td></tr>
-<tr><td>Lipid</td><td><b>no repeating unit</b></td><td>ester (fatty acid → glycerol)</td><td>stored fat, membranes, hormones</td></tr>
-<tr><td>Protein</td><td>amino acid</td><td>peptide (unbranched chain)</td><td>enzymes, structure, signaling, transport</td></tr>
-<tr><td>Nucleic acid</td><td>nucleotide (5-C sugar + base + phosphate)</td><td>phosphodiester</td><td>store and transfer genetic info</td></tr>
-</table>
-<p>All four bonds form by dehydration synthesis (water out) and break by hydrolysis (water in).</p>
-
-<h4>Lipids</h4>
-<ul>
-<li><b>Triglyceride:</b> glycerol + 3 fatty acids via ester bonds. Stored fat (adipose).</li>
-<li><b>Phospholipid:</b> glycerol + 2 FAs + modified phosphate (head). Sphingolipids use a <b>sphingosine</b> backbone instead. Bilayer: heads out, tails in.</li>
-<li><b>Steroid:</b> 4 fused rings. Cholesterol → bile salts, testosterone, estradiol, cortisol. In the membrane it buffers fluidity in both directions (heat and cold).</li>
-<li>Saturated = no C=C, packs tight, solid (butter). Unsaturated = ≥1 C=C, kinks, liquid (olive oil), adds membrane fluidity.</li>
-</ul>
-
-<h4>Amino acid groups (book grouping, no structures needed)</h4>
-<table>
-<tr><th>Group</th><th>Members</th><th>Water</th></tr>
-<tr><td>Aliphatic</td><td>Ala, Gly, Ile, Leu, Pro, Val</td><td>hydrophobic, <b>except Gly</b></td></tr>
-<tr><td>Aromatic</td><td>Phe, Trp, Tyr</td><td>hydrophobic (Tyr is polar but still counted hydrophobic)</td></tr>
-<tr><td>Acidic (−)</td><td>Asp, Glu</td><td>hydrophilic</td></tr>
-<tr><td>Basic (+)</td><td>Arg, His, Lys</td><td>hydrophilic</td></tr>
-<tr><td>Hydroxylic</td><td>Ser, Thr</td><td>hydrophilic</td></tr>
-<tr><td>Amidic</td><td>Asn, Gln</td><td>hydrophilic</td></tr>
-<tr><td>Sulfur</td><td>Cys, Met</td><td>Cys hydrophilic, Met hydrophobic</td></tr>
-</table>
-<p class="conf"><b>Easy to confuse:</b> polar ≠ hydrophilic in this book. Gly is nonpolar but hydrophilic; Tyr is polar but hydrophobic. Pro is an imino acid (NH, not NH<sub>2</sub>).</p>
-
-<h4>DNA vs RNA</h4>
-<p>DNA: deoxyribose; A T G C. RNA: ribose; A <b>U</b> G C. They differ in sugar <i>and</i> one base.</p>
-
-<h4>Where pathways happen</h4>
-<table>
-<tr><td>Cytosol</td><td>glycolysis, glycogen synthesis, fatty acid / amino acid / nucleotide synthesis</td></tr>
-<tr><td>Mito matrix</td><td>citric acid cycle, β-oxidation</td></tr>
-<tr><td>Inner mito membrane</td><td>oxidative phosphorylation (cristae add surface area)</td></tr>
-<tr><td>Smooth ER</td><td>triacylglycerol, phospholipid, cholesterol and steroid hormone synthesis (Leydig cells, hepatocytes, adipocytes)</td></tr>
-<tr><td>Peroxisome</td><td>first β-oxidation of <b>very long</b> fatty acids, H<sub>2</sub>O<sub>2</sub> breakdown, bile acid and DHA synthesis</td></tr>
-<tr><td>Lysosome</td><td>digests all 4 classes; the only pathway run here is glycogen degradation</td></tr>
-</table>
-<p class="conf"><b>Easy to confuse:</b> ester (lipids) vs phosphodiester (nucleic acids); glycogen (animal) vs starch (plant).</p>
-`,
-"1.2":`
-<h4>Two properties do most of the work</h4>
-<ol>
-<li><b>Polarity.</b> O is more electronegative than H → O is δ−, H's are δ+. Polar and charged molecules dissolve (hydrophilic); nonpolar ones don't (hydrophobic).</li>
-<li><b>Hydrogen bonding.</b> δ+ H on N, O or F ↔ δ− atom on another molecule. Gives cohesion (meniscus, water dome on a penny, bugs on water).</li>
-</ol>
-
-<h4>Weak (noncovalent, intermolecular) forces, strongest → weakest</h4>
-<table>
-<tr><th>Force</th><th>What it is</th><th>Example</th></tr>
-<tr><td>Ion–dipole</td><td>ion ↔ opposite end of a polar molecule</td><td>NaCl dissolving; charged side chains binding</td></tr>
-<tr><td>Hydrogen bond</td><td>strongest dipole–dipole (H on N/O/F)</td><td>DNA strands, protein shape, water cohesion</td></tr>
-<tr><td>Dipole–dipole</td><td>polar ↔ polar</td><td>polar groups lining up</td></tr>
-<tr><td>van der Waals</td><td>transient dipoles; works between <b>all</b> molecules, even nonpolar</td><td>gecko feet; packed protein cores</td></tr>
-</table>
-<p>They're weak and <b>reversible</b>, which is the point: molecules can bind, let go and rearrange. Thousands of them together give a lot of stability. van der Waals attraction rises as atoms get closer until the <b>contact distance</b>; any closer and the electron clouds repel.</p>
-
-<h4>Hydrophobic effect</h4>
-FIG:hydro
-<p>Nonpolar molecules cluster <b>not because they attract each other</b>, but because clustering frees the ordered "cage" waters → entropy goes up → spontaneous. This drives bilayer formation and buries hydrophobic amino acids in the protein core.</p>
-<p class="conf"><b>Easy to confuse:</b> weak interactions = attraction. Hydrophobic effect = entropy of water, not attraction.</p>
-
-<h4>Why water weakens electrostatic interactions <span class="tag">beyond</span></h4>
-<p>Water molecules orient around each ion (δ− O toward cations, δ+ H toward anions), shielding the charges from each other. In textbook terms, water has a high dielectric constant. That's why salt dissolves, and why charge–charge interactions inside proteins are strongest where water is excluded.</p>
-`,
-"1.3":`
-<h4>Equations</h4>
-<table>
-<tr><td>pH = −log[H<sup>+</sup>]</td><td>[H<sup>+</sup>] = 10<sup>−pH</sup></td></tr>
-<tr><td>pOH = −log[OH<sup>−</sup>]</td><td>pH + pOH = 14 (K<sub>w</sub> = 10<sup>−14</sup>)</td></tr>
-<tr><td>K<sub>a</sub> = [H<sup>+</sup>][A<sup>−</sup>]/[HA]</td><td>pK<sub>a</sub> = −log K<sub>a</sub></td></tr>
-<tr><td colspan="2"><b>pH = pK<sub>a</sub> + log([A<sup>−</sup>]/[HA])</b> &nbsp;→&nbsp; ratio = 10<sup>(pH − pKa)</sup></td></tr>
-</table>
-<ul>
-<li>1 pH unit = 10× [H<sup>+</sup>]. 2 units = 100×.</li>
-<li>Bigger K<sub>a</sub> = smaller pK<sub>a</sub> = stronger acid (dissociates more). Strong acids (HCl) dissociate fully: 0.1 M HCl → pH 1.</li>
-<li>K<sub>eq</sub> &gt; 1 favors products, &lt; 1 favors reactants. Know how to interpret it; you're unlikely to calculate one.</li>
-</ul>
-
-<h4>Reading H–H without math</h4>
-<table>
-<tr><td>pH &gt; pK<sub>a</sub></td><td>[A<sup>−</sup>] &gt; [HA] (deprotonated wins)</td></tr>
-<tr><td>pH = pK<sub>a</sub></td><td>[A<sup>−</sup>] = [HA], half dissociated, best buffering</td></tr>
-<tr><td>pH &lt; pK<sub>a</sub></td><td>[HA] &gt; [A<sup>−</sup>] (protonated wins)</td></tr>
-</table>
-<p>Most organic acids at pH 7.4 are in base form, which is why pathways say pyruvate and lactate, not pyruvic acid and lactic acid. Uncharged HA crosses the membrane's hydrophobic core more easily; the charged form is more water-soluble.</p>
-
-<h4>Buffers</h4>
-<p>A weak acid + its conjugate base. It <b>resists change</b> in pH; it does not pull pH toward 7. It works best within <b>pK<sub>a</sub> ± 1</b>.</p>
-TOOL:hh
-<p class="conf"><b>Easy to confuse:</b> "buffer neutralizes" (wrong) vs "buffer maintains whatever pH it's at" (right). Strong acid = low pK<sub>a</sub>, not high.</p>
-
-<h4>Direct measurement <span class="tag">beyond</span></h4>
-<p>The lecture only covers calculation. In practice pH is measured with a pH meter (electrode reads [H<sup>+</sup>] directly) or with indicator dyes or strips that change color over a set pH range.</p>
-`,
-"1.4":`
-<h4>The system</h4>
-FIG:bicarb
-<ul>
-<li>pK<sub>a</sub> 6.1, blood pH 7.4 → [HCO<sub>3</sub><sup>−</sup>]:[H<sub>2</sub>CO<sub>3</sub>] = 10<sup>1.3</sup> ≈ <b>20:1</b>. That large bicarbonate reserve soaks up acids like lactic acid.</li>
-<li>In the lungs the reaction runs left → CO<sub>2</sub> is exhaled, removing acid.</li>
-<li>Ratio up → pH up. Ratio down → pH down.</li>
-</ul>
-
-<h4>Predicting the disorder</h4>
-<table>
-<tr><th>Cause</th><th>Shift</th><th>pH</th><th>Disorder</th></tr>
-<tr><td>Breathing too slow / CO<sub>2</sub> retained (opioids, COPD)</td><td>right</td><td>↓</td><td>respiratory acidosis</td></tr>
-<tr><td>Breathing too fast / CO<sub>2</sub> blown off (panic, altitude)</td><td>left</td><td>↑</td><td>respiratory alkalosis</td></tr>
-<tr><td>Acid added (lactic acid, ketoacids) or HCO<sub>3</sub><sup>−</sup> lost (diarrhea)</td><td>bicarbonate consumed</td><td>↓</td><td>metabolic acidosis</td></tr>
-<tr><td>Acid lost (vomiting stomach HCl)</td><td>H<sup>+</sup> regenerated, HCO<sub>3</sub><sup>−</sup> left over</td><td>↑</td><td>metabolic alkalosis</td></tr>
-</table>
-<p><b>Rule:</b> "respiratory" = the problem starts with CO<sub>2</sub>. "Metabolic" = it starts with acid or HCO<sub>3</sub><sup>−</sup>. Compensation is the other system pushing back: breathing faster to blow off CO<sub>2</sub> in metabolic acidosis is <b>beyond</b> the lecture, but it follows from the same equation.</p>
-<h4>Why it matters</h4>
-<p>pH shifts change which groups are protonated. That breaks electrostatic interactions and H-bonds → proteins misfold and enzymes lose activity.</p>
-<p class="conf"><b>Easy to confuse:</b> more CO<sub>2</sub> = more acid (pH down). People flip this because CO<sub>2</sub> isn't "an acid" on its own; it becomes one by making H<sub>2</sub>CO<sub>3</sub>.</p>
-<p class="mut sm">Note: 7.4 sits outside 6.1 ± 1, yet the system still works because it's open. The lungs remove CO<sub>2</sub> and the kidneys adjust HCO<sub>3</sub><sup>−</sup> <span class="tag">beyond</span>.</p>
-`
+guide:{
+"1.1":[
+{h:"One pattern for all four classes",
+b:`<p>Every class is built the same way: small <b>building blocks</b> joined by one type of <b>bond</b> into something with a <b>job</b>. If you know the building block and the bond, the role follows.</p>`,
+fig:"classes",
+key:`All four bonds form by <b>dehydration synthesis</b> (water out) and break by <b>hydrolysis</b> (water in).`},
+{h:"The cheat line for each class",
+b:`<table><tr><th>Class</th><th>Building block</th><th>Bond</th><th>Job</th></tr>
+<tr><td>Carbohydrate</td><td>monosaccharide</td><td>glycosidic</td><td>fuel, glucose storage</td></tr>
+<tr><td>Lipid</td><td><b>none</b> (no repeating unit)</td><td>ester</td><td>stored fat, membranes, hormones</td></tr>
+<tr><td>Protein</td><td>amino acid</td><td>peptide</td><td>enzymes, structure, signaling</td></tr>
+<tr><td>Nucleic acid</td><td>nucleotide</td><td>phosphodiester</td><td>genetic information</td></tr></table>`,
+trap:`Ester bonds belong to lipids and phosphodiester bonds to nucleic acids. Lipids are the one class that isn't a polymer.`},
+{check:["m1q01","m1q53"]},
+{h:"Carbohydrates: fuel and storage",
+b:`<div class="trio"><div><b>Mono-</b><span>one sugar</span><i>glucose, fructose, galactose</i></div><div><b>Di-</b><span>two sugars</span><i>sucrose = glucose + fructose; lactose; maltose</i></div><div><b>Poly-</b><span>hundreds to thousands, branched</span><i>glycogen (animals), starch (plants)</i></div></div>
+<p>Glucose is the main fuel, and it's stored as a polysaccharide. Branched carbohydrate chains also provide structure, cell identification and cell-to-cell contact.</p>`},
+{h:"Lipids: three types, three jobs",
+b:`<div class="trio"><div><b>Triglyceride</b><span>glycerol + 3 fatty acids (ester bonds)</span><i>stored fat in adipose tissue</i></div><div><b>Phospholipid</b><span>glycerol + 2 fatty acids + phosphate head; sphingolipids use <u>sphingosine</u></span><i>the membrane bilayer</i></div><div><b>Steroid</b><span>4 fused rings, e.g. cholesterol</span><i>membrane fluidity buffer; makes bile salts, testosterone, estradiol, cortisol</i></div></div>
+<p>All are <b>amphipathic</b>: a hydrophilic head and a hydrophobic tail. In the bilayer, heads face water and tails hide in the middle. That core is what blocks polar molecules, so the membrane is selective.</p>`,
+key:`<b>Saturated</b> = no C=C, so tails pack tightly → solid (butter), stable. <b>Unsaturated</b> = C=C kinks → liquid (olive oil), adds membrane fluidity.`},
+{check:["m1q03","m1q55"]},
+{h:"Proteins: the R group decides everything",
+b:`<p>Every amino acid has an amino group (accepts H⁺, basic), a carboxyl group (donates H⁺, acidic) and a unique <b>R group</b>. Peptide bonds link them into an <b>unbranched</b> chain, which folds according to the polarity and charge of its R groups: hydrophobic ones go inside, polar and charged ones face water. Shape = function. Enzymes are the headline job.</p>`,
+fig:"aagrid",
+trap:`In this book, polar doesn't automatically mean hydrophilic. <b>Gly</b> is nonpolar but counted hydrophilic. <b>Tyr</b> is polar but counted hydrophobic. The sulfur pair splits: <b>Met</b> is hydrophobic, <b>Cys</b> is hydrophilic.`},
+{drill:"m1d1"},
+{check:["m1q54","m1q04"]},
+{h:"Nucleic acids: DNA vs RNA",
+b:`<div class="duo"><div><b>DNA</b><span>deoxyribose sugar</span><span>A · T · G · C</span><i>stores genetic info</i></div><div><b>RNA</b><span>ribose sugar</span><span>A · <u>U</u> · G · C</span><i>carries it to make protein</i></div></div>
+<p>A nucleotide is a 5-carbon sugar + a nitrogenous base + phosphate. Phosphodiester bonds link nucleotides into a strand.</p>`,
+trap:`DNA and RNA differ in their <b>sugar</b> and in one base, not just the base.`},
+{check:["m1q08"]},
+{drill:"m1d2"}
+],
+"1.2":[
+{h:"Water is polar",
+b:`<p>Oxygen pulls the shared electrons harder than hydrogen does, so O ends up partially negative (δ−) and each H partially positive (δ+). That permanent dipole lets water surround anything charged or polar and dissolve it.</p>`,
+fig:"water",
+key:`Polar or charged → <b>hydrophilic</b> (dissolves). Nonpolar → <b>hydrophobic</b> (clusters, like oil).`},
+{h:"Hydrogen bonds",
+b:`<p>A δ+ hydrogen attached to <b>N, O or F</b> is attracted to a δ− atom on another molecule. Water molecules H-bond to each other constantly, which produces <b>cohesion</b>: the dome of water on a penny, the meniscus, bugs walking on water. The same bonds hold DNA strands together and keep proteins folded.</p>`},
+{check:["m1q21","m1q27"]},
+{h:"Weak forces, strongest to weakest",
+fig:"forces",
+b:`<p>These act between molecules, not within them. They're weak and <b>reversible</b>, and that's the point: molecules can bind, release and rearrange. Thousands of them together still add up to a lot of stability (gecko feet, folded proteins).</p>
+<p>van der Waals attraction increases as atoms get closer, up to the <b>contact distance</b>. Any closer than that and the electron clouds repel.</p>`},
+{check:["m1q20","m1q23"]},
+{h:"The hydrophobic effect isn't an attraction",
+fig:"hydro",
+b:`<p>Water has to form an ordered "cage" around each nonpolar molecule. When nonpolar molecules cluster, there's less surface to cage, so water molecules are freed, <b>entropy rises</b>, and the clustering is spontaneous. This drives bilayer formation and buries hydrophobic amino acids in the protein core.</p>`,
+trap:`Weak interactions work by attraction. The hydrophobic effect works by water's entropy. That difference is a likely true/false question.`},
+{check:["m1q18","m1q19"]},
+{h:"Why water weakens charge–charge attraction <span class='tag'>beyond lecture</span>",
+b:`<p>Water molecules point their δ− O toward cations and their δ+ H toward anions, shielding each ion from the other (textbooks call this water's high dielectric constant). That's why salt dissolves, and why charge interactions inside proteins are strongest where water is shut out.</p>`},
+{check:["m1q25"]},
+{drill:"m1d3"}
+],
+"1.3":[
+{h:"pH is a log scale",
+fig:"phscale",
+b:`<p><b>pH = −log[H⁺]</b>. Every 1 unit is a <b>10×</b> change in [H⁺], and a lower pH means <i>more</i> H⁺. Water splits slightly into H⁺ and OH⁻, and their product is always 10⁻¹⁴, so <b>pH + pOH = 14</b>.</p>`,
+key:`[H⁺] = 10<sup>−pH</sup>. For a strong acid like HCl, [acid] = [H⁺]: 0.01 M → pH 2.`},
+{check:["m1q30","m1q29"]},
+{h:"How strong is an acid? Ka and pKa",
+b:`<p>K<sub>a</sub> = [H⁺][A⁻]/[HA] measures how much an acid dissociates. A bigger K<sub>a</sub> means a stronger acid, which means a <b>smaller</b> pK<sub>a</sub> (pK<sub>a</sub> = −log K<sub>a</sub>). Strong acids dissociate fully; the weak acids your body uses only partly do.</p>
+<p>For any K<sub>eq</sub>: above 1 favors products, below 1 favors reactants. Be able to interpret one; you probably won't have to calculate one.</p>`},
+{check:["m1q33"]},
+{h:"Henderson–Hasselbalch without the math",
+b:`<p><b>pH = pK<sub>a</sub> + log([A⁻]/[HA])</b>. All it really tells you is <i>which form wins</i>:</p>
+<div class="trio"><div><b>pH &lt; pKa</b><span>HA wins</span><i>protonated</i></div><div><b>pH = pKa</b><span>50 / 50</span><i>best buffering</i></div><div><b>pH &gt; pKa</b><span>A⁻ wins</span><i>deprotonated</i></div></div>
+<p>To get the actual ratio: [A⁻]/[HA] = 10<sup>(pH − pKa)</sup>.</p>`},
+{steps:"Aspirin at blood pH (lecture example)",s:["pKa = 3.5, pH = 7.4","7.4 = 3.5 + log(ratio)","log(ratio) = 3.9","ratio = 10<sup>3.9</sup> ≈ 7,943","So roughly 7,943 A⁻ for every 1 HA at blood pH: almost all of it is deprotonated."]},
+{tool:"hh"},
+{check:["m1q31","m1q34"]},
+{h:"Buffers hold pH, they don't neutralize",
+b:`<p>A buffer is a weak acid plus its conjugate base. It soaks up added H⁺ or OH⁻ so the pH barely moves. It works best within <b>pK<sub>a</sub> ± 1</b>, which is the flat part of the titration curve.</p>
+<p>Most organic acids sit in their base form at pH 7.4, which is why pathways say <i>pyruvate</i> and <i>lactate</i>. The uncharged HA form crosses membranes more easily.</p>`,
+trap:`"A buffer moves pH toward 7" is false. It keeps whatever pH it's already at.`},
+{check:["m1q36","m1q37","m1q40"]},
+{h:"Measuring pH directly <span class='tag'>beyond lecture</span>",
+b:`<p>The lecture only covers calculation. In a lab, pH is measured with a <b>pH meter</b> (an electrode that reads [H⁺]) or with <b>indicator</b> dyes or strips that change color over a known range.</p>`}
+],
+"1.4":[
+{h:"One equation runs blood pH",
+fig:"bicarb",
+b:`<p>CO₂ from metabolism becomes carbonic acid, which releases H⁺ and HCO₃⁻. In the lungs the reaction runs left and CO₂ is exhaled, taking the acid with it.</p>`},
+{steps:"Why normal blood is 20:1",s:["pH = pKa + log([HCO₃⁻]/[H₂CO₃])","7.4 = 6.1 + log(ratio)","log(ratio) = 1.3","ratio = 10<sup>1.3</sup> ≈ 20","So there are 20 bicarbonates for every carbonic acid. That large base reserve soaks up acids like lactic acid. Ratio drops → pH drops."]},
+{check:["m1q42"]},
+{h:"Predicting the disorder",
+b:`<p><b>Step 1:</b> What changed first, CO₂ (→ <i>respiratory</i>) or acid/HCO₃⁻ (→ <i>metabolic</i>)?<br><b>Step 2:</b> Which way does pH go?</p>
+<table><tr><th>Cause</th><th>pH</th><th>Disorder</th></tr>
+<tr><td>Slow breathing, CO₂ retained (opioids, COPD)</td><td>↓</td><td>respiratory acidosis</td></tr>
+<tr><td>Fast breathing, CO₂ blown off (panic, altitude)</td><td>↑</td><td>respiratory alkalosis</td></tr>
+<tr><td>Acid added (lactic, keto) or HCO₃⁻ lost (diarrhea)</td><td>↓</td><td>metabolic acidosis</td></tr>
+<tr><td>Acid lost (vomiting)</td><td>↑</td><td>metabolic alkalosis</td></tr></table>`,
+trap:`More CO₂ means <b>lower</b> pH. CO₂ becomes an acid by making H₂CO₃.`},
+{drill:"m1d5"},
+{check:["m1q44","m1q50"]},
+{h:"Why acidosis hurts",
+b:`<p>A pH shift changes which side chains carry H⁺. That breaks the electrostatic interactions and H-bonds that hold a protein's shape, so proteins misfold and enzymes stop working. Peptide bonds stay intact; it's the 3D shape that fails.</p>
+<p class="mut sm">7.4 lies outside 6.1 ± 1, but the system still works because the lungs (CO₂) and kidneys (HCO₃⁻) keep adjusting it. <span class="tag">beyond lecture</span></p>`},
+{check:["m1q51"]}
+]
 },
 
 questions:[
@@ -171,18 +150,21 @@ exp:"They also differ in the sugar: deoxyribose in DNA, ribose in RNA. Base-wise
 stem:"Glycogen and starch are best described as:",
 opts:["Branched glucose polysaccharides storing fuel in animals and plants, respectively","Branched glucose polysaccharides storing fuel in plants and animals, respectively","Glucose disaccharides storing fuel in animals and plants, respectively","Structural fructose polysaccharides found in animals and plants, respectively"],ans:0,
 exp:"Both store glucose as polysaccharides joined by glycosidic bonds. Glycogen is the animal form and starch is the plant form."},
-{id:"m1q10",lo:"1.1",src:"L2",type:"mc",
-stem:"Which cell would you expect to have the most extensive smooth ER?",
-opts:["A testosterone-secreting Leydig cell","An antibody-secreting plasma cell","An enzyme-secreting pancreatic acinar cell","A mature red blood cell"],ans:0,
-exp:"Smooth ER is where lipids and steroids are made, so steroid-producing cells like Leydig cells have a lot of it. Cells that secrete proteins rely on rough ER, and mature RBCs have no organelles."},
-{id:"m1q11",lo:"1.1",src:"L2",type:"mc",
-stem:"The citric acid cycle and oxidative phosphorylation occur in which locations, respectively?",
-opts:["Mitochondrial matrix; inner mitochondrial membrane","Inner mitochondrial membrane; mitochondrial matrix","Cytosol; inner mitochondrial membrane","Mitochondrial matrix; intermembrane space"],ans:0,
-exp:"The citric acid cycle runs in the matrix, and oxidative phosphorylation runs on the inner membrane, where cristae add surface area. Glycolysis is the cytosolic pathway. This pairing comes back in Module 3."},
-{id:"m1q12",lo:"1.1",src:"L2",type:"mc",
-stem:"The initial breakdown of very long-chain fatty acids takes place in the:",
-opts:["Peroxisome","Lysosome","Smooth ER","Cytosol"],ans:0,
-exp:"Peroxisomes begin β-oxidation of very long fatty acids. Ordinary β-oxidation happens in the mitochondrial matrix, and the lysosome's only metabolic pathway is glycogen degradation."},
+{id:"m1q53",lo:"1.1",src:"L1",type:"mc",
+stem:"Why does carbon form the backbone of biomolecules?",
+opts:["It forms four stable covalent bonds, and breaking C–C bonds releases a lot of energy","It forms ionic bonds with water, which makes biomolecules dissolve","It is the most abundant element in the Earth's crust, so it is easy to obtain","It carries a permanent partial charge that drives weak interactions"],ans:0,
+exp:"Four stable bonds let carbon build large backbones, and C–C bonds store a lot of energy, which makes carbon molecules efficient fuel. Burning them also yields CO₂, which can be recycled."},
+{id:"m1q54",lo:"1.1",src:"L1",type:"mc",
+stem:"A protein's final three-dimensional shape is determined mainly by:",
+opts:["The polarity and charge of its amino acid R groups","The total number of peptide bonds in the chain","Whether its chain is branched or unbranched","The amount of ATP available while it folds"],ans:0,
+exp:"The chain folds according to the polarity and charge of its R groups: hydrophobic ones get buried, while polar and charged ones face water. Peptide chains are always unbranched."},
+{id:"m1q55",lo:"1.1",src:"L1",type:"mc",
+stem:"Which structural feature makes a phospholipid bilayer selectively permeable?",
+opts:["A hydrophobic core of fatty acid tails that blocks polar and charged molecules","Hydrophilic phosphate heads that actively pump ions across","Ester bonds that open and close to let molecules pass","A glycerol backbone that forms pores through the membrane"],ans:0,
+exp:"Few molecules can get through the tail-filled core on their own. Transmembrane proteins let specific molecules (glucose, Na⁺) through, which is what makes the membrane selective."},
+{id:"m1q56",lo:"1.1",src:"L1",type:"tf",
+stem:"Triglycerides are the main structural lipid of cell membranes.",ans:false,
+exp:"Phospholipids build the bilayer. Triglycerides are stored fat (adipose)."},
 {id:"m1q13",lo:"1.1",src:"L1",type:"mc",
 stem:"Cholesterol's effect on the plasma membrane is to:",
 opts:["Limit phospholipid movement at high temperature and prevent tight packing at low temperature","Increase fluidity at all temperatures by separating phospholipid tails","Decrease fluidity at all temperatures by stiffening phospholipid tails","Form transmembrane channels that let polar molecules cross the bilayer"],ans:0,
@@ -354,10 +336,14 @@ items:[["Ala","Aliphatic"],["Gly","Aliphatic","Book groups Gly as aliphatic"],["
 {name:"Hydrophobic or hydrophilic",bins:["Hydrophobic","Hydrophilic"],
 items:[["Ala","Hydrophobic"],["Gly","Hydrophilic","Nonpolar, but the book counts it hydrophilic"],["Ile","Hydrophobic"],["Leu","Hydrophobic"],["Pro","Hydrophobic"],["Val","Hydrophobic"],["Phe","Hydrophobic"],["Trp","Hydrophobic"],["Tyr","Hydrophobic","Polar, but only weakly interacts with water → polar hydrophobic"],["Asp","Hydrophilic"],["Glu","Hydrophilic"],["Arg","Hydrophilic"],["His","Hydrophilic"],["Lys","Hydrophilic"],["Ser","Hydrophilic"],["Thr","Hydrophilic"],["Asn","Hydrophilic"],["Gln","Hydrophilic"],["Cys","Hydrophilic","Sulfur pair splits: Cys polar hydrophilic"],["Met","Hydrophobic","Sulfur pair splits: Met nonpolar hydrophobic"]]}
 ]},
-{id:"m1d2",lo:"1.1",kind:"sort",title:"Where does it happen?",
-intro:"Place each process in its cellular location.",
-rounds:[{name:"Pathway → location",bins:["Cytosol","Mito matrix","Inner mito membrane","Smooth ER","Peroxisome","Lysosome"],
-items:[["Glycolysis","Cytosol"],["Glycogen synthesis","Cytosol"],["Fatty acid synthesis","Cytosol"],["Citric acid cycle","Mito matrix"],["β-oxidation of typical fatty acids","Mito matrix"],["Oxidative phosphorylation","Inner mito membrane","Cristae fold this membrane to add surface area"],["Steroid hormone synthesis","Smooth ER"],["Triacylglycerol assembly","Smooth ER"],["First β-oxidation of very long fatty acids","Peroxisome"],["H₂O₂ breakdown","Peroxisome"],["Bile acid synthesis","Peroxisome"],["Digestion of an engulfed damaged organelle","Lysosome","Autophagy: organelle wrapped in membrane, fused with a lysosome"]]}]},
+{id:"m1d2",lo:"1.1",kind:"sort",title:"Structure → role",
+intro:"Match the structure to its class, then the job to the molecule.",
+rounds:[
+{name:"Which class?",bins:["Carbohydrate","Lipid","Protein","Nucleic acid"],
+items:[["Glycerol + three fatty acids","Lipid","Triglyceride"],["Four fused carbon rings","Lipid","Steroid"],["Sphingosine backbone","Lipid","Sphingolipid (a phospholipid)"],["Glucose + fructose","Carbohydrate","Sucrose, a disaccharide"],["Highly branched glucose chain","Carbohydrate","Glycogen"],["Unbranched chain of peptide bonds","Protein"],["Folds based on R-group charge","Protein"],["5-C sugar + base + phosphate","Nucleic acid","A nucleotide"],["Subunits joined by phosphodiester bonds","Nucleic acid"],["Contains ribose and uracil","Nucleic acid","RNA"]]},
+{name:"Which molecule does the job?",bins:["Triglyceride","Phospholipid","Cholesterol","Glycogen","Starch","Protein","DNA","RNA"],
+items:[["Long-term fat storage in adipose","Triglyceride"],["Forms the membrane bilayer","Phospholipid"],["Precursor of cortisol, testosterone, bile salts","Cholesterol"],["Buffers membrane fluidity hot and cold","Cholesterol"],["Glucose storage in animals","Glycogen"],["Glucose storage in plants","Starch"],["Catalyzes reactions","Protein","Enzymes are proteins"],["Stores genetic information","DNA"],["Carries the code used to build proteins","RNA","DNA → RNA → protein"]]}
+]},
 {id:"m1d3",lo:"1.2",kind:"sort",title:"Name the interaction",
 intro:"Which interaction is doing the work?",
 rounds:[{name:"Scenario → interaction",bins:["Ion–dipole","Hydrogen bond","Dipole–dipole","van der Waals","Hydrophobic effect"],
