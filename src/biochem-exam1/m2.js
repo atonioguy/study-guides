@@ -453,3 +453,54 @@ cases:[
 // Review highlight: the sentence each question checks (matched against lesson text).
 (function(){const HL={m2a01:"Only the primary level depends mainly on covalent bonds",m2a02:"A protein made of one chain has no quaternary structure",m2a03:"The sequence carries the folding information",m2a04:"Enzymes do wear out over time and get replaced",m2a05:"Water on the reactant side, and one molecule becomes two",m2a06:"Two in, two out, with a group switched between them",m2a07:"Two molecules become one, and ATP is used",m2a08:"One molecule becomes two, with no water",m2a09:"Every coenzyme is a cofactor, but not every cofactor is a coenzyme",m2a10:"The current induced fit model",m2a11:"ΔG negative",m2a12:"Spontaneous describes direction, not speed",m2a13:"ΔG = 0",m2a14:"A reaction with a positive ΔG°′ can still run",m2a15:"cells don't sit at standard conditions",m2a16:"An enzyme does not change ΔG",m2a17:"so the reaction reaches the same equilibrium sooner",m2a18:"The active site fits the transition state better than it fits the starting substrate",m2a19:"The enzyme lowers Ea by making the transition state easier to reach",m2a20:"can bind more tightly than the substrate and block the enzyme",m2a21:"[S] well below Km",m2a22:"[S] far above Km",m2a23:"More substrate still helps, but each addition helps less than the last",m2a24:"Comparing two enzymes that act on the same substrate",m2a25:"y-intercept",m2a26:"A higher y-intercept means a lower Vmax",m2a27:"Points far to the right come from low [S]",m2a28:"A higher kcat/Km means the enzyme handles that substrate more efficiently",m2a29:"A second-order reaction can behave like a first-order one",m2a30:"Competitive.",m2a31:"Noncompetitive.",m2a32:"Uncompetitive.",m2a33:"carbon monoxide competes with O₂ for hemoglobin",m2a34:"Lines cross on the y-axis",m2a35:"Substrate still binds normally, so Km is unchanged",m2a36:"These are irreversible inhibitors",m2a37:"more enzyme raises Vmax in proportion and leaves Km unchanged",m2a38:"heat breaks the weak bonds that hold the fold together",m2a39:"pepsin works best in the acidic stomach (around pH 2)",m2a40:"Push the pH past a side chain's pKa",m2a41:"Changing the amount of enzyme is slow",m2a42:"Shutting the first step stops the whole pathway",m2a43:"binds a site other than the active site",m2a44:"forms a covalent bond there and inactivates the enzyme permanently",m2a45:"Ethanol competes for the same active site",m2a46:"A noncompetitive or irreversible drug can't be outcompeted by substrate",m2a47:"held by hydrogen bonds between backbone C=O and N–H groups",m2a48:"apoenzyme plus cofactor, the complete active enzyme",m2a49:"energy has to be put in. The reaction is endergonic and nonspontaneous",m2a50:"Substrate still binds normally, so Km is unchanged",m2a51:"enzymes from bacteria that live in hot springs can have optima of 70 °C or higher"};
 MODS[MODS.length-1].questions.forEach(q=>{if(HL[q.id])q.hl=HL[q.id];});})();
+
+// ---- Lecture window: question -> [lecture block id, verbatim snippet to highlight]. Beyond-lecture questions have no entry.
+// LECNOTES: lecture blocks with wrong wording -> study-guide lesson(s) holding the "Lecture wording" note.
+(function(){const LEC={
+m2a03:["m2L1-b6","every time the proteins will fold back into the exact same conformation"],
+m2a04:["m2L1-b6","The enzyme may wear out or breakdown over time, causing it to be less efficient or functional."],
+m2a05:["m2L1-b13","Catalyze hydrolysis reactions, which are the cleavage of molecules (breaking of bonds) via the addition of water."],
+m2a06:["m2L1-b13","Catalyze the transfer of functional groups (remember those from module 1, lesson 1) between molecules."],
+m2a07:["m2L1-b13","Powered by ATP hydrolysis because they require energy."],
+m2a08:["m2L1-b13","Catalyze cleavage of bonds without water."],
+m2a09:["m2L1-b8","Coenzymes are cofactors. Cofactors are not always coenzymes."],
+m2a10:["m2L1-b8","The substrate induces a conformational change on the active site, and this in turn induces a reciprocal change on the substrate."],
+m2a48:["m2L1-b8","The complete catalytic enzyme, with cofactor in tow, is called a holoenzyme"],
+m2a18:["m2L1-b8","the full completment of the enzyme-substrate interactions is formed only when the substrate is in the transition state between substrate and product."],
+m2a19:["m2L1-b8","It can shield substrates from water and generate an environment whose polarity, hydrophobicity, and/or acidity is different from the surrounding cytoplasm."],
+m2a11:["m2L2-b9","Free energy of reactants: 75"],
+m2a12:["m2L2-b7","A negative ΔG indicates that a reaction can take place spontaneously, but it does not signify whether it will proceed at a perceptible rate."],
+m2a13:["m2L2-b7","When a reaction is at equilibrium, there is no net change in the concentrations of the products and reactants"],
+m2a14:["m2L2-b8","we can force it to be spontaneous by adjusting the concentration of the reactants or products"],
+m2a15:["m2L2-b8","a reaction in our stomach is not occuring in an environment with a pH of 7."],
+m2a49:["m2L2-b7","These reactions, nonspontaneous reactions, reactions that consume energy, are termed endergonic reactions."],
+m2a16:["m2L2-b11","Enzymes will alter the rate of the reaction, but not the equilibrium of the reaction or the ΔG."],
+m2a17:["m2L2-b11","All they do is help a reaction get where it was already going faster."],
+m2a21:["m2L3-b10","The velocity is directly proportional to the substrate concentration at this point"],
+m2a22:["m2L3-b10","There is no free enzyme left and the reaction is occuring at maximum velocity."],
+m2a23:["m2L3-b5","The addition of more substrate at this point will still increase the velocity of the reaction, although the rate of return will be smaller from this point on."],
+m2a24:["m2L3-b10","Km may be determined experimentally. This is an important characteristic of an enzyme catalyzed reaction and is significant for its biological function."],
+m2a25:["m2L3-b16","b = 1/Vmax = the Y intercept"],
+m2a26:["m2L3-b16","input 0 in for Y, and the x intercept = -1/Km"],
+m2a27:["m2L3-b16","we are going to create a double reciprocal of our original MM equation"],
+m2a28:["m2L3-b18","So we can see if an enzyme prefers one substrate over another"],
+m2a29:["m2L3-b3","Sometimes when a second order reaction has reactants at varying concentrations, it will appear as a first order reaction"],
+m2a30:["m2L4-b11","the hallmark of a competitive inhibitor is that it can be overcome by a sufficiently high concentration of substrate."],
+m2a31:["m2L4-b11","No amount of additional substrate will overcome a non-competitive inhibitor."],
+m2a32:["m2L4-b11","This is an allosteric binding site that blocks the active site, meaning it impacts both Km and Vmax."],
+m2a33:["m2L4-b11","carbon monoxide poisoning is to saturate with oxygen."],
+m2a34:["m2L4-b11","Your book calls these K-series enzymes because Km is raised without an effect of Vmax."],
+m2a35:["m2L4-b11","a noncompetitive inhibitor does not prevent a substrate from binding to the active site"],
+m2a36:["m2L4-b11","Certain poisons are so tightly bound that they are considered permanent inhibitors"],
+m2a50:["m2L4-b11","Allosteric inhibitors that do not bind to the active site are examples of non-competitive inhibitors."],
+m2a37:["m2L4-b7","many enzymes are also controlled at the molecular level, with concentrations being altered on an as-needed basis."],
+m2a38:["m2L4-b5","the weak bonds that hold the enzyme’s structure in place are broken, causing the enzyme to denature."],
+m2a39:["m2L4-b7","Pepsin prefers the acidic environment found within lysozymes and our stomach, whereas Chymotrypsin prefers the basic environment of our intestine."],
+m2a41:["m2L4-b7","This type of regulation is favored for rapid and transient alterations."],
+m2a42:["m2L4-b8","E goes back and inhibits the first reaction"],
+m2a43:["m2L4-b8","The allosteric binding site is typically not the same as the active site."],
+m2a46:["m2L4-b11","These are going to be the preference when it comes to a drug formation because the drug cannot be overcome by the substrate the drug is designed to counteract."]};
+const M=MODS[MODS.length-1];
+M.lecture="m2";
+M.lecnotes={"m2L3-b5":["m2-mm"],"m2L3-b10":["m2-mm"],"m2L3-b12":["m2-mm"],"m2L3-b18":["m2-kcat"],"m2L4-b11":["m2-inhib"],"m2L4-b13":["m2-inhib"]};
+M.questions.forEach(q=>{if(LEC[q.id])q.lec={b:LEC[q.id][0],hl:LEC[q.id][1]};});})();

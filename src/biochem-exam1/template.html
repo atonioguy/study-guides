@@ -480,7 +480,7 @@ function tutWatch(b){if(tutDone||tutEl||!("IntersectionObserver" in window))retu
   tutIO.observe(b);}
 function tutShow(b){
   if(tutIO){tutIO.disconnect();tutIO=null;}
-  tutEl=h("div",{class:"tut",role:"note"},h("div",{class:"tutmk",html:TUT_SVG}),h("p",null,"Opens the lecture this question comes from, scrolled to the passage it tests."),h("span",{class:"tutx"},"Got it"));
+  tutEl=h("div",{class:"tut",role:"note"},h("div",{class:"tutmk",html:TUT_SVG}),h("p",null,"Opens the lecture related to this question"),h("span",{class:"tutx"},"Got it"));
   tutEl.anchor=b;tutEl.addEventListener("click",tutDismiss);document.body.append(tutEl);tutPos();
   addEventListener("resize",tutPos);ANIMS.add(tutDrop);
 }
