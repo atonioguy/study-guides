@@ -232,6 +232,11 @@ def run(p, name, vw, vh):
         tap(page, page.query_selector("#main .row .btn.pri")); page.wait_for_timeout(50)
         check(page.query_selector(".lw") is None, "quiz: next question closes the lecture window")
     check(seen > 0 and opened, "quiz showed and opened lecture buttons (%d of 6)" % seen)
+    stem = page.inner_text("#main .stem"); page.click("#main .row button:has-text('Back')"); page.wait_for_timeout(50)
+    check(page.inner_text("#main .stem") != stem and page.query_selector("#main .fb") is not None
+          and page.query_selector("#main .opt:not([disabled])") is None, "quiz: Back shows the previous question answered and locked")
+    page.click("#main .row .btn.pri"); page.wait_for_timeout(50)
+    check(page.inner_text("#main .stem") == stem and page.query_selector("#main .fb") is None, "quiz: Next returns to the unanswered question")
 
     # window closes on tab switch; hidden during an active mock
     nav(page, "practice")
@@ -257,6 +262,9 @@ def run(p, name, vw, vh):
         tap(page, page.query_selector("#main .row .btn.pri")); page.wait_for_timeout(50)
         check(page.query_selector(".lw") is None, "next question closes the lecture window")
     check(seen > 0, "mock showed lecture buttons (%d of 4 questions)" % seen)
+    page.click("#main .row button:has-text('Back')"); page.wait_for_timeout(50)
+    check(page.query_selector("#main .fb") is not None and page.query_selector("#main .opt:not([disabled])") is None, "mock (feedback): Back shows the previous question locked with feedback")
+    page.click("#main .row .btn.pri"); page.wait_for_timeout(50)
     nav(page, "sheet"); nav(page, "mock")
     check("Mock" in page.inner_text(".qhead") and "5 / " in page.inner_text(".qhead"), "mock resumes after tab switch")
     page.reload(); page.wait_for_selector("#main .opt")
