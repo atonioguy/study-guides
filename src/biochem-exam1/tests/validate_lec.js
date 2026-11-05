@@ -1,7 +1,7 @@
 // Checks the lecture-window map. Run: node tests/validate_lec.js  (from src/biochem-exam1)
 // Every non-beyond question in a module with a lecture needs lec:{b,hl}; the block must exist in
 // lectures/biochem-exam1/<mod>.json, sit in the chapter named by q.src, and contain hl verbatim inside one
-// text element (p, li, td, th, h4, h5, summary, b in hotspot lists) with tags stripped and whitespace collapsed.
+// text element (hl may be a list of snippets, each checked) (p, li, td, th, h4, h5, summary, b in hotspot lists) with tags stripped and whitespace collapsed.
 // The same segment rule is what the page uses to find and highlight the snippet.
 const fs=require('fs'),path=require('path');
 const here=path.join(__dirname,'..');global.MODS=[];global.FIGS={};
@@ -21,7 +21,8 @@ for(const M of MODS){if(!M.lecture)continue;
     const b=blk[q.lec.b];
     if(!b){console.log('no block',q.id,q.lec.b);bad++;continue;}
     if(b.L!==q.src){console.log('chapter mismatch',q.id,q.lec.b,'src',q.src);bad++;}
-    if(!segs(b.h).some(s=>s.includes(norm(q.lec.hl)))){console.log('hl not found',q.id,q.lec.b,JSON.stringify(q.lec.hl));bad++;}
+    const ss=segs(b.h);
+    for(const hl of [].concat(q.lec.hl))if(!ss.some(s=>s.includes(norm(hl)))){console.log('hl not found',q.id,q.lec.b,JSON.stringify(hl));bad++;}
   }
   for(const id in (M.lecnotes||{}))if(!blk[id]){console.log('lecnote block missing',id);bad++;}
 }

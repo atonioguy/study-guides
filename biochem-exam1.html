@@ -795,7 +795,7 @@ cases:[
 (function(){const HL={m1a01:"Carbon forms four stable covalent bonds",m1a02:"Hydrolysis adds the water back",m1a03:"fatty acid –COOH + glycerol –OH",m1a04:"Glycogen's branches also give it many chain ends",m1a05:"Complex carbohydrates digest more slowly",m1a06:"Put phospholipids in water",m1a07:"nonpolar core blocks ions and polar molecules",m1a08:"puts a kink in it",m1a09:"puts a kink in it",m1a10:"Triglycerides: glycerol + 3 fatty acids",m1a11:"Cholesterol sits between phospholipids",m1a12:"hydrophobic side chains pack into the core",m1a13:"Change the sequence and you change",m1a14:"Change the sequence and you change",m1a15:"counts Gly as hydrophilic",m1a16:"Asp, Glu",m1a17:"Weak hydrogen bonds let the strands separate",m1a18:"RNA uses ribose",m1a19:"Water's δ− oxygens surround cations",m1a20:"Oxygen is more electronegative than hydrogen",m1a21:"A hydrogen bond forms between",m1a22:"Many hydrogen bonds together hold",m1a23:"That gives water cohesion",m1a24:"van der Waals (dispersion)",m1a25:"From strongest to weakest",m1a26:"van der Waals contact distance",m1a27:"When nonpolar molecules cluster",m1a28:"driven by water's entropy",m1a29:"phospholipid tails clustering into a bilayer",m1a30:"A salt bridge between two charged side chains",m1a31:"pOH = −log[OH⁻]",m1a32:"each 1-unit drop in pH means 10 times more H⁺",m1a33:"pOH = −log[OH⁻]",m1a34:"lower pKa means a stronger acid",m1a35:"Keq above 1 means products are favored",m1a36:"Each pH unit away from the pKa",m1a37:"pH = pKa: log of the ratio is 0",m1a38:"pH above pKa: ratio above 1",m1a39:"aspirin is absorbed in its conjugate base",m1a40:"Buffering works best near the pKa",m1a41:"A buffer holds pH where it is",m1a42:"On the titration curve",m1a43:"pH meter: a glass electrode",m1a44:"An indicator changes color near its own pKa",m1a45:"Respiratory acidosis: breathing too slowly",m1a46:"Respiratory alkalosis: breathing too fast",m1a47:"Respiratory alkalosis: breathing too fast",m1a48:"More CO₂: shifts right",m1a49:"Added H⁺ (lactic acid)",m1a50:"ratio is 20 : 1",m1a51:"Metabolic alkalosis: acid lost",m1a52:"bicarbonate lost in severe diarrhea",m1a53:"Kussmaul breathing",m1a54:"Blood is an open system",m1a62:"the HCO₃⁻ : H₂CO₃ ratio is 20 : 1",m1a61:"Respiratory alkalosis: breathing too fast",m1a60:"pH above pKa: ratio above 1",m1a59:"roughly pKa ± 1",m1a58:"B is half titrated, where pH = pKa",m1a57:"driven by water's entropy, not by attraction",m1a56:"hydrophobic side chains pack into the core",m1a55:"one phosphate linking the sugars of two nucleotides"};
 MODS[MODS.length-1].questions.forEach(q=>{if(HL[q.id])q.hl=HL[q.id];});})();
 
-// Lecture window: question -> [lecture block id, verbatim snippet to highlight]. Blocks from lectures/biochem-exam1/m1.json.
+// Lecture window: question -> [lecture block id, verbatim snippet to highlight, or a list of snippets]. Blocks from lectures/biochem-exam1/m1.json.
 // LECNOTES: lecture blocks with wrong wording -> study-guide lesson(s) holding the "Lecture correction" note.
 (function(){const LEC={
 m1a01:["m1L1-b5","First, a carbon backbone can build much larger molecules. Second, breaking carbon-carbon bonds releases more energy, making it an efficient fuel."],
@@ -808,10 +808,10 @@ m1a08:["m1L1-b17","The saturated fatty acid provides structural stability, while
 m1a09:["m1L1-b17","The saturated fatty acid provides structural stability, while the unsaturated fatty acid provides the fluidity required to allow passage of molecules in and out of the cell."],
 m1a10:["m1L1-b17","These lipids form our stored fat, or adipose tissue."],
 m1a11:["m1L1-b17","It is also the precursor for bile salts which aid in fat digestion, and steroid hormones such as the sex steroids testosterone and estradiol, and the stress steroid cortisol."],
-m1a12:["m1L1-b26","This structure is dependent on the polarity and charge of its constituent amino acids."],
-m1a13:["m1L1-b26","This structure is dependent on the polarity and charge of its constituent amino acids."],
+m1a12:["m1L1-b22",["The aliphatic amino acids are: Alanine (Ala), Glycine (Gly), Isoleucine (Iso), Leucine (Leu), Proline (Pro), and Valine (Val).","All of the aliphatic amino acids are non-polar and therefore hydrophobic.","Phenylalanine and Tryptophan are also nonpolar, and therefore hydrophobic."]],
+m1a13:["m1L1-b22",["The aliphatic amino acids are: Alanine (Ala), Glycine (Gly), Isoleucine (Iso), Leucine (Leu), Proline (Pro), and Valine (Val).","All of the aliphatic amino acids are non-polar and therefore hydrophobic.","Aspartic Acid (Asp) and Glutamic Acid (Glu) have R-group structures that are acidic at a neutral pH. These are also known as negatively charged AAs."]],
 m1a14:["m1L1-b26","The amino acid chain folds up into a three-dimensional structure. This structure is dependent on the polarity and charge of its constituent amino acids."],
-m1a56:["m1L1-b26","This structure is dependent on the polarity and charge of its constituent amino acids."],
+m1a56:["m1L1-b22",["All of the aliphatic amino acids are non-polar and therefore hydrophobic.","These are also known as negatively charged AAs.","These are also known as positively charged AAs.","All hydroxylic and amidic amino acids are polar hydrophilic amino acids."]],
 m1a15:["m1L1-b22","Tyrosine is polar, but only weakly interacts with water, so it is considered polar hydrophobic."],
 m1a16:["m1L1-b22","Aspartic Acid (Asp) and Glutamic Acid (Glu) have R-group structures that are acidic at a neutral pH. These are also known as negatively charged AAs."],
 m1a17:["m1L1-b29","Nucleotides are linked via a phosphodiester bond to form nucleic acids."],
@@ -1986,7 +1986,7 @@ function explain(q,ok,skipped,shown){
   d.append(h("b",{class:"v"},shown?"Answer":skipped?"Not answered":(ok?"Correct":"Incorrect")));
   d.append(h("div",{html:q.exp}));
   // expfig: a figure shown only with the explanation (after answering), e.g. one that would give the answer away in the stem
-  if(q.expfig){const f=fig(q.expfig);if(f){f.style.maxWidth="560px";d.append(f);}}
+  if(q.expfig){const f=fig(q.expfig);if(f){f.style.maxWidth="460px";d.append(f);}}
   if(q.steps){const det=h("details",{class:"steps"},h("summary",null,"Work it through"),h("ol",null,q.steps.map(s=>h("li",{html:s}))));d.append(det);}
   if(q.ref&&LES[q.ref])d.append(h("div",null,h("button",{class:"btn link rev",type:"button",onclick:()=>openLesson(q.ref,q.hl)},"Review: "+LES[q.ref].h)));
   return d;
@@ -2050,17 +2050,21 @@ function lecWrap(el,re){
     const mk=document.createElement("mark");mk.className="lwhl";t.replaceWith(mk);mk.append(t);if(!first)first=mk;}
   return first;
 }
-// same segment rule as tests/validate_lec.js: the snippet sits inside one text element of the block
+// same segment rule as tests/validate_lec.js: each snippet sits inside one text element of the block.
+// ref.hl is a string or a list of snippets (all marked; the first one found is scrolled to).
 function lecHL(ref){
   const B=LW.body;B.querySelectorAll("mark.lwhl").forEach(m=>m.replaceWith(...m.childNodes));B.querySelectorAll(".lwhit").forEach(e=>e.classList.remove("lwhit"));B.normalize();
   const blk=B.querySelector('[data-b="'+ref.b+'"]');if(!blk)return;
-  const re=new RegExp(ref.hl.trim().replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/\s+/g,"\\s+"));
-  const els=[...blk.querySelectorAll("p,li,td,th,h4,h5,summary,figcaption,caption")].filter(e=>re.test(e.textContent));
-  const vis=els.filter(e=>!e.closest(".lw-ans"));const pool=vis.length?vis:els;
-  const el=pool.find(e=>!pool.some(o=>o!==e&&e.contains(o)));
-  let tgt=el?lecWrap(el,re):null;
+  let tgt=null;
+  for(const hl of [].concat(ref.hl)){
+    const re=new RegExp(hl.trim().replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/\s+/g,"\\s+"));
+    const els=[...blk.querySelectorAll("p,li,td,th,h4,h5,summary,figcaption,caption")].filter(e=>re.test(e.textContent));
+    const vis=els.filter(e=>!e.closest(".lw-ans"));const pool=vis.length?vis:els;
+    const el=pool.find(e=>!pool.some(o=>o!==e&&e.contains(o)));
+    const mk=el?lecWrap(el,re):null;
+    if(mk){for(let d=mk.closest("details");d;d=d.parentElement&&d.parentElement.closest("details"))d.open=true;if(!tgt)tgt=mk;}
+  }
   if(!tgt){blk.classList.add("lwhit");tgt=blk;}
-  for(let d=tgt.closest("details");d;d=d.parentElement&&d.parentElement.closest("details"))d.open=true;
   requestAnimationFrame(()=>{if(!LW)return;B.scrollTop+=tgt.getBoundingClientRect().top-B.getBoundingClientRect().top-B.clientHeight*0.3;});
 }
 function buildLW(){
@@ -2080,25 +2084,36 @@ function buildLW(){
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
   const sheetDrag=e=>{const y0=e.clientY,h0=w.offsetHeight;let hh=h0;return {move(ev){hh=clamp(h0+y0-ev.clientY,innerHeight*0.25,innerHeight*0.9);w.style.height=hh+"px";document.body.style.paddingBottom=hh+"px";},end(){lecSaveGeo({sh:Math.round(hh)});}};};
   drag(head,e=>{if(PHONE.matches)return sheetDrag(e);const x0=e.clientX,y0=e.clientY,l0=w.offsetLeft,t0=w.offsetTop;let X=l0,Y=t0;
-    return {move(ev){X=clamp(l0+ev.clientX-x0,8,innerWidth-w.offsetWidth-8);Y=clamp(t0+ev.clientY-y0,8,innerHeight-w.offsetHeight-8);w.style.left=X+"px";w.style.top=Y+"px";},end(){lecSaveGeo({x:Math.round(X),y:Math.round(Y)});}};});
+    return {move(ev){X=clamp(l0+ev.clientX-x0,8,innerWidth-w.offsetWidth-8);Y=clamp(t0+ev.clientY-y0,8,innerHeight-w.offsetHeight-8);w.style.left=X+"px";w.style.top=Y+"px";lecShift();},end(){lecSaveGeo({x:Math.round(X),y:Math.round(Y)});}};});
   drag(grip,e=>PHONE.matches?sheetDrag(e):null);
   drag(rz,e=>{if(PHONE.matches)return null;const x0=e.clientX,y0=e.clientY,w0=w.offsetWidth,h0=w.offsetHeight;let W=w0,H=h0;
-    return {move(ev){W=clamp(w0+ev.clientX-x0,300,innerWidth-w.offsetLeft-8);H=clamp(h0+ev.clientY-y0,220,innerHeight-w.offsetTop-8);w.style.width=W+"px";w.style.height=H+"px";},end(){lecSaveGeo({w:Math.round(W),h:Math.round(H)});}};});
+    return {move(ev){W=clamp(w0+ev.clientX-x0,300,innerWidth-w.offsetLeft-8);H=clamp(h0+ev.clientY-y0,220,innerHeight-w.offsetTop-8);w.style.width=W+"px";w.style.height=H+"px";lecShift();},end(){lecSaveGeo({w:Math.round(W),h:Math.round(H)});}};});
   document.addEventListener("keydown",lecEsc);addEventListener("resize",lecLayout);
   try{PHONE.addEventListener("change",lecLayout);}catch(e){PHONE.addListener(lecLayout);}
   ANIMS.add(closeLec);lecLayout();
 }
+// Desktop: while the window is open, move the page column into the free space beside it (the wider side),
+// so questions aren't covered. Too little room (<480px) or phone: column stays centered.
+function lecShift(){
+  const els=[document.querySelector("main"),document.querySelector("footer")].filter(Boolean);
+  const clear=()=>els.forEach(e=>{e.style.marginLeft=e.style.marginRight=e.style.maxWidth="";});
+  if(!LW||PHONE.matches)return clear();
+  const r=LW.w.getBoundingClientRect(),vw=document.documentElement.clientWidth;
+  const [a,b]=r.left>=vw-r.right?[0,r.left-8]:[r.right+8,vw],F=b-a;
+  if(F<480)return clear();
+  const mw=Math.min(760,F-16);els.forEach(e=>{e.style.maxWidth=mw+"px";e.style.marginLeft=Math.round(a+(F-mw)/2)+"px";e.style.marginRight="0";});
+}
 function lecLayout(){
   if(!LW)return;const w=LW.w,g=lecGeo(),vw=document.documentElement.clientWidth,vh=innerHeight;
-  if(PHONE.matches){w.classList.add("sheet");const hh=Math.round(Math.min(vh*0.9,Math.max(vh*0.25,g.sh||vh*0.55)));w.style.cssText="height:"+hh+"px";document.body.style.paddingBottom=hh+"px";return;}
+  if(PHONE.matches){w.classList.add("sheet");const hh=Math.round(Math.min(vh*0.9,Math.max(vh*0.25,g.sh||vh*0.55)));w.style.cssText="height:"+hh+"px";document.body.style.paddingBottom=hh+"px";lecShift();return;}
   w.classList.remove("sheet");document.body.style.paddingBottom="";
   const W=Math.max(300,Math.min(vw-16,g.w||Math.min(480,Math.round(vw*0.4)))),H=Math.max(220,Math.min(vh-16,g.h||Math.round(vh*0.72)));
   const X=Math.max(8,Math.min(vw-W-8,g.x!=null?g.x:vw-W-16)),Y=Math.max(8,Math.min(vh-H-8,g.y!=null?g.y:72));
-  w.style.cssText="left:"+X+"px;top:"+Y+"px;width:"+W+"px;height:"+H+"px";
+  w.style.cssText="left:"+X+"px;top:"+Y+"px;width:"+W+"px;height:"+H+"px";lecShift();
 }
 function lecEsc(e){if(e.key==="Escape"&&!document.querySelector(".modal"))closeLec();}
 function closeLec(){
-  if(!LW)return;LW.w.remove();LW=null;document.body.style.paddingBottom="";
+  if(!LW)return;LW.w.remove();LW=null;document.body.style.paddingBottom="";lecShift();
   document.removeEventListener("keydown",lecEsc);removeEventListener("resize",lecLayout);
   try{PHONE.removeEventListener("change",lecLayout);}catch(e){PHONE.removeListener(lecLayout);}
   ANIMS.delete(closeLec);

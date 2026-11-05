@@ -21,3 +21,9 @@ The `M# L#` tag on each question with a lecture mapping is a button (book icon).
 - Not flagged: L3 b12 calls ion-dipoles "salt bridges" (salt bridges are ion-ion). The guide only mentions it in m1-weak; no correction note exists to link.
 - Extractor now handles H5P.Dialogcards (M1 L3 vocabulary flash cards): front as the item, image, back behind Show answer.
 - test_site.py now expects lecture buttons on M1, M2 and M3.
+
+## v1.12 (Nov 5)
+- `lec.hl` can be a list of snippets; every one gets marked and the window scrolls to the first found. validate_lec.js checks each.
+- M1 protein questions now point at the amino acid groupings (L1 b22) instead of the generic folding line: m1a12 (Val list, aliphatic = hydrophobic, Phe/Trp nonpolar), m1a13 (Val list, aliphatic = hydrophobic, Glu negatively charged), m1a56 (one line per choice: hydrophobic, negative, positive, hydroxylic/amidic polar). m1a14 stays on b26 (sequence -> fold).
+- Desktop: while the window is open, `lecShift()` moves main/footer into the wider free side beside it (max 760px, needs 480px free or it stays centered). Runs on open, drag, resize, window resize; cleared on close and on phone.
+- `expfig` (figure shown with the explanation only) capped at 460px to match the results-page missed list.
