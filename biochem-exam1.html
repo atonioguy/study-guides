@@ -1338,7 +1338,8 @@ b:`<p>All three methods act on the enzyme-substrate interaction, especially at i
 <p>The lecture's analogy for substrate control: the stomach releases food into the intestine a little at a time, so the intestine's enzymes never see the whole meal at once.</p>
 <p>Examples from later in this module: acetyl CoA can only be made once fuel molecules are moved into the mitochondrion (substrate concentration); citrate, the product of citrate synthase, inhibits that enzyme (catalytic activity, feedback).</p>
 <p>Speed differs, too. Changing enzyme amount means making or destroying protein, so it's the slow, long-term method (Module 2, "Changing the amount of enzyme"). Feedback and allosteric control act in seconds on enzyme already there (Module 2, "Allosteric regulation and feedback").</p>`,
-so:`Ask what the cell changed: the number of enzyme molecules, the substrate's access to them, or how well each enzyme works.`}
+so:`Ask what the cell changed: the number of enzyme molecules, the substrate's access to them, or how well each enzyme works.`},
+{drill:"m3d1"}
 ],
 
 "3.4":[
@@ -1401,6 +1402,7 @@ b:`<table><tr><th>Control point</th><th>Speeds it up</th><th>Slows it down</th><
 <p><b>Not primary control points:</b> succinate dehydrogenase (governed by the oxaloacetate level) and malate dehydrogenase (the last step). Oxaloacetate is regenerated readily.</p>
 <p>Malonate, fluoroacetate and arsenite also slow the cycle, but they are poisons, not regulation (3.6).</p>`,
 so:`Energy-rich signals (ATP, NADH, citrate) brake the cycle, demand signals (ADP, Ca²⁺) speed it, and both dehydrogenases stall when NAD⁺ runs short.`},
+{drill:"m3d2"},
 
 {id:"m3-etc",h:"The electron transport chain",fig:"m3etc",
 b:`<p>Oxidative phosphorylation has two parts: the <b>electron transport chain</b> (ETC) uses the energy of electrons to pump protons and build a gradient, and <b>ATP synthase</b> uses that gradient to make ATP.</p>
@@ -1456,6 +1458,7 @@ b:`<p>The lecture wants you to predict what happens when a complex is inhibited,
 <p><b>Beyond lecture: blocking ATP synthase.</b> Oligomycin blocks Complex V. Protons can't flow back, so the gradient climbs until pumping against it gets too hard, and the ETC slows even though every complex is intact. O₂ use drops. Adding an uncoupler then restarts O₂ use, because protons have a way back again. This shows that ETC speed is set by how fast the gradient is spent.</p>`,
 nl:"Lecture wording",note:`The lecture says "both carbon monoxide and hemoglobin will inhibit complex IV." It means carbon monoxide and cyanide. Hemoglobin is the protein CO competes for in blood.`,
 so:`Find the block, then reason in both directions: carriers before it stay loaded, everything after it runs dry, and no flow means no pumping and no ATP.`},
+{drill:"m3d3"},
 
 {id:"m3-cacpoison",h:"Poisons of the citric acid cycle",
 b:`<p>These compounds block the cycle, which is different from regulation: the cell can't turn them off when it needs energy. The result is too little NADH and FADH₂ and so too little ATP. The general pattern: <b>the intermediate just before the block piles up</b>, and everything after it runs short.</p>
@@ -1654,7 +1657,37 @@ exp:"Complex 4 is cytochrome c oxidase, the only exit to O₂. Both entry points
 
 
 drills:[
+{id:"m3d1",lo:"3.2",kind:"sort",title:"Pathways, carriers and regulation",
+intro:"Drag each item to its bin, or tap it and then tap the bin. Round 1 is pathway type, round 2 is what each carrier transfers, round 3 is how a cell is regulating.",
+rounds:[
+{name:"Anabolic or catabolic",bins:["Anabolic","Catabolic"],
+items:[["Gluconeogenesis","Anabolic","-genesis: builds glucose"],["Glycogenesis","Anabolic","Builds glycogen from glucose"],["Glycolysis","Catabolic","-lysis: splits glucose"],["Glycogenolysis","Catabolic","Breaks glycogen down"],["Fatty acid synthesis","Anabolic","Synthesis: builds"],["β-Oxidation","Catabolic","Oxidation: breaks fatty acids down"],["Cholesterol synthesis","Anabolic","Synthesis: builds"],["Urea cycle","Catabolic","Listed with amino acid catabolism in lecture"],["Triacylglycerol synthesis","Anabolic","Joins glycerol and fatty acids"],["Pentose phosphate pathway","Anabolic","Listed with nucleic acid synthesis in lecture"],["Citric acid cycle (as taught this module)","Catabolic","Oxidizes acetyl groups to CO₂"],["Amino acid synthesis","Anabolic","Synthesis: builds"]]},
+{name:"What it carries",bins:["Phosphoryl","Electrons","Acyl","CO₂","One-carbon unit","Methyl"],
+items:[["ATP","Phosphoryl"],["NADH","Electrons","Catabolic electrons to the ETC"],["FADH₂","Electrons","Catabolic electrons to the ETC"],["NADPH","Electrons","Reducing power for biosynthesis"],["FMNH₂","Electrons"],["Coenzyme A","Acyl","Through a thioester bond"],["Biotin","CO₂","Carboxyl transfer; needed to make oxaloacetate"],["Tetrahydrofolate","One-carbon unit"],["S-adenosylmethionine","Methyl"]]},
+{name:"Which regulation method",bins:["Enzyme concentration","Substrate concentration","Catalytic activity"],
+items:[["A repressor lowers transcription of an enzyme's gene","Enzyme concentration"],["Excess enzyme is tagged and degraded","Enzyme concentration"],["An inducer raises the amount of an enzyme over several hours","Enzyme concentration"],["Fuel molecules have to be moved into the mitochondrion before they can be broken down","Substrate concentration","The pathway is walled off from its substrate"],["The stomach releases food into the intestine a little at a time","Substrate concentration"],["A pathway's enzymes sit in an organelle the substrate must be shuttled into","Substrate concentration"],["Citrate binds citrate synthase and slows it","Catalytic activity","Feedback inhibition by product"],["A hormone alters an enzyme's activation site in liver but not muscle","Catalytic activity"],["ADP activates isocitrate dehydrogenase","Catalytic activity","An effector changes the existing enzyme's activity"]]}
+]},
+{id:"m3d2",lo:"3.5",kind:"sort",title:"Citric acid cycle control points",
+intro:"Match each description to the one step it fits. Drag, or tap the item and then the step.",
+rounds:[
+{name:"Which step",bins:["Acetyl CoA formation","Citrate synthase","Isocitrate DH","α-KG DH complex","Succinate DH"],
+items:[["Inhibited by ATP, NADH and acetyl CoA together","Acetyl CoA formation"],["Depends on fuel being moved into the matrix","Acetyl CoA formation","Compartmentalization: substrate access"],["Inhibited by its own product, citrate","Citrate synthase","Feedback inhibition"],["Joins a 2-carbon and a 4-carbon unit","Citrate synthase"],["Activated by both Ca²⁺ and ADP","Isocitrate DH","α-KG DH is activated by Ca²⁺ but not listed for ADP"],["Makes the first CO₂ and NADH (6C to 5C)","Isocitrate DH"],["Needs thiamine as well as NAD⁺","α-KG DH complex"],["Inhibited by ammonia","α-KG DH complex","Why hyperammonemia slows the cycle"],["Blocked by arsenite","α-KG DH complex"],["Makes the second CO₂ (5C to 4C)","α-KG DH complex"],["Competitively inhibited by malonate","Succinate DH","Malonate looks like succinate"],["Makes FADH₂ and doubles as Complex II","Succinate DH"],["Governed by the oxaloacetate level; not a primary control point","Succinate DH"]]}
+]},
+{id:"m3d3",lo:"3.6",kind:"case",title:"Perturb the chain",
+intro:"For each change, predict O₂ use, ATP made and the H⁺ gradient compared with normal. The answer shows after the third pick.",
+fields:[["O₂ use","Up","Same","Down"],["ATP made","Up","Same","Down"],["H⁺ gradient","Up","Same","Down"]],
+cases:[
+{t:"Cyanide binds Complex IV",a:[2,2,2],e:"No electrons reach O₂, so electron flow, pumping and ATP synthesis all stop, and the gradient runs down."},
+{t:"Carbon monoxide binds Complex IV",a:[2,2,2],e:"Same block as cyanide: cytochrome c stays reduced and the whole chain backs up."},
+{t:"Amobarbital blocks Complex I",a:[2,2,2],e:"NADH can't unload. Some FADH₂ electrons still enter at Complex II, so everything drops without reaching zero."},
+{t:"Malonate inhibits succinate dehydrogenase",a:[2,2,2],e:"FADH₂ electrons stop entering at Complex II, and the stalled cycle cuts off NADH supply as well."},
+{t:"DNP is added",a:[0,2,2],e:"Protons leak back without passing through ATP synthase. The gradient collapses, the chain runs faster, and the energy becomes heat."},
+{t:"Thermogenin opens in brown fat during prolonged cold",a:[0,2,2],e:"Thermogenin is a proton channel, so this is uncoupling: more O₂ used, less ATP, more heat."},
+{t:"Muscle suddenly uses ATP fast, so ADP is high (beyond lecture)",a:[0,0,2],e:"ATP synthase spends the gradient faster, so it drops a little, and the chain speeds up to refill it. This is respiratory control."},
+{t:"Oligomycin blocks ATP synthase (beyond lecture)",a:[2,2,0],e:"Protons can't flow back, so the gradient climbs until pumping stalls. Electron flow and O₂ use fall even though the chain is intact."}
+]}
 ]
+
 });
 
 // Review highlight: each hl appears verbatim in one p, li, tr or note of its ref lesson.
