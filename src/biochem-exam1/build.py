@@ -1,7 +1,7 @@
 # Builds ../../biochem-exam1.html from template + data. Run: python3 build.py
 # Add a module: drop mN.js next to m1.js (same shape) and add it to MODULES.
 import os
-VERSION = "v1.0"
+VERSION = "v1.1"
 MODULES = ["m1.js", "m2.js", "m3.js"]
 here = os.path.dirname(os.path.abspath(__file__))
 rd = lambda f: open(os.path.join(here, f), encoding="utf-8").read()

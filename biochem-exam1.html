@@ -40,7 +40,7 @@ label.chk{display:flex;gap:6px;align-items:center;font-size:15px;cursor:pointer}
 .box{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:12px 0;background:var(--soft)}
 .card{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:10px 0;cursor:pointer;background:#fff}
 @media (hover:hover){.card:hover{border-color:#999}}
-.card b{display:block}
+.card.link b{display:block}
 .qhead{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:var(--mut)}
 .bar{height:3px;background:#eee;margin:6px 0 14px}.bar i{display:block;height:100%;background:var(--acc)}
 .stem{font-size:17px;margin:12px 0}
@@ -117,164 +117,223 @@ details.mod>summary{cursor:pointer;font-size:17px;font-weight:600;padding:8px 0}
 .presets{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 footer{max-width:780px;margin:0 auto;padding:0 16px 24px;font-size:13px;color:var(--mut)}
 .hide{display:none!important}
-@media(max-width:560px){.hin{padding:6px 10px 4px}.brand{width:100%;font-size:14px}nav{width:100%;justify-content:space-between}nav button{font-size:14px;padding:6px 7px}main{padding-top:12px}}
+@media(max-width:560px){.gtop{top:76px!important}.unit{scroll-margin-top:130px}.hin{padding:6px 10px 4px}.brand{width:100%;font-size:14px}nav{width:100%;justify-content:space-between}nav button{font-size:14px;padding:6px 7px}main{padding-top:12px}}
 .frow{display:flex;justify-content:flex-end;margin:-6px 0 6px}
 .flag{font:inherit;font-size:13px;color:var(--mut);background:none;border:1px solid var(--line);border-radius:5px;padding:2px 8px;cursor:pointer}
 .flag.on{color:var(--acc);border-color:var(--acc);background:var(--accbg);font-weight:600}
 .shd{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .qhead .flag{vertical-align:1px}
+
+/* v1.1 layout */
+body{background:#f6f6f3}
+header{background:#fff}
+.hin,main,footer{max-width:760px}
+body[data-tab=sheet] .hin,body[data-tab=sheet] main,body[data-tab=sheet] footer{max-width:1040px}
+.btn{background:#fff}
+.eyebrow{font-size:13px;font-weight:600;color:var(--acc);letter-spacing:.02em}
+.pill{white-space:nowrap;font:inherit;font-size:14px;padding:6px 12px;border:1px solid #c8c8c8;border-radius:999px;background:#fff;color:var(--fg);cursor:pointer}
+.pill.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.filters{background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px 14px;margin:12px 0 8px}
+.filters .row{margin:10px 0}
+h2.lohead{font-size:18px;margin:30px 0 10px;line-height:1.35}
+h2.lohead .eyebrow{display:block;margin-bottom:2px}
+.qcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0}
+.qcard .stem{margin:8px 0 12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+.card.link{cursor:pointer;padding:12px 16px}
+.card h3{font-size:19px;margin:0 0 10px;line-height:1.3}
+.card .fig{border:0;border-radius:8px;margin:6px 0 12px;background:#fff}
+.cb{font-size:17px;line-height:1.65}
+.cb p{margin:0 0 10px}.cb p:last-child{margin-bottom:0}
+.cb table{font-size:15px;margin:4px 0 6px}
+.call{margin:14px 0 0;padding:10px 14px;border-radius:8px;font-size:16px;line-height:1.55}
+.call>b{display:block;font-size:13px;letter-spacing:.02em;margin-bottom:2px}
+.call.key{background:var(--accbg)}.call.key b{color:var(--acc)}
+.call.trap{background:#fdf6e7}.call.trap b{color:#8a5a00}
+.clabel{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0 0 6px}
+.checks{margin:14px 0 22px;padding:0 0 0 14px;border-left:3px solid var(--acc)}
+.checks .qcard{margin:8px 0}
+.card.drill{border-color:#c9d3e4}
+.trio,.duo{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:4px 0 12px}
+.duo{grid-template-columns:repeat(2,1fr)}
+.trio>div,.duo>div{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fafaf8;display:flex;flex-direction:column;gap:3px;font-size:15px;line-height:1.4}
+.trio b,.duo b{font-size:16px}
+.trio i,.duo i{font-style:normal;color:var(--acc);font-size:14px}
+@media(max-width:620px){.trio{grid-template-columns:1fr}}
+.wsteps{counter-reset:s;list-style:none;padding:0;margin:6px 0}
+.wsteps li{counter-increment:s;position:relative;padding:8px 10px 8px 40px;border-radius:8px;background:#fafaf8;margin:6px 0;font-size:16px}
+.wsteps li:before{content:counter(s);position:absolute;left:10px;top:8px;width:21px;height:21px;border-radius:50%;background:var(--acc);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center}
+.wsteps li.last{background:var(--accbg)}
+/* guide grid */
+.gwrap{display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px}
+.gside{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 80px);overflow:auto;padding-top:8px}
+.gtitle{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0 0 8px}
+.outline{margin-top:12px}
+.omod{font-size:13px;font-weight:600;margin:14px 0 4px}
+.outline a{display:grid;grid-template-columns:30px 1fr auto;gap:4px;align-items:baseline;padding:6px 8px;border-radius:6px;color:var(--fg);text-decoration:none;font-size:14px;line-height:1.3}
+.outline a:hover{background:#ecece8}
+.outline a.cur{background:#fff;box-shadow:0 0 0 1px var(--line);font-weight:600}
+.outline .ot{color:#444}.outline .oprog{font-size:12px;color:var(--mut)}
+.gtop{display:none}
+.modhead{font-size:14px;font-weight:600;color:var(--mut);margin:10px 0 0}
+.unit{scroll-margin-top:64px;margin:6px 0 40px}
+.uhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:16px 0 4px}
+.uhead h2{font-size:24px;margin:2px 0 4px;line-height:1.25}
+.uprog{font-size:13px;color:var(--mut)}
+@media(max-width:900px){.gwrap{grid-template-columns:minmax(0,1fr)}.gside{display:none}.gtop{display:flex;gap:8px;align-items:center;position:sticky;top:52px;z-index:3;background:#f6f6f3;padding:8px 0}.gjump{flex:1}.uhead h2{font-size:21px}.card{padding:16px}}
+/* figures as html */
+.aag{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px;padding:4px 0}
+.aagc{display:flex;flex-direction:column;gap:4px}
+.aagc b{font-size:12px;color:var(--mut);font-weight:600}
+.aag span,.aagl span{display:inline-block;text-align:center;font-size:14px;padding:3px 0;border-radius:6px;border:1px solid #c8c8c8}
+.aag .pho,.aagl .pho{background:#e9d9a6;border-color:#c9b06a}
+.aag .phi,.aagl .phi{background:#fff}
+.aag .ex,.aagl .ex{border:2px solid var(--bad);font-weight:700}
+.aagl{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 2px}.aagl span{padding:2px 10px;font-size:13px}
+.fbars{padding:4px 0}
+.fbr{display:grid;grid-template-columns:120px 1fr;gap:4px 10px;align-items:center;margin:8px 0}
+.fbr .fn{font-weight:600;font-size:15px}
+.fbg{height:12px;background:#eee;border-radius:6px;overflow:hidden}.fbg i{display:block;height:100%;background:var(--acc);border-radius:6px}
+.fbr .fe{grid-column:2;font-size:13px;color:var(--mut);margin-top:-4px}
+.fnote{font-size:12px;color:var(--mut);text-align:right}
+.phs{padding:6px 0 4px}
+.phrow{display:grid;grid-template-columns:repeat(15,1fr);border-radius:6px;overflow:hidden}
+.phrow span{text-align:center;font-size:13px;padding:7px 0;color:#222}
+.phlab{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-top:4px}
+.phmk{position:relative;height:22px;font-size:12px}
+.phmk span{position:absolute;transform:translateX(-50%);white-space:nowrap;color:var(--fg)}
+.phmk span:before{content:"▲ ";color:var(--acc)}
 </style>
 </head>
 <body>
 <header><div class="hin">
-<div class="brand">BMSC 3401 Exam 1 <span id="modlist"></span></div>
+<div class="brand">BMSC 3401 · Exam 1 <span id="modlist"></span></div>
 <nav id="nav">
-<button data-t="sheet">Study guide</button><button data-t="practice">Practice</button><button data-t="mock">Mock exam</button><button data-t="bank">Questions</button>
+<button data-t="sheet">Study guide</button><button data-t="practice">Practice</button><button data-t="mock">Mock exam</button>
 </nav></div></header>
 <main id="main"></main>
-<footer>v1.0 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
+<footer>v1.1 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
 <script>
 const MODS=[];
 </script>
 <script>
-const FIGS={"hydro": "<svg viewBox=\"0 0 660 270\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"system-ui,sans-serif\" font-size=\"13\"><rect x=\"0\" y=\"0\" width=\"660\" height=\"270\" fill=\"#fff\"/><circle cx=\"70\" cy=\"95\" r=\"17\" fill=\"#b8860b\"/><circle cx=\"101.0\" cy=\"95.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"93.7\" cy=\"114.9\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"75.4\" cy=\"125.5\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"54.5\" cy=\"121.8\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"40.9\" cy=\"105.6\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"40.9\" cy=\"84.4\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"54.5\" cy=\"68.2\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"75.4\" cy=\"64.5\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"93.7\" cy=\"75.1\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"190\" cy=\"80\" r=\"17\" fill=\"#b8860b\"/><circle cx=\"221.0\" cy=\"80.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"213.7\" cy=\"99.9\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"195.4\" cy=\"110.5\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"174.5\" cy=\"106.8\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"160.9\" cy=\"90.6\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"160.9\" cy=\"69.4\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"174.5\" cy=\"53.2\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"195.4\" cy=\"49.5\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"213.7\" cy=\"60.1\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"130\" cy=\"185\" r=\"17\" fill=\"#b8860b\"/><circle cx=\"161.0\" cy=\"185.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"153.7\" cy=\"204.9\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"135.4\" cy=\"215.5\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"114.5\" cy=\"211.8\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"100.9\" cy=\"195.6\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"100.9\" cy=\"174.4\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"114.5\" cy=\"158.2\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"135.4\" cy=\"154.5\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"153.7\" cy=\"165.1\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"255.0\" cy=\"170.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"30.0\" cy=\"200.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"240.0\" cy=\"240.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><text x=\"140.0\" y=\"258.0\" text-anchor=\"middle\" fill=\"#1c1c1c\">Dispersed: one cage per molecule</text><path d=\"M300 135 H350\" stroke=\"#1c1c1c\" stroke-width=\"2\" marker-end=\"url(#ah)\"/><defs><marker id=\"ah\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 z\" fill=\"#1c1c1c\"/></marker></defs><circle cx=\"484\" cy=\"121\" r=\"17\" fill=\"#b8860b\"/><circle cx=\"516\" cy=\"121\" r=\"17\" fill=\"#b8860b\"/><circle cx=\"500\" cy=\"148\" r=\"17\" fill=\"#b8860b\"/><circle cx=\"548.0\" cy=\"133.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"543.2\" cy=\"153.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"529.9\" cy=\"169.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"510.7\" cy=\"177.8\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"489.3\" cy=\"177.8\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"470.1\" cy=\"169.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"456.8\" cy=\"153.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"452.0\" cy=\"133.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"456.8\" cy=\"113.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"470.1\" cy=\"97.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"489.3\" cy=\"88.2\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"510.7\" cy=\"88.2\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"529.9\" cy=\"97.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"543.2\" cy=\"113.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"400.0\" cy=\"50.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"420.0\" cy=\"215.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"600.0\" cy=\"45.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"615.0\" cy=\"200.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"380.0\" cy=\"140.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"630.0\" cy=\"120.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"560.0\" cy=\"235.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"450.0\" cy=\"30.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"540.0\" cy=\"25.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"470.0\" cy=\"240.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"610.0\" cy=\"250.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"395.0\" cy=\"245.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"640.0\" cy=\"60.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><text x=\"510.0\" y=\"258.0\" text-anchor=\"middle\" fill=\"#1c1c1c\">Clustered: fewer caged waters</text><circle cx=\"18\" cy=\"18\" r=\"5.5\" fill=\"#1f4b8f\"/><text x=\"30.0\" y=\"22.0\" fill=\"#666\">ordered (caged) water</text><circle cx=\"190\" cy=\"18\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><text x=\"202.0\" y=\"22.0\" fill=\"#666\">free water</text><circle cx=\"300\" cy=\"18\" r=\"7\" fill=\"#b8860b\"/><text x=\"312.0\" y=\"22.0\" fill=\"#666\">nonpolar molecule</text><text x=\"325.0\" y=\"62.0\" text-anchor=\"middle\" fill=\"#1c1c1c\" font-weight=\"600\">entropy ↑</text></svg>", "bicarb": "<svg viewBox=\"0 0 660 250\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"system-ui,sans-serif\" font-size=\"14\"><rect width=\"660\" height=\"250\" fill=\"#fff\"/><defs><marker id=\"bh\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 z\" fill=\"#1f4b8f\"/></marker></defs><text x=\"330\" y=\"48\" text-anchor=\"middle\" font-size=\"22\" fill=\"#1c1c1c\">CO<tspan dy=\"4\" font-size=\"11\">2</tspan><tspan dy=\"-4\"> + H</tspan><tspan dy=\"4\" font-size=\"11\">2</tspan><tspan dy=\"-4\">O  ⇌  H</tspan><tspan dy=\"4\" font-size=\"11\">2</tspan><tspan dy=\"-4\">CO</tspan><tspan dy=\"4\" font-size=\"11\">3</tspan><tspan dy=\"-4\">  ⇌  H</tspan><tspan dy=\"-6\" font-size=\"11\">+</tspan><tspan dy=\"6\"> + HCO</tspan><tspan dy=\"4\" font-size=\"11\">3</tspan><tspan dy=\"-10\" font-size=\"11\">−</tspan></text><text x=\"140.0\" y=\"78.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">exhaled by lungs</text><text x=\"330.0\" y=\"78.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">carbonic acid (weak)</text><text x=\"520.0\" y=\"78.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">sets pH · base reserve</text><path d=\"M300 108 H40\" stroke=\"#1f4b8f\" stroke-width=\"2.5\" marker-end=\"url(#bh)\"/><text x=\"40.0\" y=\"100.0\" fill=\"#1f4b8f\" font-weight=\"600\">Shifts left: H⁺ used up</text><text x=\"40.0\" y=\"132.0\" fill=\"#1c1c1c\">• CO₂ blown off (fast breathing)</text><text x=\"40.0\" y=\"152.0\" fill=\"#1c1c1c\">• H⁺ added (lactic, keto acids) is</text><text x=\"40.0\" y=\"172.0\" fill=\"#1c1c1c\">  absorbed by HCO₃⁻, leaves as CO₂</text><path d=\"M360 108 H620\" stroke=\"#1f4b8f\" stroke-width=\"2.5\" marker-end=\"url(#bh)\"/><text x=\"620.0\" y=\"100.0\" fill=\"#1f4b8f\" font-weight=\"600\" text-anchor=\"end\">Shifts right: H⁺ made</text><text x=\"360.0\" y=\"132.0\" fill=\"#1c1c1c\">• CO₂ retained (slow breathing)</text><text x=\"360.0\" y=\"152.0\" fill=\"#1c1c1c\">• H⁺ lost (vomiting) or</text><text x=\"360.0\" y=\"172.0\" fill=\"#1c1c1c\">  HCO₃⁻ lost (diarrhea) is replaced</text><line x1=\"20\" y1=\"205\" x2=\"640\" y2=\"205\" stroke=\"#ccc\"/><text x=\"330.0\" y=\"230.0\" text-anchor=\"middle\" fill=\"#1c1c1c\">pH 7.4 = 6.1 + log(20)  →  normal HCO₃⁻ : H₂CO₃ = 20 : 1.  Ratio up = pH up.</text></svg>", "titr": "<svg viewBox=\"0 0 560 320\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"system-ui,sans-serif\" font-size=\"13\"><rect width=\"560\" height=\"320\" fill=\"#fff\"/><line x1=\"50\" y1=\"260.0\" x2=\"530\" y2=\"260.0\" stroke=\"#eee\"/><text x=\"42.0\" y=\"264.0\" text-anchor=\"end\" fill=\"#666\">0</text><line x1=\"50\" y1=\"225.7\" x2=\"530\" y2=\"225.7\" stroke=\"#eee\"/><text x=\"42.0\" y=\"229.7\" text-anchor=\"end\" fill=\"#666\">2</text><line x1=\"50\" y1=\"191.4\" x2=\"530\" y2=\"191.4\" stroke=\"#eee\"/><text x=\"42.0\" y=\"195.4\" text-anchor=\"end\" fill=\"#666\">4</text><line x1=\"50\" y1=\"157.1\" x2=\"530\" y2=\"157.1\" stroke=\"#eee\"/><text x=\"42.0\" y=\"161.1\" text-anchor=\"end\" fill=\"#666\">6</text><line x1=\"50\" y1=\"122.9\" x2=\"530\" y2=\"122.9\" stroke=\"#eee\"/><text x=\"42.0\" y=\"126.9\" text-anchor=\"end\" fill=\"#666\">8</text><line x1=\"50\" y1=\"88.6\" x2=\"530\" y2=\"88.6\" stroke=\"#eee\"/><text x=\"42.0\" y=\"92.6\" text-anchor=\"end\" fill=\"#666\">10</text><line x1=\"50\" y1=\"54.3\" x2=\"530\" y2=\"54.3\" stroke=\"#eee\"/><text x=\"42.0\" y=\"58.3\" text-anchor=\"end\" fill=\"#666\">12</text><line x1=\"50\" y1=\"20.0\" x2=\"530\" y2=\"20.0\" stroke=\"#eee\"/><text x=\"42.0\" y=\"24.0\" text-anchor=\"end\" fill=\"#666\">14</text><line x1=\"50\" y1=\"260\" x2=\"530\" y2=\"260\" stroke=\"#1c1c1c\"/><line x1=\"50\" y1=\"20\" x2=\"50\" y2=\"260\" stroke=\"#1c1c1c\"/><polyline fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"2.5\" points=\"50.0,210.3 51.2,210.3 52.4,210.3 53.6,208.9 54.8,206.7 56.0,205.0 57.2,203.6 58.4,202.4 59.6,201.4 60.8,200.5 62.0,199.6 63.2,198.9 64.4,198.2 65.6,197.6 66.8,197.0 68.0,196.4 69.2,195.9 70.4,195.4 71.6,194.9 72.8,194.5 74.0,194.1 75.2,193.7 76.4,193.3 77.6,192.9 78.8,192.5 80.0,192.2 81.2,191.9 82.4,191.5 83.6,191.2 84.8,190.9 86.0,190.6 87.2,190.3 88.4,190.1 89.6,189.8 90.8,189.5 92.0,189.3 93.2,189.0 94.4,188.8 95.6,188.5 96.8,188.3 98.0,188.0 99.2,187.8 100.4,187.6 101.6,187.4 102.8,187.1 104.0,186.9 105.2,186.7 106.4,186.5 107.6,186.3 108.8,186.1 110.0,185.9 111.2,185.7 112.4,185.5 113.6,185.3 114.8,185.1 116.0,184.9 117.2,184.7 118.4,184.6 119.6,184.4 120.8,184.2 122.0,184.0 123.2,183.8 124.4,183.7 125.6,183.5 126.8,183.3 128.0,183.2 129.2,183.0 130.4,182.8 131.6,182.7 132.8,182.5 134.0,182.3 135.2,182.2 136.4,182.0 137.6,181.8 138.8,181.7 140.0,181.5 141.2,181.4 142.4,181.2 143.6,181.0 144.8,180.9 146.0,180.7 147.2,180.6 148.4,180.4 149.6,180.3 150.8,180.1 152.0,180.0 153.2,179.8 154.4,179.7 155.6,179.5 156.8,179.4 158.0,179.2 159.2,179.1 160.4,178.9 161.6,178.8 162.8,178.6 164.0,178.5 165.2,178.3 166.4,178.2 167.6,178.0 168.8,177.9 170.0,177.7 171.2,177.6 172.4,177.4 173.6,177.3 174.8,177.1 176.0,177.0 177.2,176.8 178.4,176.7 179.6,176.5 180.8,176.4 182.0,176.2 183.2,176.1 184.4,175.9 185.6,175.8 186.8,175.6 188.0,175.5 189.2,175.3 190.4,175.2 191.6,175.0 192.8,174.9 194.0,174.7 195.2,174.5 196.4,174.4 197.6,174.2 198.8,174.1 200.0,173.9 201.2,173.8 202.4,173.6 203.6,173.4 204.8,173.3 206.0,173.1 207.2,172.9 208.4,172.8 209.6,172.6 210.8,172.4 212.0,172.3 213.2,172.1 214.4,171.9 215.6,171.8 216.8,171.6 218.0,171.4 219.2,171.2 220.4,171.0 221.6,170.9 222.8,170.7 224.0,170.5 225.2,170.3 226.4,170.1 227.6,169.9 228.8,169.7 230.0,169.5 231.2,169.3 232.4,169.1 233.6,168.9 234.8,168.7 236.0,168.5 237.2,168.3 238.4,168.1 239.6,167.9 240.8,167.6 242.0,167.4 243.2,167.2 244.4,166.9 245.6,166.7 246.8,166.4 248.0,166.2 249.2,165.9 250.4,165.6 251.6,165.4 252.8,165.1 254.0,164.8 255.2,164.5 256.4,164.2 257.6,163.9 258.8,163.6 260.0,163.2 261.2,162.9 262.4,162.5 263.6,162.1 264.8,161.8 266.0,161.4 267.2,160.9 268.4,160.5 269.6,160.0 270.8,159.5 272.0,159.0 273.2,158.5 274.4,157.9 275.6,157.2 276.8,156.5 278.0,155.8 279.2,155.0 280.4,154.1 281.6,153.0 282.8,151.8 284.0,150.4 285.2,148.7 286.4,146.6 287.6,143.5 288.8,138.3 290.0,110.9 291.2,101.9 292.4,96.7 293.6,93.7 294.8,91.6 296.0,89.9 297.2,88.6 298.4,87.4 299.6,86.4 300.8,85.5 302.0,84.8 303.2,84.1 304.4,83.4 305.6,82.8 306.8,82.3 308.0,81.7 309.2,81.3 310.4,80.8 311.6,80.4 312.8,80.0 314.0,79.6 315.2,79.2 316.4,78.9 317.6,78.6 318.8,78.2 320.0,77.9 321.2,77.7 322.4,77.4 323.6,77.1 324.8,76.8 326.0,76.6 327.2,76.3 328.4,76.1 329.6,75.9 330.8,75.7 332.0,75.4 333.2,75.2 334.4,75.0 335.6,74.8 336.8,74.6 338.0,74.4 339.2,74.3 340.4,74.1 341.6,73.9 342.8,73.7 344.0,73.6 345.2,73.4 346.4,73.2 347.6,73.1 348.8,72.9 350.0,72.8 351.2,72.6 352.4,72.5 353.6,72.4 354.8,72.2 356.0,72.1 357.2,71.9 358.4,71.8 359.6,71.7 360.8,71.6 362.0,71.4 363.2,71.3 364.4,71.2 365.6,71.1 366.8,70.9 368.0,70.8 369.2,70.7 370.4,70.6 371.6,70.5 372.8,70.4 374.0,70.3 375.2,70.2 376.4,70.1 377.6,70.0 378.8,69.9 380.0,69.8 381.2,69.7 382.4,69.6 383.6,69.5 384.8,69.4 386.0,69.3 387.2,69.2 388.4,69.1 389.6,69.0 390.8,68.9 392.0,68.8 393.2,68.7 394.4,68.7 395.6,68.6 396.8,68.5 398.0,68.4 399.2,68.3 400.4,68.2 401.6,68.2 402.8,68.1 404.0,68.0 405.2,67.9 406.4,67.9 407.6,67.8 408.8,67.7 410.0,67.6 411.2,67.6 412.4,67.5 413.6,67.4 414.8,67.3 416.0,67.3 417.2,67.2 418.4,67.1 419.6,67.1 420.8,67.0 422.0,66.9 423.2,66.8 424.4,66.8 425.6,66.7 426.8,66.6 428.0,66.6 429.2,66.5 430.4,66.5 431.6,66.4 432.8,66.3 434.0,66.3 435.2,66.2 436.4,66.1 437.6,66.1 438.8,66.0 440.0,66.0 441.2,65.9 442.4,65.8 443.6,65.8 444.8,65.7 446.0,65.7 447.2,65.6 448.4,65.6 449.6,65.5 450.8,65.4 452.0,65.4 453.2,65.3 454.4,65.3 455.6,65.2 456.8,65.2 458.0,65.1 459.2,65.1 460.4,65.0 461.6,65.0 462.8,64.9 464.0,64.9 465.2,64.8 466.4,64.8 467.6,64.7 468.8,64.7 470.0,64.6 471.2,64.6 472.4,64.5 473.6,64.5 474.8,64.4 476.0,64.4 477.2,64.3 478.4,64.3 479.6,64.2 480.8,64.2 482.0,64.1 483.2,64.1 484.4,64.0 485.6,64.0 486.8,63.9 488.0,63.9 489.2,63.9 490.4,63.8 491.6,63.8 492.8,63.7 494.0,63.7 495.2,63.6 496.4,63.6 497.6,63.5 498.8,63.5 500.0,63.5 501.2,63.4 502.4,63.4 503.6,63.3 504.8,63.3 506.0,63.2 507.2,63.2 508.4,63.2 509.6,63.1 510.8,63.1 512.0,63.0 513.2,63.0 514.4,63.0 515.6,62.9 516.8,62.9 518.0,62.8 519.2,62.8 520.4,62.8 521.6,62.7 522.8,62.7 524.0,62.7 525.2,62.6 526.4,62.6 527.6,62.5 528.8,62.5 530.0,62.5\"/><circle cx=\"57.2\" cy=\"203.6\" r=\"5\" fill=\"#1c1c1c\"/><text x=\"65.2\" y=\"193.6\" fill=\"#1c1c1c\" font-weight=\"600\">A</text><circle cx=\"170.0\" cy=\"177.7\" r=\"5\" fill=\"#1c1c1c\"/><text x=\"158.0\" y=\"167.7\" fill=\"#1c1c1c\" font-weight=\"600\">B</text><circle cx=\"282.8\" cy=\"151.8\" r=\"5\" fill=\"#1c1c1c\"/><text x=\"270.8\" y=\"141.8\" fill=\"#1c1c1c\" font-weight=\"600\">C</text><circle cx=\"458.0\" cy=\"65.1\" r=\"5\" fill=\"#1c1c1c\"/><text x=\"446.0\" y=\"55.1\" fill=\"#1c1c1c\" font-weight=\"600\">D</text><text x=\"290.0\" y=\"310.0\" text-anchor=\"middle\" fill=\"#666\">base added →</text><text x=\"14.0\" y=\"140.0\" fill=\"#666\" transform=\"rotate(-90 14 140.0)\" text-anchor=\"middle\">pH</text></svg>"};
+const FIGS={"hydro": "<svg viewBox=\"0 0 660 270\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"system-ui,sans-serif\" font-size=\"13\"><rect x=\"0\" y=\"0\" width=\"660\" height=\"270\" fill=\"#fff\"/><circle cx=\"70\" cy=\"95\" r=\"17\" fill=\"#b8860b\"/><circle cx=\"101.0\" cy=\"95.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"93.7\" cy=\"114.9\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"75.4\" cy=\"125.5\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"54.5\" cy=\"121.8\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"40.9\" cy=\"105.6\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"40.9\" cy=\"84.4\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"54.5\" cy=\"68.2\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"75.4\" cy=\"64.5\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"93.7\" cy=\"75.1\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"190\" cy=\"80\" r=\"17\" fill=\"#b8860b\"/><circle cx=\"221.0\" cy=\"80.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"213.7\" cy=\"99.9\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"195.4\" cy=\"110.5\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"174.5\" cy=\"106.8\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"160.9\" cy=\"90.6\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"160.9\" cy=\"69.4\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"174.5\" cy=\"53.2\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"195.4\" cy=\"49.5\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"213.7\" cy=\"60.1\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"130\" cy=\"185\" r=\"17\" fill=\"#b8860b\"/><circle cx=\"161.0\" cy=\"185.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"153.7\" cy=\"204.9\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"135.4\" cy=\"215.5\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"114.5\" cy=\"211.8\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"100.9\" cy=\"195.6\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"100.9\" cy=\"174.4\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"114.5\" cy=\"158.2\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"135.4\" cy=\"154.5\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"153.7\" cy=\"165.1\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"255.0\" cy=\"170.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"30.0\" cy=\"200.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"240.0\" cy=\"240.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><text x=\"140.0\" y=\"258.0\" text-anchor=\"middle\" fill=\"#1c1c1c\">Dispersed: one cage per molecule</text><path d=\"M300 135 H350\" stroke=\"#1c1c1c\" stroke-width=\"2\" marker-end=\"url(#ah)\"/><defs><marker id=\"ah\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 z\" fill=\"#1c1c1c\"/></marker></defs><circle cx=\"484\" cy=\"121\" r=\"17\" fill=\"#b8860b\"/><circle cx=\"516\" cy=\"121\" r=\"17\" fill=\"#b8860b\"/><circle cx=\"500\" cy=\"148\" r=\"17\" fill=\"#b8860b\"/><circle cx=\"548.0\" cy=\"133.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"543.2\" cy=\"153.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"529.9\" cy=\"169.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"510.7\" cy=\"177.8\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"489.3\" cy=\"177.8\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"470.1\" cy=\"169.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"456.8\" cy=\"153.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"452.0\" cy=\"133.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"456.8\" cy=\"113.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"470.1\" cy=\"97.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"489.3\" cy=\"88.2\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"510.7\" cy=\"88.2\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"529.9\" cy=\"97.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"543.2\" cy=\"113.0\" r=\"5.5\" fill=\"#1f4b8f\"/><circle cx=\"400.0\" cy=\"50.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"420.0\" cy=\"215.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"600.0\" cy=\"45.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"615.0\" cy=\"200.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"380.0\" cy=\"140.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"630.0\" cy=\"120.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"560.0\" cy=\"235.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"450.0\" cy=\"30.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"540.0\" cy=\"25.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"470.0\" cy=\"240.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"610.0\" cy=\"250.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"395.0\" cy=\"245.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><circle cx=\"640.0\" cy=\"60.0\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><text x=\"510.0\" y=\"258.0\" text-anchor=\"middle\" fill=\"#1c1c1c\">Clustered: fewer caged waters</text><circle cx=\"18\" cy=\"18\" r=\"5.5\" fill=\"#1f4b8f\"/><text x=\"30.0\" y=\"22.0\" fill=\"#666\">ordered (caged) water</text><circle cx=\"190\" cy=\"18\" r=\"5.5\" fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"1.6\"/><text x=\"202.0\" y=\"22.0\" fill=\"#666\">free water</text><circle cx=\"300\" cy=\"18\" r=\"7\" fill=\"#b8860b\"/><text x=\"312.0\" y=\"22.0\" fill=\"#666\">nonpolar molecule</text><text x=\"325.0\" y=\"62.0\" text-anchor=\"middle\" fill=\"#1c1c1c\" font-weight=\"600\">entropy ↑</text></svg>", "bicarb": "<svg viewBox=\"0 0 660 250\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"system-ui,sans-serif\" font-size=\"14\"><rect width=\"660\" height=\"250\" fill=\"#fff\"/><defs><marker id=\"bh\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 z\" fill=\"#1f4b8f\"/></marker></defs><text x=\"330\" y=\"48\" text-anchor=\"middle\" font-size=\"22\" fill=\"#1c1c1c\">CO<tspan dy=\"4\" font-size=\"11\">2</tspan><tspan dy=\"-4\"> + H</tspan><tspan dy=\"4\" font-size=\"11\">2</tspan><tspan dy=\"-4\">O  ⇌  H</tspan><tspan dy=\"4\" font-size=\"11\">2</tspan><tspan dy=\"-4\">CO</tspan><tspan dy=\"4\" font-size=\"11\">3</tspan><tspan dy=\"-4\">  ⇌  H</tspan><tspan dy=\"-6\" font-size=\"11\">+</tspan><tspan dy=\"6\"> + HCO</tspan><tspan dy=\"4\" font-size=\"11\">3</tspan><tspan dy=\"-10\" font-size=\"11\">−</tspan></text><text x=\"140.0\" y=\"78.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">exhaled by lungs</text><text x=\"330.0\" y=\"78.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">carbonic acid (weak)</text><text x=\"520.0\" y=\"78.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">sets pH · base reserve</text><path d=\"M300 108 H40\" stroke=\"#1f4b8f\" stroke-width=\"2.5\" marker-end=\"url(#bh)\"/><text x=\"40.0\" y=\"100.0\" fill=\"#1f4b8f\" font-weight=\"600\">Shifts left: H⁺ used up</text><text x=\"40.0\" y=\"132.0\" fill=\"#1c1c1c\">• CO₂ blown off (fast breathing)</text><text x=\"40.0\" y=\"152.0\" fill=\"#1c1c1c\">• H⁺ added (lactic, keto acids) is</text><text x=\"40.0\" y=\"172.0\" fill=\"#1c1c1c\">  absorbed by HCO₃⁻, leaves as CO₂</text><path d=\"M360 108 H620\" stroke=\"#1f4b8f\" stroke-width=\"2.5\" marker-end=\"url(#bh)\"/><text x=\"620.0\" y=\"100.0\" fill=\"#1f4b8f\" font-weight=\"600\" text-anchor=\"end\">Shifts right: H⁺ made</text><text x=\"360.0\" y=\"132.0\" fill=\"#1c1c1c\">• CO₂ retained (slow breathing)</text><text x=\"360.0\" y=\"152.0\" fill=\"#1c1c1c\">• H⁺ lost (vomiting) or</text><text x=\"360.0\" y=\"172.0\" fill=\"#1c1c1c\">  HCO₃⁻ lost (diarrhea) is replaced</text><line x1=\"20\" y1=\"205\" x2=\"640\" y2=\"205\" stroke=\"#ccc\"/><text x=\"330.0\" y=\"230.0\" text-anchor=\"middle\" fill=\"#1c1c1c\">pH 7.4 = 6.1 + log(20)  →  normal HCO₃⁻ : H₂CO₃ = 20 : 1.  Ratio up = pH up.</text></svg>", "titr": "<svg viewBox=\"0 0 560 320\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"system-ui,sans-serif\" font-size=\"13\"><rect width=\"560\" height=\"320\" fill=\"#fff\"/><line x1=\"50\" y1=\"260.0\" x2=\"530\" y2=\"260.0\" stroke=\"#eee\"/><text x=\"42.0\" y=\"264.0\" text-anchor=\"end\" fill=\"#666\">0</text><line x1=\"50\" y1=\"225.7\" x2=\"530\" y2=\"225.7\" stroke=\"#eee\"/><text x=\"42.0\" y=\"229.7\" text-anchor=\"end\" fill=\"#666\">2</text><line x1=\"50\" y1=\"191.4\" x2=\"530\" y2=\"191.4\" stroke=\"#eee\"/><text x=\"42.0\" y=\"195.4\" text-anchor=\"end\" fill=\"#666\">4</text><line x1=\"50\" y1=\"157.1\" x2=\"530\" y2=\"157.1\" stroke=\"#eee\"/><text x=\"42.0\" y=\"161.1\" text-anchor=\"end\" fill=\"#666\">6</text><line x1=\"50\" y1=\"122.9\" x2=\"530\" y2=\"122.9\" stroke=\"#eee\"/><text x=\"42.0\" y=\"126.9\" text-anchor=\"end\" fill=\"#666\">8</text><line x1=\"50\" y1=\"88.6\" x2=\"530\" y2=\"88.6\" stroke=\"#eee\"/><text x=\"42.0\" y=\"92.6\" text-anchor=\"end\" fill=\"#666\">10</text><line x1=\"50\" y1=\"54.3\" x2=\"530\" y2=\"54.3\" stroke=\"#eee\"/><text x=\"42.0\" y=\"58.3\" text-anchor=\"end\" fill=\"#666\">12</text><line x1=\"50\" y1=\"20.0\" x2=\"530\" y2=\"20.0\" stroke=\"#eee\"/><text x=\"42.0\" y=\"24.0\" text-anchor=\"end\" fill=\"#666\">14</text><line x1=\"50\" y1=\"260\" x2=\"530\" y2=\"260\" stroke=\"#1c1c1c\"/><line x1=\"50\" y1=\"20\" x2=\"50\" y2=\"260\" stroke=\"#1c1c1c\"/><polyline fill=\"none\" stroke=\"#1f4b8f\" stroke-width=\"2.5\" points=\"50.0,210.3 51.2,210.3 52.4,210.3 53.6,208.9 54.8,206.7 56.0,205.0 57.2,203.6 58.4,202.4 59.6,201.4 60.8,200.5 62.0,199.6 63.2,198.9 64.4,198.2 65.6,197.6 66.8,197.0 68.0,196.4 69.2,195.9 70.4,195.4 71.6,194.9 72.8,194.5 74.0,194.1 75.2,193.7 76.4,193.3 77.6,192.9 78.8,192.5 80.0,192.2 81.2,191.9 82.4,191.5 83.6,191.2 84.8,190.9 86.0,190.6 87.2,190.3 88.4,190.1 89.6,189.8 90.8,189.5 92.0,189.3 93.2,189.0 94.4,188.8 95.6,188.5 96.8,188.3 98.0,188.0 99.2,187.8 100.4,187.6 101.6,187.4 102.8,187.1 104.0,186.9 105.2,186.7 106.4,186.5 107.6,186.3 108.8,186.1 110.0,185.9 111.2,185.7 112.4,185.5 113.6,185.3 114.8,185.1 116.0,184.9 117.2,184.7 118.4,184.6 119.6,184.4 120.8,184.2 122.0,184.0 123.2,183.8 124.4,183.7 125.6,183.5 126.8,183.3 128.0,183.2 129.2,183.0 130.4,182.8 131.6,182.7 132.8,182.5 134.0,182.3 135.2,182.2 136.4,182.0 137.6,181.8 138.8,181.7 140.0,181.5 141.2,181.4 142.4,181.2 143.6,181.0 144.8,180.9 146.0,180.7 147.2,180.6 148.4,180.4 149.6,180.3 150.8,180.1 152.0,180.0 153.2,179.8 154.4,179.7 155.6,179.5 156.8,179.4 158.0,179.2 159.2,179.1 160.4,178.9 161.6,178.8 162.8,178.6 164.0,178.5 165.2,178.3 166.4,178.2 167.6,178.0 168.8,177.9 170.0,177.7 171.2,177.6 172.4,177.4 173.6,177.3 174.8,177.1 176.0,177.0 177.2,176.8 178.4,176.7 179.6,176.5 180.8,176.4 182.0,176.2 183.2,176.1 184.4,175.9 185.6,175.8 186.8,175.6 188.0,175.5 189.2,175.3 190.4,175.2 191.6,175.0 192.8,174.9 194.0,174.7 195.2,174.5 196.4,174.4 197.6,174.2 198.8,174.1 200.0,173.9 201.2,173.8 202.4,173.6 203.6,173.4 204.8,173.3 206.0,173.1 207.2,172.9 208.4,172.8 209.6,172.6 210.8,172.4 212.0,172.3 213.2,172.1 214.4,171.9 215.6,171.8 216.8,171.6 218.0,171.4 219.2,171.2 220.4,171.0 221.6,170.9 222.8,170.7 224.0,170.5 225.2,170.3 226.4,170.1 227.6,169.9 228.8,169.7 230.0,169.5 231.2,169.3 232.4,169.1 233.6,168.9 234.8,168.7 236.0,168.5 237.2,168.3 238.4,168.1 239.6,167.9 240.8,167.6 242.0,167.4 243.2,167.2 244.4,166.9 245.6,166.7 246.8,166.4 248.0,166.2 249.2,165.9 250.4,165.6 251.6,165.4 252.8,165.1 254.0,164.8 255.2,164.5 256.4,164.2 257.6,163.9 258.8,163.6 260.0,163.2 261.2,162.9 262.4,162.5 263.6,162.1 264.8,161.8 266.0,161.4 267.2,160.9 268.4,160.5 269.6,160.0 270.8,159.5 272.0,159.0 273.2,158.5 274.4,157.9 275.6,157.2 276.8,156.5 278.0,155.8 279.2,155.0 280.4,154.1 281.6,153.0 282.8,151.8 284.0,150.4 285.2,148.7 286.4,146.6 287.6,143.5 288.8,138.3 290.0,110.9 291.2,101.9 292.4,96.7 293.6,93.7 294.8,91.6 296.0,89.9 297.2,88.6 298.4,87.4 299.6,86.4 300.8,85.5 302.0,84.8 303.2,84.1 304.4,83.4 305.6,82.8 306.8,82.3 308.0,81.7 309.2,81.3 310.4,80.8 311.6,80.4 312.8,80.0 314.0,79.6 315.2,79.2 316.4,78.9 317.6,78.6 318.8,78.2 320.0,77.9 321.2,77.7 322.4,77.4 323.6,77.1 324.8,76.8 326.0,76.6 327.2,76.3 328.4,76.1 329.6,75.9 330.8,75.7 332.0,75.4 333.2,75.2 334.4,75.0 335.6,74.8 336.8,74.6 338.0,74.4 339.2,74.3 340.4,74.1 341.6,73.9 342.8,73.7 344.0,73.6 345.2,73.4 346.4,73.2 347.6,73.1 348.8,72.9 350.0,72.8 351.2,72.6 352.4,72.5 353.6,72.4 354.8,72.2 356.0,72.1 357.2,71.9 358.4,71.8 359.6,71.7 360.8,71.6 362.0,71.4 363.2,71.3 364.4,71.2 365.6,71.1 366.8,70.9 368.0,70.8 369.2,70.7 370.4,70.6 371.6,70.5 372.8,70.4 374.0,70.3 375.2,70.2 376.4,70.1 377.6,70.0 378.8,69.9 380.0,69.8 381.2,69.7 382.4,69.6 383.6,69.5 384.8,69.4 386.0,69.3 387.2,69.2 388.4,69.1 389.6,69.0 390.8,68.9 392.0,68.8 393.2,68.7 394.4,68.7 395.6,68.6 396.8,68.5 398.0,68.4 399.2,68.3 400.4,68.2 401.6,68.2 402.8,68.1 404.0,68.0 405.2,67.9 406.4,67.9 407.6,67.8 408.8,67.7 410.0,67.6 411.2,67.6 412.4,67.5 413.6,67.4 414.8,67.3 416.0,67.3 417.2,67.2 418.4,67.1 419.6,67.1 420.8,67.0 422.0,66.9 423.2,66.8 424.4,66.8 425.6,66.7 426.8,66.6 428.0,66.6 429.2,66.5 430.4,66.5 431.6,66.4 432.8,66.3 434.0,66.3 435.2,66.2 436.4,66.1 437.6,66.1 438.8,66.0 440.0,66.0 441.2,65.9 442.4,65.8 443.6,65.8 444.8,65.7 446.0,65.7 447.2,65.6 448.4,65.6 449.6,65.5 450.8,65.4 452.0,65.4 453.2,65.3 454.4,65.3 455.6,65.2 456.8,65.2 458.0,65.1 459.2,65.1 460.4,65.0 461.6,65.0 462.8,64.9 464.0,64.9 465.2,64.8 466.4,64.8 467.6,64.7 468.8,64.7 470.0,64.6 471.2,64.6 472.4,64.5 473.6,64.5 474.8,64.4 476.0,64.4 477.2,64.3 478.4,64.3 479.6,64.2 480.8,64.2 482.0,64.1 483.2,64.1 484.4,64.0 485.6,64.0 486.8,63.9 488.0,63.9 489.2,63.9 490.4,63.8 491.6,63.8 492.8,63.7 494.0,63.7 495.2,63.6 496.4,63.6 497.6,63.5 498.8,63.5 500.0,63.5 501.2,63.4 502.4,63.4 503.6,63.3 504.8,63.3 506.0,63.2 507.2,63.2 508.4,63.2 509.6,63.1 510.8,63.1 512.0,63.0 513.2,63.0 514.4,63.0 515.6,62.9 516.8,62.9 518.0,62.8 519.2,62.8 520.4,62.8 521.6,62.7 522.8,62.7 524.0,62.7 525.2,62.6 526.4,62.6 527.6,62.5 528.8,62.5 530.0,62.5\"/><circle cx=\"57.2\" cy=\"203.6\" r=\"5\" fill=\"#1c1c1c\"/><text x=\"65.2\" y=\"193.6\" fill=\"#1c1c1c\" font-weight=\"600\">A</text><circle cx=\"170.0\" cy=\"177.7\" r=\"5\" fill=\"#1c1c1c\"/><text x=\"158.0\" y=\"167.7\" fill=\"#1c1c1c\" font-weight=\"600\">B</text><circle cx=\"282.8\" cy=\"151.8\" r=\"5\" fill=\"#1c1c1c\"/><text x=\"270.8\" y=\"141.8\" fill=\"#1c1c1c\" font-weight=\"600\">C</text><circle cx=\"458.0\" cy=\"65.1\" r=\"5\" fill=\"#1c1c1c\"/><text x=\"446.0\" y=\"55.1\" fill=\"#1c1c1c\" font-weight=\"600\">D</text><text x=\"290.0\" y=\"310.0\" text-anchor=\"middle\" fill=\"#666\">base added →</text><text x=\"14.0\" y=\"140.0\" fill=\"#666\" transform=\"rotate(-90 14 140.0)\" text-anchor=\"middle\">pH</text></svg>", "classes": "<svg viewBox=\"0 0 680 210\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"system-ui,sans-serif\" font-size=\"13\"><rect width=\"680\" height=\"210\" fill=\"#fff\"/><line x1=\"43\" y1=\"70\" x2=\"49\" y2=\"70\" stroke=\"#1c1c1c\" stroke-width=\"2\"/><line x1=\"75\" y1=\"70\" x2=\"81\" y2=\"70\" stroke=\"#1c1c1c\" stroke-width=\"2\"/><line x1=\"107\" y1=\"70\" x2=\"113\" y2=\"70\" stroke=\"#1c1c1c\" stroke-width=\"2\"/><line x1=\"94\" y1=\"83\" x2=\"94\" y2=\"104\" stroke=\"#1c1c1c\" stroke-width=\"2\"/><line x1=\"105\" y1=\"117\" x2=\"122\" y2=\"117\" stroke=\"#1c1c1c\" stroke-width=\"2\"/><polygon points=\"41.3,76.5 30.0,83.0 18.7,76.5 18.7,63.5 30.0,57.0 41.3,63.5\" fill=\"#e6c87a\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><polygon points=\"73.3,76.5 62.0,83.0 50.7,76.5 50.7,63.5 62.0,57.0 73.3,63.5\" fill=\"#e6c87a\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><polygon points=\"105.3,76.5 94.0,83.0 82.7,76.5 82.7,63.5 94.0,57.0 105.3,63.5\" fill=\"#e6c87a\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><polygon points=\"137.3,76.5 126.0,83.0 114.7,76.5 114.7,63.5 126.0,57.0 137.3,63.5\" fill=\"#e6c87a\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><polygon points=\"105.3,123.5 94.0,130.0 82.7,123.5 82.7,110.5 94.0,104.0 105.3,110.5\" fill=\"#e6c87a\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><polygon points=\"146.3,123.5 135.0,130.0 123.7,123.5 123.7,110.5 135.0,104.0 146.3,110.5\" fill=\"#e6c87a\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><rect x=\"200\" y=\"45\" width=\"26\" height=\"90\" rx=\"4\" fill=\"#cfd8e6\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><text x=\"213.0\" y=\"150.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"11\">glycerol</text><polyline points=\"230,53 242,63 254,53 266,63 278,53 290,63 302,53 314,63 326,53\" fill=\"none\" stroke=\"#b8860b\" stroke-width=\"3\"/><polyline points=\"230,85 242,95 254,85 266,95 278,85 290,95 302,85 314,95 326,85\" fill=\"none\" stroke=\"#b8860b\" stroke-width=\"3\"/><polyline points=\"230,117 242,127 254,117 266,127 278,117 290,127 302,117 314,127 326,117\" fill=\"none\" stroke=\"#b8860b\" stroke-width=\"3\"/><polyline points=\"350,55 366,55 382,55 398,55 414,55 430,55 446,55 446,90 430,90 414,90 398,90 382,90 366,90 350,90 350,125 366,125 382,125 398,125 414,125 430,125 446,125\" fill=\"none\" stroke=\"#1c1c1c\" stroke-width=\"1.5\"/><circle cx=\"350\" cy=\"55\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"366\" cy=\"55\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"382\" cy=\"55\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"398\" cy=\"55\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"414\" cy=\"55\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"430\" cy=\"55\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"446\" cy=\"55\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"446\" cy=\"90\" r=\"7\" fill=\"#b8860b\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"430\" cy=\"90\" r=\"7\" fill=\"#b8860b\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"414\" cy=\"90\" r=\"7\" fill=\"#b8860b\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"398\" cy=\"90\" r=\"7\" fill=\"#b8860b\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"382\" cy=\"90\" r=\"7\" fill=\"#b8860b\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"366\" cy=\"90\" r=\"7\" fill=\"#b8860b\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"350\" cy=\"90\" r=\"7\" fill=\"#b8860b\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"350\" cy=\"125\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"366\" cy=\"125\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"382\" cy=\"125\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"398\" cy=\"125\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"414\" cy=\"125\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"430\" cy=\"125\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><circle cx=\"446\" cy=\"125\" r=\"7\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><text x=\"400.0\" y=\"150.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"11\">hydrophobic R groups tucked inside</text><circle cx=\"540\" cy=\"40\" r=\"6\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><line x1=\"540\" y1=\"46\" x2=\"540\" y2=\"64\" stroke=\"#1c1c1c\" stroke-width=\"2\"/><polygon points=\"548,48 566,43 574,55 562,66 548,61\" fill=\"#cfd8e6\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><line x1=\"574\" y1=\"55\" x2=\"592\" y2=\"55\" stroke=\"#1c1c1c\" stroke-width=\"1.5\"/><rect x=\"592\" y=\"47\" width=\"34\" height=\"16\" rx=\"3\" fill=\"#1f4b8f\"/><text x=\"609.0\" y=\"59.0\" text-anchor=\"middle\" fill=\"#fff\" font-size=\"11\" font-weight=\"600\">A</text><circle cx=\"540\" cy=\"70\" r=\"6\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><line x1=\"540\" y1=\"76\" x2=\"540\" y2=\"94\" stroke=\"#1c1c1c\" stroke-width=\"2\"/><polygon points=\"548,78 566,73 574,85 562,96 548,91\" fill=\"#cfd8e6\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><line x1=\"574\" y1=\"85\" x2=\"592\" y2=\"85\" stroke=\"#1c1c1c\" stroke-width=\"1.5\"/><rect x=\"592\" y=\"77\" width=\"34\" height=\"16\" rx=\"3\" fill=\"#1f4b8f\"/><text x=\"609.0\" y=\"89.0\" text-anchor=\"middle\" fill=\"#fff\" font-size=\"11\" font-weight=\"600\">T</text><circle cx=\"540\" cy=\"100\" r=\"6\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><line x1=\"540\" y1=\"106\" x2=\"540\" y2=\"124\" stroke=\"#1c1c1c\" stroke-width=\"2\"/><polygon points=\"548,108 566,103 574,115 562,126 548,121\" fill=\"#cfd8e6\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><line x1=\"574\" y1=\"115\" x2=\"592\" y2=\"115\" stroke=\"#1c1c1c\" stroke-width=\"1.5\"/><rect x=\"592\" y=\"107\" width=\"34\" height=\"16\" rx=\"3\" fill=\"#1f4b8f\"/><text x=\"609.0\" y=\"119.0\" text-anchor=\"middle\" fill=\"#fff\" font-size=\"11\" font-weight=\"600\">G</text><circle cx=\"540\" cy=\"130\" r=\"6\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><polygon points=\"548,138 566,133 574,145 562,156 548,151\" fill=\"#cfd8e6\" stroke=\"#1c1c1c\" stroke-width=\"1.2\"/><line x1=\"574\" y1=\"145\" x2=\"592\" y2=\"145\" stroke=\"#1c1c1c\" stroke-width=\"1.5\"/><rect x=\"592\" y=\"137\" width=\"34\" height=\"16\" rx=\"3\" fill=\"#1f4b8f\"/><text x=\"609.0\" y=\"149.0\" text-anchor=\"middle\" fill=\"#fff\" font-size=\"11\" font-weight=\"600\">C</text><text x=\"85.0\" y=\"176.0\" text-anchor=\"middle\" fill=\"#1c1c1c\" font-weight=\"600\" font-size=\"14\">Carbohydrate</text><text x=\"85.0\" y=\"194.0\" text-anchor=\"middle\" fill=\"#1f4b8f\" font-size=\"12\">glycosidic bonds</text><text x=\"85.0\" y=\"22.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">branched sugar chains</text><text x=\"255.0\" y=\"176.0\" text-anchor=\"middle\" fill=\"#1c1c1c\" font-weight=\"600\" font-size=\"14\">Lipid</text><text x=\"255.0\" y=\"194.0\" text-anchor=\"middle\" fill=\"#1f4b8f\" font-size=\"12\">ester bonds</text><text x=\"255.0\" y=\"22.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">no repeating unit</text><text x=\"400.0\" y=\"176.0\" text-anchor=\"middle\" fill=\"#1c1c1c\" font-weight=\"600\" font-size=\"14\">Protein</text><text x=\"400.0\" y=\"194.0\" text-anchor=\"middle\" fill=\"#1f4b8f\" font-size=\"12\">peptide bonds</text><text x=\"400.0\" y=\"22.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">unbranched chain folds</text><text x=\"585.0\" y=\"176.0\" text-anchor=\"middle\" fill=\"#1c1c1c\" font-weight=\"600\" font-size=\"14\">Nucleic acid</text><text x=\"585.0\" y=\"194.0\" text-anchor=\"middle\" fill=\"#1f4b8f\" font-size=\"12\">phosphodiester bonds</text><text x=\"585.0\" y=\"22.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">sugar–phosphate backbone</text></svg>", "water": "<svg viewBox=\"0 0 520 170\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"system-ui,sans-serif\" font-size=\"14\"><rect width=\"520\" height=\"170\" fill=\"#fff\"/><line x1=\"140\" y1=\"70\" x2=\"95\" y2=\"125\" stroke=\"#1c1c1c\" stroke-width=\"5\"/><circle cx=\"95\" cy=\"125\" r=\"17\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.5\"/><text x=\"95.0\" y=\"130.0\" text-anchor=\"middle\" fill=\"#1c1c1c\" font-weight=\"600\">H</text><text x=\"73.0\" y=\"151.0\" text-anchor=\"middle\" fill=\"#1f4b8f\" font-weight=\"600\">δ+</text><line x1=\"140\" y1=\"70\" x2=\"185\" y2=\"125\" stroke=\"#1c1c1c\" stroke-width=\"5\"/><circle cx=\"185\" cy=\"125\" r=\"17\" fill=\"#fff\" stroke=\"#1c1c1c\" stroke-width=\"1.5\"/><text x=\"185.0\" y=\"130.0\" text-anchor=\"middle\" fill=\"#1c1c1c\" font-weight=\"600\">H</text><text x=\"207.0\" y=\"151.0\" text-anchor=\"middle\" fill=\"#1f4b8f\" font-weight=\"600\">δ+</text><circle cx=\"140\" cy=\"70\" r=\"27\" fill=\"#1f4b8f\"/><text x=\"140.0\" y=\"76.0\" text-anchor=\"middle\" fill=\"#fff\" font-weight=\"600\" font-size=\"18\">O</text><text x=\"140.0\" y=\"34.0\" text-anchor=\"middle\" fill=\"#b42318\" font-weight=\"600\">δ−</text><circle cx=\"390\" cy=\"85\" r=\"16\" fill=\"#e6c87a\" stroke=\"#1c1c1c\"/><text x=\"390.0\" y=\"90.0\" text-anchor=\"middle\" fill=\"#1c1c1c\" font-size=\"12\" font-weight=\"600\">Na⁺</text><circle cx=\"442.0\" cy=\"85.0\" r=\"11\" fill=\"#1f4b8f\"/><circle cx=\"454.2\" cy=\"74.7\" r=\"5.5\" fill=\"#fff\" stroke=\"#1c1c1c\"/><circle cx=\"454.2\" cy=\"95.3\" r=\"5.5\" fill=\"#fff\" stroke=\"#1c1c1c\"/><circle cx=\"416.0\" cy=\"130.0\" r=\"11\" fill=\"#1f4b8f\"/><circle cx=\"431.0\" cy=\"135.5\" r=\"5.5\" fill=\"#fff\" stroke=\"#1c1c1c\"/><circle cx=\"413.2\" cy=\"145.8\" r=\"5.5\" fill=\"#fff\" stroke=\"#1c1c1c\"/><circle cx=\"364.0\" cy=\"130.0\" r=\"11\" fill=\"#1f4b8f\"/><circle cx=\"366.8\" cy=\"145.8\" r=\"5.5\" fill=\"#fff\" stroke=\"#1c1c1c\"/><circle cx=\"349.0\" cy=\"135.5\" r=\"5.5\" fill=\"#fff\" stroke=\"#1c1c1c\"/><circle cx=\"338.0\" cy=\"85.0\" r=\"11\" fill=\"#1f4b8f\"/><circle cx=\"325.8\" cy=\"95.3\" r=\"5.5\" fill=\"#fff\" stroke=\"#1c1c1c\"/><circle cx=\"325.8\" cy=\"74.7\" r=\"5.5\" fill=\"#fff\" stroke=\"#1c1c1c\"/><circle cx=\"364.0\" cy=\"40.0\" r=\"11\" fill=\"#1f4b8f\"/><circle cx=\"349.0\" cy=\"34.5\" r=\"5.5\" fill=\"#fff\" stroke=\"#1c1c1c\"/><circle cx=\"366.8\" cy=\"24.2\" r=\"5.5\" fill=\"#fff\" stroke=\"#1c1c1c\"/><circle cx=\"416.0\" cy=\"40.0\" r=\"11\" fill=\"#1f4b8f\"/><circle cx=\"413.2\" cy=\"24.2\" r=\"5.5\" fill=\"#fff\" stroke=\"#1c1c1c\"/><circle cx=\"431.0\" cy=\"34.5\" r=\"5.5\" fill=\"#fff\" stroke=\"#1c1c1c\"/><text x=\"390.0\" y=\"163.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">δ− oxygens face the cation</text><text x=\"140.0\" y=\"163.0\" text-anchor=\"middle\" fill=\"#666\" font-size=\"12\">permanent dipole</text></svg>", "aagrid": "<div class=\"aag\"><div class=\"aagc\"><b>Aliphatic</b><span class=\"pho\">Ala</span><span class=\"phi ex\">Gly</span><span class=\"pho\">Ile</span><span class=\"pho\">Leu</span><span class=\"pho\">Pro</span><span class=\"pho\">Val</span></div><div class=\"aagc\"><b>Aromatic</b><span class=\"pho\">Phe</span><span class=\"pho\">Trp</span><span class=\"pho ex\">Tyr</span></div><div class=\"aagc\"><b>Acidic (−)</b><span class=\"phi\">Asp</span><span class=\"phi\">Glu</span></div><div class=\"aagc\"><b>Basic (+)</b><span class=\"phi\">Arg</span><span class=\"phi\">His</span><span class=\"phi\">Lys</span></div><div class=\"aagc\"><b>Hydroxylic</b><span class=\"phi\">Ser</span><span class=\"phi\">Thr</span></div><div class=\"aagc\"><b>Amidic</b><span class=\"phi\">Asn</span><span class=\"phi\">Gln</span></div><div class=\"aagc\"><b>Sulfur</b><span class=\"phi ex\">Cys</span><span class=\"pho ex\">Met</span></div></div><div class=\"aagl\"><span class=\"pho\">hydrophobic</span><span class=\"phi\">hydrophilic</span><span class=\"phi ex\">exception to memorize</span></div>", "forces": "<div class=\"fbars\"><div class=\"fbr\"><span class=\"fn\">Ion–dipole</span><span class=\"fbg\"><i style=\"width:100%\"></i></span><span class=\"fe\">Na⁺ in water; charged side chains</span></div><div class=\"fbr\"><span class=\"fn\">Hydrogen bond</span><span class=\"fbg\"><i style=\"width:72%\"></i></span><span class=\"fe\">DNA strands, water cohesion</span></div><div class=\"fbr\"><span class=\"fn\">Dipole–dipole</span><span class=\"fbg\"><i style=\"width:48%\"></i></span><span class=\"fe\">polar groups lining up</span></div><div class=\"fbr\"><span class=\"fn\">van der Waals</span><span class=\"fbg\"><i style=\"width:22%\"></i></span><span class=\"fe\">all molecules, even nonpolar; gecko feet</span></div><div class=\"fnote\">relative strength (illustrative)</div></div>", "phscale": "<div class=\"phs\"><div class=\"phrow\"><span style=\"background:hsl(5,55%,72%)\">0</span><span style=\"background:hsl(19,55%,72%)\">1</span><span style=\"background:hsl(33,55%,72%)\">2</span><span style=\"background:hsl(47,55%,72%)\">3</span><span style=\"background:hsl(61,55%,72%)\">4</span><span style=\"background:hsl(75,55%,72%)\">5</span><span style=\"background:hsl(89,55%,72%)\">6</span><span style=\"background:hsl(103,55%,88%)\">7</span><span style=\"background:hsl(117,55%,72%)\">8</span><span style=\"background:hsl(131,55%,72%)\">9</span><span style=\"background:hsl(145,55%,72%)\">10</span><span style=\"background:hsl(159,55%,72%)\">11</span><span style=\"background:hsl(173,55%,72%)\">12</span><span style=\"background:hsl(187,55%,72%)\">13</span><span style=\"background:hsl(201,55%,72%)\">14</span></div><div class=\"phlab\"><span>more H⁺ · acidic</span><span>neutral 7</span><span>basic · less H⁺</span></div><div class=\"phmk\"><span style=\"left:calc(1.75/15*100%)\">stomach ~1.5–2</span><span style=\"left:calc(7.9/15*100%)\">blood 7.4</span></div></div>"};
 
 // Module 1 — Intro to Biochemistry (LOs 1.1–1.4)
 // src: lecture lesson the item comes from. tag: "beyond" = not stated in the lecture; reasoned from it or standard biochem.
 MODS.push({
 id:"m1", short:"M1", name:"Module 1: Biomolecules, water, pH",
 los:[
-{id:"1.1", title:"Relate the structure and function of biomolecules to their cellular role"},
-{id:"1.2", title:"Describe how the properties of water facilitate biological interactions"},
-{id:"1.3", title:"Determine the pH of a solution by direct measurement and calculation"},
-{id:"1.4", title:"Apply knowledge of the bicarbonate buffer system to predict pathophysiologic effects of acidosis and alkalosis"}
+{id:"1.1", nick:"Biomolecules", title:"Relate the structure and function of biomolecules to their cellular role"},
+{id:"1.2", nick:"Water and weak forces", title:"Describe how the properties of water facilitate biological interactions"},
+{id:"1.3", nick:"pH and buffers", title:"Determine the pH of a solution by direct measurement and calculation"},
+{id:"1.4", nick:"Bicarbonate and acid–base", title:"Apply knowledge of the bicarbonate buffer system to predict pathophysiologic effects of acidosis and alkalosis"}
 ],
 
-sheets:{
-"1.1":`
-<h4>Four classes, what holds them together, what they do</h4>
-<table>
-<tr><th>Class</th><th>Building block</th><th>Bond</th><th>Role</th></tr>
-<tr><td>Carbohydrate</td><td>monosaccharide</td><td>glycosidic</td><td>main fuel (glucose); storage as glycogen (animals) / starch (plants); branched chains for structure, cell ID, cell–cell contact</td></tr>
-<tr><td>Lipid</td><td><b>no repeating unit</b></td><td>ester (fatty acid → glycerol)</td><td>stored fat, membranes, hormones</td></tr>
-<tr><td>Protein</td><td>amino acid</td><td>peptide (unbranched chain)</td><td>enzymes, structure, signaling, transport</td></tr>
-<tr><td>Nucleic acid</td><td>nucleotide (5-C sugar + base + phosphate)</td><td>phosphodiester</td><td>store and transfer genetic info</td></tr>
-</table>
-<p>All four bonds form by dehydration synthesis (water out) and break by hydrolysis (water in).</p>
-
-<h4>Lipids</h4>
-<ul>
-<li><b>Triglyceride:</b> glycerol + 3 fatty acids via ester bonds. Stored fat (adipose).</li>
-<li><b>Phospholipid:</b> glycerol + 2 FAs + modified phosphate (head). Sphingolipids use a <b>sphingosine</b> backbone instead. Bilayer: heads out, tails in.</li>
-<li><b>Steroid:</b> 4 fused rings. Cholesterol → bile salts, testosterone, estradiol, cortisol. In the membrane it buffers fluidity in both directions (heat and cold).</li>
-<li>Saturated = no C=C, packs tight, solid (butter). Unsaturated = ≥1 C=C, kinks, liquid (olive oil), adds membrane fluidity.</li>
-</ul>
-
-<h4>Amino acid groups (book grouping, no structures needed)</h4>
-<table>
-<tr><th>Group</th><th>Members</th><th>Water</th></tr>
-<tr><td>Aliphatic</td><td>Ala, Gly, Ile, Leu, Pro, Val</td><td>hydrophobic, <b>except Gly</b></td></tr>
-<tr><td>Aromatic</td><td>Phe, Trp, Tyr</td><td>hydrophobic (Tyr is polar but still counted hydrophobic)</td></tr>
-<tr><td>Acidic (−)</td><td>Asp, Glu</td><td>hydrophilic</td></tr>
-<tr><td>Basic (+)</td><td>Arg, His, Lys</td><td>hydrophilic</td></tr>
-<tr><td>Hydroxylic</td><td>Ser, Thr</td><td>hydrophilic</td></tr>
-<tr><td>Amidic</td><td>Asn, Gln</td><td>hydrophilic</td></tr>
-<tr><td>Sulfur</td><td>Cys, Met</td><td>Cys hydrophilic, Met hydrophobic</td></tr>
-</table>
-<p class="conf"><b>Easy to confuse:</b> polar ≠ hydrophilic in this book. Gly is nonpolar but hydrophilic; Tyr is polar but hydrophobic. Pro is an imino acid (NH, not NH<sub>2</sub>).</p>
-
-<h4>DNA vs RNA</h4>
-<p>DNA: deoxyribose; A T G C. RNA: ribose; A <b>U</b> G C. They differ in sugar <i>and</i> one base.</p>
-
-<h4>Where pathways happen</h4>
-<table>
-<tr><td>Cytosol</td><td>glycolysis, glycogen synthesis, fatty acid / amino acid / nucleotide synthesis</td></tr>
-<tr><td>Mito matrix</td><td>citric acid cycle, β-oxidation</td></tr>
-<tr><td>Inner mito membrane</td><td>oxidative phosphorylation (cristae add surface area)</td></tr>
-<tr><td>Smooth ER</td><td>triacylglycerol, phospholipid, cholesterol and steroid hormone synthesis (Leydig cells, hepatocytes, adipocytes)</td></tr>
-<tr><td>Peroxisome</td><td>first β-oxidation of <b>very long</b> fatty acids, H<sub>2</sub>O<sub>2</sub> breakdown, bile acid and DHA synthesis</td></tr>
-<tr><td>Lysosome</td><td>digests all 4 classes; the only pathway run here is glycogen degradation</td></tr>
-</table>
-<p class="conf"><b>Easy to confuse:</b> ester (lipids) vs phosphodiester (nucleic acids); glycogen (animal) vs starch (plant).</p>
-`,
-"1.2":`
-<h4>Two properties do most of the work</h4>
-<ol>
-<li><b>Polarity.</b> O is more electronegative than H → O is δ−, H's are δ+. Polar and charged molecules dissolve (hydrophilic); nonpolar ones don't (hydrophobic).</li>
-<li><b>Hydrogen bonding.</b> δ+ H on N, O or F ↔ δ− atom on another molecule. Gives cohesion (meniscus, water dome on a penny, bugs on water).</li>
-</ol>
-
-<h4>Weak (noncovalent, intermolecular) forces, strongest → weakest</h4>
-<table>
-<tr><th>Force</th><th>What it is</th><th>Example</th></tr>
-<tr><td>Ion–dipole</td><td>ion ↔ opposite end of a polar molecule</td><td>NaCl dissolving; charged side chains binding</td></tr>
-<tr><td>Hydrogen bond</td><td>strongest dipole–dipole (H on N/O/F)</td><td>DNA strands, protein shape, water cohesion</td></tr>
-<tr><td>Dipole–dipole</td><td>polar ↔ polar</td><td>polar groups lining up</td></tr>
-<tr><td>van der Waals</td><td>transient dipoles; works between <b>all</b> molecules, even nonpolar</td><td>gecko feet; packed protein cores</td></tr>
-</table>
-<p>They're weak and <b>reversible</b>, which is the point: molecules can bind, let go and rearrange. Thousands of them together give a lot of stability. van der Waals attraction rises as atoms get closer until the <b>contact distance</b>; any closer and the electron clouds repel.</p>
-
-<h4>Hydrophobic effect</h4>
-FIG:hydro
-<p>Nonpolar molecules cluster <b>not because they attract each other</b>, but because clustering frees the ordered "cage" waters → entropy goes up → spontaneous. This drives bilayer formation and buries hydrophobic amino acids in the protein core.</p>
-<p class="conf"><b>Easy to confuse:</b> weak interactions = attraction. Hydrophobic effect = entropy of water, not attraction.</p>
-
-<h4>Why water weakens electrostatic interactions <span class="tag">beyond</span></h4>
-<p>Water molecules orient around each ion (δ− O toward cations, δ+ H toward anions), shielding the charges from each other. In textbook terms, water has a high dielectric constant. That's why salt dissolves, and why charge–charge interactions inside proteins are strongest where water is excluded.</p>
-`,
-"1.3":`
-<h4>Equations</h4>
-<table>
-<tr><td>pH = −log[H<sup>+</sup>]</td><td>[H<sup>+</sup>] = 10<sup>−pH</sup></td></tr>
-<tr><td>pOH = −log[OH<sup>−</sup>]</td><td>pH + pOH = 14 (K<sub>w</sub> = 10<sup>−14</sup>)</td></tr>
-<tr><td>K<sub>a</sub> = [H<sup>+</sup>][A<sup>−</sup>]/[HA]</td><td>pK<sub>a</sub> = −log K<sub>a</sub></td></tr>
-<tr><td colspan="2"><b>pH = pK<sub>a</sub> + log([A<sup>−</sup>]/[HA])</b> &nbsp;→&nbsp; ratio = 10<sup>(pH − pKa)</sup></td></tr>
-</table>
-<ul>
-<li>1 pH unit = 10× [H<sup>+</sup>]. 2 units = 100×.</li>
-<li>Bigger K<sub>a</sub> = smaller pK<sub>a</sub> = stronger acid (dissociates more). Strong acids (HCl) dissociate fully: 0.1 M HCl → pH 1.</li>
-<li>K<sub>eq</sub> &gt; 1 favors products, &lt; 1 favors reactants. Know how to interpret it; you're unlikely to calculate one.</li>
-</ul>
-
-<h4>Reading H–H without math</h4>
-<table>
-<tr><td>pH &gt; pK<sub>a</sub></td><td>[A<sup>−</sup>] &gt; [HA] (deprotonated wins)</td></tr>
-<tr><td>pH = pK<sub>a</sub></td><td>[A<sup>−</sup>] = [HA], half dissociated, best buffering</td></tr>
-<tr><td>pH &lt; pK<sub>a</sub></td><td>[HA] &gt; [A<sup>−</sup>] (protonated wins)</td></tr>
-</table>
-<p>Most organic acids at pH 7.4 are in base form, which is why pathways say pyruvate and lactate, not pyruvic acid and lactic acid. Uncharged HA crosses the membrane's hydrophobic core more easily; the charged form is more water-soluble.</p>
-
-<h4>Buffers</h4>
-<p>A weak acid + its conjugate base. It <b>resists change</b> in pH; it does not pull pH toward 7. It works best within <b>pK<sub>a</sub> ± 1</b>.</p>
-TOOL:hh
-<p class="conf"><b>Easy to confuse:</b> "buffer neutralizes" (wrong) vs "buffer maintains whatever pH it's at" (right). Strong acid = low pK<sub>a</sub>, not high.</p>
-
-<h4>Direct measurement <span class="tag">beyond</span></h4>
-<p>The lecture only covers calculation. In practice pH is measured with a pH meter (electrode reads [H<sup>+</sup>] directly) or with indicator dyes or strips that change color over a set pH range.</p>
-`,
-"1.4":`
-<h4>The system</h4>
-FIG:bicarb
-<ul>
-<li>pK<sub>a</sub> 6.1, blood pH 7.4 → [HCO<sub>3</sub><sup>−</sup>]:[H<sub>2</sub>CO<sub>3</sub>] = 10<sup>1.3</sup> ≈ <b>20:1</b>. That large bicarbonate reserve soaks up acids like lactic acid.</li>
-<li>In the lungs the reaction runs left → CO<sub>2</sub> is exhaled, removing acid.</li>
-<li>Ratio up → pH up. Ratio down → pH down.</li>
-</ul>
-
-<h4>Predicting the disorder</h4>
-<table>
-<tr><th>Cause</th><th>Shift</th><th>pH</th><th>Disorder</th></tr>
-<tr><td>Breathing too slow / CO<sub>2</sub> retained (opioids, COPD)</td><td>right</td><td>↓</td><td>respiratory acidosis</td></tr>
-<tr><td>Breathing too fast / CO<sub>2</sub> blown off (panic, altitude)</td><td>left</td><td>↑</td><td>respiratory alkalosis</td></tr>
-<tr><td>Acid added (lactic acid, ketoacids) or HCO<sub>3</sub><sup>−</sup> lost (diarrhea)</td><td>bicarbonate consumed</td><td>↓</td><td>metabolic acidosis</td></tr>
-<tr><td>Acid lost (vomiting stomach HCl)</td><td>H<sup>+</sup> regenerated, HCO<sub>3</sub><sup>−</sup> left over</td><td>↑</td><td>metabolic alkalosis</td></tr>
-</table>
-<p><b>Rule:</b> "respiratory" = the problem starts with CO<sub>2</sub>. "Metabolic" = it starts with acid or HCO<sub>3</sub><sup>−</sup>. Compensation is the other system pushing back: breathing faster to blow off CO<sub>2</sub> in metabolic acidosis is <b>beyond</b> the lecture, but it follows from the same equation.</p>
-<h4>Why it matters</h4>
-<p>pH shifts change which groups are protonated. That breaks electrostatic interactions and H-bonds → proteins misfold and enzymes lose activity.</p>
-<p class="conf"><b>Easy to confuse:</b> more CO<sub>2</sub> = more acid (pH down). People flip this because CO<sub>2</sub> isn't "an acid" on its own; it becomes one by making H<sub>2</sub>CO<sub>3</sub>.</p>
-<p class="mut sm">Note: 7.4 sits outside 6.1 ± 1, yet the system still works because it's open. The lungs remove CO<sub>2</sub> and the kidneys adjust HCO<sub>3</sub><sup>−</sup> <span class="tag">beyond</span>.</p>
-`
+guide:{
+"1.1":[
+{h:"One pattern for all four classes",
+b:`<p>Every class is built the same way: small <b>building blocks</b> joined by one type of <b>bond</b> into something with a <b>job</b>. If you know the building block and the bond, the role follows.</p>`,
+fig:"classes",
+key:`All four bonds form by <b>dehydration synthesis</b> (water out) and break by <b>hydrolysis</b> (water in).`},
+{h:"The cheat line for each class",
+b:`<table><tr><th>Class</th><th>Building block</th><th>Bond</th><th>Job</th></tr>
+<tr><td>Carbohydrate</td><td>monosaccharide</td><td>glycosidic</td><td>fuel, glucose storage</td></tr>
+<tr><td>Lipid</td><td><b>none</b> (no repeating unit)</td><td>ester</td><td>stored fat, membranes, hormones</td></tr>
+<tr><td>Protein</td><td>amino acid</td><td>peptide</td><td>enzymes, structure, signaling</td></tr>
+<tr><td>Nucleic acid</td><td>nucleotide</td><td>phosphodiester</td><td>genetic information</td></tr></table>`,
+trap:`Ester bonds belong to lipids and phosphodiester bonds to nucleic acids. Lipids are the one class that isn't a polymer.`},
+{check:["m1q01","m1q53"]},
+{h:"Carbohydrates: fuel and storage",
+b:`<div class="trio"><div><b>Mono-</b><span>one sugar</span><i>glucose, fructose, galactose</i></div><div><b>Di-</b><span>two sugars</span><i>sucrose = glucose + fructose; lactose; maltose</i></div><div><b>Poly-</b><span>hundreds to thousands, branched</span><i>glycogen (animals), starch (plants)</i></div></div>
+<p>Glucose is the main fuel, and it's stored as a polysaccharide. Branched carbohydrate chains also provide structure, cell identification and cell-to-cell contact.</p>`},
+{h:"Lipids: three types, three jobs",
+b:`<div class="trio"><div><b>Triglyceride</b><span>glycerol + 3 fatty acids (ester bonds)</span><i>stored fat in adipose tissue</i></div><div><b>Phospholipid</b><span>glycerol + 2 fatty acids + phosphate head; sphingolipids use <u>sphingosine</u></span><i>the membrane bilayer</i></div><div><b>Steroid</b><span>4 fused rings, e.g. cholesterol</span><i>membrane fluidity buffer; makes bile salts, testosterone, estradiol, cortisol</i></div></div>
+<p>All are <b>amphipathic</b>: a hydrophilic head and a hydrophobic tail. In the bilayer, heads face water and tails hide in the middle. That core is what blocks polar molecules, so the membrane is selective.</p>`,
+key:`<b>Saturated</b> = no C=C, so tails pack tightly → solid (butter), stable. <b>Unsaturated</b> = C=C kinks → liquid (olive oil), adds membrane fluidity.`},
+{check:["m1q03","m1q55"]},
+{h:"Proteins: the R group decides everything",
+b:`<p>Every amino acid has an amino group (accepts H⁺, basic), a carboxyl group (donates H⁺, acidic) and a unique <b>R group</b>. Peptide bonds link them into an <b>unbranched</b> chain, which folds according to the polarity and charge of its R groups: hydrophobic ones go inside, polar and charged ones face water. Shape = function. Enzymes are the headline job.</p>`,
+fig:"aagrid",
+trap:`In this book, polar doesn't automatically mean hydrophilic. <b>Gly</b> is nonpolar but counted hydrophilic. <b>Tyr</b> is polar but counted hydrophobic. The sulfur pair splits: <b>Met</b> is hydrophobic, <b>Cys</b> is hydrophilic.`},
+{drill:"m1d1"},
+{check:["m1q54","m1q04"]},
+{h:"Nucleic acids: DNA vs RNA",
+b:`<div class="duo"><div><b>DNA</b><span>deoxyribose sugar</span><span>A · T · G · C</span><i>stores genetic info</i></div><div><b>RNA</b><span>ribose sugar</span><span>A · <u>U</u> · G · C</span><i>carries it to make protein</i></div></div>
+<p>A nucleotide is a 5-carbon sugar + a nitrogenous base + phosphate. Phosphodiester bonds link nucleotides into a strand.</p>`,
+trap:`DNA and RNA differ in their <b>sugar</b> and in one base, not just the base.`},
+{check:["m1q08"]},
+{drill:"m1d2"}
+],
+"1.2":[
+{h:"Water is polar",
+b:`<p>Oxygen pulls the shared electrons harder than hydrogen does, so O ends up partially negative (δ−) and each H partially positive (δ+). That permanent dipole lets water surround anything charged or polar and dissolve it.</p>`,
+fig:"water",
+key:`Polar or charged → <b>hydrophilic</b> (dissolves). Nonpolar → <b>hydrophobic</b> (clusters, like oil).`},
+{h:"Hydrogen bonds",
+b:`<p>A δ+ hydrogen attached to <b>N, O or F</b> is attracted to a δ− atom on another molecule. Water molecules H-bond to each other constantly, which produces <b>cohesion</b>: the dome of water on a penny, the meniscus, bugs walking on water. The same bonds hold DNA strands together and keep proteins folded.</p>`},
+{check:["m1q21","m1q27"]},
+{h:"Weak forces, strongest to weakest",
+fig:"forces",
+b:`<p>These act between molecules, not within them. They're weak and <b>reversible</b>, and that's the point: molecules can bind, release and rearrange. Thousands of them together still add up to a lot of stability (gecko feet, folded proteins).</p>
+<p>van der Waals attraction increases as atoms get closer, up to the <b>contact distance</b>. Any closer than that and the electron clouds repel.</p>`},
+{check:["m1q20","m1q23"]},
+{h:"The hydrophobic effect isn't an attraction",
+fig:"hydro",
+b:`<p>Water has to form an ordered "cage" around each nonpolar molecule. When nonpolar molecules cluster, there's less surface to cage, so water molecules are freed, <b>entropy rises</b>, and the clustering is spontaneous. This drives bilayer formation and buries hydrophobic amino acids in the protein core.</p>`,
+trap:`Weak interactions work by attraction. The hydrophobic effect works by water's entropy. That difference is a likely true/false question.`},
+{check:["m1q18","m1q19"]},
+{h:"Why water weakens charge–charge attraction <span class='tag'>beyond lecture</span>",
+b:`<p>Water molecules point their δ− O toward cations and their δ+ H toward anions, shielding each ion from the other (textbooks call this water's high dielectric constant). That's why salt dissolves, and why charge interactions inside proteins are strongest where water is shut out.</p>`},
+{check:["m1q25"]},
+{drill:"m1d3"}
+],
+"1.3":[
+{h:"pH is a log scale",
+fig:"phscale",
+b:`<p><b>pH = −log[H⁺]</b>. Every 1 unit is a <b>10×</b> change in [H⁺], and a lower pH means <i>more</i> H⁺. Water splits slightly into H⁺ and OH⁻, and their product is always 10⁻¹⁴, so <b>pH + pOH = 14</b>.</p>`,
+key:`[H⁺] = 10<sup>−pH</sup>. For a strong acid like HCl, [acid] = [H⁺]: 0.01 M → pH 2.`},
+{check:["m1q30","m1q29"]},
+{h:"How strong is an acid? Ka and pKa",
+b:`<p>K<sub>a</sub> = [H⁺][A⁻]/[HA] measures how much an acid dissociates. A bigger K<sub>a</sub> means a stronger acid, which means a <b>smaller</b> pK<sub>a</sub> (pK<sub>a</sub> = −log K<sub>a</sub>). Strong acids dissociate fully; the weak acids your body uses only partly do.</p>
+<p>For any K<sub>eq</sub>: above 1 favors products, below 1 favors reactants. Be able to interpret one; you probably won't have to calculate one.</p>`},
+{check:["m1q33"]},
+{h:"Henderson–Hasselbalch without the math",
+b:`<p><b>pH = pK<sub>a</sub> + log([A⁻]/[HA])</b>. All it really tells you is <i>which form wins</i>:</p>
+<div class="trio"><div><b>pH &lt; pKa</b><span>HA wins</span><i>protonated</i></div><div><b>pH = pKa</b><span>50 / 50</span><i>best buffering</i></div><div><b>pH &gt; pKa</b><span>A⁻ wins</span><i>deprotonated</i></div></div>
+<p>To get the actual ratio: [A⁻]/[HA] = 10<sup>(pH − pKa)</sup>.</p>`},
+{steps:"Aspirin at blood pH (lecture example)",s:["pKa = 3.5, pH = 7.4","7.4 = 3.5 + log(ratio)","log(ratio) = 3.9","ratio = 10<sup>3.9</sup> ≈ 7,943","So roughly 7,943 A⁻ for every 1 HA at blood pH: almost all of it is deprotonated."]},
+{tool:"hh"},
+{check:["m1q31","m1q34"]},
+{h:"Buffers hold pH, they don't neutralize",
+b:`<p>A buffer is a weak acid plus its conjugate base. It soaks up added H⁺ or OH⁻ so the pH barely moves. It works best within <b>pK<sub>a</sub> ± 1</b>, which is the flat part of the titration curve.</p>
+<p>Most organic acids sit in their base form at pH 7.4, which is why pathways say <i>pyruvate</i> and <i>lactate</i>. The uncharged HA form crosses membranes more easily.</p>`,
+trap:`"A buffer moves pH toward 7" is false. It keeps whatever pH it's already at.`},
+{check:["m1q36","m1q37","m1q40"]},
+{h:"Measuring pH directly <span class='tag'>beyond lecture</span>",
+b:`<p>The lecture only covers calculation. In a lab, pH is measured with a <b>pH meter</b> (an electrode that reads [H⁺]) or with <b>indicator</b> dyes or strips that change color over a known range.</p>`}
+],
+"1.4":[
+{h:"One equation runs blood pH",
+fig:"bicarb",
+b:`<p>CO₂ from metabolism becomes carbonic acid, which releases H⁺ and HCO₃⁻. In the lungs the reaction runs left and CO₂ is exhaled, taking the acid with it.</p>`},
+{steps:"Why normal blood is 20:1",s:["pH = pKa + log([HCO₃⁻]/[H₂CO₃])","7.4 = 6.1 + log(ratio)","log(ratio) = 1.3","ratio = 10<sup>1.3</sup> ≈ 20","So there are 20 bicarbonates for every carbonic acid. That large base reserve soaks up acids like lactic acid. Ratio drops → pH drops."]},
+{check:["m1q42"]},
+{h:"Predicting the disorder",
+b:`<p><b>Step 1:</b> What changed first, CO₂ (→ <i>respiratory</i>) or acid/HCO₃⁻ (→ <i>metabolic</i>)?<br><b>Step 2:</b> Which way does pH go?</p>
+<table><tr><th>Cause</th><th>pH</th><th>Disorder</th></tr>
+<tr><td>Slow breathing, CO₂ retained (opioids, COPD)</td><td>↓</td><td>respiratory acidosis</td></tr>
+<tr><td>Fast breathing, CO₂ blown off (panic, altitude)</td><td>↑</td><td>respiratory alkalosis</td></tr>
+<tr><td>Acid added (lactic, keto) or HCO₃⁻ lost (diarrhea)</td><td>↓</td><td>metabolic acidosis</td></tr>
+<tr><td>Acid lost (vomiting)</td><td>↑</td><td>metabolic alkalosis</td></tr></table>`,
+trap:`More CO₂ means <b>lower</b> pH. CO₂ becomes an acid by making H₂CO₃.`},
+{drill:"m1d5"},
+{check:["m1q44","m1q50"]},
+{h:"Why acidosis hurts",
+b:`<p>A pH shift changes which side chains carry H⁺. That breaks the electrostatic interactions and H-bonds that hold a protein's shape, so proteins misfold and enzymes stop working. Peptide bonds stay intact; it's the 3D shape that fails.</p>
+<p class="mut sm">7.4 lies outside 6.1 ± 1, but the system still works because the lungs (CO₂) and kidneys (HCO₃⁻) keep adjusting it. <span class="tag">beyond lecture</span></p>`},
+{check:["m1q51"]}
+]
 },
 
 questions:[
@@ -312,18 +371,21 @@ exp:"They also differ in the sugar: deoxyribose in DNA, ribose in RNA. Base-wise
 stem:"Glycogen and starch are best described as:",
 opts:["Branched glucose polysaccharides storing fuel in animals and plants, respectively","Branched glucose polysaccharides storing fuel in plants and animals, respectively","Glucose disaccharides storing fuel in animals and plants, respectively","Structural fructose polysaccharides found in animals and plants, respectively"],ans:0,
 exp:"Both store glucose as polysaccharides joined by glycosidic bonds. Glycogen is the animal form and starch is the plant form."},
-{id:"m1q10",lo:"1.1",src:"L2",type:"mc",
-stem:"Which cell would you expect to have the most extensive smooth ER?",
-opts:["A testosterone-secreting Leydig cell","An antibody-secreting plasma cell","An enzyme-secreting pancreatic acinar cell","A mature red blood cell"],ans:0,
-exp:"Smooth ER is where lipids and steroids are made, so steroid-producing cells like Leydig cells have a lot of it. Cells that secrete proteins rely on rough ER, and mature RBCs have no organelles."},
-{id:"m1q11",lo:"1.1",src:"L2",type:"mc",
-stem:"The citric acid cycle and oxidative phosphorylation occur in which locations, respectively?",
-opts:["Mitochondrial matrix; inner mitochondrial membrane","Inner mitochondrial membrane; mitochondrial matrix","Cytosol; inner mitochondrial membrane","Mitochondrial matrix; intermembrane space"],ans:0,
-exp:"The citric acid cycle runs in the matrix, and oxidative phosphorylation runs on the inner membrane, where cristae add surface area. Glycolysis is the cytosolic pathway. This pairing comes back in Module 3."},
-{id:"m1q12",lo:"1.1",src:"L2",type:"mc",
-stem:"The initial breakdown of very long-chain fatty acids takes place in the:",
-opts:["Peroxisome","Lysosome","Smooth ER","Cytosol"],ans:0,
-exp:"Peroxisomes begin β-oxidation of very long fatty acids. Ordinary β-oxidation happens in the mitochondrial matrix, and the lysosome's only metabolic pathway is glycogen degradation."},
+{id:"m1q53",lo:"1.1",src:"L1",type:"mc",
+stem:"Why does carbon form the backbone of biomolecules?",
+opts:["It forms four stable covalent bonds, and breaking C–C bonds releases a lot of energy","It forms ionic bonds with water, which makes biomolecules dissolve","It is the most abundant element in the Earth's crust, so it is easy to obtain","It carries a permanent partial charge that drives weak interactions"],ans:0,
+exp:"Four stable bonds let carbon build large backbones, and C–C bonds store a lot of energy, which makes carbon molecules efficient fuel. Burning them also yields CO₂, which can be recycled."},
+{id:"m1q54",lo:"1.1",src:"L1",type:"mc",
+stem:"A protein's final three-dimensional shape is determined mainly by:",
+opts:["The polarity and charge of its amino acid R groups","The total number of peptide bonds in the chain","Whether its chain is branched or unbranched","The amount of ATP available while it folds"],ans:0,
+exp:"The chain folds according to the polarity and charge of its R groups: hydrophobic ones get buried, while polar and charged ones face water. Peptide chains are always unbranched."},
+{id:"m1q55",lo:"1.1",src:"L1",type:"mc",
+stem:"Which structural feature makes a phospholipid bilayer selectively permeable?",
+opts:["A hydrophobic core of fatty acid tails that blocks polar and charged molecules","Hydrophilic phosphate heads that actively pump ions across","Ester bonds that open and close to let molecules pass","A glycerol backbone that forms pores through the membrane"],ans:0,
+exp:"Few molecules can get through the tail-filled core on their own. Transmembrane proteins let specific molecules (glucose, Na⁺) through, which is what makes the membrane selective."},
+{id:"m1q56",lo:"1.1",src:"L1",type:"tf",
+stem:"Triglycerides are the main structural lipid of cell membranes.",ans:false,
+exp:"Phospholipids build the bilayer. Triglycerides are stored fat (adipose)."},
 {id:"m1q13",lo:"1.1",src:"L1",type:"mc",
 stem:"Cholesterol's effect on the plasma membrane is to:",
 opts:["Limit phospholipid movement at high temperature and prevent tight packing at low temperature","Increase fluidity at all temperatures by separating phospholipid tails","Decrease fluidity at all temperatures by stiffening phospholipid tails","Form transmembrane channels that let polar molecules cross the bilayer"],ans:0,
@@ -495,10 +557,14 @@ items:[["Ala","Aliphatic"],["Gly","Aliphatic","Book groups Gly as aliphatic"],["
 {name:"Hydrophobic or hydrophilic",bins:["Hydrophobic","Hydrophilic"],
 items:[["Ala","Hydrophobic"],["Gly","Hydrophilic","Nonpolar, but the book counts it hydrophilic"],["Ile","Hydrophobic"],["Leu","Hydrophobic"],["Pro","Hydrophobic"],["Val","Hydrophobic"],["Phe","Hydrophobic"],["Trp","Hydrophobic"],["Tyr","Hydrophobic","Polar, but only weakly interacts with water → polar hydrophobic"],["Asp","Hydrophilic"],["Glu","Hydrophilic"],["Arg","Hydrophilic"],["His","Hydrophilic"],["Lys","Hydrophilic"],["Ser","Hydrophilic"],["Thr","Hydrophilic"],["Asn","Hydrophilic"],["Gln","Hydrophilic"],["Cys","Hydrophilic","Sulfur pair splits: Cys polar hydrophilic"],["Met","Hydrophobic","Sulfur pair splits: Met nonpolar hydrophobic"]]}
 ]},
-{id:"m1d2",lo:"1.1",kind:"sort",title:"Where does it happen?",
-intro:"Place each process in its cellular location.",
-rounds:[{name:"Pathway → location",bins:["Cytosol","Mito matrix","Inner mito membrane","Smooth ER","Peroxisome","Lysosome"],
-items:[["Glycolysis","Cytosol"],["Glycogen synthesis","Cytosol"],["Fatty acid synthesis","Cytosol"],["Citric acid cycle","Mito matrix"],["β-oxidation of typical fatty acids","Mito matrix"],["Oxidative phosphorylation","Inner mito membrane","Cristae fold this membrane to add surface area"],["Steroid hormone synthesis","Smooth ER"],["Triacylglycerol assembly","Smooth ER"],["First β-oxidation of very long fatty acids","Peroxisome"],["H₂O₂ breakdown","Peroxisome"],["Bile acid synthesis","Peroxisome"],["Digestion of an engulfed damaged organelle","Lysosome","Autophagy: organelle wrapped in membrane, fused with a lysosome"]]}]},
+{id:"m1d2",lo:"1.1",kind:"sort",title:"Structure → role",
+intro:"Match the structure to its class, then the job to the molecule.",
+rounds:[
+{name:"Which class?",bins:["Carbohydrate","Lipid","Protein","Nucleic acid"],
+items:[["Glycerol + three fatty acids","Lipid","Triglyceride"],["Four fused carbon rings","Lipid","Steroid"],["Sphingosine backbone","Lipid","Sphingolipid (a phospholipid)"],["Glucose + fructose","Carbohydrate","Sucrose, a disaccharide"],["Highly branched glucose chain","Carbohydrate","Glycogen"],["Unbranched chain of peptide bonds","Protein"],["Folds based on R-group charge","Protein"],["5-C sugar + base + phosphate","Nucleic acid","A nucleotide"],["Subunits joined by phosphodiester bonds","Nucleic acid"],["Contains ribose and uracil","Nucleic acid","RNA"]]},
+{name:"Which molecule does the job?",bins:["Triglyceride","Phospholipid","Cholesterol","Glycogen","Starch","Protein","DNA","RNA"],
+items:[["Long-term fat storage in adipose","Triglyceride"],["Forms the membrane bilayer","Phospholipid"],["Precursor of cortisol, testosterone, bile salts","Cholesterol"],["Buffers membrane fluidity hot and cold","Cholesterol"],["Glucose storage in animals","Glycogen"],["Glucose storage in plants","Starch"],["Catalyzes reactions","Protein","Enzymes are proteins"],["Stores genetic information","DNA"],["Carries the code used to build proteins","RNA","DNA → RNA → protein"]]}
+]},
 {id:"m1d3",lo:"1.2",kind:"sort",title:"Name the interaction",
 intro:"Which interaction is doing the work?",
 rounds:[{name:"Scenario → interaction",bins:["Ion–dipole","Hydrogen bond","Dipole–dipole","van der Waals","Hydrophobic effect"],
@@ -569,13 +635,13 @@ function qView(q,order,o){
       if(reveal){b.disabled=true;if(order[i].c)b.classList.add("ok");else if(i===picked)b.classList.add("bad");}
       else if(i===picked)b.classList.add("pick");});
     fbw.innerHTML="";
-    if(reveal){const ok=picked!=null&&order[picked].c;fbw.append(explain(q,ok,picked==null));}
+    if(reveal){const ok=picked!=null&&order[picked].c;fbw.append(explain(q,ok,picked==null,reveal==="show"&&picked==null));}
   }
   return {el:w,paint};
 }
-function explain(q,ok,skipped){
-  const d=h("div",{class:"fb "+(ok?"ok":"bad")});
-  d.append(h("b",{class:"v"},skipped?"Not answered":(ok?"Correct":"Incorrect")));
+function explain(q,ok,skipped,shown){
+  const d=h("div",{class:"fb "+(shown?"ok":ok?"ok":"bad")});
+  d.append(h("b",{class:"v"},shown?"Answer":skipped?"Not answered":(ok?"Correct":"Incorrect")));
   d.append(h("div",{html:q.exp}));
   if(q.steps){const det=h("details",{class:"steps"},h("summary",null,"Work it through"),h("ol",null,q.steps.map(s=>h("li",{html:s}))));d.append(det);}
   return d;
@@ -584,7 +650,7 @@ function explain(q,ok,skipped){
 // ---- tabs ----
 let tab=null;const tabs={};
 document.getElementById("nav").addEventListener("click",e=>{const t=e.target.dataset.t;if(t){go(t);}});
-function go(t,arg){savePos();tab=t;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(tabs[t].cleanup)tabs[t].cleanup();main.innerHTML="";tabs[t].render(arg);window.scrollTo(0,t==="sheet"?(S.pos.sheet||0):0);S.tab=t;save();try{history.replaceState(null,"","#"+t);}catch(e){}}
+function go(t,arg){savePos();tab=t;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(tabs[t].cleanup)tabs[t].cleanup();main.innerHTML="";document.body.dataset.tab=t;tabs[t].render(arg);window.scrollTo(0,t==="sheet"?(S.pos.sheet||0):0);S.tab=t;save();try{history.replaceState(null,"","#"+t);}catch(e){}}
 function savePos(){if(tab==="sheet"&&main.querySelector(".sheet")){S.pos.sheet=Math.round(window.scrollY);save();}}
 let st_;window.addEventListener("scroll",()=>{clearTimeout(st_);st_=setTimeout(savePos,250);},{passive:true});
 window.addEventListener("pagehide",savePos);
@@ -597,25 +663,40 @@ function loSelect(id,withAll){
 }
 function filterQ(v){if(v==="all")return Q.slice();if(v.startsWith("mod:"))return Q.filter(q=>q.mod.id===v.slice(4));return Q.filter(q=>q.lo===v);}
 
-// ===== PRACTICE =====
+// ===== PRACTICE (full list) =====
+const PF={lo:"all",ty:"",missed:false,flag:false,un:false,show:false};
 tabs.practice={render(){
   main.append(h("h1",null,"Practice"));
-  main.append(h("p",{class:"mut sm"},"Questions by objective with explanations as you go, plus short drills for the things that are easiest to mix up."));
-  const sel=loSelect("psel",true);
-  const missed=h("input",{type:"checkbox"}),flg=h("input",{type:"checkbox"});
+  main.append(h("p",{class:"mut"},"Every question the mock exams draw from. Answer any of them right here, or reveal them all."));
+  const sel=loSelect("psel",true);sel.value=PF.lo;
+  const ty=h("select",null,h("option",{value:""},"All types"),h("option",{value:"mc"},"Multiple choice"),h("option",{value:"tf"},"True / false"));ty.value=PF.ty;
+  const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);draw();}},l);return b;};
   const cnt=h("span",{class:"mut sm"});
-  function upd(){const pool=pool_();cnt.textContent=pool.length+" question"+(pool.length===1?"":"s");start.disabled=!pool.length;}
-  function pool_(){let p=filterQ(sel.value);if(missed.checked)p=p.filter(q=>S.q[q.id]&&S.q[q.id].c===false);if(flg.checked)p=p.filter(q=>S.flag[q.id]);return p;}
-  const start=h("button",{class:"btn pri",onclick:()=>runPractice(pool_(),"Practice")},"Start");
-  [sel,missed,flg].forEach(e=>e.addEventListener("change",upd));
-  main.append(h("div",{class:"row"},sel),h("div",{class:"row"},h("label",{class:"chk"},missed,"Missed only"),h("label",{class:"chk"},flg,"Flagged only"),cnt,start));
-  upd();
-  main.append(h("h2",null,"Drills"));
-  MODS.forEach(m=>(m.drills||[]).forEach(d=>{
-    const st=S.drills[d.id];
-    main.append(h("div",{class:"card",onclick:()=>openDrill(d)},h("b",null,d.title),h("span",{class:"mut sm"},"LO "+d.lo+" · "+d.intro+(st?" · last: "+st:""))));
-  }));
+  const quiz=h("button",{class:"btn pri",onclick:()=>runPractice(pool(),"Practice")},"Quiz me one at a time");
+  main.append(h("div",{class:"filters"},h("div",{class:"row"},sel,ty),h("div",{class:"row"},tg("missed","Missed"),tg("flag","Flagged"),tg("un","Unanswered"),tg("show","Show all answers")),h("div",{class:"row"},quiz,cnt)));
+  const list=h("div");main.append(list);
+  sel.addEventListener("change",()=>{PF.lo=sel.value;draw();});ty.addEventListener("change",()=>{PF.ty=ty.value;draw();});
+  function pool(){return filterQ(PF.lo).filter(q=>(!PF.ty||q.type===PF.ty)&&(!PF.missed||(S.q[q.id]&&S.q[q.id].c===false))&&(!PF.flag||S.flag[q.id])&&(!PF.un||!S.q[q.id]));}
+  function draw(){
+    list.innerHTML="";const P=pool();cnt.textContent=P.length+" question"+(P.length===1?"":"s");quiz.disabled=!P.length;
+    if(!P.length){list.append(h("p",{class:"mut"},"No questions match these filters."));return;}
+    LOS.forEach(l=>{const qs=P.filter(q=>q.lo===l.id);if(!qs.length)return;
+      list.append(h("h2",{class:"lohead"},h("span",{class:"eyebrow"},"LO "+l.id+" · "+qs.length),l.title));
+      qs.forEach(q=>list.append(qCard(q,PF.show)));});
+  }
+  draw();
+  const ds=[];MODS.forEach(m=>(m.drills||[]).forEach(d=>ds.push(d)));
+  if(ds.length){main.append(h("h2",null,"Drills"));ds.forEach(d=>{const st=S.drills[d.id];main.append(h("div",{class:"card link",onclick:()=>openDrill(d)},h("b",null,d.title),h("span",{class:"mut sm"},"LO "+d.lo+" · "+d.intro+(st?" · last: "+st:""))));});}
 }};
+// one answerable question card (used in Practice list and in the study guide)
+function qCard(q,show,label){
+  const c=h("div",{class:"qcard"});
+  c.append(h("div",{class:"qhead"},h("span",null,label||loLabel(q)),flagBtn(q)));
+  const order=optsFor(q,"seed");let done=false;
+  const v=qView(q,order,{onPick(k){if(done)return;done=true;record(q,order[k].c);v.paint(k,true);}});
+  c.append(v.el);if(show){done=true;v.paint(null,"show");}
+  return c;
+}
 
 function runPractice(pool,title){
   // unseen first, then oldest
@@ -742,7 +823,7 @@ const TOOLS={hh(){
 let timerId=null;
 tabs.mock={cleanup(){if(timerId){clearInterval(timerId);timerId=null;}},render(){
   main.append(h("h1",null,"Mock exam"));
-  main.append(h("p",{class:"mut sm"},"Same format as the real one: multiple choice and true/false, mixed across objectives. Each new mock pulls questions you haven't seen yet first."));
+  main.append(h("p",{class:"mut sm"},"Multiple choice and true/false, mixed across objectives, like the real one. Each new mock pulls unseen questions first. Every question in the pool is on the Practice tab."));
   const box=h("div",{class:"box"});main.append(box);
   const modChecks=MODS.map(m=>{const c=h("input",{type:"checkbox",checked:true});c.addEventListener("change",upd);box.append(h("label",{class:"chk",style:"margin:4px 0"},c,m.name+" ("+m.questions.length+")"));return [m,c];});
   const missing=["M1","M2","M3"].filter(s=>!MODS.some(m=>m.short===s));
@@ -834,58 +915,78 @@ function runMock(qs){
   show();
 }
 
-// ===== BANK =====
-tabs.bank={render(){
-  main.append(h("h1",null,"Question bank"));
-  main.append(h("p",{class:"mut sm"},"Every question with its answer. Same pool the mocks and practice draw from."));
-  const sel=loSelect("bsel",true);const ty=h("select",null,h("option",{value:""},"All types"),h("option",{value:"mc"},"Multiple choice"),h("option",{value:"tf"},"True / false"));
-  const ex=h("input",{type:"checkbox",checked:true}),fo=h("input",{type:"checkbox"});
-  main.append(h("div",{class:"row"},sel,ty),h("div",{class:"row"},h("label",{class:"chk"},ex,"Explanations"),h("label",{class:"chk"},fo,"Flagged only")));
-  const list=h("div");main.append(list);
-  function draw(){list.innerHTML="";const pool=filterQ(sel.value).filter(q=>(!ty.value||q.type===ty.value)&&(!fo.checked||S.flag[q.id]));
-    list.append(h("p",{class:"mut sm"},pool.length+" questions"));
-    LOS.forEach(l=>{const qs=pool.filter(q=>q.lo===l.id);if(!qs.length)return;
-      const d=h("details",{class:"lo",open:true},h("summary",null,l.id+" "+l.title+" ("+qs.length+")"));
-      qs.forEach(q=>{const it=h("div",{class:"qli"},h("div",{class:"qhead"},h("span",null,loLabel(q)),h("span",null,q.type==="tf"?"T/F · ":"MC · ",flagBtn(q))),h("div",{class:"stem",html:q.stem+(q.tag==="beyond"?' <span class="tag">beyond lecture</span>':"")}));
-        const f=fig(q.fig);if(f)it.append(f);
-        it.append(h("ul",{class:"qlo"},optsFor(q,"seed").map(o=>h("li",{class:o.c?"ok":"",html:o.t}))));
-        if(ex.checked){it.append(h("div",{class:"ex",html:q.exp}));if(q.steps)it.append(h("details",{class:"steps"},h("summary",null,"Work it through"),h("ol",null,q.steps.map(s=>h("li",{html:s})))));}
-        d.append(it);});
-      list.append(d);});
-  }
-  [sel,ty,ex,fo].forEach(e=>e.addEventListener("change",draw));draw();
-}};
-
-// ===== CHEAT SHEET =====
-tabs.sheet={render(arg){
-  main.append(h("h1",null,"Study guide"));
+// ===== STUDY GUIDE =====
+let io=null;
+tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},render(){
   const onlySaved=!!S.set.onlySaved;
-  const sv=h("input",{type:"checkbox",checked:onlySaved});sv.addEventListener("change",()=>{S.set.onlySaved=sv.checked;S.pos.sheet=0;save();go("sheet");});
-  const nsaved=Object.keys(S.saved).length;
-  const jump=h("div",{class:"jump"});main.append(h("div",{class:"row",style:"margin:4px 0"},h("label",{class:"chk sm"},sv,"Saved sections only ("+nsaved+")")),jump);
-  if(onlySaved&&!nsaved)main.append(h("p",{class:"mut"},"Nothing saved yet. Use Save on any section to keep it here."));
+  const wrap=h("div",{class:"gwrap"});const side=h("aside",{class:"gside"});const body=h("div",{class:"gbody"});wrap.append(side,body);main.append(wrap);
+  // sidebar / outline
+  const sv=h("button",{class:"pill"+(onlySaved?" on":""),onclick:()=>{S.set.onlySaved=!onlySaved;S.pos.sheet=0;save();go("sheet");}},"Saved only ("+Object.keys(S.saved).length+")");
+  side.append(h("div",{class:"gtitle"},"Contents"),sv);
+  const jumpSel=h("select",{class:"gjump"},h("option",{value:""},"Jump to…"));
+  const outl=h("div",{class:"outline"});side.append(outl);
+  body.append(h("div",{class:"gtop"},jumpSel,sv.cloneNode(true)));
+  body.querySelector(".gtop .pill").addEventListener("click",()=>{S.set.onlySaved=!onlySaved;S.pos.sheet=0;save();go("sheet");});
+  jumpSel.addEventListener("change",()=>{const e=document.getElementById(jumpSel.value);if(e)e.scrollIntoView();jumpSel.value="";});
+  if(onlySaved&&!Object.keys(S.saved).length)body.append(h("p",{class:"mut"},"Nothing saved yet. Use Save at the top of any objective."));
+  const links={};
   MODS.forEach(m=>{
-    if(onlySaved&&!m.los.some(l=>S.saved[l.id]))return;
-    main.append(h("h2",null,m.name));
-    m.los.forEach(l=>{
-      if(onlySaved&&!S.saved[l.id])return;
-      const id="s"+l.id.replace(".","-");jump.append(h("a",{href:"#"+id,onclick:e=>{e.preventDefault();document.getElementById(id).scrollIntoView({behavior:"smooth"});}},l.id));
-      const sec=h("section",{class:"sheet",id});
+    const los=m.los.filter(l=>!onlySaved||S.saved[l.id]);if(!los.length)return;
+    outl.append(h("div",{class:"omod"},m.short+": "+m.name.split(": ")[1]));
+    body.append(h("div",{class:"modhead"},m.name));
+    los.forEach(l=>{
+      const id="s"+l.id.replace(".","-");
+      const blocks=(m.guide||{})[l.id]||[];
+      const qids=blocks.flatMap(b=>b.check||[]);
+      const prog=()=>qids.filter(x=>S.q[x]).length+" / "+qids.length;
+      const pr=h("span",{class:"oprog"},prog());
+      const a=h("a",{href:"#"+id,onclick:e=>{e.preventDefault();document.getElementById(id).scrollIntoView();}},h("span",null,l.id),h("span",{class:"ot"},l.nick||shortT(l.title)),pr);
+      outl.append(a);links[id]=a;
+      jumpSel.append(h("option",{value:id},l.id+" "+(l.nick||shortT(l.title))));
+      const sec=h("section",{class:"unit",id});
       const sb=h("button",{class:"flag"});const sp=()=>{const on=!!S.saved[l.id];sb.textContent=on?"Saved":"Save";sb.classList.toggle("on",on);};sb.addEventListener("click",()=>{if(S.saved[l.id])delete S.saved[l.id];else S.saved[l.id]=1;save();sp();});sp();
-      sec.append(h("div",{class:"shd"},h("h3",null,l.id+" "+l.title),sb));
-      const html=(m.sheets[l.id]||"").replace(/FIG:(\w+)/g,"<div data-fig='$1'></div>").replace(/TOOL:(\w+)/g,"<div data-tool='$1'></div>");
-      const body=h("div",{html});
-      body.querySelectorAll("table").forEach(t=>{const w=h("div",{class:"tw"});t.replaceWith(w);w.append(t);});
-      body.querySelectorAll("[data-fig]").forEach(e=>{const f=fig(e.dataset.fig);if(f)e.replaceWith(f);});
-      body.querySelectorAll("[data-tool]").forEach(e=>e.replaceWith(TOOLS[e.dataset.tool]()));
-      sec.append(body);
-      const drills=(m.drills||[]).filter(d=>d.lo===l.id&&d.kind!=="tool");
-      const nq=m.questions.filter(q=>q.lo===l.id).length;
-      sec.append(h("div",{class:"row sm"},h("button",{class:"btn sm",onclick:()=>runPractice(m.questions.filter(q=>q.lo===l.id),"LO "+l.id)},"Practice "+l.id+" ("+nq+")"),drills.map(d=>h("button",{class:"btn sm",onclick:()=>{go("practice");openDrill(d);}},d.title))));
-      main.append(sec);
+      const upr=h("span",{class:"uprog"});const updProg=()=>{const t=prog();pr.textContent=t;upr.textContent=qids.length?t+" checks done":"";};updProg();
+      sec.append(h("div",{class:"uhead"},h("div",null,h("div",{class:"eyebrow"},"Objective "+l.id),h("h2",null,l.title),upr),sb));
+      blocks.forEach(b=>sec.append(block(b,m,updProg)));
+      body.append(sec);
     });
   });
+  // highlight current section in outline
+  try{io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){Object.values(links).forEach(a=>a.classList.remove("cur"));const a=links[e.target.id];if(a)a.classList.add("cur");}});},{rootMargin:"-30% 0px -60% 0px"});body.querySelectorAll(".unit").forEach(u=>io.observe(u));}catch(e){}
 }};
+function shortT(t){return t.replace(/^(Relate|Describe|Determine|Apply knowledge of|Summarize|Outline|Classify|Explain|Interpret|Categorize|Investigate|Apply|Diagram|Predict) /,"").replace(/^the /,"").replace(/^./,c=>c.toUpperCase());}
+function block(b,m,onAns){
+  if(b.check){
+    const w=h("div",{class:"checks"},h("div",{class:"clabel"},"Check yourself"));
+    b.check.forEach(id=>{const q=QBY[id];if(!q)return;const c=qCard(q,false,q.type==="tf"?"True or false":"Multiple choice");c.addEventListener("click",()=>setTimeout(onAns,0));w.append(c);});
+    return w;
+  }
+  if(b.drill){
+    const d=(m.drills||[]).find(x=>x.id===b.drill);const w=h("div",{class:"card drill"});
+    w.append(h("div",{class:"clabel"},"Drill"),h("h3",null,d.title),h("p",{class:"mut sm"},d.intro));
+    const bd=h("div");w.append(bd);
+    if(d.kind==="sort")sortDrill(d,bd,0);else if(d.kind==="case")caseDrill(d,bd);
+    return w;
+  }
+  if(b.tool){const w=h("div",{class:"card"});w.append(h("div",{class:"clabel"},"Try it"),h("h3",null,"pH / ratio explorer"),h("p",{class:"mut sm"},"Drag pKa and pH, or tap a preset from the lecture."),TOOLS[b.tool]());return w;}
+  if(b.steps){
+    const w=h("div",{class:"card"});w.append(h("div",{class:"clabel"},"Worked example"),h("h3",null,b.steps));
+    const ol=h("ol",{class:"wsteps"});w.append(ol);let n=0;
+    const nb=h("button",{class:"btn sm",onclick:()=>{n++;paint();}},"Next step");const all=h("button",{class:"btn link sm",onclick:()=>{n=b.s.length;paint();}},"Show all");
+    w.append(h("div",{class:"row"},nb,all));
+    function paint(){ol.innerHTML="";b.s.slice(0,Math.max(1,n)).forEach((x,i)=>ol.append(h("li",{html:x,class:i===b.s.length-1?"last":""})));const done=n>=b.s.length-1&&n>0||b.s.length===1;nb.disabled=n>=b.s.length;nb.classList.toggle("hide",n>=b.s.length);all.classList.toggle("hide",n>=b.s.length);}
+    n=1;paint();return w;
+  }
+  const w=h("div",{class:"card"});
+  if(b.h)w.append(h("h3",{html:b.h}));
+  const bodyEl=h("div",{class:"cb",html:b.b||""});
+  bodyEl.querySelectorAll("table").forEach(t=>{const x=h("div",{class:"tw"});t.replaceWith(x);x.append(t);});
+  const f=b.fig?fig(b.fig):null;
+  if(f&&(b.fig==="phscale"||b.fig==="forces"||b.fig==="classes"||b.fig==="water"||b.fig==="bicarb")){w.append(f,bodyEl);}else{w.append(bodyEl);if(f)w.append(f);}
+  if(b.key)w.append(h("div",{class:"call key"},h("b",null,"Key idea"),h("div",{html:b.key})));
+  if(b.trap)w.append(h("div",{class:"call trap"},h("b",null,"Watch out"),h("div",{html:b.trap})));
+  return w;
+}
 
 document.getElementById("reset").addEventListener("click",function(){
   if(this.dataset.arm){S={q:{},mocks:0,set:S.set,drills:{},flag:{},saved:S.saved,pos:S.pos,hist:[]};save();this.textContent="Reset progress";delete this.dataset.arm;go(tab);}
