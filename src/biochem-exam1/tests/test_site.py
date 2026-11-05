@@ -214,6 +214,25 @@ def run(p, name, vw, vh):
             no_hscroll(page, "drill %d" % i)
     check(n >= 8, "opened %d drills" % n)
 
+    # quiz me one at a time: button greyed until answered; Next closes the window
+    nav(page, "practice")
+    page.click("text=Quiz me one at a time"); page.wait_for_selector("#main .opt")
+    seen = opened = 0
+    for _ in range(6):
+        b = page.query_selector("#main .qhead .lecb")
+        if b:
+            seen += 1
+            check(b.is_disabled(), "quiz: lecture button greyed before answering")
+        page.click("#main .opt >> nth=0"); page.wait_for_timeout(50)
+        b = page.query_selector("#main .qhead .lecb")
+        if b:
+            check(not b.is_disabled(), "quiz: lecture button clickable after answering")
+            if not opened:
+                tap(page, b); page.wait_for_selector(".lw mark.lwhl, .lw .lwhit", timeout=5000); opened = 1
+        tap(page, page.query_selector("#main .row .btn.pri")); page.wait_for_timeout(50)
+        check(page.query_selector(".lw") is None, "quiz: next question closes the lecture window")
+    check(seen > 0 and opened, "quiz showed and opened lecture buttons (%d of 6)" % seen)
+
     # window closes on tab switch; hidden during an active mock
     nav(page, "practice")
     page.query_selector(".lecb").click(); page.wait_for_selector(".lw")
