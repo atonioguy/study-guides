@@ -219,6 +219,12 @@ h2.lohead .eyebrow{display:block;margin-bottom:2px}
 .mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px 0}
 .outline a.les{display:block;padding:3px 8px 3px 42px;font-size:13px;color:#555}
 .gtop .gjump{flex:1 1 auto;min-width:0;width:0}.gtop .pill{flex:none}
+.card .hl{background:var(--accbg)!important;box-shadow:0 0 0 5px var(--accbg),-8px 0 0 0 var(--acc);border-radius:3px}
+.lhead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}.lhead h3{margin:0 0 10px}
+.chip:not(.done){touch-action:none;cursor:grab}.chip.dragging{opacity:.35}
+.ghost{position:fixed;left:0;top:0;pointer-events:none;z-index:60;cursor:grabbing;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.bin.over{border-color:var(--acc);border-style:solid;background:var(--accbg)}
+details.drills{margin:6px 0 2px}details.drills summary{cursor:pointer;color:var(--acc);font-size:15px;padding:6px 0}
 .dtop{display:flex;justify-content:flex-end;margin:0 0 6px}
 </style>
 </head>
@@ -229,7 +235,7 @@ h2.lohead .eyebrow{display:block;margin-bottom:2px}
 <button data-t="sheet">Study guide</button><button data-t="practice">Practice</button><button data-t="mock">Mock exam</button>
 </nav></div></header>
 <main id="main"></main>
-<footer>v1.2 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
+<footer>v1.3 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
 <script>
 const MODS=[];
 </script>
@@ -265,6 +271,7 @@ b:`<p>Three groups do most of the joining. A <b>hydroxyl</b> (–OH) is polar. A
 <li>amino acid –COOH + next amino acid –NH₂ → <b>peptide</b> bond</li>
 <li>one phosphate linking the sugars of two nucleotides → <b>phosphodiester</b> bond (two ester links through one phosphate)</li></ul>`,
 so:`If you can see which groups react, you can name the bond and predict that water is released when it forms and used up when it breaks.`},
+{drill:"m1d6"},
 
 {id:"m1-carbs",h:"Carbohydrates",
 b:`<p>Sugars are C, H and O, usually in a ring, and covered in –OH groups. All those hydroxyls make them polar, so glucose dissolves in blood and cytoplasm and can be delivered anywhere as fuel.</p>
@@ -276,14 +283,14 @@ so:`Polar hydroxyls make sugar a deliverable fuel. Linking and branching turn it
 
 {id:"m1-lipids",h:"Lipids: three types",
 b:`<p>Lipids are the one class not built from repeating units. What they share is being <b>amphipathic</b>: a polar head that interacts with water and a long nonpolar hydrocarbon tail that doesn't.</p>
-<p><b>Triglycerides</b>: glycerol + 3 fatty acids, joined by ester bonds. The tails are almost all C–H, so they store a lot of energy, and being nonpolar they collect as fat droplets in adipose tissue. This is long-term fuel storage.</p>
+<p><b>Triglycerides</b>: glycerol + 3 fatty acids, joined by ester bonds. The tails are almost all C–H, so they store a lot of energy. Triglycerides are the stored fat in adipose tissue, which makes them long-term fuel storage.</p>
 <p><b>Phospholipids</b>: glycerol + 2 fatty acids + a phosphate-containing head. Sphingolipids are phospholipids built on sphingosine instead of glycerol, often with sugars attached. These build membranes.</p>
 <p><b>Steroids</b>: four fused carbon rings. Cholesterol sits between phospholipids and stabilizes the membrane. It is also the starting material for bile salts (fat digestion) and steroid hormones (cortisol, testosterone, estradiol).</p>`,
 so:`Each lipid's job follows from its shape: energy-dense nonpolar tails for storage, a polar head plus tails for membranes, rigid rings for membrane stability and hormones.`},
 
 {id:"m1-membrane",h:"Membranes: bilayer and fluidity",fig:"bilayer",
 b:`<p>Put phospholipids in water and they arrange themselves. The tails cluster away from water (the hydrophobic effect, LO 1.2) and the heads face water on both sides. That's a bilayer, and nothing has to assemble it.</p>
-<p>The bilayer's nonpolar core blocks ions and polar molecules like glucose. Small nonpolar molecules (O₂, CO₂) pass through. This is why the membrane is selectively permeable and needs transport proteins for glucose and ions.</p>
+<p>The bilayer's nonpolar core blocks ions and polar molecules like glucose. Small nonpolar molecules like O₂ and CO₂ can pass through (beyond lecture). This is why the membrane is selectively permeable and needs transport proteins for glucose and ions.</p>
 <p>A <b>saturated</b> fatty acid has no C=C double bonds, so its tail is straight. Straight tails pack tightly: solid at room temperature (butter), stiffer membrane. A C=C in an <b>unsaturated</b> tail puts a kink in it. Kinked tails can't pack tightly: liquid at room temperature (olive oil), more fluid membrane.</p>
 <p>Cholesterol limits phospholipid movement in both directions. When it's warm it keeps the membrane from getting too loose; when it's cold it keeps tails from packing solid.</p>`,
 so:`Amphipathic structure produces the bilayer, the bilayer's nonpolar core produces selectivity, and tail saturation plus cholesterol set fluidity.`},
@@ -303,6 +310,7 @@ b:`<p>Every amino acid has the same core: an amine group, a carboxyl group and a
 <p>Proline is technically an imino acid (its nitrogen is part of a ring). On the chart, a dashed circle means <b>essential</b> (must come from the diet) and a solid circle means non-essential (the body can make it).</p>`,
 nl:"Course grouping",note:`The lecture follows the textbook, which counts Gly as hydrophilic even though its side chain is just an H, and Tyr as hydrophobic even though its –OH is polar (it interacts only weakly with water). Other sources split these differently. Use the course version on the exam. The chart doesn't show hydrophobic vs hydrophilic, so go by the table.`,
 so:`A side chain's group tells you whether it ends up buried inside or exposed on the surface of a folded protein.`},
+{drill:"m1d1"},
 
 {id:"m1-fold",h:"Protein folding: side chains set the shape",fig:"fold",
 b:`<p>Peptide bonds link amino acids into a long unbranched chain. In water the chain folds so that hydrophobic side chains pack into the core, away from water, and polar and charged side chains end up on the surface where they interact with water.</p>
@@ -333,7 +341,7 @@ so:`Hydrogen bonds give water cohesion and give DNA and proteins structure that 
 
 {id:"m1-weak",h:"Weak interactions",fig:"forces",
 b:`<p>Covalent and ionic bonds hold atoms together inside a molecule (intramolecular). Weak, noncovalent interactions act between molecules, or between distant parts of one large molecule (intermolecular). Because they're weak and reversible, a protein can bind a substrate and then release it.</p>
-<p>From strongest to weakest, as the lecture ranks them:</p>
+<p>From strongest to weakest:</p>
 <ul><li><b>Ion–dipole</b>: a full charge attracts the oppositely charged end of a polar molecule. This is why salt dissolves in water. The lecture also calls these salt bridges.</li>
 <li><b>Hydrogen bond</b>: a strong dipole–dipole interaction involving H on N, O or F.</li>
 <li><b>Dipole–dipole</b>: the δ+ end of one polar molecule attracts the δ− end of another.</li>
@@ -360,7 +368,7 @@ b:`<p>An <b>acid</b> donates H⁺ and a <b>base</b> accepts H⁺. When an acid g
 <p>A free H⁺ in water attaches to a water molecule to form H₃O⁺, so [H⁺] and [H₃O⁺] are used interchangeably.</p>
 <p>The conjugate base of an organic acid ends in -ate: lactic acid and lactate, pyruvic acid and pyruvate. At blood pH 7.4 most organic acids are in the -ate form, which is why later modules say pyruvate, not pyruvic acid.</p>
 <p>Water itself dissociates very slightly (H₂O ⇌ H⁺ + OH⁻), so it can act as an acid or a base.</p>`,
-so:`Every pH question comes down to which way H⁺ moves between an acid and its conjugate base.`},
+so:`Most pH questions come down to which way H⁺ moves between an acid and its conjugate base.`},
 
 {id:"m1-scale",h:"The pH scale",fig:"phscale",
 b:`<p>pH = −log[H⁺]. Because it's a log scale, each 1-unit drop in pH means 10 times more H⁺. pH 5 has 100 times the H⁺ of pH 7.</p>
@@ -420,7 +428,7 @@ b:`<p>CO₂ from metabolism dissolves in blood and forms carbonic acid, which di
 <li>Less CO₂: shifts left, H⁺ consumed, pH rises.</li>
 <li>Added H⁺ (lactic acid): HCO₃⁻ absorbs it, the reaction shifts left, bicarbonate is used up and the extra CO₂ is exhaled.</li></ul>
 <p>In the lungs the reaction runs left and CO₂ is exhaled, so breathing rate controls how much CO₂, and therefore how much acid, stays in the blood.</p>`,
-so:`Every acid-base question in this LO is this equation plus a change on one side.`},
+so:`Most questions for this LO come down to this equation plus a change on one side.`},
 
 {id:"m1-resp",h:"Respiratory acidosis and alkalosis",beyond:true,
 b:`<p>Respiratory disorders start with CO₂, which the lungs control.</p>
@@ -471,7 +479,7 @@ exp:"A polysaccharide has hundreds to thousands of glycosidic bonds to break. A 
 stem:"Phospholipids added to water form a bilayer without any enzyme or energy input. Which feature of their structure causes this?",
 opts:["Each has a polar head and nonpolar tails, so the tails cluster away from water while the heads face it","They are polymers whose repeating units bond to one another into flat sheets","Phosphodiester bonds form between neighboring phospholipids and link them covalently","Their fatty acid tails carry charges that form salt bridges with one another"],ans:0,
 exp:"Phospholipids are amphipathic. The hydrophobic effect pushes the nonpolar tails together and the polar heads stay in contact with water on both faces. Lipids are not polymers, and no covalent bonds form between neighboring phospholipids."},
-{id:"m1a07",lo:"1.1",src:"L1",ref:"m1-membrane",type:"mc",
+{id:"m1a07",lo:"1.1",src:"L1",ref:"m1-membrane",type:"mc",tag:"beyond",
 stem:"O₂ diffuses across a pure phospholipid bilayer, but glucose does not. Which explanation is best?",
 opts:["Glucose is polar and can't pass the nonpolar core of the bilayer; O₂ is small and nonpolar","Glucose is negatively charged at pH 7.4 and is repelled by the phosphate heads","O₂ forms hydrogen bonds with the fatty acid tails, which pull it through","The bilayer has pores sized to admit gases but not sugars"],ans:0,
 exp:"The bilayer's hydrophobic core blocks polar molecules like glucose, which is covered in –OH groups but is not charged. Small nonpolar gases dissolve in the core and pass. Glucose needs a transport protein."},
@@ -540,7 +548,7 @@ stem:"A gecko clings to a glass ceiling even though its foot surface and the gla
 opts:["van der Waals forces summed over millions of close contacts","Hydrogen bonds between the foot and the glass","Ion–dipole interactions between the foot and the glass","The hydrophobic effect pushing the foot against the glass"],ans:0,
 exp:"van der Waals forces act between all molecules, including nonpolar ones. Each is the weakest interaction, but the gecko's foot makes so many close contacts that they add up."},
 {id:"m1a25",lo:"1.2",src:"L3",ref:"m1-weak",type:"mc",
-stem:"Which list orders these interactions from strongest to weakest, as taught in the lecture?",
+stem:"Which list orders these interactions from strongest to weakest?",
 opts:["Ion–dipole, hydrogen bond, dipole–dipole, van der Waals","Hydrogen bond, ion–dipole, van der Waals, dipole–dipole","Dipole–dipole, hydrogen bond, ion–dipole, van der Waals","van der Waals, dipole–dipole, hydrogen bond, ion–dipole"],ans:0,
 exp:"A full charge (ion–dipole) attracts most strongly. A hydrogen bond is an especially strong dipole–dipole interaction. van der Waals forces are the weakest individually."},
 {id:"m1a26",lo:"1.2",src:"L3",ref:"m1-weak",type:"tf",
@@ -657,15 +665,23 @@ exp:"In a closed flask, 7.4 would be outside the useful range. The lungs and kid
 
 drills:[
 {id:"m1d1",lo:"1.1",kind:"sort",title:"Amino acid groups",
-intro:"Tap an amino acid, then tap its group. Wrong placements explain themselves.",
+intro:"Drag each amino acid into its group, or tap it and then tap the group. Wrong placements explain themselves.",
 rounds:[
 {name:"By side-chain group",bins:["Aliphatic","Aromatic","Acidic","Basic","Hydroxylic","Amidic","Sulfur"],
 items:[["Ala","Aliphatic"],["Gly","Aliphatic","Book groups Gly as aliphatic"],["Ile","Aliphatic"],["Leu","Aliphatic"],["Pro","Aliphatic","Aliphatic, and technically an imino acid"],["Val","Aliphatic"],["Phe","Aromatic"],["Trp","Aromatic"],["Tyr","Aromatic"],["Asp","Acidic"],["Glu","Acidic"],["Arg","Basic"],["His","Basic"],["Lys","Basic"],["Ser","Hydroxylic"],["Thr","Hydroxylic"],["Asn","Amidic"],["Gln","Amidic"],["Cys","Sulfur"],["Met","Sulfur"]]},
 {name:"Hydrophobic or hydrophilic",bins:["Hydrophobic","Hydrophilic"],
 items:[["Ala","Hydrophobic"],["Gly","Hydrophilic","Nonpolar, but the book counts it hydrophilic"],["Ile","Hydrophobic"],["Leu","Hydrophobic"],["Pro","Hydrophobic"],["Val","Hydrophobic"],["Phe","Hydrophobic"],["Trp","Hydrophobic"],["Tyr","Hydrophobic","Polar, but only weakly interacts with water → polar hydrophobic"],["Asp","Hydrophilic"],["Glu","Hydrophilic"],["Arg","Hydrophilic"],["His","Hydrophilic"],["Lys","Hydrophilic"],["Ser","Hydrophilic"],["Thr","Hydrophilic"],["Asn","Hydrophilic"],["Gln","Hydrophilic"],["Cys","Hydrophilic","Sulfur pair splits: Cys polar hydrophilic"],["Met","Hydrophobic","Sulfur pair splits: Met nonpolar hydrophobic"]]}
 ]},
+{id:"m1d6",lo:"1.1",kind:"sort",title:"Functional groups and bonds",
+intro:"Drag each item into its group, or tap it and then tap the group.",
+rounds:[
+{name:"Which group?",bins:["Hydroxyl (–OH)","Carboxyl (–COOH)","Amine (–NH₂)"],
+items:[["Donates H⁺, so it's acidic","Carboxyl (–COOH)"],["Accepts H⁺, so it's basic","Amine (–NH₂)"],["Covers sugars and makes them water-soluble","Hydroxyl (–OH)"],["Present on every amino acid",["Carboxyl (–COOH)","Amine (–NH₂)"],"Every amino acid has both an amine and a carboxyl"],["Reacts with an amine to form a peptide bond","Carboxyl (–COOH)"],["Reacts with a carboxyl to form a peptide bond","Amine (–NH₂)"],["Two of these on sugars join in a glycosidic bond","Hydroxyl (–OH)"],["On glycerol; reacts with a fatty acid to form an ester","Hydroxyl (–OH)"],["On a fatty acid; reacts with glycerol to form an ester","Carboxyl (–COOH)"],["Extra one on the side chain makes Asp and Glu negative","Carboxyl (–COOH)"]]},
+{name:"Which bond?",bins:["Glycosidic","Ester","Peptide","Phosphodiester"],
+items:[["Glucose + fructose → sucrose","Glycosidic"],["Glucose units in glycogen","Glycosidic"],["Fatty acids on glycerol in a triglyceride","Ester"],["Amino acids in a protein chain","Peptide"],["Nucleotides in a DNA or RNA strand","Phosphodiester"]]}
+]},
 {id:"m1d3",lo:"1.2",kind:"sort",title:"Name the interaction",
-intro:"Which interaction is doing the work?",
+intro:"Which interaction is doing the work? Drag or tap to sort.",
 rounds:[{name:"Scenario → interaction",bins:["Ion–dipole","Hydrogen bond","Dipole–dipole","van der Waals","Hydrophobic effect"],
 items:[["Na⁺ surrounded by water molecules","Ion–dipole"],["A–T base pairing between DNA strands","Hydrogen bond"],["Water's meniscus in a cylinder","Hydrogen bond","Cohesion = H-bonds between waters"],["Two polar acetone molecules aligning","Dipole–dipole","Acetone has no O–H/N–H donor, so no H-bond, just dipoles"],["Gecko foot on glass","van der Waals"],["Two nonpolar methane molecules attracting","van der Waals","The only attraction possible between nonpolar molecules"],["Oil droplets merging","Hydrophobic effect","Driven by water's entropy, not attraction"],["Leu and Val buried in a protein core","Hydrophobic effect"]]}]},
 {id:"m1d4",lo:"1.3",kind:"tool",tool:"hh",title:"pH / ratio explorer",
@@ -685,6 +701,10 @@ cases:[
 ]}
 ]
 });
+
+// Review highlight: the sentence each question checks (matched against lesson text).
+(function(){const HL={m1a01:"Carbon forms four stable covalent bonds",m1a02:"Hydrolysis adds the water back",m1a03:"fatty acid –COOH + glycerol –OH",m1a04:"Glycogen's branches also give it many chain ends",m1a05:"Complex carbohydrates digest more slowly",m1a06:"Put phospholipids in water",m1a07:"nonpolar core blocks ions and polar molecules",m1a08:"puts a kink in it",m1a09:"puts a kink in it",m1a10:"Triglycerides: glycerol + 3 fatty acids",m1a11:"Cholesterol sits between phospholipids",m1a12:"hydrophobic side chains pack into the core",m1a13:"Change the sequence and you change",m1a14:"Change the sequence and you change",m1a15:"counts Gly as hydrophilic",m1a16:"Asp, Glu",m1a17:"Strong covalent bonds keep each strand's sequence intact",m1a18:"RNA uses ribose",m1a19:"Water's δ− oxygens surround cations",m1a20:"Oxygen is more electronegative than hydrogen",m1a21:"A hydrogen bond forms between",m1a22:"Many hydrogen bonds together hold",m1a23:"That gives water cohesion",m1a24:"van der Waals (dispersion)",m1a25:"From strongest to weakest",m1a26:"van der Waals contact distance",m1a27:"When nonpolar molecules cluster",m1a28:"driven by water's entropy",m1a29:"phospholipid tails clustering into a bilayer",m1a30:"A salt bridge between two charged side chains",m1a31:"pOH = −log[OH⁻]",m1a32:"each 1-unit drop in pH means 10 times more H⁺",m1a33:"pOH = −log[OH⁻]",m1a34:"lower pKa means a stronger acid",m1a35:"Keq above 1 means products are favored",m1a36:"Each pH unit away from the pKa",m1a37:"pH = pKa: log of the ratio is 0",m1a38:"pH above pKa: ratio above 1",m1a39:"aspirin is absorbed in its conjugate base",m1a40:"Buffering works best near the pKa",m1a41:"A buffer holds pH where it is",m1a42:"On the titration curve",m1a43:"pH meter: a glass electrode",m1a44:"An indicator changes color near its own pKa",m1a45:"Respiratory acidosis: breathing too slowly",m1a46:"Respiratory alkalosis: breathing too fast",m1a47:"Respiratory alkalosis: breathing too fast",m1a48:"More CO₂: shifts right",m1a49:"Added H⁺ (lactic acid)",m1a50:"ratio is 20 : 1",m1a51:"Metabolic alkalosis: acid lost",m1a52:"bicarbonate lost in severe diarrhea",m1a53:"Kussmaul breathing",m1a54:"Blood is an open system"};
+MODS[MODS.length-1].questions.forEach(q=>{if(HL[q.id])q.hl=HL[q.id];});})();
 
 </script>
 <script>
@@ -710,6 +730,9 @@ function seededShuffle(a,seed){const r=seeded(seed);a=a.slice();for(let i=a.leng
 function fig(k){if(!k||!FIGS[k])return null;return h("div",{class:"fig",html:FIGS[k]});}
 function loLabel(q){return "LO "+q.lo+" · "+q.mod.short+" "+q.src;}
 const FLAG_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path class="fl" d="M5 4h12l-2.5 4.5L17 13H5"/></svg>';
+const BMK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path class="fl" d="M6 3h12v18l-6-4.5L6 21z"/></svg>';
+function bmkBtn(id){const b=h("button",{class:"flagi",type:"button",html:BMK_SVG});const p=()=>{const on=!!S.saved[id];b.classList.toggle("on",on);b.querySelector(".fl").setAttribute("fill",on?"currentColor":"none");const t=on?"Remove bookmark":"Bookmark this lesson";b.title=t;b.setAttribute("aria-label",t);b.setAttribute("aria-pressed",on?"true":"false");};b.addEventListener("click",e=>{e.stopPropagation();if(S.saved[id])delete S.saved[id];else S.saved[id]=1;save();document.querySelectorAll('[data-bmk="'+id+'"]').forEach(x=>x.dispatchEvent(new Event("bmk")));});b.dataset.bmk=id;b.addEventListener("bmk",p);p();return b;}
+function applyHL(card,txt){if(!txt)return null;for(const e of card.querySelectorAll("p,li,tr,.call")){if(e.textContent.includes(txt)){e.classList.add("hl");return e;}}return null;}
 function flagBtn(q){const b=h("button",{class:"flagi",type:"button",html:FLAG_SVG});const p=()=>{const on=!!S.flag[q.id];b.classList.toggle("on",on);b.querySelector(".fl").setAttribute("fill",on?"currentColor":"none");const t=on?"Remove flag":"Flag for review";b.title=t;b.setAttribute("aria-label",t);b.setAttribute("aria-pressed",on?"true":"false");};b.addEventListener("click",e=>{e.stopPropagation();if(S.flag[q.id])delete S.flag[q.id];else S.flag[q.id]=1;save();p();});p();return b;}
 
 // options: returns [{text,correct}] in display order
@@ -745,20 +768,20 @@ function explain(q,ok,skipped,shown){
   d.append(h("b",{class:"v"},shown?"Answer":skipped?"Not answered":(ok?"Correct":"Incorrect")));
   d.append(h("div",{html:q.exp}));
   if(q.steps){const det=h("details",{class:"steps"},h("summary",null,"Work it through"),h("ol",null,q.steps.map(s=>h("li",{html:s}))));d.append(det);}
-  if(q.ref&&LES[q.ref])d.append(h("div",null,h("button",{class:"btn link rev",type:"button",onclick:()=>openLesson(q.ref)},"Review: "+LES[q.ref].h)));
+  if(q.ref&&LES[q.ref])d.append(h("div",null,h("button",{class:"btn link rev",type:"button",onclick:()=>openLesson(q.ref,q.hl)},"Review: "+LES[q.ref].h)));
   return d;
 }
-function openLesson(id){
+function openLesson(id,hl){
   const L=LES[id];if(!L)return;
   const close=()=>{m.remove();document.removeEventListener("keydown",esc);};
   const esc=e=>{if(e.key==="Escape")close();};
   const m=h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":L.h});
   const box=h("div",{class:"mbox"});m.append(box);
   box.append(h("div",{class:"mrow"},h("span",{class:"mut sm"},"LO "+L.lo+" · study guide"),h("button",{class:"btn sm",type:"button",onclick:close},"Close")));
-  box.append(block(L,L.mod));
-  box.append(h("div",{class:"mrow"},h("button",{class:"btn link",type:"button",onclick:()=>{close();if(tabs.mock.cleanup)tabs.mock.cleanup();S.set.onlySaved=false;go("sheet");const e=document.getElementById(id);if(e)e.scrollIntoView();}},"Open in study guide (leaves this page)")));
+  const card=block(L,L.mod);card.removeAttribute("id");box.append(card);const hx=applyHL(card,hl);
+  box.append(h("div",{class:"mrow"},h("button",{class:"btn link",type:"button",onclick:()=>{close();if(tabs.mock.cleanup)tabs.mock.cleanup();S.set.onlySaved=false;go("sheet");const e=document.getElementById(id);if(e){const t=applyHL(e,hl);(t||e).scrollIntoView({block:t?"center":"start"});}}},"Open in study guide (leaves this page)")));
   m.addEventListener("click",e=>{if(e.target===m)close();});
-  document.addEventListener("keydown",esc);document.body.append(m);box.querySelector("button").focus();
+  document.addEventListener("keydown",esc);document.body.append(m);box.querySelector("button").focus();if(hx)hx.scrollIntoView({block:"center"});
 }
 
 // ---- tabs ----
@@ -783,14 +806,15 @@ tabs.practice={render(){
   main.append(h("h1",null,"Practice"));
   main.append(h("p",{class:"mut"},"Every question the mock exams draw from. Answer any of them right here, or reveal them all."));
   const sel=loSelect("psel",true);sel.value=PF.lo;
-  const ty=h("select",null,h("option",{value:""},"All types"),h("option",{value:"mc"},"Multiple choice"),h("option",{value:"tf"},"True / false"));ty.value=PF.ty;
-  const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);draw();}},l);return b;};
+    const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);draw();}},l);return b;};
   const cnt=h("span",{class:"mut sm"});
   const quiz=h("button",{class:"btn pri",onclick:()=>runPractice(pool(),"Practice")},"Quiz me one at a time");
   const clr=h("button",{class:"btn link sm",type:"button",onclick(){const P=pool().filter(q=>S.q[q.id]);if(!P.length)return;if(!clr.dataset.arm){clr.dataset.arm="1";clr.textContent="Tap again to clear "+P.length;setTimeout(()=>{delete clr.dataset.arm;draw();},3000);return;}delete clr.dataset.arm;P.forEach(q=>delete S.q[q.id]);save();draw();}});
-  main.append(h("div",{class:"filters"},h("div",{class:"row"},sel,ty),h("div",{class:"row"},tg("missed","Missed"),tg("flag","Flagged"),tg("un","Unanswered"),tg("show","Show all answers")),h("div",{class:"row"},quiz,cnt,clr)));
+  main.append(h("div",{class:"filters"},h("div",{class:"row"},sel),h("div",{class:"row"},tg("missed","Missed"),tg("flag","Flagged"),tg("un","Unanswered"),tg("show","Show all answers")),h("div",{class:"row"},quiz,cnt,clr)));
+  const ds=[];MODS.forEach(m=>(m.drills||[]).forEach(d=>ds.push(d)));
+  if(ds.length){const dw=h("details",{class:"drills"},h("summary",null,"Drills ("+ds.length+")"));ds.forEach(d=>{const st=S.drills[d.id];dw.append(h("div",{class:"card link",onclick:()=>openDrill(d)},h("b",null,d.title),h("span",{class:"mut sm"}," LO "+d.lo+(st?" · last: "+st:""))));});main.append(dw);}
   const list=h("div");main.append(list);
-  sel.addEventListener("change",()=>{PF.lo=sel.value;draw();});ty.addEventListener("change",()=>{PF.ty=ty.value;draw();});
+  sel.addEventListener("change",()=>{PF.lo=sel.value;draw();});
   function pool(){return filterQ(PF.lo).filter(q=>(!PF.ty||q.type===PF.ty)&&(!PF.missed||(S.q[q.id]&&S.q[q.id].c===false))&&(!PF.flag||S.flag[q.id])&&(!PF.un||!S.q[q.id]));}
   function draw(){
     list.innerHTML="";const P=pool();cnt.textContent=P.length+" question"+(P.length===1?"":"s");quiz.disabled=!P.length;
@@ -801,8 +825,6 @@ tabs.practice={render(){
       qs.forEach(q=>list.append(qCard(q,PF.show)));});
   }
   draw();
-  const ds=[];MODS.forEach(m=>(m.drills||[]).forEach(d=>ds.push(d)));
-  if(ds.length){main.append(h("h2",null,"Drills"));ds.forEach(d=>{const st=S.drills[d.id];main.append(h("div",{class:"card link",onclick:()=>openDrill(d)},h("b",null,d.title),h("span",{class:"mut sm"},"LO "+d.lo+" · "+d.intro+(st?" · last: "+st:""))));});}
 }};
 // one answerable question card (used in Practice list and in the study guide)
 function qCard(q,show,label){
@@ -857,10 +879,21 @@ function sortDrill(d,body,ri){
   let sel=null,first=0;
   const pool=h("div",{class:"chips"});const msg=h("div",{class:"msg"});
   const binEls={};const bins=h("div",{class:"bins"});
-  R.bins.forEach(b=>{const cs=h("div",{class:"chips"});const el=h("div",{class:"bin",onclick:()=>place(b)},h("h5",null,b),cs);binEls[b]={el,cs};bins.append(el);});
+  R.bins.forEach(b=>{const cs=h("div",{class:"chips"});const el=h("div",{class:"bin","data-bin":b,onclick:()=>place(b)},h("h5",null,b),cs);binEls[b]={el,cs};bins.append(el);});
   body.append(pool,msg,bins);
   const chipEl=new Map();
-  items.forEach(it=>{const c=h("button",{class:"chip",onclick:()=>{if(it.done)return;sel=it;paint();}},it.t);chipEl.set(it,c);pool.append(c);});
+  items.forEach(it=>{const c=h("button",{class:"chip",type:"button"},it.t);chipEl.set(it,c);pool.append(c);
+    let st=null,gh=null,over=null;
+    c.addEventListener("pointerdown",e=>{if(it.done||e.button>0)return;st={x:e.clientX,y:e.clientY};try{c.setPointerCapture(e.pointerId);}catch(_){}});
+    c.addEventListener("pointermove",e=>{if(!st)return;
+      if(!gh){if(Math.hypot(e.clientX-st.x,e.clientY-st.y)<6)return;sel=it;paint();gh=c.cloneNode(true);gh.className="chip sel ghost";document.body.append(gh);c.classList.add("dragging");}
+      gh.style.transform="translate("+(e.clientX-gh.offsetWidth/2)+"px,"+(e.clientY-gh.offsetHeight/2)+"px)";
+      const t=document.elementFromPoint(e.clientX,e.clientY);const bn=t&&t.closest(".bin");if(over&&over!==bn)over.classList.remove("over");over=bn;if(bn)bn.classList.add("over");e.preventDefault();});
+    const end=()=>{if(!st)return;st=null;if(!gh)return;gh.remove();gh=null;c.classList.remove("dragging");c.dataset.nc="1";setTimeout(()=>{delete c.dataset.nc;},0);
+      const b=over&&over.dataset.bin;if(over)over.classList.remove("over");over=null;if(b)place(b);else{sel=null;paint();}};
+    c.addEventListener("pointerup",end);c.addEventListener("pointercancel",end);
+    c.addEventListener("click",()=>{if(c.dataset.nc||it.done)return;sel=(sel===it?null:it);paint();});
+  });
   function paint(){items.forEach(it=>{const c=chipEl.get(it);if(!it.done){c.className="chip"+(it===sel?" sel":"")+(it.miss>=2?" rev":"");}});Object.values(binEls).forEach(b=>b.el.classList.toggle("arm",!!sel));}
   function place(b){
     if(!sel)return;const it=sel;
@@ -1042,22 +1075,22 @@ tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},render(){
   const onlySaved=!!S.set.onlySaved;
   const wrap=h("div",{class:"gwrap"});const side=h("aside",{class:"gside"});const body=h("div",{class:"gbody"});wrap.append(side,body);main.append(wrap);
   // sidebar / outline
-  const sv=h("button",{class:"pill"+(onlySaved?" on":""),onclick:()=>{S.set.onlySaved=!onlySaved;S.pos.sheet=0;save();go("sheet");}},"Saved only ("+Object.keys(S.saved).length+")");
+  const sv=h("button",{class:"pill"+(onlySaved?" on":""),onclick:()=>{S.set.onlySaved=!onlySaved;S.pos.sheet=0;save();go("sheet");}},"Saved only ("+Object.keys(S.saved).filter(k=>LES[k]).length+")");
   side.append(h("div",{class:"gtitle"},"Contents"),sv);
   const jumpSel=h("select",{class:"gjump"},h("option",{value:""},"Jump to…"));
   const outl=h("div",{class:"outline"});side.append(outl);
   body.append(h("div",{class:"gtop"},jumpSel,sv.cloneNode(true)));
   body.querySelector(".gtop .pill").addEventListener("click",()=>{S.set.onlySaved=!onlySaved;S.pos.sheet=0;save();go("sheet");});
   jumpSel.addEventListener("change",()=>{const e=document.getElementById(jumpSel.value);if(e)e.scrollIntoView();jumpSel.value="";});
-  if(onlySaved&&!Object.keys(S.saved).length)body.append(h("p",{class:"mut"},"Nothing saved yet. Use Save at the top of any objective."));
+  if(onlySaved&&!Object.keys(S.saved).filter(k=>LES[k]).length)body.append(h("p",{class:"mut"},"Nothing saved yet. Tap the bookmark on any lesson."));
   const links={};
   MODS.forEach(m=>{
-    const los=m.los.filter(l=>!onlySaved||S.saved[l.id]);if(!los.length)return;
+    const los=m.los.filter(l=>!onlySaved||((m.guide||{})[l.id]||[]).some(b=>b.id&&S.saved[b.id]));if(!los.length)return;
     outl.append(h("div",{class:"omod"},m.short+": "+m.name.split(": ")[1]));
     body.append(h("div",{class:"modhead"},m.name));
     los.forEach(l=>{
       const id="s"+l.id.replace(".","-");
-      const blocks=(m.guide||{})[l.id]||[];
+      const blocks=((m.guide||{})[l.id]||[]).filter(b=>!onlySaved||(b.id&&S.saved[b.id]));
       const qids=Q.filter(q=>q.lo===l.id).map(q=>q.id);
       const prog=()=>qids.filter(x=>S.q[x]).length+" / "+qids.length;
       const pr=h("span",{class:"oprog"},prog());
@@ -1066,9 +1099,8 @@ tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},render(){
       jumpSel.append(h("option",{value:id},l.id+" "+(l.nick||shortT(l.title))));
       blocks.filter(b=>b.id).forEach(b=>{outl.append(h("a",{class:"les",href:"#"+b.id,onclick:e=>{e.preventDefault();document.getElementById(b.id).scrollIntoView();}},b.h));jumpSel.append(h("option",{value:b.id},"\u00a0\u00a0\u00a0"+b.h));});
       const sec=h("section",{class:"unit",id});
-      const sb=h("button",{class:"flag"});const sp=()=>{const on=!!S.saved[l.id];sb.textContent=on?"Saved":"Save";sb.classList.toggle("on",on);};sb.addEventListener("click",()=>{if(S.saved[l.id])delete S.saved[l.id];else S.saved[l.id]=1;save();sp();});sp();
       const upr=h("span",{class:"uprog"});const updProg=()=>{const t=prog();pr.textContent=t;upr.textContent=qids.length?t+" practice questions answered":"";};updProg();
-      sec.append(h("div",{class:"uhead"},h("div",null,h("div",{class:"eyebrow"},"Objective "+l.id),h("h2",null,l.title),upr),sb));
+      sec.append(h("div",{class:"uhead"},h("div",null,h("div",{class:"eyebrow"},"Objective "+l.id),h("h2",null,l.title),upr)));
       blocks.forEach(b=>sec.append(block(b,m)));
       body.append(sec);
     });
@@ -1095,7 +1127,7 @@ function block(b,m){
     n=1;paint();return w;
   }
   const w=h("div",{class:"card",id:b.id||null});
-  if(b.h)w.append(h("h3",{html:b.h+(b.beyond?' <span class="tag">beyond lecture</span>':"")}));
+  if(b.h)w.append(h("div",{class:"lhead"},h("h3",{html:b.h+(b.beyond?' <span class="tag">beyond lecture</span>':"")}),b.id?bmkBtn(b.id):null));
   const bodyEl=h("div",{class:"cb",html:b.b||""});
   bodyEl.querySelectorAll("table").forEach(t=>{const x=h("div",{class:"tw"});t.replaceWith(x);x.append(t);});
   const f=b.fig?fig(b.fig):null;

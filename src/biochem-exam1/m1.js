@@ -27,6 +27,7 @@ b:`<p>Three groups do most of the joining. A <b>hydroxyl</b> (–OH) is polar. A
 <li>amino acid –COOH + next amino acid –NH₂ → <b>peptide</b> bond</li>
 <li>one phosphate linking the sugars of two nucleotides → <b>phosphodiester</b> bond (two ester links through one phosphate)</li></ul>`,
 so:`If you can see which groups react, you can name the bond and predict that water is released when it forms and used up when it breaks.`},
+{drill:"m1d6"},
 
 {id:"m1-carbs",h:"Carbohydrates",
 b:`<p>Sugars are C, H and O, usually in a ring, and covered in –OH groups. All those hydroxyls make them polar, so glucose dissolves in blood and cytoplasm and can be delivered anywhere as fuel.</p>
@@ -38,14 +39,14 @@ so:`Polar hydroxyls make sugar a deliverable fuel. Linking and branching turn it
 
 {id:"m1-lipids",h:"Lipids: three types",
 b:`<p>Lipids are the one class not built from repeating units. What they share is being <b>amphipathic</b>: a polar head that interacts with water and a long nonpolar hydrocarbon tail that doesn't.</p>
-<p><b>Triglycerides</b>: glycerol + 3 fatty acids, joined by ester bonds. The tails are almost all C–H, so they store a lot of energy, and being nonpolar they collect as fat droplets in adipose tissue. This is long-term fuel storage.</p>
+<p><b>Triglycerides</b>: glycerol + 3 fatty acids, joined by ester bonds. The tails are almost all C–H, so they store a lot of energy. Triglycerides are the stored fat in adipose tissue, which makes them long-term fuel storage.</p>
 <p><b>Phospholipids</b>: glycerol + 2 fatty acids + a phosphate-containing head. Sphingolipids are phospholipids built on sphingosine instead of glycerol, often with sugars attached. These build membranes.</p>
 <p><b>Steroids</b>: four fused carbon rings. Cholesterol sits between phospholipids and stabilizes the membrane. It is also the starting material for bile salts (fat digestion) and steroid hormones (cortisol, testosterone, estradiol).</p>`,
 so:`Each lipid's job follows from its shape: energy-dense nonpolar tails for storage, a polar head plus tails for membranes, rigid rings for membrane stability and hormones.`},
 
 {id:"m1-membrane",h:"Membranes: bilayer and fluidity",fig:"bilayer",
 b:`<p>Put phospholipids in water and they arrange themselves. The tails cluster away from water (the hydrophobic effect, LO 1.2) and the heads face water on both sides. That's a bilayer, and nothing has to assemble it.</p>
-<p>The bilayer's nonpolar core blocks ions and polar molecules like glucose. Small nonpolar molecules (O₂, CO₂) pass through. This is why the membrane is selectively permeable and needs transport proteins for glucose and ions.</p>
+<p>The bilayer's nonpolar core blocks ions and polar molecules like glucose. Small nonpolar molecules like O₂ and CO₂ can pass through (beyond lecture). This is why the membrane is selectively permeable and needs transport proteins for glucose and ions.</p>
 <p>A <b>saturated</b> fatty acid has no C=C double bonds, so its tail is straight. Straight tails pack tightly: solid at room temperature (butter), stiffer membrane. A C=C in an <b>unsaturated</b> tail puts a kink in it. Kinked tails can't pack tightly: liquid at room temperature (olive oil), more fluid membrane.</p>
 <p>Cholesterol limits phospholipid movement in both directions. When it's warm it keeps the membrane from getting too loose; when it's cold it keeps tails from packing solid.</p>`,
 so:`Amphipathic structure produces the bilayer, the bilayer's nonpolar core produces selectivity, and tail saturation plus cholesterol set fluidity.`},
@@ -65,6 +66,7 @@ b:`<p>Every amino acid has the same core: an amine group, a carboxyl group and a
 <p>Proline is technically an imino acid (its nitrogen is part of a ring). On the chart, a dashed circle means <b>essential</b> (must come from the diet) and a solid circle means non-essential (the body can make it).</p>`,
 nl:"Course grouping",note:`The lecture follows the textbook, which counts Gly as hydrophilic even though its side chain is just an H, and Tyr as hydrophobic even though its –OH is polar (it interacts only weakly with water). Other sources split these differently. Use the course version on the exam. The chart doesn't show hydrophobic vs hydrophilic, so go by the table.`,
 so:`A side chain's group tells you whether it ends up buried inside or exposed on the surface of a folded protein.`},
+{drill:"m1d1"},
 
 {id:"m1-fold",h:"Protein folding: side chains set the shape",fig:"fold",
 b:`<p>Peptide bonds link amino acids into a long unbranched chain. In water the chain folds so that hydrophobic side chains pack into the core, away from water, and polar and charged side chains end up on the surface where they interact with water.</p>
@@ -95,7 +97,7 @@ so:`Hydrogen bonds give water cohesion and give DNA and proteins structure that 
 
 {id:"m1-weak",h:"Weak interactions",fig:"forces",
 b:`<p>Covalent and ionic bonds hold atoms together inside a molecule (intramolecular). Weak, noncovalent interactions act between molecules, or between distant parts of one large molecule (intermolecular). Because they're weak and reversible, a protein can bind a substrate and then release it.</p>
-<p>From strongest to weakest, as the lecture ranks them:</p>
+<p>From strongest to weakest:</p>
 <ul><li><b>Ion–dipole</b>: a full charge attracts the oppositely charged end of a polar molecule. This is why salt dissolves in water. The lecture also calls these salt bridges.</li>
 <li><b>Hydrogen bond</b>: a strong dipole–dipole interaction involving H on N, O or F.</li>
 <li><b>Dipole–dipole</b>: the δ+ end of one polar molecule attracts the δ− end of another.</li>
@@ -122,7 +124,7 @@ b:`<p>An <b>acid</b> donates H⁺ and a <b>base</b> accepts H⁺. When an acid g
 <p>A free H⁺ in water attaches to a water molecule to form H₃O⁺, so [H⁺] and [H₃O⁺] are used interchangeably.</p>
 <p>The conjugate base of an organic acid ends in -ate: lactic acid and lactate, pyruvic acid and pyruvate. At blood pH 7.4 most organic acids are in the -ate form, which is why later modules say pyruvate, not pyruvic acid.</p>
 <p>Water itself dissociates very slightly (H₂O ⇌ H⁺ + OH⁻), so it can act as an acid or a base.</p>`,
-so:`Every pH question comes down to which way H⁺ moves between an acid and its conjugate base.`},
+so:`Most pH questions come down to which way H⁺ moves between an acid and its conjugate base.`},
 
 {id:"m1-scale",h:"The pH scale",fig:"phscale",
 b:`<p>pH = −log[H⁺]. Because it's a log scale, each 1-unit drop in pH means 10 times more H⁺. pH 5 has 100 times the H⁺ of pH 7.</p>
@@ -182,7 +184,7 @@ b:`<p>CO₂ from metabolism dissolves in blood and forms carbonic acid, which di
 <li>Less CO₂: shifts left, H⁺ consumed, pH rises.</li>
 <li>Added H⁺ (lactic acid): HCO₃⁻ absorbs it, the reaction shifts left, bicarbonate is used up and the extra CO₂ is exhaled.</li></ul>
 <p>In the lungs the reaction runs left and CO₂ is exhaled, so breathing rate controls how much CO₂, and therefore how much acid, stays in the blood.</p>`,
-so:`Every acid-base question in this LO is this equation plus a change on one side.`},
+so:`Most questions for this LO come down to this equation plus a change on one side.`},
 
 {id:"m1-resp",h:"Respiratory acidosis and alkalosis",beyond:true,
 b:`<p>Respiratory disorders start with CO₂, which the lungs control.</p>
@@ -233,7 +235,7 @@ exp:"A polysaccharide has hundreds to thousands of glycosidic bonds to break. A 
 stem:"Phospholipids added to water form a bilayer without any enzyme or energy input. Which feature of their structure causes this?",
 opts:["Each has a polar head and nonpolar tails, so the tails cluster away from water while the heads face it","They are polymers whose repeating units bond to one another into flat sheets","Phosphodiester bonds form between neighboring phospholipids and link them covalently","Their fatty acid tails carry charges that form salt bridges with one another"],ans:0,
 exp:"Phospholipids are amphipathic. The hydrophobic effect pushes the nonpolar tails together and the polar heads stay in contact with water on both faces. Lipids are not polymers, and no covalent bonds form between neighboring phospholipids."},
-{id:"m1a07",lo:"1.1",src:"L1",ref:"m1-membrane",type:"mc",
+{id:"m1a07",lo:"1.1",src:"L1",ref:"m1-membrane",type:"mc",tag:"beyond",
 stem:"O₂ diffuses across a pure phospholipid bilayer, but glucose does not. Which explanation is best?",
 opts:["Glucose is polar and can't pass the nonpolar core of the bilayer; O₂ is small and nonpolar","Glucose is negatively charged at pH 7.4 and is repelled by the phosphate heads","O₂ forms hydrogen bonds with the fatty acid tails, which pull it through","The bilayer has pores sized to admit gases but not sugars"],ans:0,
 exp:"The bilayer's hydrophobic core blocks polar molecules like glucose, which is covered in –OH groups but is not charged. Small nonpolar gases dissolve in the core and pass. Glucose needs a transport protein."},
@@ -302,7 +304,7 @@ stem:"A gecko clings to a glass ceiling even though its foot surface and the gla
 opts:["van der Waals forces summed over millions of close contacts","Hydrogen bonds between the foot and the glass","Ion–dipole interactions between the foot and the glass","The hydrophobic effect pushing the foot against the glass"],ans:0,
 exp:"van der Waals forces act between all molecules, including nonpolar ones. Each is the weakest interaction, but the gecko's foot makes so many close contacts that they add up."},
 {id:"m1a25",lo:"1.2",src:"L3",ref:"m1-weak",type:"mc",
-stem:"Which list orders these interactions from strongest to weakest, as taught in the lecture?",
+stem:"Which list orders these interactions from strongest to weakest?",
 opts:["Ion–dipole, hydrogen bond, dipole–dipole, van der Waals","Hydrogen bond, ion–dipole, van der Waals, dipole–dipole","Dipole–dipole, hydrogen bond, ion–dipole, van der Waals","van der Waals, dipole–dipole, hydrogen bond, ion–dipole"],ans:0,
 exp:"A full charge (ion–dipole) attracts most strongly. A hydrogen bond is an especially strong dipole–dipole interaction. van der Waals forces are the weakest individually."},
 {id:"m1a26",lo:"1.2",src:"L3",ref:"m1-weak",type:"tf",
@@ -419,15 +421,23 @@ exp:"In a closed flask, 7.4 would be outside the useful range. The lungs and kid
 
 drills:[
 {id:"m1d1",lo:"1.1",kind:"sort",title:"Amino acid groups",
-intro:"Tap an amino acid, then tap its group. Wrong placements explain themselves.",
+intro:"Drag each amino acid into its group, or tap it and then tap the group. Wrong placements explain themselves.",
 rounds:[
 {name:"By side-chain group",bins:["Aliphatic","Aromatic","Acidic","Basic","Hydroxylic","Amidic","Sulfur"],
 items:[["Ala","Aliphatic"],["Gly","Aliphatic","Book groups Gly as aliphatic"],["Ile","Aliphatic"],["Leu","Aliphatic"],["Pro","Aliphatic","Aliphatic, and technically an imino acid"],["Val","Aliphatic"],["Phe","Aromatic"],["Trp","Aromatic"],["Tyr","Aromatic"],["Asp","Acidic"],["Glu","Acidic"],["Arg","Basic"],["His","Basic"],["Lys","Basic"],["Ser","Hydroxylic"],["Thr","Hydroxylic"],["Asn","Amidic"],["Gln","Amidic"],["Cys","Sulfur"],["Met","Sulfur"]]},
 {name:"Hydrophobic or hydrophilic",bins:["Hydrophobic","Hydrophilic"],
 items:[["Ala","Hydrophobic"],["Gly","Hydrophilic","Nonpolar, but the book counts it hydrophilic"],["Ile","Hydrophobic"],["Leu","Hydrophobic"],["Pro","Hydrophobic"],["Val","Hydrophobic"],["Phe","Hydrophobic"],["Trp","Hydrophobic"],["Tyr","Hydrophobic","Polar, but only weakly interacts with water → polar hydrophobic"],["Asp","Hydrophilic"],["Glu","Hydrophilic"],["Arg","Hydrophilic"],["His","Hydrophilic"],["Lys","Hydrophilic"],["Ser","Hydrophilic"],["Thr","Hydrophilic"],["Asn","Hydrophilic"],["Gln","Hydrophilic"],["Cys","Hydrophilic","Sulfur pair splits: Cys polar hydrophilic"],["Met","Hydrophobic","Sulfur pair splits: Met nonpolar hydrophobic"]]}
 ]},
+{id:"m1d6",lo:"1.1",kind:"sort",title:"Functional groups and bonds",
+intro:"Drag each item into its group, or tap it and then tap the group.",
+rounds:[
+{name:"Which group?",bins:["Hydroxyl (–OH)","Carboxyl (–COOH)","Amine (–NH₂)"],
+items:[["Donates H⁺, so it's acidic","Carboxyl (–COOH)"],["Accepts H⁺, so it's basic","Amine (–NH₂)"],["Covers sugars and makes them water-soluble","Hydroxyl (–OH)"],["Present on every amino acid",["Carboxyl (–COOH)","Amine (–NH₂)"],"Every amino acid has both an amine and a carboxyl"],["Reacts with an amine to form a peptide bond","Carboxyl (–COOH)"],["Reacts with a carboxyl to form a peptide bond","Amine (–NH₂)"],["Two of these on sugars join in a glycosidic bond","Hydroxyl (–OH)"],["On glycerol; reacts with a fatty acid to form an ester","Hydroxyl (–OH)"],["On a fatty acid; reacts with glycerol to form an ester","Carboxyl (–COOH)"],["Extra one on the side chain makes Asp and Glu negative","Carboxyl (–COOH)"]]},
+{name:"Which bond?",bins:["Glycosidic","Ester","Peptide","Phosphodiester"],
+items:[["Glucose + fructose → sucrose","Glycosidic"],["Glucose units in glycogen","Glycosidic"],["Fatty acids on glycerol in a triglyceride","Ester"],["Amino acids in a protein chain","Peptide"],["Nucleotides in a DNA or RNA strand","Phosphodiester"]]}
+]},
 {id:"m1d3",lo:"1.2",kind:"sort",title:"Name the interaction",
-intro:"Which interaction is doing the work?",
+intro:"Which interaction is doing the work? Drag or tap to sort.",
 rounds:[{name:"Scenario → interaction",bins:["Ion–dipole","Hydrogen bond","Dipole–dipole","van der Waals","Hydrophobic effect"],
 items:[["Na⁺ surrounded by water molecules","Ion–dipole"],["A–T base pairing between DNA strands","Hydrogen bond"],["Water's meniscus in a cylinder","Hydrogen bond","Cohesion = H-bonds between waters"],["Two polar acetone molecules aligning","Dipole–dipole","Acetone has no O–H/N–H donor, so no H-bond, just dipoles"],["Gecko foot on glass","van der Waals"],["Two nonpolar methane molecules attracting","van der Waals","The only attraction possible between nonpolar molecules"],["Oil droplets merging","Hydrophobic effect","Driven by water's entropy, not attraction"],["Leu and Val buried in a protein core","Hydrophobic effect"]]}]},
 {id:"m1d4",lo:"1.3",kind:"tool",tool:"hh",title:"pH / ratio explorer",
@@ -447,3 +457,7 @@ cases:[
 ]}
 ]
 });
+
+// Review highlight: the sentence each question checks (matched against lesson text).
+(function(){const HL={m1a01:"Carbon forms four stable covalent bonds",m1a02:"Hydrolysis adds the water back",m1a03:"fatty acid –COOH + glycerol –OH",m1a04:"Glycogen's branches also give it many chain ends",m1a05:"Complex carbohydrates digest more slowly",m1a06:"Put phospholipids in water",m1a07:"nonpolar core blocks ions and polar molecules",m1a08:"puts a kink in it",m1a09:"puts a kink in it",m1a10:"Triglycerides: glycerol + 3 fatty acids",m1a11:"Cholesterol sits between phospholipids",m1a12:"hydrophobic side chains pack into the core",m1a13:"Change the sequence and you change",m1a14:"Change the sequence and you change",m1a15:"counts Gly as hydrophilic",m1a16:"Asp, Glu",m1a17:"Strong covalent bonds keep each strand's sequence intact",m1a18:"RNA uses ribose",m1a19:"Water's δ− oxygens surround cations",m1a20:"Oxygen is more electronegative than hydrogen",m1a21:"A hydrogen bond forms between",m1a22:"Many hydrogen bonds together hold",m1a23:"That gives water cohesion",m1a24:"van der Waals (dispersion)",m1a25:"From strongest to weakest",m1a26:"van der Waals contact distance",m1a27:"When nonpolar molecules cluster",m1a28:"driven by water's entropy",m1a29:"phospholipid tails clustering into a bilayer",m1a30:"A salt bridge between two charged side chains",m1a31:"pOH = −log[OH⁻]",m1a32:"each 1-unit drop in pH means 10 times more H⁺",m1a33:"pOH = −log[OH⁻]",m1a34:"lower pKa means a stronger acid",m1a35:"Keq above 1 means products are favored",m1a36:"Each pH unit away from the pKa",m1a37:"pH = pKa: log of the ratio is 0",m1a38:"pH above pKa: ratio above 1",m1a39:"aspirin is absorbed in its conjugate base",m1a40:"Buffering works best near the pKa",m1a41:"A buffer holds pH where it is",m1a42:"On the titration curve",m1a43:"pH meter: a glass electrode",m1a44:"An indicator changes color near its own pKa",m1a45:"Respiratory acidosis: breathing too slowly",m1a46:"Respiratory alkalosis: breathing too fast",m1a47:"Respiratory alkalosis: breathing too fast",m1a48:"More CO₂: shifts right",m1a49:"Added H⁺ (lactic acid)",m1a50:"ratio is 20 : 1",m1a51:"Metabolic alkalosis: acid lost",m1a52:"bicarbonate lost in severe diarrhea",m1a53:"Kussmaul breathing",m1a54:"Blood is an open system"};
+MODS[MODS.length-1].questions.forEach(q=>{if(HL[q.id])q.hl=HL[q.id];});})();
