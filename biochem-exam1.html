@@ -111,6 +111,8 @@ details.mod>summary{cursor:pointer;font-size:17px;font-weight:600;padding:8px 0}
 .fld .seg button.ok{background:var(--ok);color:#fff}.fld .seg button.bad{background:var(--bad);color:#fff}
 /* hh tool */
 .hh{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:12px 0}
+.tal{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}.tal div{border:1px solid var(--line);border-radius:6px;padding:6px 4px;text-align:center;font-size:13px;color:var(--mut)}.tal b{display:block;font-size:17px;color:var(--fg)}.tal .full{border-color:var(--acc)}.tal .full b{color:var(--acc)}
+.pills{gap:6px;flex-wrap:wrap}
 .hh .sl{display:grid;grid-template-columns:44px 1fr 44px;gap:8px;align-items:center;margin:6px 0}
 .hh input[type=range]{width:100%;accent-color:var(--acc)}
 .hh .out{font-size:15px;margin:8px 0}
@@ -1403,6 +1405,7 @@ b:`<table><tr><th>Control point</th><th>Speeds it up</th><th>Slows it down</th><
 <p>Malonate, fluoroacetate and arsenite also slow the cycle, but they are poisons, not regulation (3.6).</p>`,
 so:`Energy-rich signals (ATP, NADH, citrate) brake the cycle, demand signals (ADP, Ca²⁺) speed it, and both dehydrogenases stall when NAD⁺ runs short.`},
 {drill:"m3d2"},
+{tool:"cac"},
 
 {id:"m3-etc",h:"The electron transport chain",fig:"m3etc",
 b:`<p>Oxidative phosphorylation has two parts: the <b>electron transport chain</b> (ETC) uses the energy of electrons to pump protons and build a gradient, and <b>ATP synthase</b> uses that gradient to make ATP.</p>
@@ -1673,6 +1676,8 @@ rounds:[
 {name:"Which step",bins:["Acetyl CoA formation","Citrate synthase","Isocitrate DH","α-KG DH complex","Succinate DH"],
 items:[["Inhibited by ATP, NADH and acetyl CoA together","Acetyl CoA formation"],["Depends on fuel being moved into the matrix","Acetyl CoA formation","Compartmentalization: substrate access"],["Inhibited by its own product, citrate","Citrate synthase","Feedback inhibition"],["Joins a 2-carbon and a 4-carbon unit","Citrate synthase"],["Activated by both Ca²⁺ and ADP","Isocitrate DH","α-KG DH is activated by Ca²⁺ but not listed for ADP"],["Makes the first CO₂ and NADH (6C to 5C)","Isocitrate DH"],["Needs thiamine as well as NAD⁺","α-KG DH complex"],["Inhibited by ammonia","α-KG DH complex","Why hyperammonemia slows the cycle"],["Blocked by arsenite","α-KG DH complex"],["Makes the second CO₂ (5C to 4C)","α-KG DH complex"],["Competitively inhibited by malonate","Succinate DH","Malonate looks like succinate"],["Makes FADH₂ and doubles as Complex II","Succinate DH"],["Governed by the oxaloacetate level; not a primary control point","Succinate DH"]]}
 ]},
+{id:"m3d5",lo:"3.5",kind:"tool",tool:"cac",title:"Citric acid cycle wheel",
+intro:"Run one turn step by step, or switch on regulators and poisons and see which steps light up."},
 {id:"m3d3",lo:"3.6",kind:"case",title:"Perturb the chain",
 intro:"For each change, predict O₂ use, ATP made and the H⁺ gradient compared with normal. The answer shows after the third pick.",
 fields:[["O₂ use","Up","Same","Down"],["ATP made","Up","Same","Down"],["H⁺ gradient","Up","Same","Down"]],
@@ -1775,7 +1780,7 @@ function openLesson(id,hl){
 // ---- tabs ----
 let tab=null;const tabs={};
 document.getElementById("nav").addEventListener("click",e=>{const t=e.target.dataset.t;if(t){go(t);}});
-function go(t,arg){savePos();if(tab&&tab!==t&&tabs[tab]&&tabs[tab].cleanup)tabs[tab].cleanup();tab=t;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(tabs[t].cleanup)tabs[t].cleanup();main.innerHTML="";document.body.dataset.tab=t;tabs[t].render(arg);window.scrollTo(0,(t==="sheet"||t==="practice")?(S.pos[t]||0):0);S.tab=t;save();try{history.replaceState(null,"","#"+t);}catch(e){}}
+function go(t,arg){stopAnims();savePos();if(tab&&tab!==t&&tabs[tab]&&tabs[tab].cleanup)tabs[tab].cleanup();tab=t;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(tabs[t].cleanup)tabs[t].cleanup();main.innerHTML="";document.body.dataset.tab=t;tabs[t].render(arg);window.scrollTo(0,(t==="sheet"||t==="practice")?(S.pos[t]||0):0);S.tab=t;save();try{history.replaceState(null,"","#"+t);}catch(e){}}
 function savePos(){if((tab==="sheet"&&main.querySelector(".gwrap"))||(tab==="practice"&&main.querySelector(".plist"))){S.pos[tab]=Math.round(window.scrollY);save();}}
 let st_;window.addEventListener("scroll",()=>{clearTimeout(st_);st_=setTimeout(savePos,250);},{passive:true});
 window.addEventListener("pagehide",savePos);
@@ -1855,7 +1860,7 @@ function runPractice(pool,title){
 
 // ===== DRILLS =====
 function openDrill(d){
-  main.innerHTML="";
+  stopAnims();main.innerHTML="";
   main.append(h("div",{class:"row"},h("button",{class:"btn link",style:"margin-left:0;padding-left:0",onclick:()=>go("practice")},"← Practice")));
   main.append(h("h1",null,d.title),h("p",{class:"lohd"},"LO "+d.lo+" · "+LOBY[d.lo].title),h("p",{class:"mut"},d.intro));
   const body=h("div");main.append(body);
@@ -2062,6 +2067,103 @@ const TOOLS={kin(){
   }
   draw();return w;
 }};
+
+// ===== M3 animated tools =====
+// Loops register a stop function in ANIMS; go() and openDrill() call stopAnims(). Loops also stop themselves once their element leaves the page.
+const ANIMS=new Set();
+function stopAnims(){ANIMS.forEach(f=>{try{f();}catch(e){}});ANIMS.clear();}
+const RMQ=window.matchMedia?matchMedia("(prefers-reduced-motion: reduce)"):{matches:false};
+const C3={acc:"#1f4b8f",ok:"#1d7a3a",bad:"#b42318",fg:"#1c1c1c",mut:"#666",gry:"#9aa3ad",soft:"#eef2f9",okbg:"#eef7f0",badbg:"#fdf1f0"};
+const svgT=(x,y,s,a)=>`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}"${a||""}>${s}</text>`;
+TOOLMETA.cac=["Citric acid cycle wheel","Step through one turn and watch the carbons and carriers add up, or switch on regulators and poisons to see where they act."];
+TOOLS.cac=function(){
+  const W=420,H=304,cx=210,cy=160,r=90;
+  const N=[["oxaloacetate",4],["citrate",6],["isocitrate",6],["α-ketoglutarate",5],["succinyl CoA",4],["succinate",4],["fumarate",4],["malate",4]];
+  const ST=[["Citrate synthase","Acetyl CoA (2C) joins oxaloacetate (4C) to make citrate (6C). CoA is released.",{},1,"citrate synthase"],
+    ["Aconitase (name not required)","Citrate is rearranged into isocitrate. Still 6 carbons.",{},0,"citrate → isocitrate"],
+    ["Isocitrate dehydrogenase","Isocitrate (6C) → α-ketoglutarate (5C). The first CO₂ leaves and NAD⁺ → NADH.",{n:1,c:1},1,"isocitrate DH"],
+    ["α-Ketoglutarate dehydrogenase complex","α-Ketoglutarate (5C) → succinyl CoA (4C). The second CO₂ leaves and NAD⁺ → NADH.",{n:1,c:1},1,"α-KG DH complex"],
+    ["Succinyl CoA synthetase (name not required)","Succinyl CoA → succinate. This step makes GTP, which counts as the cycle's 1 ATP.",{a:1},0,"succinyl CoA → succinate"],
+    ["Succinate dehydrogenase (Complex II)","Succinate → fumarate. Two H go to FAD, making FADH₂, which feeds the ETC directly.",{f:1},1,"succinate DH"],
+    ["Fumarase (name not required)","Water is added: fumarate → malate.",{},0,"fumarate → malate"],
+    ["Malate dehydrogenase","Malate → oxaloacetate, and NAD⁺ → NADH. Oxaloacetate is back, ready for the next acetyl CoA.",{n:1},0,"malate DH"]];
+  const REG=[["ca","Ca²⁺"],["nadh","High NADH"],["atp","High ATP"],["adp","High ADP"],["mal","Malonate"],["flu","Fluoroacetate"],["ars","Arsenite"]];
+  const EFF={ca:{2:[1,"Ca²⁺"],3:[1,"Ca²⁺"]},nadh:{e:[-1,"NADH"],2:[-1,"NADH (no free NAD⁺)"],3:[-1,"NADH (no free NAD⁺)"]},atp:{e:[-1,"ATP"],0:[-1,"ATP"]},adp:{2:[1,"ADP"]},
+    mal:{5:["x","malonate (competitive, looks like succinate)"]},flu:{1:["x","fluoroacetate"]},ars:{3:["x","arsenite"]}};
+  const ang=i=>(-22.5+45*i)*Math.PI/180,P=(a,rr)=>[cx+rr*Math.sin(a),cy-rr*Math.cos(a)];
+  let mode="run",k=0,playing=false,anim=null,raf=0,wait=0;const on=new Set();
+  const w=h("div",{class:"hh cac"});
+  const seg=h("div",{class:"seg"});[["run","Run one turn"],["reg","Regulators"]].forEach(([v,l])=>{const b=h("button",{type:"button",onclick:()=>{stop();mode=v;draw();}},l);b.dataset.v=v;seg.append(b);});
+  const pic=h("div",{class:"fig"}),ctl=h("div",{class:"row"}),tal=h("div",{class:"tal"}),out=h("div",{class:"out"});
+  w.append(h("div",{class:"dtop"},seg),pic,ctl,tal,out);
+  function stop(){playing=false;anim=null;if(raf)cancelAnimationFrame(raf);raf=0;ANIMS.delete(stop);}
+  function loop(){if(!raf){raf=requestAnimationFrame(tick);ANIMS.add(stop);}}
+  function tick(ts){raf=0;if(!w.isConnected){stop();return;}
+    if(anim){if(!anim.t0)anim.t0=ts;const t=Math.min(1,(ts-anim.t0)/700);const d=pic.querySelector(".mdot");if(d){const [x,y]=P(ang(anim.i)+0.13+t*(Math.PI/4-0.26),r);d.setAttribute("cx",x.toFixed(1));d.setAttribute("cy",y.toFixed(1));}
+      if(t>=1){anim=null;k++;wait=ts+450;draw();}}
+    else if(playing){if(k>=8){playing=false;draw();}else if(ts>=wait)advance();}
+    if(anim||playing)loop();else ANIMS.delete(stop);}
+  function advance(){if(k>=8||anim)return;if(RMQ.matches){k++;wait=performance.now()+900;draw();}else{anim={i:k};draw();}if(playing||anim)loop();}
+  function eff(){const m={};on.forEach(t=>{for(const [s,v] of Object.entries(EFF[t])){(m[s]=m[s]||[]).push(v);}});return m;}
+  function svg(){
+    const E=mode==="reg"?eff():{};let g=`<svg viewBox="46 0 376 ${H}" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="13"><rect x="46" width="376" height="${H}" fill="#fff"/>`;
+    const blk=i=>(E[i]||[]).some(v=>v[0]==="x"),net=i=>(E[i]||[]).reduce((s,v)=>s+(v[0]==="x"?0:v[0]),0);
+    const colOf=key=>{if(mode!=="reg")return null;const L=E[key]||[];if(!L.length)return null;if(L.some(v=>v[0]==="x"))return C3.bad;const n=net(key);return n>0?C3.ok:n<0?C3.bad:C3.mut;};
+    // entry arrow
+    const ec=colOf("e")||C3.fg;
+    g+=`<line x1="${cx}" y1="14" x2="${cx}" y2="${cy-r-10}" stroke="${ec}" stroke-width="${ec===C3.fg?2:3.5}"/><path d="M${cx-6} ${cy-r-16} L${cx} ${cy-r-6} L${cx+6} ${cy-r-16} z" fill="${ec}"/>`+svgT(cx+10,26,"acetyl CoA (2C)",` fill="${ec}" font-weight="600"`);
+    for(let i=0;i<8;i++){
+      const [x0,y0]=P(ang(i)+0.13,r),[x1,y1]=P(ang(i+1)-0.13,r);let col=C3.gry,sw=ST[i][3]?3:2,dash="";
+      if(mode==="run"){if(i<k||(anim&&anim.i===i))col=C3.acc;}
+      else{const c=colOf(i);if(c){col=c;sw=4;}if(blk(i))dash=` stroke-dasharray="6 4"`;}
+      g+=`<path d="M${x0.toFixed(1)} ${y0.toFixed(1)} A${r} ${r} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}" fill="none" stroke="${col}" stroke-width="${sw}"${dash}/>`;
+      const [ax,ay]=P(ang(i+1)-0.13,r),ta=ang(i+1)-0.13+Math.PI/2,s=6;
+      g+=`<path d="M${(ax-s*Math.sin(ta)-s*0.6*Math.cos(ta)).toFixed(1)} ${(ay+s*Math.cos(ta)-s*0.6*Math.sin(ta)).toFixed(1)} L${ax.toFixed(1)} ${ay.toFixed(1)} L${(ax-s*Math.sin(ta)+s*0.6*Math.cos(ta)).toFixed(1)} ${(ay+s*Math.cos(ta)+s*0.6*Math.sin(ta)).toFixed(1)}" fill="none" stroke="${col}" stroke-width="2"/>`;
+      const [mx,my]=P(ang(i)+Math.PI/8,r);
+      if(mode==="reg"&&blk(i))g+=`<circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="11" fill="#fff" stroke="${C3.bad}" stroke-width="2"/>`+svgT(mx,my+5,"×",` text-anchor="middle" fill="${C3.bad}" font-weight="700" font-size="17"`);
+      else g+=`<circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="10" fill="#fff" stroke="${col}" stroke-width="1.5"/>`+svgT(mx,my+4.5,String(i+1),` text-anchor="middle" fill="${col===C3.gry?C3.mut:col}" font-weight="700" font-size="12"`);
+    }
+    const cur=k%8,sw=new Set();if(mode==="reg")for(let i=0;i<8;i++)if(blk(i))sw.add(i);
+    N.forEach(([n,c],i)=>{const a=ang(i),[x,y]=P(a,r);const big=sw.has(i),hot=mode==="run"&&i===cur&&!anim;
+      g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${big?14:hot?8:5}" fill="${big?C3.badbg:hot?C3.acc:C3.fg}" stroke="${big?C3.bad:"none"}" stroke-width="2"/>`;
+      const s=Math.sin(a),co=Math.cos(a),[lx,ly]=P(a,r+(big?20:16)),anc=s>0.3?"start":s<-0.3?"end":"middle",dy=co<-0.5?10:co>0.5?-14:0;
+      g+=svgT(lx,ly+dy,n,` text-anchor="${anc}" fill="${big?C3.bad:C3.fg}"${big||hot?' font-weight="700"':""}`)+svgT(lx,ly+dy+15,c+"C",` text-anchor="${anc}" fill="${C3.mut}" font-size="12"`);});
+    if(mode==="run"){
+      if(anim){const [x,y]=P(ang(anim.i)+0.13,r);g+=`<circle class="mdot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" fill="${C3.acc}"/>`;}
+      const t1=k===0?"2C + 4C":N[cur][1]+" carbons",t2=k===0?"about to join":N[cur][0];
+      g+=svgT(cx,cy-2,t1,` text-anchor="middle" font-size="20" font-weight="700" fill="${C3.acc}"`)+svgT(cx,cy+18,t2,` text-anchor="middle" fill="${C3.mut}"`);
+    }
+    return g+"</svg>";
+  }
+  function draw(){
+    [...seg.children].forEach(b=>b.classList.toggle("on",b.dataset.v===mode));
+    pic.innerHTML=svg();ctl.innerHTML="";
+    if(mode==="run"){
+      ctl.append(h("button",{class:"btn pri",type:"button",disabled:k>=8||!!anim||playing,onclick:()=>advance()},"Next step"),
+        h("button",{class:"btn",type:"button",disabled:k>=8&&!playing,onclick:()=>{if(playing){playing=false;draw();}else{playing=true;wait=0;advance();loop();draw();}}},playing?"Pause":"Play"),
+        h("button",{class:"btn link",type:"button",onclick:()=>{stop();k=0;draw();}},"Reset"));
+      const sum={n:0,f:0,a:0,c:0};for(let i=0;i<k;i++)for(const [x,v] of Object.entries(ST[i][2]))sum[x]+=v;
+      tal.style.display="";tal.innerHTML="";[["NADH","n",3],["FADH₂","f",1],["ATP (GTP)","a",1],["CO₂","c",2]].forEach(([l,x,m])=>tal.append(h("div",{class:sum[x]===m?"full":""},h("b",null,sum[x]+" / "+m),l)));
+      const s=k===0?null:ST[k-1];
+      out.innerHTML=k===0?"Press <b>Next step</b> or <b>Play</b>. Acetyl CoA (2C) enters at the top and joins oxaloacetate (4C).":
+        `<b>Step ${k}: ${s[0]}</b><br>${s[1]}`+(k===8?`<br><span class="sm">One turn: 2 CO₂, 3 NADH, 1 FADH₂ and 1 ATP (as GTP). The two carbons that left as CO₂ are not the two that entered as acetyl in this turn.</span>`:"");
+    }else{
+      tal.style.display="none";
+      const pills=h("div",{class:"row pills"});REG.forEach(([v,l])=>pills.append(h("button",{class:"pill"+(on.has(v)?" on":""),type:"button","aria-pressed":on.has(v)?"true":"false",onclick:()=>{on.has(v)?on.delete(v):on.add(v);draw();}},l)));
+      ctl.append(pills,h("button",{class:"btn link",type:"button",onclick:()=>{on.clear();draw();}},"Clear"));
+      const E=eff(),lines=[];const nm={e:"Acetyl CoA formation",0:"Citrate synthase",1:"Citrate → isocitrate",2:"Isocitrate DH",3:"α-KG DH complex",5:"Succinate DH"};
+      ["e","0","1","2","3","5"].forEach(s=>{const L=E[s];if(!L)return;lines.push(`<b>${nm[s]}</b>: `+L.map(v=>v[0]==="x"?`blocked by ${v[1]}`:(v[0]>0?"+ ":"− ")+v[1]).join(", "));});
+      const bl=["1","3","5"].filter(s=>(E[s]||[]).some(v=>v[0]==="x"));
+      let vd="";
+      if(!on.size)vd="Nothing switched on. Pick a regulator or a poison to see where it acts. Green = activated, red = inhibited or blocked.";
+      else if(bl.length)vd="<b>Cycle blocked.</b> "+bl.map(s=>`${N[+s][0]} piles up before the ${nm[s]} step`).join("; ")+". Less NADH and FADH₂ reach the ETC, so less ATP is made. Poisons aren't regulation: the cell can't switch them off.";
+      else{let up=0,dn=0;Object.values(E).forEach(L=>L.forEach(v=>{if(v[0]>0)up++;else if(v[0]<0)dn++;}));
+        vd=up&&!dn?"<b>Cycle speeds up.</b> These are demand signals: the cell is spending ATP.":dn&&!up?"<b>Cycle slows.</b> These say the cell already has plenty of energy.":"<b>Mixed signals.</b> Activators and inhibitors are acting at once; the net rate depends on how strong each one is.";}
+      out.innerHTML=vd+(lines.length?"<br>"+lines.join("<br>"):"");
+    }
+  }
+  draw();return w;
+};
 
 // ===== MOCK =====
 let timerId=null;

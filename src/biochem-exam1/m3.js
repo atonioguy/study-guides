@@ -198,6 +198,7 @@ b:`<table><tr><th>Control point</th><th>Speeds it up</th><th>Slows it down</th><
 <p>Malonate, fluoroacetate and arsenite also slow the cycle, but they are poisons, not regulation (3.6).</p>`,
 so:`Energy-rich signals (ATP, NADH, citrate) brake the cycle, demand signals (ADP, Ca²⁺) speed it, and both dehydrogenases stall when NAD⁺ runs short.`},
 {drill:"m3d2"},
+{tool:"cac"},
 
 {id:"m3-etc",h:"The electron transport chain",fig:"m3etc",
 b:`<p>Oxidative phosphorylation has two parts: the <b>electron transport chain</b> (ETC) uses the energy of electrons to pump protons and build a gradient, and <b>ATP synthase</b> uses that gradient to make ATP.</p>
@@ -468,6 +469,8 @@ rounds:[
 {name:"Which step",bins:["Acetyl CoA formation","Citrate synthase","Isocitrate DH","α-KG DH complex","Succinate DH"],
 items:[["Inhibited by ATP, NADH and acetyl CoA together","Acetyl CoA formation"],["Depends on fuel being moved into the matrix","Acetyl CoA formation","Compartmentalization: substrate access"],["Inhibited by its own product, citrate","Citrate synthase","Feedback inhibition"],["Joins a 2-carbon and a 4-carbon unit","Citrate synthase"],["Activated by both Ca²⁺ and ADP","Isocitrate DH","α-KG DH is activated by Ca²⁺ but not listed for ADP"],["Makes the first CO₂ and NADH (6C to 5C)","Isocitrate DH"],["Needs thiamine as well as NAD⁺","α-KG DH complex"],["Inhibited by ammonia","α-KG DH complex","Why hyperammonemia slows the cycle"],["Blocked by arsenite","α-KG DH complex"],["Makes the second CO₂ (5C to 4C)","α-KG DH complex"],["Competitively inhibited by malonate","Succinate DH","Malonate looks like succinate"],["Makes FADH₂ and doubles as Complex II","Succinate DH"],["Governed by the oxaloacetate level; not a primary control point","Succinate DH"]]}
 ]},
+{id:"m3d5",lo:"3.5",kind:"tool",tool:"cac",title:"Citric acid cycle wheel",
+intro:"Run one turn step by step, or switch on regulators and poisons and see which steps light up."},
 {id:"m3d3",lo:"3.6",kind:"case",title:"Perturb the chain",
 intro:"For each change, predict O₂ use, ATP made and the H⁺ gradient compared with normal. The answer shows after the third pick.",
 fields:[["O₂ use","Up","Same","Down"],["ATP made","Up","Same","Down"],["H⁺ gradient","Up","Same","Down"]],
