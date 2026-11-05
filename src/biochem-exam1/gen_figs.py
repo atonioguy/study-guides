@@ -555,6 +555,257 @@ def q_allo():
     o.append(f'<rect x="290" y="170" width="22" height="18" fill="#eef2f9" stroke="{ACC}" stroke-width="2"/>'+T(320,184,"enzyme",fill=FG))
     o.append('</svg>');return "".join(o)
 
+# ---------- Module 1 question figures (unlabeled) ----------
+def _atom(x,y,s,fs=17,col=FG,bold=False):
+    k=dict(text_anchor="middle",fill=col,font_size=str(fs))
+    if bold: k["font_weight"]="600"
+    return T(x,y+fs*0.36,s,**k)
+def _bond(x1,y1,x2,y2,col=FG,w=2):
+    return f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{col}" stroke-width="{w}"/>'
+def _zig(x0,y,n,step=20,amp=10,col=FG,w=2):
+    return _poly([(x0+i*step,y+(amp if i%2 else -amp)) for i in range(n)],col,w)
+def _tag(x,y,s): return T(x,y,s,fill=FG,font_weight="700",font_size="17")
+def _boxes(o,w,h,tags=None,nums=None):
+    pos=[(8,8),(246,8),(8,16+h),(246,16+h)]
+    for i,(x,y) in enumerate(pos):
+        o.append(f'<rect x="{x}" y="{y}" width="226" height="{h}" rx="6" fill="none" stroke="{LINE}"/>')
+        if tags: o.append(_tag(x+12,y+22,tags[i]))
+        if nums: o.append(_num(x+20,y+20,nums[i]))
+    return pos
+
+def q_ester():
+    o=_q(480,200,17)
+    y=110
+    o.append(_zig(30,y,7,step=19,amp=11))                      # hydrocarbon tail
+    o.append(_bond(144,y-11,158,y-3))
+    o.append(_atom(168,y,"C"))
+    o.append(_bond(164,y-12,164,y-44)+_bond(172,y-12,172,y-44)) # C=O
+    o.append(_atom(168,y-56,"O"))
+    o.append(_bond(180,y,196,y)+_atom(208,y,"O")+_bond(220,y,233,y)+_atom(243,y,"H"))
+    gx=300  # glycerol: H–O–C, three rows
+    for yy,c in ((y-60,"CH₂"),(y,"CH"),(y+60,"CH₂")):
+        o.append(_atom(gx,yy,"H")+_bond(gx+10,yy,gx+24,yy)+_atom(gx+36,yy,"O")+_bond(gx+48,yy,gx+66,yy)+T(gx+70,yy+6,c,fill=FG,font_size="17"))
+    o.append(_bond(gx+82,y-48,gx+82,y-14)+_bond(gx+82,y+14,gx+82,y+48))
+    o.append(f'<rect x="194" y="{y-19}" width="120" height="38" rx="5" fill="none" stroke="{ACC}" stroke-width="2" stroke-dasharray="6 4"/>')
+    o.append('</svg>');return "".join(o)
+
+def q_mono4():
+    o=_q(480,328,16); pos=_boxes(o,226,152,nums="1234")
+    # 1: sugar ring
+    cx,cy=121,92; r=30
+    V=[(cx+r*math.cos(k*math.pi/3),cy+r*math.sin(k*math.pi/3)) for k in range(6)]
+    for k in range(6):
+        if k in (4,5): continue
+        o.append(_bond(*V[k],*V[(k+1)%6]))
+    ox,oy=V[5]; o.append(_bond(*V[4],ox-9,oy)+_bond(ox+5,oy+8,*V[0])+_atom(ox,oy,"O",15))
+    for k,dx,dy,s in ((0,22,0,"OH"),(1,0,22,"OH"),(2,0,22,"OH"),(3,-22,0,"HO")):
+        x,y=V[k]; o.append(_bond(x,y,x+dx*0.7,y+dy*0.7)+_atom(x+dx*1.35,y+dy*1.25,s,14))
+    x,y=V[4]; o.append(_bond(x,y,x-10,y-18)+_atom(x-18,y-28,"CH₂OH",14))
+    # 2: amino acid
+    cx,cy=360,88
+    o.append(_atom(cx-62,cy,"H₂N")+_bond(cx-44,cy,cx-10,cy)+_atom(cx,cy,"C")+_bond(cx+10,cy,cx+36,cy)+_atom(cx+66,cy,"COOH"))
+    o.append(_bond(cx,cy-11,cx,cy-30)+_atom(cx,cy-40,"H")+_bond(cx,cy+11,cx,cy+30)+_atom(cx,cy+40,"R"))
+    # 3: nucleotide (phosphate, sugar, base), bottom left
+    by=252; dx=-238
+    o.append(f'<circle cx="{276+dx}" cy="{by+18}" r="14" fill="#fff" stroke="{FG}" stroke-width="1.6"/>'+_atom(276+dx,by+18,"P",15,bold=True))
+    sx,sy=338+dx,by+4
+    P=[(sx+21*math.cos(-math.pi/2+k*2*math.pi/5),sy+21*math.sin(-math.pi/2+k*2*math.pi/5)) for k in range(5)]
+    o.append(f'<polygon points="{" ".join(f"{x:.1f},{y:.1f}" for x,y in P)}" fill="#fff" stroke="{FG}" stroke-width="1.8"/>')
+    o.append(f'<circle cx="{P[0][0]:.1f}" cy="{P[0][1]:.1f}" r="8" fill="#fff"/>'+_atom(P[0][0],P[0][1],"O",13))
+    o.append(_bond(290+dx,by+15,P[3][0],P[3][1]))
+    hx,hy=412+dx,by-6
+    H=[(hx+20*math.cos(math.pi/6+k*math.pi/3),hy+20*math.sin(math.pi/6+k*math.pi/3)) for k in range(6)]
+    o.append(_bond(P[1][0],P[1][1],H[3][0],H[3][1]))
+    o.append(f'<polygon points="{" ".join(f"{x:.1f},{y:.1f}" for x,y in H)}" fill="#fff" stroke="{FG}" stroke-width="1.8"/>')
+    for k in (2,4): o.append(f'<circle cx="{H[k][0]:.1f}" cy="{H[k][1]:.1f}" r="7" fill="#fff"/>'+_atom(H[k][0],H[k][1],"N",12))
+    # 4: fatty acid, bottom right
+    o.append(_zig(268,by,8,step=17,amp=10)+_bond(387,by+10,398,by+2)+_atom(428,by,"COOH"))
+    o.append('</svg>');return "".join(o)
+
+def q_side4():
+    o=_q(480,328,17); pos=_boxes(o,226,152,tags="WXYZ")
+    def stub(x,y):
+        cx=x+113
+        o.append(_bond(x+24,y+46,x+202,y+46,MUT,4)+f'<circle cx="{cx}" cy="{y+46}" r="5" fill="{MUT}"/>'+_bond(cx,y+51,cx,y+68))
+        return cx,y
+    cx,y=stub(*pos[0]); o.append(_atom(cx,y+80,"CH₂")+_bond(cx,y+92,cx,y+110)+_atom(cx,y+124,"COO⁻"))
+    cx,y=stub(*pos[1]); o.append(_atom(cx,y+80,"CH")+_bond(cx-8,y+90,cx-30,y+110)+_bond(cx+8,y+90,cx+30,y+110)+_atom(cx-40,y+124,"CH₃")+_atom(cx+40,y+124,"CH₃"))
+    cx,y=stub(*pos[2]); o.append(_atom(cx,y+80,"CH₂")+_bond(cx,y+92,cx,y+110)+_atom(cx,y+124,"OH"))
+    cx,y=stub(*pos[3]); o.append(_atom(cx,y+80,"(CH₂)₄")+_bond(cx,y+92,cx,y+110)+_atom(cx,y+124,"NH₃⁺"))
+    o.append('</svg>');return "".join(o)
+
+def q_bilayer2():
+    o=_q(480,232,17)
+    def lipid(x,y,d,kink):
+        o.append(f'<circle cx="{x}" cy="{y}" r="8" fill="{ACC}"/>')
+        for k,dx in enumerate((-3,3)):
+            pts=[(x+dx,y+d*8),(x+dx,y+d*26),(x+dx+(9 if kink and k==1 else 0),y+d*46)] if kink and k==1 else [(x+dx,y+d*8),(x+dx,y+d*46)]
+            o.append(_poly(pts,OIL,2.5))
+    for x0,gap,n,kink,tag in ((24,26,8,False,"A"),(262,31,7,True,"B")):
+        o.append(f'<rect x="{x0-14}" y="64" width="{gap*(n-1)+28}" height="108" fill="#fbf3dd"/>')
+        for i in range(n):
+            x=x0+i*gap; lipid(x,54,1,kink and i%2==0); lipid(x,182,-1,kink and i%2==1)
+        o.append(_tag(x0+gap*(n-1)/2-6,26,tag))
+    o.append('</svg>');return "".join(o)
+
+def q_dna2():
+    o=_q(480,212,16)
+    xs=[56+i*92 for i in range(5)]
+    for x,(a,b) in zip(xs,[("A","T"),("G","C"),("T","A"),("C","G"),("A","T")]):
+        o.append(_bond(x,48,x,66,FG,1.5)+_bond(x,150,x,168,FG,1.5))
+        o.append(f'<rect x="{x-15}" y="66" width="30" height="32" rx="3" fill="{ACC}"/>'+_atom(x,82,a,15,"#fff",True))
+        o.append(f'<rect x="{x-15}" y="118" width="30" height="32" rx="3" fill="{ACC}"/>'+_atom(x,134,b,15,"#fff",True))
+        o.append(f'<line x1="{x-6}" y1="100" x2="{x-6}" y2="116" stroke="{ACC}" stroke-width="1.6" stroke-dasharray="2 2"/><line x1="{x+6}" y1="100" x2="{x+6}" y2="116" stroke="{ACC}" stroke-width="1.6" stroke-dasharray="2 2"/>')
+    for y in (42,174):
+        o.append(_bond(28,y,452,y,FG,3))
+        for x in xs: o.append(f'<circle cx="{x}" cy="{y}" r="7" fill="#fff" stroke="{FG}" stroke-width="1.6"/>')
+    m=(xs[0]+xs[1])/2; o.append(_bond(m,31,m,38,FG,1.5)+_num(m,18,"1"))
+    x=xs[3]; o.append(_bond(x+9,108,x+25,108,FG,1.5)+_num(x+37,108,"2"))
+    o.append('</svg>');return "".join(o)
+
+def q_contact4():
+    o=_q(480,276,17); pos=_boxes(o,226,126,nums="1234")
+    dot=lambda x1,x2,y:f'<line x1="{x1}" y1="{y}" x2="{x2}" y2="{y}" stroke="{ACC}" stroke-width="3" stroke-dasharray="2 5" stroke-linecap="round"/>'
+    def water(x,y,o_=o):  # O at (x,y), H's to the right
+        o_.append(_atom(x,y,"O")+_bond(x+9,y-7,x+24,y-20)+_atom(x+31,y-27,"H",15)+_bond(x+9,y+7,x+24,y+20)+_atom(x+31,y+27,"H",15))
+    x,y=pos[0]; y+=78
+    o.append(_atom(x+30,y,"C")+_bond(x+40,y,x+56,y)+_atom(x+66,y,"N")+_bond(x+76,y,x+92,y)+_atom(x+100,y,"H")+dot(x+111,x+145,y)+_atom(x+156,y,"O")+_bond(x+167,y-4,x+184,y-4)+_bond(x+167,y+4,x+184,y+4)+_atom(x+194,y,"C"))
+    x,y=pos[1]; y+=78
+    o.append(_atom(x+40,y,"H₃C")+_bond(x+58,y,x+80,y)+_atom(x+90,y,"H")+dot(x+101,x+138,y)); water(x+150,y)
+    x,y=pos[2]; y+=78
+    o.append(f'<circle cx="{x+60}" cy="{y}" r="20" fill="#e6c87a" stroke="{FG}"/>'+_atom(x+60,y,"Na⁺",14,bold=True)+dot(x+84,x+138,y)); water(x+150,y)
+    x,y=pos[3]; y+=78
+    o.append(_atom(x+56,y,"CH₄")+dot(x+82,x+142,y)+_atom(x+170,y,"CH₄"))
+    o.append('</svg>');return "".join(o)
+
+def q_hydr2():
+    o=_q(480,244,15)
+    for cx,tag,hin in ((120,"A",True),(360,"B",False)):
+        cy=128
+        o.append(_tag(cx-110,24,tag))
+        for k in range(6):
+            a=-math.pi/2+k*math.pi/3; x=cx+68*math.cos(a); y=cy+68*math.sin(a)
+            d=a+math.pi if hin else a
+            for s in (-0.62,0.62):
+                hx=x+21*math.cos(d+s); hy=cy+0+(y-cy)+21*math.sin(d+s)
+                o.append(_bond(x,y,hx,hy,FG,2)+f'<circle cx="{hx:.1f}" cy="{hy:.1f}" r="8" fill="#fff" stroke="{FG}" stroke-width="1.4"/>'+_atom(hx,hy,"H",11))
+            o.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="13" fill="{ACC}"/>'+_atom(x,y,"O",13,"#fff",True))
+        o.append(f'<circle cx="{cx}" cy="{cy}" r="21" fill="#e6c87a" stroke="{FG}"/>'+_atom(cx,cy,"Na⁺",14,bold=True))
+    o.append(f'<line x1="240" y1="20" x2="240" y2="236" stroke="{LINE}"/>')
+    o.append('</svg>');return "".join(o)
+
+def q_amph3():
+    o=_q(480,220,17)
+    def mol(x,y,a,L=28):  # head at (x,y), tail pointing along angle a
+        o.append(_bond(x+6*math.cos(a),y+6*math.sin(a),x+L*math.cos(a),y+L*math.sin(a),OIL,3)+f'<circle cx="{x:.1f}" cy="{y:.1f}" r="6.5" fill="{ACC}"/>')
+    for i,tag in enumerate("ABC"):
+        o.append(_tag(i*160+10,24,tag))
+        if i: o.append(f'<line x1="{i*160}" y1="12" x2="{i*160}" y2="212" stroke="{LINE}"/>')
+    cx,cy=80,122
+    for k in range(12):
+        a=k*math.pi/6; mol(cx+50*math.cos(a),cy+50*math.sin(a),a+math.pi,30)
+    cx=240
+    for k in range(9):
+        a=k*2*math.pi/9; mol(cx+25*math.cos(a),cy+25*math.sin(a),a,30)
+    for x,y,a in ((345,70,0.4),(420,62,2.2),(372,128,-1.1),(440,150,3.6),(338,182,1.9),(410,196,-0.3)):
+        mol(x,y,a)
+    o.append('</svg>');return "".join(o)
+
+def q_surf3():
+    o=_q(480,196,17)
+    o.append(f'<path d="M0 196 V150 C60 140 110 162 170 150 C230 138 270 160 330 150 C390 140 440 158 480 150 V196 Z" fill="#eef2f9" stroke="{ACC}" stroke-width="2"/>')
+    # A: + meets −
+    o.append(_bond(62,152,72,104)+_bond(118,150,108,104))
+    for x,s in ((72,"+"),(108,"−")):
+        o.append(f'<circle cx="{x}" cy="92" r="14" fill="#fff" stroke="{FG}" stroke-width="1.6"/>'+_atom(x,92,s,18,bold=True))
+    o.append(_tag(84,40,"A"))
+    # B: charged side chain with water around it
+    cx,cy=240,88
+    o.append(_bond(240,148,240,104)+f'<circle cx="{cx}" cy="{cy}" r="14" fill="#fff" stroke="{FG}" stroke-width="1.6"/>'+_atom(cx,cy,"+",18,bold=True))
+    for k in range(5):
+        a=math.pi*(0.95+k*0.275); x=cx+40*math.cos(a); y=cy+40*math.sin(a)
+        for s in (-0.6,0.6):
+            hx=x+11*math.cos(a+s); hy=y+11*math.sin(a+s)
+            o.append(_bond(x,y,hx,hy,FG,1.5)+f'<circle cx="{hx:.1f}" cy="{hy:.1f}" r="4" fill="#fff" stroke="{FG}" stroke-width="1.2"/>')
+        o.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7" fill="{ACC}"/>')
+    o.append(_tag(282,40,"B"))
+    # C: two nonpolar side chains packed together
+    for x0,dx in ((376,0),(404,0)):
+        o.append(_poly([(x0+(8 if i%2 else -8),150-i*16) for i in range(6)],OIL,3.2))
+    o.append(_tag(432,40,"C"))
+    o.append('</svg>');return "".join(o)
+
+def _titr_ph(v,pKa,V0=10.0,Ca=0.1,Cb=0.1):
+    Ka=10**-pKa; Vt=V0+v; A=Ca*V0/Vt; Na=Cb*v/Vt
+    lo,hi=-14.0,0.0
+    for _ in range(80):
+        m=(lo+hi)/2; H=10**m
+        f=H+Na-1e-14/H-A*Ka/(Ka+H)
+        if f>0: hi=m
+        else: lo=m
+    return -(lo+hi)/2
+def _titrq(pKa,points=(),mark=None):
+    L,R,Tp,B=50,462,14,238
+    X=lambda v:L+(R-L)*v/20; Y=lambda p:B-(B-Tp)*p/14
+    o=_q(480,288,14)
+    for p in range(15):
+        o.append(f'<line x1="{L}" y1="{Y(p):.1f}" x2="{R}" y2="{Y(p):.1f}" stroke="{"#e2e2e2" if p%2==0 else "#f1f1f1"}"/>')
+        if p%2==0: o.append(T(L-7,Y(p)+5,p,text_anchor="end",fill=MUT,font_size="13"))
+    for v in range(0,21,5):
+        o.append(f'<line x1="{X(v):.1f}" y1="{Tp}" x2="{X(v):.1f}" y2="{B}" stroke="#ececec"/>'+T(X(v),B+18,v,text_anchor="middle",fill=MUT,font_size="13"))
+    o.append(f'<line x1="{L}" y1="{B}" x2="{R}" y2="{B}" stroke="{FG}"/><line x1="{L}" y1="{Tp}" x2="{L}" y2="{B}" stroke="{FG}"/>')
+    o.append(_poly([(X(i*0.025),Y(_titr_ph(i*0.025,pKa))) for i in range(801)],ACC,2.5))
+    for lab,v in points:
+        x,y=X(v),Y(_titr_ph(v,pKa)); o.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5.5" fill="{FG}"/>'+T(x+9 if lab=="A" else x-13,y-10,lab,fill=FG,font_weight="700",font_size="16"))
+    if mark is not None:
+        x,y=X(mark),Y(_titr_ph(mark,pKa)); o.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="9" fill="none" stroke="{FG}" stroke-width="2"/><circle cx="{x:.1f}" cy="{y:.1f}" r="4" fill="{FG}"/>')
+    o.append(T((L+R)/2,B+40,"base added (mL)",text_anchor="middle",fill=MUT))
+    o.append(f'<text x="16" y="{(Tp+B)/2}" text-anchor="middle" fill="{MUT}" transform="rotate(-90 16 {(Tp+B)/2})">pH</text>')
+    o.append('</svg>');return "".join(o)
+
+def q_gi():
+    L,R,Tp,B=56,462,20,212; Y=lambda p:B-(B-Tp)*p/7
+    o=_q(480,262,14)
+    for p in range(8):
+        o.append(f'<line x1="{L}" y1="{Y(p):.1f}" x2="{R}" y2="{Y(p):.1f}" stroke="#ececec"/>'+T(L-8,Y(p)+5,p,text_anchor="end",fill=MUT,font_size="13"))
+    o.append(f'<line x1="{L}" y1="{B}" x2="{R}" y2="{B}" stroke="{FG}"/><line x1="{L}" y1="{Tp}" x2="{L}" y2="{B}" stroke="{FG}"/>')
+    for cx,p,lab in ((170,1.5,"stomach"),(350,3.5,"small intestine")):
+        o.append(f'<rect x="{cx-50}" y="{Y(p):.1f}" width="100" height="{B-Y(p):.1f}" fill="#cfd8e6" stroke="{ACC}" stroke-width="1.5"/>')
+        o.append(T(cx,Y(p)+22,f"pH {p}",text_anchor="middle",fill=FG,font_weight="600",font_size="14")+T(cx,B+20,lab,text_anchor="middle",fill=FG,font_size="14"))
+    o.append(f'<line x1="{L}" y1="{Y(3.5):.1f}" x2="{R}" y2="{Y(3.5):.1f}" stroke="{FG}" stroke-width="2" stroke-dasharray="7 5"/>')
+    o.append(f'<text x="18" y="{(Tp+B)/2}" text-anchor="middle" fill="{MUT}" transform="rotate(-90 18 {(Tp+B)/2})">pH</text>')
+    o.append('</svg>');return "".join(o)
+
+_EQ=('CO<tspan dy="4" font-size="12">2</tspan><tspan dy="-4"> + H</tspan><tspan dy="4" font-size="12">2</tspan><tspan dy="-4">O  ⇌  H</tspan><tspan dy="4" font-size="12">2</tspan><tspan dy="-4">CO</tspan><tspan dy="4" font-size="12">3</tspan>'
+     '<tspan dy="-4">  ⇌  H</tspan><tspan dy="-7" font-size="12">+</tspan><tspan dy="7"> + HCO</tspan><tspan dy="4" font-size="12">3</tspan><tspan dy="-11" font-size="12">−</tspan>')
+def q_bicarbeq(arrow=False):
+    h=150 if arrow else 84
+    o=_q(480,h,19)+[f'<defs><marker id="qb" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="{ACC}"/></marker></defs>']
+    o.append(f'<text x="240" y="50" text-anchor="middle" font-size="20" fill="{FG}" style="white-space:pre">{_EQ}</text>')
+    if arrow: o.append(f'<line x1="400" y1="104" x2="86" y2="104" stroke="{ACC}" stroke-width="6" marker-end="url(#qb)"/>')
+    o.append('</svg>');return "".join(o)
+
+def q_ratio3():
+    L,R,Tp,B=58,468,46,236; ymax=35; Y=lambda v:B-(B-Tp)*v/ymax
+    o=_q(480,284,14)
+    for v in range(0,36,5):
+        o.append(f'<line x1="{L}" y1="{Y(v):.1f}" x2="{R}" y2="{Y(v):.1f}" stroke="#ececec"/>'+T(L-7,Y(v)+5,v,text_anchor="end",fill=MUT,font_size="13"))
+    o.append(f'<line x1="{L}" y1="{B}" x2="{R}" y2="{B}" stroke="{FG}"/><line x1="{L}" y1="{Tp}" x2="{L}" y2="{B}" stroke="{FG}"/>')
+    GRY="#9aa3ad"
+    for i,(hc,ha) in enumerate(((24,1.2),(30,3.0),(18,0.6))):
+        cx=L+(R-L)*(i+0.5)/3
+        for dx,v,c in ((-20,hc,ACC),(20,ha,GRY)):
+            o.append(f'<rect x="{cx+dx-17:.1f}" y="{Y(v):.1f}" width="34" height="{B-Y(v):.1f}" fill="{c}"/>'+T(cx+dx,Y(v)-6,f"{v:.1f}" if v<5 else f"{v:g}",text_anchor="middle",fill=FG,font_size="13"))
+        o.append(T(cx,B+20,f"Patient {i+1}",text_anchor="middle",fill=FG,font_weight="600"))
+    o.append(f'<rect x="120" y="12" width="14" height="14" fill="{ACC}"/>'+T(140,24,"HCO₃⁻",fill=FG)+f'<rect x="250" y="12" width="14" height="14" fill="{GRY}"/>'+T(270,24,"H₂CO₃",fill=FG))
+    o.append(f'<text x="16" y="{(Tp+B)/2}" text-anchor="middle" fill="{MUT}" font-size="13" transform="rotate(-90 16 {(Tp+B)/2})">plasma concentration (mM)</text>')
+    o.append('</svg>');return "".join(o)
+
+QF1={"q-ester":q_ester(),"q-mono4":q_mono4(),"q-side4":q_side4(),"q-bilayer2":q_bilayer2(),"q-dna2":q_dna2(),
+ "q-contact4":q_contact4(),"q-hydr2":q_hydr2(),"q-amph3":q_amph3(),"q-surf3":q_surf3(),
+ "q-titr":_titrq(4.8,points=[("A",0.3),("B",5),("C",9.7),("D",17)]),"q-titr0":_titrq(4.8),"q-titr9":_titrq(9.0,mark=8),
+ "q-gi":q_gi(),"q-bicarbeq":q_bicarbeq(),"q-bicarbleft":q_bicarbeq(True),"q-ratio3":q_ratio3()}
+
 qfigs={"q-energy4":q_energy4(),"q-mm4":q_mm4(),"q-lbread":q_lbread(),
  "q-lb2":_lbq([(0.3,0.6,FG),(0.4,0.2,ACC)],xr=(-2.4,2.4),ymax=1.6,tags=["X","Y"]),
  "q-mmcomp":_mmq([(2,1,FG),(2,4,ACC)],smax=40,ymax=2.3,legend=["no inhibitor","+ inhibitor"],dashed=2),
@@ -563,7 +814,7 @@ qfigs={"q-energy4":q_energy4(),"q-mm4":q_mm4(),"q-lbread":q_lbread(),
  "q-mm2e":_mmq([(1,1.5,FG),(2,1.5,ACC)],smax=12,ymax=2.2,legend=["1× enzyme","2× enzyme"]),
  "q-ph2":q_ph2(),"q-temp2":q_temp2(),"q-path":q_path(),"q-struct4":q_struct4(),"q-parts":q_parts(),"q-endo":q_endo(),"q-allo":q_allo()}
 
-figs={"energy":energy(),"mm":mmfig(),"lb":lbfig(),"inhib3":inhib3(),"temp":tempfig(),"ph":phfig(),"feedback":feedback(),"levels":levels(),"bilayer":bilayer(),"fold":fold(),"dna":dna(),"hydro":hydro(),"bicarb":bicarb(),"titr":titr(),"classes":classes(),"water":water(),"aagrid":aagrid(),"forces":forces(),"phscale":phscale(),**qfigs}
+figs={"energy":energy(),"mm":mmfig(),"lb":lbfig(),"inhib3":inhib3(),"temp":tempfig(),"ph":phfig(),"feedback":feedback(),"levels":levels(),"bilayer":bilayer(),"fold":fold(),"dna":dna(),"hydro":hydro(),"bicarb":bicarb(),"titr":titr(),"classes":classes(),"water":water(),"aagrid":aagrid(),"forces":forces(),"phscale":phscale(),**qfigs,**QF1}
 here=os.path.dirname(os.path.abspath(__file__))
 open(os.path.join(here,"figs.js"),"w").write("const FIGS="+json.dumps(figs,ensure_ascii=False)+";\n")
 for k,v in figs.items():
