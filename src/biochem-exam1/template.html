@@ -113,6 +113,7 @@ details.mod>summary{cursor:pointer;font-size:17px;font-weight:600;padding:8px 0}
 .hh{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:12px 0}
 .tal{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}.tal div{border:1px solid var(--line);border-radius:6px;padding:6px 4px;text-align:center;font-size:13px;color:var(--mut)}.tal b{display:block;font-size:17px;color:var(--fg)}.tal .full{border-color:var(--acc)}.tal .full b{color:var(--acc)}
 .pills{gap:6px;flex-wrap:wrap}
+.rdo{display:grid;grid-template-columns:auto 1fr auto;gap:6px 10px;align-items:center;font-size:14px;margin:8px 0}.rbar{height:10px;background:var(--soft);border-radius:5px;overflow:hidden}.rbar i{display:block;height:100%}
 .hh .sl{display:grid;grid-template-columns:44px 1fr 44px;gap:8px;align-items:center;margin:6px 0}
 .hh input[type=range]{width:100%;accent-color:var(--acc)}
 .hh .out{font-size:15px;margin:8px 0}
@@ -715,6 +716,97 @@ TOOLS.cac=function(){
     }
   }
   draw();return w;
+};
+
+TOOLMETA.etc=["Electron transport chain simulator","Block a complex, add an uncoupler or change ADP supply, then compare O₂ use, ATP output, the gradient and heat with normal. Electrons are blue, protons are black."];
+TOOLS.etc=function(){
+  const W=400,H=250;
+  const st={b:[0,0,0,0,0],unc:0,adp:1};
+  // steady-state model (not physics): flux through I and II slows as the gradient rises; H+ return through ATP synthase (needs ADP) and leaks
+  function model(s){const b=s.b,down=b[2]||b[3];const JI0=(b[0]||down)?0:1,JII0=(b[1]||down)?0:0.35;
+    const ks=b[4]?0:(s.adp?14:2.5),kl=0.6+(s.unc?50:0),bp=G=>Math.max(0,1-G*G*G);
+    let lo=0,hi=1;for(let i=0;i<50;i++){const m=(lo+hi)/2;((JI0*11+JII0*7)*bp(m)-(ks+kl)*m>0)?lo=m:hi=m;}
+    const G=lo,JI=JI0*bp(G),JII=JII0*bp(G),S=ks*G,L=kl*G;
+    return {G,JI,JII,O2:JI+JII,S,L,ATP:S/4,heat:L+4*(JI+JII),nadh:down||b[0]?1:Math.max(0.03,1-JI),down,JI0,JII0};}
+  const N0=model({b:[0,0,0,0,0],unc:0,adp:1});
+  let born=false,M=model(st),parts=[],acc={e1:0,e2:0,u1:0,u3:0,u4:0,dv:0,dl:0},rot=0,raf=0,last=0,vis=true,io=null;
+  const cloud=[];for(let i=0;i<34;i++)cloud.push([12+Math.random()*376,24+Math.random()*46,Math.random()*6.28]);
+  const PI=[[50,190],[50,112],[139,110],[185,110],[213,79],[231,79],[258,108],[258,180]],PII=[[110,178],[110,138],[141,116],[185,110],[213,79],[231,79],[258,108],[258,180]];
+  const plen=p=>{let L=0;for(let i=1;i<p.length;i++)L+=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);return L;},LI=plen(PI),LII=plen(PII);
+  function at(p,d){for(let i=1;i<p.length;i++){const l=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);if(d<=l){const t=d/l;return [p[i-1][0]+t*(p[i][0]-p[i-1][0]),p[i-1][1]+t*(p[i][1]-p[i-1][1])];}d-=l;}return p[p.length-1];}
+  const w=h("div",{class:"hh etc"});
+  const pills=h("div",{class:"row pills"}),adp=h("div",{class:"seg"}),pic=h("div",{class:"fig"}),rd=h("div",{class:"rdo"}),out=h("div",{class:"out"});
+  const B=[["Block I",0],["Block II",1],["Block III",2],["Block IV",3],["Block V",4]];
+  B.forEach(([l,i])=>pills.append(h("button",{class:"pill",type:"button",onclick:()=>{st.b[i]=st.b[i]?0:1;upd();}},l)));
+  pills.append(h("button",{class:"pill",type:"button",onclick:()=>{st.unc=st.unc?0:1;upd();}},"Uncoupler (DNP)"));
+  [["1","ADP high"],["0","ADP low"]].forEach(([v,l])=>{const x=h("button",{type:"button",onclick:()=>{st.adp=+v;upd();}},l);x.dataset.v=v;adp.append(x);});
+  const rs=h("button",{class:"btn link",type:"button",onclick:()=>{st.b=[0,0,0,0,0];st.unc=0;st.adp=1;upd();}},"Reset");
+  w.append(pills,h("p",{class:"mut sm",style:"margin:4px 0 8px"},"I: amobarbital, rotenone · II: malonate · IV: cyanide, CO · III: antimycin and V: oligomycin are beyond lecture."),h("div",{class:"row"},adp,rs),pic,rd,out);
+  function base(){
+    const b=st.b,red=C3.bad;let g=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="13"><rect width="${W}" height="${H}" fill="#fff"/>`;
+    g+=`<rect x="0" y="92" width="${W}" height="36" fill="#f4efe1"/><line x1="0" y1="92" x2="${W}" y2="92" stroke="#b8860b"/><line x1="0" y1="128" x2="${W}" y2="128" stroke="#b8860b"/>`;
+    g+=svgT(8,16,"intermembrane space",` fill="${C3.mut}" font-size="11.5"`)+svgT(8,244,"matrix",` fill="${C3.mut}" font-size="11.5"`);
+    const box=(x,y,wd,ht,lab,i)=>`<rect x="${x}" y="${y}" width="${wd}" height="${ht}" rx="7" fill="#fff" stroke="${b[i]?red:C3.fg}" stroke-width="${b[i]?2.5:1.6}"/>`+svgT(x+wd/2,y+ht/2+5,lab,` text-anchor="middle" font-weight="700" fill="${b[i]?red:C3.fg}"`)+(b[i]?svgT(x+wd-2,y+12,"×",` text-anchor="end" fill="${red}" font-weight="700" font-size="16"`):"");
+    g+=box(28,78,44,64,"I",0)+box(92,122,36,30,"II",1)+box(163,78,44,64,"III",2)+box(236,78,44,64,"IV",3);
+    g+=`<circle cx="148" cy="110" r="9" fill="${C3.soft}" stroke="${C3.acc}" stroke-width="1.5"/>`+svgT(148,114.5,"Q",` text-anchor="middle" fill="${C3.acc}" font-size="11" font-weight="700"`);
+    g+=`<circle cx="222" cy="76" r="9" fill="${C3.soft}" stroke="${C3.acc}" stroke-width="1.5"/>`+svgT(222,80.5,"c",` text-anchor="middle" fill="${C3.acc}" font-size="11" font-weight="700"`);
+    if(st.unc)g+=`<rect x="296" y="90" width="14" height="40" rx="3" fill="#fff" stroke="${red}" stroke-width="2"/>`+svgT(303,150,"leak",` text-anchor="middle" fill="${red}" font-size="11.5"`);
+    g+=`<rect x="330" y="74" width="22" height="62" rx="5" fill="#fff" stroke="${b[4]?red:C3.fg}" stroke-width="${b[4]?2.5:1.6}"/>`+svgT(341,98,"V",` text-anchor="middle" font-weight="700" fill="${b[4]?red:C3.fg}"`)+(b[4]?svgT(350,86,"×",` text-anchor="end" fill="${red}" font-weight="700" font-size="16"`):"");
+    g+=`<rect x="337" y="136" width="8" height="14" fill="${C3.fg}"/><circle cx="341" cy="172" r="22" fill="#fff" stroke="${C3.fg}" stroke-width="1.6"/><g class="rot"></g>`;
+    g+=svgT(50,206,"NADH",` text-anchor="middle" fill="${C3.fg}" font-size="12"`)+svgT(110,194,"FADH₂",` text-anchor="middle" fill="${C3.fg}" font-size="12"`)+svgT(258,197,"O₂ → H₂O",` text-anchor="middle" fill="${C3.fg}" font-size="12"`)+svgT(341,210,"ADP → ATP",` text-anchor="middle" fill="${C3.ok}" font-size="12" font-weight="600"`);
+    // backed-up electrons (static)
+    const sd=(x,y)=>`<circle cx="${x}" cy="${y}" r="3.6" fill="${C3.acc}"/>`;
+    if(M.down)g+=sd(144,107)+sd(152,113)+sd(218,73)+sd(226,79)+sd(46,104)+sd(54,118)+sd(106,134);
+    else if(st.b[0])g+=sd(44,186)+sd(52,180)+sd(58,188);
+    if(st.b[1]&&!M.down)g+=sd(104,174)+sd(114,170)+sd(118,180);
+    return g+`<g class="cl"></g><g class="pt"></g></svg>`;
+  }
+  function frame(){
+    const cl=pic.querySelector(".cl"),pt=pic.querySelector(".pt"),ro=pic.querySelector(".rot");if(!cl)return;
+    const n=Math.round(Math.min(1,M.G)*34);let s="";for(let i=0;i<n;i++){const c=cloud[i],j=RMQ.matches?0:Math.sin(c[2]+rot*0.5)*2;s+=`<circle cx="${(c[0]+j).toFixed(1)}" cy="${(c[1]-j).toFixed(1)}" r="3" fill="${C3.fg}" opacity="0.75"/>`;}cl.innerHTML=s;
+    s="";for(const p of parts){if(p.t==="e"){const [x,y]=at(p.p,p.d);s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.6" fill="${C3.acc}"/>`;}else s+=`<circle cx="${p.x}" cy="${p.y.toFixed(1)}" r="3" fill="${p.t==="l"?C3.bad:C3.fg}"/>`;}pt.innerHTML=s;
+    const a=rot;ro.innerHTML=[0,2.094,4.189].map(o=>`<line x1="341" y1="172" x2="${(341+17*Math.cos(a+o)).toFixed(1)}" y2="${(172+17*Math.sin(a+o)).toFixed(1)}" stroke="${C3.ok}" stroke-width="3" stroke-linecap="round"/>`).join("");
+  }
+  function step(dt){
+    const sp=(k,r,f)=>{acc[k]+=r*dt;while(acc[k]>=1){acc[k]--;f();}};
+    sp("e1",M.JI*2.4,()=>parts.push({t:"e",p:PI,L:LI,d:0}));sp("e2",M.JII*2.4,()=>parts.push({t:"e",p:PII,L:LII,d:0}));
+    sp("u1",M.JI*3.2,()=>parts.push({t:"u",x:62,y:172}));sp("u3",(M.JI+M.JII)*3.2,()=>parts.push({t:"u",x:197,y:172}));sp("u4",(M.JI+M.JII)*2.4,()=>parts.push({t:"u",x:270,y:172}));
+    sp("dv",M.S*0.7,()=>parts.push({t:"d",x:347,y:40}));sp("dl",(st.unc?M.L:0)*0.7,()=>parts.push({t:"l",x:303,y:40}));
+    for(const p of parts){if(p.t==="e")p.d+=110*dt;else if(p.t==="u")p.y-=95*dt;else p.y+=95*dt;}
+    parts=parts.filter(p=>p.t==="e"?p.d<p.L:p.t==="u"?p.y>34:p.y<(p.t==="d"?150:176));
+    rot+=M.S*0.45*dt;
+  }
+  function stop(){if(raf)cancelAnimationFrame(raf);raf=0;if(io){io.disconnect();io=null;}ANIMS.delete(stop);}
+  function loop(){if(!raf&&!RMQ.matches){last=0;raf=requestAnimationFrame(tick);ANIMS.add(stop);}}
+  function tick(ts){raf=0;if(!w.isConnected){if(born){stop();return;}raf=requestAnimationFrame(tick);return;}born=true;if(!vis||document.hidden){ANIMS.delete(stop);return;}
+    const dt=last?Math.min(0.05,(ts-last)/1000):0;last=ts;step(dt);frame();raf=requestAnimationFrame(tick);}
+  const pct=(v,r)=>r?Math.round(v/r*100):0;
+  function upd(){
+    M=model(st);parts=[];
+    [...pills.children].forEach((x,i)=>{const o=i<5?st.b[i]:st.unc;x.classList.toggle("on",!!o);x.setAttribute("aria-pressed",o?"true":"false");});
+    [...adp.children].forEach(x=>x.classList.toggle("on",+x.dataset.v===st.adp));
+    pic.innerHTML=base();frame();
+    const rows=[["O₂ use",pct(M.O2,N0.O2)],["ATP made",pct(M.ATP,N0.ATP)],["H⁺ gradient",pct(M.G,N0.G)],["Heat",pct(M.heat,N0.heat)]];
+    rd.innerHTML="";rows.forEach(([l,v])=>{const c=C3.acc;rd.append(h("span",null,l),h("span",{class:"rbar"},h("i",{style:`width:${Math.min(100,v/3)}%;background:${c}`})),h("b",null,v+"%"));});
+    const nr=M.nadh>0.85?"mostly NADH (backed up)":M.nadh<0.15?"mostly NAD⁺ (drained fast)":"balanced";
+    rd.append(h("span",null,"NADH : NAD⁺"),h("span",{class:"rbar"},h("i",{style:`width:${Math.round(M.nadh*100)}%;background:${C3.acc}`})),h("b",{class:"sm"},nr));
+    const t=[];const b=st.b;
+    if(M.down)t.push((b[3]?"Complex IV is blocked (cyanide, CO), so electrons can't reach O₂.":"Complex III is blocked, so electrons can't get from Q to cytochrome c.")+" The chain backs up: Q and cytochrome c stay reduced, NADH builds up, nothing is pumped, the gradient runs down and ATP synthesis stops. There's no detour, since II feeds the same path.");
+    else{
+      if(b[0]&&b[1])t.push("Both entry points are blocked, so no electrons get in.");
+      else if(b[0])t.push("Complex I is blocked (amobarbital, rotenone): NADH can't unload and builds up. Only FADH₂ electrons enter, through II, and they pump 4 + 3 H⁺ per pair instead of 4 + 4 + 3, so ATP output falls steeply.");
+      else if(b[1])t.push("Complex II is blocked (malonate): FADH₂ electrons can't enter. In a real cell succinate DH is also a cycle enzyme, so the cycle stalls and NADH supply falls too. This model only removes the FADH₂ input.");
+      if(b[4])t.push("ATP synthase is blocked (beyond lecture): protons can't flow back, so the gradient climbs until pumping against it stalls. O₂ use falls even though every complex works."+(st.unc?" The uncoupler gives protons another way back, so O₂ use recovers, but still no ATP.":""));
+      if(st.unc&&!b[4])t.push("The uncoupler lets protons leak back without passing through ATP synthase. The gradient drops, the chain runs faster (more O₂ used) and the energy comes out as heat instead of ATP.");
+      if(!st.adp&&!b[4])t.push("Little ADP (beyond lecture): ATP synthase has nothing to phosphorylate, so it slows. The gradient stays high and holds the chain back. This is respiratory control.");
+      if(!t.length)t.push("Coupled and running normally: the chain pumps H⁺ out, ATP synthase lets them back in and makes ATP. Readouts are percent of this state.");
+    }
+    out.innerHTML=t.join("<br>");
+    if(RMQ.matches)stop();else loop();
+  }
+  try{io=new IntersectionObserver(e=>{vis=e[e.length-1].isIntersecting;if(vis)loop();});io.observe(pic);}catch(e){}
+  const onVis=()=>{if(!w.isConnected){document.removeEventListener("visibilitychange",onVis);return;}if(!document.hidden)loop();};document.addEventListener("visibilitychange",onVis);
+  upd();return w;
 };
 
 // ===== MOCK =====

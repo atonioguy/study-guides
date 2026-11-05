@@ -38,3 +38,8 @@ Check there are enough questions for 4+ non-repeating 25-question mocks (should 
 
 ## Exam
 25 questions, MC + T/F. "All the content tested can be found in the module learning objectives and readings." "I am looking for application more than math."
+
+## Status (Nov 5): shipped v1.8
+- M3 complete: 21 lessons, 8 guide figures, 48 questions (5 q- figures), drills m3d1 to m3d5, tools `cac` and `etc`. Totals: M1 62, M2 51, M3 48 = 161.
+- Animated tools register a stop function in `ANIMS`; `go()` and `openDrill()` call `stopAnims()`. Loops also stop when their element leaves the page, and `etc` pauses off-screen (IntersectionObserver) and on hidden tabs. Reduced motion: no moving dots; readouts still update.
+- Mock repeats: per-module quota is 9/8/8, and `buildMock` round-robins across LOs even after an LO runs out of unseen questions. Measured: 4 fully fresh 25-question mocks, repeats start in mock 5. Picking unseen questions first across all LOs would give 6.
