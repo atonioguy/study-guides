@@ -2192,7 +2192,8 @@ function qCard(q,show,label){
 function runPractice(pool,title){
   // unseen first, then oldest
   const qs=shuffle(pool).sort((a,b)=>((S.q[a.id]||{}).t||0)-((S.q[b.id]||{}).t||0));
-  let i=0,right=0;const missedIds=[];
+  // ord/picks per question so Back can show an answered question again (locked, with feedback)
+  let i=0,right=0;const missedIds=[],ord=qs.map(q=>optsFor(q)),picks=[];
   function show(){
     // each new question (or the summary) closes the lecture window so it can't show the next answer
     closeLec();main.innerHTML="";
@@ -2202,14 +2203,14 @@ function runPractice(pool,title){
       if(missedIds.length)r.append(h("button",{class:"btn pri",onclick:()=>runPractice(missedIds.map(id=>QBY[id]),"Retry")},"Retry the "+missedIds.length+" missed"));
       r.append(h("button",{class:"btn",onclick:()=>go("practice")},"Back"));main.append(r);return;
     }
-    const q=qs[i];const order=optsFor(q);
+    const q=qs[i];const order=ord[i];
     main.append(h("div",{class:"qhead"},h("span",null,(i+1)+" / "+qs.length),h("span",null,loLabel(q,true)," ",flagBtn(q))));
     main.append(h("div",{class:"bar"},h("i",{style:"width:"+(i/qs.length*100)+"%"})));
-    let done=false;
-    const v=qView(q,order,{onPick(k){if(done)return;done=true;const ok=order[k].c;if(ok)right++;else missedIds.push(q.id);record(q,ok,order[k].t);v.paint(k,true);nx.disabled=false;nx.focus();}});
-    main.append(v.el);
-    const nx=h("button",{class:"btn pri",disabled:true,onclick:()=>{i++;show();}},i===qs.length-1?"Finish":"Next");
-    main.append(h("div",{class:"row"},nx,h("button",{class:"btn link",onclick:()=>{i=qs.length;show();}},"End")));
+    let done=picks[i]!=null;
+    const v=qView(q,order,{onPick(k){if(done)return;done=true;picks[i]=k;const ok=order[k].c;if(ok)right++;else missedIds.push(q.id);record(q,ok,order[k].t);v.paint(k,true);nx.disabled=false;nx.focus();}});
+    main.append(v.el);if(done)v.paint(picks[i],true);
+    const nx=h("button",{class:"btn pri",disabled:!done,onclick:()=>{i++;show();}},i===qs.length-1?"Finish":"Next");
+    main.append(h("div",{class:"row"},i>0?h("button",{class:"btn",onclick:()=>{i--;show();}},"Back"):null,nx,h("button",{class:"btn link",onclick:()=>{i=qs.length;show();}},"End")));
   }
   show();
 }
@@ -2688,7 +2689,8 @@ function resumeMock(){
     main.append(v.el);v.paint(x.pick,x.locked);
     const row=h("div",{class:"row"});main.append(row);
     function nav(){row.innerHTML="";
-      if(!each&&i>0)row.append(h("button",{class:"btn",onclick:()=>{i--;show();}},"Back"));
+      // Back: with instant feedback, earlier questions come back locked with their feedback
+      if(i>0)row.append(h("button",{class:"btn",onclick:()=>{i--;show();}},"Back"));
       const last=i===st.length-1;
       if(!last)row.append(h("button",{class:"btn pri",disabled:each&&!x.locked,onclick:()=>{i++;show();}},"Next"));
       else row.append(h("button",{class:"btn pri",disabled:each&&!x.locked,onclick:()=>tryFinish(row)},"Finish"));
