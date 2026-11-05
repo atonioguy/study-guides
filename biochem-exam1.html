@@ -1950,8 +1950,7 @@ function seeded(str){let x=0;for(const c of str)x=(x*31+c.charCodeAt(0))|0;retur
 function seededShuffle(a,seed){const r=seeded(seed);a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function fig(k){if(!k||!FIGS[k])return null;return h("div",{class:"fig",html:FIGS[k]});}
 // btn=true turns the M#L# tag into the lecture-window button (never passed during an active mock)
-// off: reason string -> greyed-out lecture button (see lecBtn)
-function loLabel(q,btn,off){const t="LO "+q.lo+" · "+q.mod.short+" "+q.src;if(!btn||!q.lec||!q.mod.lecture)return t;return h("span",null,"LO "+q.lo+" · ",lecBtn(q,off));}
+function loLabel(q,btn){const t="LO "+q.lo+" · "+q.mod.short+" "+q.src;if(!btn||!q.lec||!q.mod.lecture)return t;return h("span",null,"LO "+q.lo+" · ",lecBtn(q));}
 const FLAG_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path class="fl" d="M5 4h12l-2.5 4.5L17 13H5"/></svg>';
 const BMK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path class="fl" d="M6 3h12v18l-6-4.5L6 21z"/></svg>';
 function bmkBtn(id){const b=h("button",{class:"flagi",type:"button",html:BMK_SVG});const p=()=>{const on=!!S.saved[id];b.classList.toggle("on",on);b.querySelector(".fl").setAttribute("fill",on?"currentColor":"none");const t=on?"Remove bookmark":"Bookmark this lesson";b.title=t;b.setAttribute("aria-label",t);b.setAttribute("aria-pressed",on?"true":"false");};b.addEventListener("click",e=>{e.stopPropagation();if(S.saved[id])delete S.saved[id];else S.saved[id]=1;save();document.querySelectorAll('[data-bmk="'+id+'"]').forEach(x=>x.dispatchEvent(new Event("bmk")));});b.dataset.bmk=id;b.addEventListener("bmk",p);p();return b;}
@@ -2204,12 +2203,10 @@ function runPractice(pool,title){
       r.append(h("button",{class:"btn",onclick:()=>go("practice")},"Back"));main.append(r);return;
     }
     const q=qs[i];const order=optsFor(q);
-    // lecture button greyed out until the question is answered (same as an instant-feedback mock)
-    const lab=h("span");const paintLab=()=>{lab.innerHTML="";lab.append(loLabel(q,true,done?null:"Answer the question to open the lecture"));};
-    main.append(h("div",{class:"qhead"},h("span",null,(i+1)+" / "+qs.length),h("span",null,lab," ",flagBtn(q))));
+    main.append(h("div",{class:"qhead"},h("span",null,(i+1)+" / "+qs.length),h("span",null,loLabel(q,true)," ",flagBtn(q))));
     main.append(h("div",{class:"bar"},h("i",{style:"width:"+(i/qs.length*100)+"%"})));
-    let done=false;paintLab();
-    const v=qView(q,order,{onPick(k){if(done)return;done=true;const ok=order[k].c;if(ok)right++;else missedIds.push(q.id);record(q,ok,order[k].t);v.paint(k,true);paintLab();nx.disabled=false;nx.focus();}});
+    let done=false;
+    const v=qView(q,order,{onPick(k){if(done)return;done=true;const ok=order[k].c;if(ok)right++;else missedIds.push(q.id);record(q,ok,order[k].t);v.paint(k,true);nx.disabled=false;nx.focus();}});
     main.append(v.el);
     const nx=h("button",{class:"btn pri",disabled:true,onclick:()=>{i++;show();}},i===qs.length-1?"Finish":"Next");
     main.append(h("div",{class:"row"},nx,h("button",{class:"btn link",onclick:()=>{i=qs.length;show();}},"End")));
