@@ -11,6 +11,7 @@ page is a single HTML file you can open directly or serve over GitHub Pages.
 | `exam3.html` | Microbiology — Exam 3 (Modules 5 & 6) review |
 | `exam2.html` | BMSC 3404 — Exam 2 (Modules 3 & 4) review |
 | `biochem-exam1.html` | BMSC 3401 Biochemistry — Exam 1 (Modules 1–3): study guide, practice + drills, mock exams, question bank. **Built file — edit `src/biochem-exam1/` and run `python3 build.py`.** |
+| `lab-timer.html` | Hands-free lab stopwatch (voice “start/stop” with onset backdating, or clap trigger) + trial log. Not linked from the landing page. |
 | `index.html` | Landing page linking to each guide |
 
 Figures for the exam pages live in `images/`.

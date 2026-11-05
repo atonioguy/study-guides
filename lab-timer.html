@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab Timer</title>
+<style>
+  :root {
+    --bg: #fafaf8; --fg: #1d1d1b; --muted: #6b6b66; --line: #ddddd6;
+    --card: #ffffff; --accent: #1f5fbf; --go: #1e7a3c; --stop: #b3261e; --warn: #a56a00;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151514; --fg: #ececea; --muted: #9a9a94; --line: #33332f;
+            --card: #1e1e1c; --accent: #6ea0ff; --go: #4cc274; --stop: #ff6b5e; --warn: #e0a83a; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 16px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 16px 14px 60px; }
+  h1 { font-size: 18px; margin: 0 0 2px; }
+  .sub { color: var(--muted); font-size: 13px; margin: 0 0 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+  .display { font-variant-numeric: tabular-nums; font-size: clamp(52px, 17vw, 96px); font-weight: 600;
+             text-align: center; letter-spacing: -1px; line-height: 1.05; margin: 4px 0; transition: color .15s; }
+  .display.running { color: var(--go); }
+  .display.flash { animation: flash .5s 3; }
+  @keyframes flash { 50% { color: var(--stop); } }
+  .state { text-align: center; color: var(--muted); font-size: 14px; min-height: 20px; }
+  .target { text-align: center; font-size: 14px; color: var(--muted); min-height: 20px; }
+  .target.hit { color: var(--stop); font-weight: 600; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .row + .row { margin-top: 10px; }
+  button { font: inherit; border: 1px solid var(--line); background: var(--card); color: var(--fg);
+           border-radius: 8px; padding: 10px 14px; cursor: pointer; }
+  button:active { transform: translateY(1px); }
+  button.big { flex: 1; font-size: 20px; padding: 16px; font-weight: 600; }
+  button.go { background: var(--go); border-color: var(--go); color: #fff; }
+  button.stop { background: var(--stop); border-color: var(--stop); color: #fff; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.sel { outline: 2px solid var(--accent); outline-offset: -2px; font-weight: 600; }
+  button.small { padding: 6px 10px; font-size: 14px; }
+  label { font-size: 14px; color: var(--muted); }
+  input[type=text], input[type=number] { font: inherit; padding: 9px 10px; border: 1px solid var(--line);
+           border-radius: 8px; background: var(--bg); color: var(--fg); }
+  input[type=text] { flex: 1; min-width: 0; }
+  input[type=number] { width: 90px; }
+  input[type=range] { flex: 1; }
+  .meter { position: relative; height: 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 7px; overflow: hidden; flex: 1; }
+  .meter .lvl { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--accent); opacity: .7; }
+  .meter .thr { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--stop); }
+  .heard { font-size: 13px; color: var(--muted); min-height: 18px; margin-top: 8px; word-break: break-word; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .chips button { padding: 6px 10px; font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; font-size: 12px; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td input { width: 100%; padding: 4px 6px; font-size: 13px; }
+  .x { border: none; background: none; color: var(--muted); padding: 2px 6px; }
+  .hint { font-size: 13px; color: var(--muted); margin: 8px 0 0; }
+  .warn { color: var(--warn); }
+  .hidden { display: none !important; }
+  .modal { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .modal .card { max-width: 360px; width: 100%; }
+  footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 20px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Lab Timer</h1>
+  <p class="sub">Hands-free stopwatch. Say “start” / “stop”, or clap. Every trial is logged below.</p>
+
+  <div class="card">
+    <div id="display" class="display">0:00.00</div>
+    <div id="state" class="state">Not listening. Tap “Turn on mic” below.</div>
+    <div id="targetLine" class="target"></div>
+    <div class="row" style="margin-top:10px">
+      <button id="btnToggle" class="big go">Start</button>
+    </div>
+    <div class="row">
+      <button id="btnLap" class="small">Mark split</button>
+      <button id="btnReset" class="small">Reset display</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <label for="label" style="min-width:52px">Trial</label>
+      <input id="label" type="text" placeholder="e.g. Act 4 water bath" autocomplete="off">
+    </div>
+    <div class="row">
+      <label for="target" style="min-width:52px">Alarm at</label>
+      <input id="target" type="number" min="0" step="1" placeholder="min">
+      <label>min (optional; beeps + flashes, keeps running)</label>
+    </div>
+    <div class="chips" id="presets"></div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <button id="btnMic" class="primary">Turn on mic</button>
+      <button id="modeVoice" class="sel">Voice</button>
+      <button id="modeClap">Clap</button>
+      <button id="btnBeep" class="small">Beep: on</button>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <div class="meter"><div id="lvl" class="lvl"></div><div id="thr" class="thr"></div></div>
+    </div>
+    <div class="row">
+      <label for="sens" style="min-width:80px">Sensitivity</label>
+      <input id="sens" type="range" min="0" max="100" value="55">
+    </div>
+    <div id="heard" class="heard"></div>
+    <p class="hint" id="modeHint"></p>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <strong>Trial log</strong>
+      <div class="row">
+        <button id="btnCopy" class="small">Copy log</button>
+        <button id="btnClear" class="small">Clear</button>
+      </div>
+    </div>
+    <div id="copyMsg" class="hint hidden"></div>
+    <table style="margin-top:8px">
+      <thead><tr><th>#</th><th>Trial</th><th>Started</th><th>Time</th><th>Note</th><th></th></tr></thead>
+      <tbody id="log"></tbody>
+    </table>
+    <p class="hint" id="emptyLog">No trials yet.</p>
+  </div>
+
+  <p class="hint">Keep this tab open and the screen on. Phones cut off the mic when the browser goes to the background.
+    The log stays saved in this browser on this device.</p>
+  <footer>lab-timer v1</footer>
+</main>
+
+<div id="confirm" class="modal hidden">
+  <div class="card">
+    <p style="margin-top:0">Clear the whole trial log? This can’t be undone.</p>
+    <div class="row"><button id="confYes" class="stop">Clear it</button><button id="confNo">Cancel</button></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id);
+
+  // ---------- presets from the Lab 3 manual ----------
+  const PRESETS = [
+    ["Act 1 starch obs", 0.5], ["Act 2 Biuret obs", 0.5], ["Act 3 fat paper dry", 15],
+    ["Act 4 water bath", 45], ["Act 5 chew cracker", 1], ["Act 5 cups sit", 1]
+  ];
+  const presetBox = $("presets");
+  PRESETS.forEach(([name, min]) => {
+    const b = document.createElement("button");
+    b.textContent = name + " · " + (min < 1 ? (min * 60) + " s" : min + " min");
+    b.onclick = () => { $("label").value = name; $("target").value = min; save(); renderTarget(); };
+    presetBox.appendChild(b);
+  });
+
+  // ---------- storage ----------
+  const KEY = "labTimer.v1";
+  let store = { trials: [], label: "", target: "", mode: "voice", sens: 55, beep: true };
+  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && Array.isArray(s.trials)) store = Object.assign(store, s); } catch (e) {}
+  function save() {
+    store.label = $("label").value; store.target = $("target").value;
+    try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {}
+  }
+  $("label").value = store.label || "";
+  $("target").value = store.target || "";
+  $("sens").value = store.sens;
+  $("label").addEventListener("input", save);
+  $("target").addEventListener("input", () => { save(); renderTarget(); });
+
+  // ---------- stopwatch ----------
+  let running = false, startPerf = 0, startSrc = "", laps = [], shownMs = 0, alarmed = false, lastCmdAt = 0;
+  const display = $("display");
+
+  function fmt(ms, cs = true) {
+    ms = Math.max(0, ms);
+    const h = Math.floor(ms / 3600000), m = Math.floor(ms / 60000) % 60, s = Math.floor(ms / 1000) % 60, c = Math.floor(ms / 10) % 100;
+    const core = (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(s).padStart(2, "0");
+    return cs ? core + "." + String(c).padStart(2, "0") : core;
+  }
+  function targetMs() { const v = parseFloat($("target").value); return v > 0 ? v * 60000 : 0; }
+  function renderTarget() {
+    const t = targetMs(), el = $("targetLine");
+    if (!t) { el.textContent = ""; el.classList.remove("hit"); return; }
+    const left = t - shownMs;
+    if (running && left <= 0) { el.textContent = "Alarm time reached (" + fmt(t, false) + ")"; el.classList.add("hit"); }
+    else { el.textContent = "Alarm at " + fmt(t, false) + (running ? " · " + fmt(left, false) + " left" : ""); el.classList.remove("hit"); }
+  }
+  function tick() {
+    if (running) {
+      shownMs = performance.now() - startPerf;
+      display.textContent = fmt(shownMs);
+      const t = targetMs();
+      if (t && !alarmed && shownMs >= t) { alarmed = true; alarm(); }
+      renderTarget();
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  function setState(msg) { $("state").textContent = msg; }
+  function syncButton() {
+    const b = $("btnToggle");
+    b.textContent = running ? "Stop" : "Start";
+    b.className = "big " + (running ? "stop" : "go");
+    display.classList.toggle("running", running);
+  }
+
+  // when: performance.now()-based timestamp of the actual moment; src: how it was triggered
+  function startAt(when, src) {
+    if (running) return;
+    running = true; startPerf = when; startSrc = src; laps = []; alarmed = false;
+    lastCmdAt = performance.now();
+    syncButton(); beep(880);
+    setState("Running · started by " + src + lagNote(when));
+  }
+  function stopAt(when, src) {
+    if (!running) return;
+    running = false; lastCmdAt = performance.now();
+    const dur = Math.max(0, when - startPerf);
+    shownMs = dur; display.textContent = fmt(dur);
+    store.trials.push({
+      id: Date.now().toString(36), label: $("label").value.trim() || "Trial",
+      startedAt: Date.now() - (performance.now() - startPerf), ms: Math.round(dur),
+      startSrc, stopSrc: src, laps: laps.slice(), note: ""
+    });
+    save(); renderLog(); syncButton(); beep(440); renderTarget();
+    setState("Stopped by " + src + lagNote(when) + " · logged as #" + store.trials.length);
+  }
+  function lap(when, src) {
+    if (!running) return;
+    laps.push(Math.round(when - startPerf)); lastCmdAt = performance.now(); beep(660);
+    setState("Split " + laps.length + " at " + fmt(when - startPerf) + " (" + src + ")");
+  }
+  function resetDisplay() {
+    if (running) return;
+    shownMs = 0; display.textContent = fmt(0); renderTarget(); setState(micOn ? "Listening." : "Not listening.");
+  }
+  function lagNote(when) {
+    const lag = performance.now() - when;
+    return lag > 40 ? " (backdated " + (lag / 1000).toFixed(2) + " s)" : "";
+  }
+
+  $("btnToggle").onclick = () => { const n = performance.now(); running ? stopAt(n, "tap") : startAt(n, "tap"); };
+  $("btnLap").onclick = () => lap(performance.now(), "tap");
+  $("btnReset").onclick = resetDisplay;
+
+  // ---------- log ----------
+  function renderLog() {
+    const tb = $("log"); tb.innerHTML = "";
+    $("emptyLog").classList.toggle("hidden", store.trials.length > 0);
+    store.trials.forEach((t, i) => {
+      const tr = document.createElement("tr");
+      const d = new Date(t.startedAt);
+      const splits = t.laps && t.laps.length ? "<br><span style='color:var(--muted);font-size:12px'>splits: " + t.laps.map(x => fmt(x)).join(", ") + "</span>" : "";
+      tr.innerHTML = "<td class='num'>" + (i + 1) + "</td><td></td><td class='num'>" +
+        d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit", second: "2-digit" }) +
+        "</td><td class='num'>" + fmt(t.ms) + splits + "</td><td><input type='text'></td><td><button class='x' title='Delete'>✕</button></td>";
+      tr.children[1].textContent = t.label;
+      const inp = tr.querySelector("input"); inp.value = t.note || ""; inp.placeholder = "note";
+      inp.addEventListener("input", () => { t.note = inp.value; save(); });
+      tr.querySelector(".x").onclick = () => { store.trials.splice(i, 1); save(); renderLog(); };
+      tb.appendChild(tr);
+    });
+  }
+  renderLog();
+
+  $("btnCopy").onclick = async () => {
+    const lines = ["Lab timer log (copied " + new Date().toLocaleString() + ")", "# | Trial | Started | Time | Start via | Stop via | Splits | Note"];
+    store.trials.forEach((t, i) => lines.push([i + 1, t.label, new Date(t.startedAt).toLocaleTimeString(), fmt(t.ms),
+      t.startSrc, t.stopSrc, (t.laps || []).map(x => fmt(x)).join(" ; ") || "-", t.note || "-"].join(" | ")));
+    const text = lines.join("\n"), msg = $("copyMsg");
+    try { await navigator.clipboard.writeText(text); msg.textContent = "Copied. Paste it into the chat."; }
+    catch (e) {
+      msg.innerHTML = "Couldn’t copy automatically. Select and copy this:<br><textarea style='width:100%;height:120px'></textarea>";
+      msg.querySelector("textarea").value = text;
+    }
+    msg.classList.remove("hidden");
+  };
+  $("btnClear").onclick = () => $("confirm").classList.remove("hidden");
+  $("confNo").onclick = () => $("confirm").classList.add("hidden");
+  $("confYes").onclick = () => { store.trials = []; save(); renderLog(); $("confirm").classList.add("hidden"); };
+
+  // ---------- audio ----------
+  let ctx = null, micOn = false, suppressUntil = 0, stream = null;
+  let level = 0;            // smoothed dB for meter
+  let floorDb = -60;        // ambient noise floor estimate
+  let quietSince = 0;       // perf time the signal last dropped back near the floor
+  let aboveOnset = false;
+  const onsets = [];        // perf timestamps of sound onsets (start of a word or clap)
+  let lastClap = 0, pendingClap = 0;
+
+  function sens() { return +$("sens").value; } // 0..100
+  // voice onset margin above the noise floor (dB): high sensitivity = small margin
+  function onsetMargin() { return 30 - sens() * 0.22; }          // ~30 dB .. ~8 dB
+  // clap needs an absolute peak threshold (linear 0..1)
+  function clapThresh() { return 0.9 - sens() * 0.0085; }          // 0.9 .. ~0.05
+
+  function beep(freq, len = 0.12) {
+    if (!store.beep || !ctx) return;
+    try {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.value = freq; g.gain.value = 0.12;
+      o.connect(g).connect(ctx.destination);
+      o.start(); o.stop(ctx.currentTime + len);
+      suppressUntil = performance.now() + len * 1000 + 350; // don't let our own beep trigger a clap/onset
+    } catch (e) {}
+  }
+  function alarm() {
+    display.classList.remove("flash"); void display.offsetWidth; display.classList.add("flash");
+    if (!ctx) return;
+    [0, 0.3, 0.6].forEach(d => setTimeout(() => beep(1046, 0.18), d * 1000));
+  }
+
+  const WORKLET = `
+    class Peak extends AudioWorkletProcessor {
+      process(inputs) {
+        const ch = inputs[0] && inputs[0][0];
+        if (ch) {
+          let pk = 0, sq = 0;
+          for (let i = 0; i < ch.length; i++) { const v = ch[i]; const a = v < 0 ? -v : v; if (a > pk) pk = a; sq += v * v; }
+          this.port.postMessage([currentTime, pk, Math.sqrt(sq / ch.length)]);
+        }
+        return true;
+      }
+    }
+    registerProcessor("peak", Peak);`;
+
+  function onBlock(ct, pk, rms) {
+    // map the block's audio-clock time to performance.now()
+    const t = performance.now() - (ctx.currentTime - ct) * 1000;
+    const db = 20 * Math.log10(rms + 1e-9);
+    level = Math.max(db, level - 1.2);
+
+    if (t < suppressUntil) return;
+
+    // track noise floor: follow down quickly, creep up slowly
+    if (db < floorDb) floorDb = floorDb * 0.9 + db * 0.1;
+    else if (db < floorDb + 6) floorDb = floorDb * 0.995 + db * 0.005;
+    else floorDb += 0.0005;
+    floorDb = Math.max(floorDb, -90);
+
+    const thr = floorDb + onsetMargin();
+    if (!aboveOnset && db > thr) {
+      aboveOnset = true;
+      if (t - quietSince > 150) { onsets.push(t); if (onsets.length > 30) onsets.shift(); }
+    } else if (aboveOnset && db < thr - 4) {
+      aboveOnset = false; quietSince = t;
+    } else if (!aboveOnset) {
+      // keep quietSince as the start of the current quiet stretch
+    }
+
+    if (store.mode === "clap" && pk > clapThresh() && t - lastClap > 500 && t - lastCmdAt > 500) {
+      lastClap = t;
+      // a clap is short: confirm it decays within ~140 ms so talking/loud music doesn't count
+      pendingClap = t; const clapDb = db;
+      setTimeout(() => {
+        if (pendingClap !== t) return;
+        if (level < clapDb - 15 || level < floorDb + onsetMargin()) {
+          running ? stopAt(t, "clap") : startAt(t, "clap");
+        }
+        pendingClap = 0;
+      }, 140);
+    }
+  }
+
+  async function micStart() {
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
+    } catch (e) {
+      setState("Mic blocked. Allow microphone access for this site in your browser settings.");
+      return false;
+    }
+    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+    await ctx.resume();
+    const src = ctx.createMediaStreamSource(stream);
+    try {
+      const url = URL.createObjectURL(new Blob([WORKLET], { type: "application/javascript" }));
+      await ctx.audioWorklet.addModule(url);
+      const node = new AudioWorkletNode(ctx, "peak");
+      node.port.onmessage = e => onBlock(e.data[0], e.data[1], e.data[2]);
+      const mute = ctx.createGain(); mute.gain.value = 0;
+      src.connect(node).connect(mute).connect(ctx.destination);
+    } catch (e) {
+      // fallback: poll an analyser (~10 ms resolution)
+      const an = ctx.createAnalyser(); an.fftSize = 512; src.connect(an);
+      const buf = new Float32Array(an.fftSize);
+      setInterval(() => {
+        an.getFloatTimeDomainData(buf);
+        let pk = 0, sq = 0; for (const v of buf) { const a = Math.abs(v); if (a > pk) pk = a; sq += v * v; }
+        onBlock(ctx.currentTime, pk, Math.sqrt(sq / buf.length));
+      }, 10);
+    }
+    return true;
+  }
+
+  // meter
+  (function meter() {
+    if (micOn) {
+      const pct = v => Math.min(100, Math.max(0, (v + 80) / 80 * 100));
+      $("lvl").style.width = pct(level) + "%";
+      const thrDb = store.mode === "clap" ? 20 * Math.log10(clapThresh()) - 3 : floorDb + onsetMargin();
+      $("thr").style.left = pct(thrDb) + "%";
+    }
+    requestAnimationFrame(meter);
+  })();
+
+  // ---------- speech ----------
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let rec = null, handled = {}, wantSpeech = false, srBroken = false;
+  const CMD = { start: "start", go: "start", begin: "start", stop: "stop", stopped: "stop", done: "stop", end: "stop",
+                mark: "lap", lap: "lap", split: "lap", reset: "reset" };
+
+  function commandsIn(text) {
+    return text.toLowerCase().replace(/[^a-z\s]/g, " ").split(/\s+/).map(w => CMD[w]).filter(Boolean);
+  }
+  // pick the onset that most likely belongs to the command word: the latest onset in the
+  // ~2.5 s before recognition fired (and after the previous command)
+  function onsetFor(now) {
+    for (let i = onsets.length - 1; i >= 0; i--) {
+      const o = onsets[i];
+      if (o > now) continue;
+      if (now - o > 2500 || o <= lastCmdAt) break;
+      return o;
+    }
+    return null;
+  }
+  function doCmd(c) {
+    const now = performance.now();
+    if (now - lastCmdAt < 600 && c !== "reset") return;
+    const o = onsetFor(now), when = o == null ? now : o;
+    if (c === "start") startAt(when, "voice");
+    else if (c === "stop") stopAt(when, "voice");
+    else if (c === "lap") lap(when, "voice");
+    else if (c === "reset") resetDisplay();
+  }
+
+  function speechStart() {
+    if (!SR) { srBroken = true; updateHint(); return; }
+    wantSpeech = true;
+    rec = new SR();
+    rec.continuous = true; rec.interimResults = true; rec.lang = "en-US";
+    handled = {};
+    rec.onresult = e => {
+      let txt = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const tr = e.results[i][0].transcript; txt += tr;
+        const cmds = commandsIn(tr), done = handled[i] || 0;
+        for (let k = done; k < cmds.length; k++) doCmd(cmds[k]);
+        handled[i] = Math.max(done, cmds.length);
+      }
+      $("heard").textContent = "Heard: “" + txt.trim() + "”";
+    };
+    rec.onerror = e => {
+      if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+        srBroken = true; wantSpeech = false; updateHint();
+        setState("Speech recognition blocked. Use Clap mode, or allow speech recognition.");
+      }
+    };
+    rec.onend = () => { handled = {}; if (wantSpeech && store.mode === "voice" && micOn) { try { rec.start(); } catch (e) {} } };
+    try { rec.start(); } catch (e) {}
+  }
+  function speechStop() { wantSpeech = false; if (rec) { try { rec.stop(); } catch (e) {} rec = null; } }
+
+  // ---------- modes / mic button ----------
+  function updateHint() {
+    const h = $("modeHint");
+    if (store.mode === "voice") {
+      h.innerHTML = srBroken || !SR
+        ? "<span class='warn'>This browser can’t do speech recognition. Use Clap mode (or Safari / Chrome).</span>"
+        : "Say <b>start</b>, <b>stop</b>, <b>mark</b> (split) or <b>reset</b>. Pause for a beat before the word, " +
+          "so the timer can backdate to the instant you started saying it.";
+    } else {
+      h.innerHTML = "One sharp clap (or a knock on the table) starts or stops. Talking shouldn’t trigger it. " +
+        "If it does, turn sensitivity down. If claps get missed, turn it up. The red line on the meter is the trigger level.";
+    }
+    $("modeVoice").classList.toggle("sel", store.mode === "voice");
+    $("modeClap").classList.toggle("sel", store.mode === "clap");
+    $("btnBeep").textContent = "Beep: " + (store.beep ? "on" : "off");
+  }
+  function setMode(m) {
+    store.mode = m; save(); updateHint();
+    if (!micOn) return;
+    if (m === "voice") speechStart(); else speechStop();
+    setState("Listening (" + m + ").");
+  }
+  $("modeVoice").onclick = () => setMode("voice");
+  $("modeClap").onclick = () => setMode("clap");
+  $("btnBeep").onclick = () => { store.beep = !store.beep; save(); updateHint(); };
+  $("sens").addEventListener("input", () => { store.sens = sens(); save(); });
+
+  let wakeLock = null;
+  async function keepAwake() { try { wakeLock = await navigator.wakeLock.request("screen"); } catch (e) {} }
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && micOn) keepAwake(); });
+
+  $("btnMic").onclick = async () => {
+    if (micOn) {
+      micOn = false; speechStop();
+      if (stream) stream.getTracks().forEach(t => t.stop());
+      if (ctx) { try { await ctx.close(); } catch (e) {} ctx = null; }
+      if (wakeLock) { try { wakeLock.release(); } catch (e) {} wakeLock = null; }
+      $("btnMic").textContent = "Turn on mic"; $("btnMic").className = "primary";
+      $("lvl").style.width = "0"; setState("Not listening."); return;
+    }
+    if (!window.isSecureContext) { setState("Mic needs an https page. Open the GitHub Pages link, not a local file."); return; }
+    setState("Starting mic…");
+    if (!(await micStart())) return;
+    micOn = true; keepAwake();
+    $("btnMic").textContent = "Turn off mic"; $("btnMic").className = "";
+    if (store.mode === "voice") speechStart();
+    setState("Listening (" + store.mode + ").");
+  };
+
+  updateHint(); renderTarget(); syncButton();
+})();
+</script>
+</body>
+</html>
