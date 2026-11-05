@@ -814,7 +814,219 @@ qfigs={"q-energy4":q_energy4(),"q-mm4":q_mm4(),"q-lbread":q_lbread(),
  "q-mm2e":_mmq([(1,1.5,FG),(2,1.5,ACC)],smax=12,ymax=2.2,legend=["1× enzyme","2× enzyme"]),
  "q-ph2":q_ph2(),"q-temp2":q_temp2(),"q-path":q_path(),"q-struct4":q_struct4(),"q-parts":q_parts(),"q-endo":q_endo(),"q-allo":q_allo()}
 
-figs={"energy":energy(),"mm":mmfig(),"lb":lbfig(),"inhib3":inhib3(),"temp":tempfig(),"ph":phfig(),"feedback":feedback(),"levels":levels(),"bilayer":bilayer(),"fold":fold(),"dna":dna(),"hydro":hydro(),"bicarb":bicarb(),"titr":titr(),"classes":classes(),"water":water(),"aagrid":aagrid(),"forces":forces(),"phscale":phscale(),**qfigs,**QF1}
+
+# ---------- Module 3 guide figures ----------
+OKC="#1d7a3a"; BADC="#b42318"; GRY="#9aa3ad"; SOFT="#eef2f9"
+def _box(x,y,w,h,s,col=FG,fill="#fff",fs="13",bold=False,rx=6,sub=None):
+    o=f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{rx}" fill="{fill}" stroke="{col}" stroke-width="1.5"/>'
+    cy=y+h/2+(0 if sub else 4.5)-(6 if sub else 0)
+    o+=T(x+w/2,cy+(4 if sub else 0),s,text_anchor="middle",fill=FG,font_size=fs,**({"font_weight":"600"} if bold else {}))
+    if sub: o+=T(x+w/2,cy+19,sub,text_anchor="middle",fill=MUT,font_size="11.5")
+    return o
+def _arr(x1,y1,x2,y2,id,col=FG,w=2,dash=None):
+    d=f' stroke-dasharray="{dash}"' if dash else ""
+    return f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{col}" stroke-width="{w}"{d} marker-end="url(#{id})"/>'
+
+def m3_metab():
+    o=_svg(660,250,13)+[_ah("ma",FG),_ah("mb",ACC)]
+    def chain(x0,y):
+        s=""
+        for i in range(6):
+            s+=f'<circle cx="{x0+i*20}" cy="{y}" r="8" fill="#fff" stroke="{FG}" stroke-width="1.5"/>'
+            if i<5: s+=f'<line x1="{x0+i*20+8}" y1="{y}" x2="{x0+i*20+12}" y2="{y}" stroke="{FG}" stroke-width="2"/>'
+        return s
+    def loose(pts): return "".join(f'<circle cx="{x}" cy="{y}" r="8" fill="#fff" stroke="{FG}" stroke-width="1.5"/>' for x,y in pts)
+    o.append(T(20,24,"Catabolism",fill=FG,font_weight="600")+T(104,24,"large molecules broken down, usually by oxidation; energy released",fill=MUT,font_size="12"))
+    o.append(chain(30,62)+_arr(150,62,480,62,"ma")+loose([(505,52),(530,72),(552,50),(578,70),(602,52),(628,72)]))
+    o.append(T(315,52,"glycolysis, β-oxidation, CAC",text_anchor="middle",fill=MUT,font_size="12"))
+    o.append(_arr(300,66,300,100,"mb",ACC))
+    o.append(f'<rect x="210" y="104" width="240" height="44" rx="6" fill="{SOFT}" stroke="{ACC}" stroke-width="1.5"/>')
+    o.append(T(330,122,"activated carriers",text_anchor="middle",fill=ACC,font_weight="600")+T(330,140,"ATP · NADH · FADH₂ · NADPH",text_anchor="middle",fill=FG,font_size="12"))
+    o.append(_arr(360,150,360,184,"mb",ACC))
+    o.append(loose([(32,178),(58,198),(80,176),(106,196),(128,178),(150,198)])+_arr(172,188,480,188,"ma")+chain(510,188))
+    o.append(T(315,208,"gluconeogenesis, fatty acid synthesis",text_anchor="middle",fill=MUT,font_size="12"))
+    o.append(T(20,240,"Anabolism",fill=FG,font_weight="600")+T(100,240,"small molecules joined into larger ones; energy used",fill=MUT,font_size="12"))
+    o.append('</svg>');return "".join(o)
+
+def m3_stages():
+    o=_svg(660,340,13)+[_ah("sa",FG),_ah("sb",ACC)]
+    o.append(f'<rect x="150" y="146" width="500" height="186" rx="14" fill="none" stroke="{ACC}" stroke-width="1.5" stroke-dasharray="6 4"/>'+T(640,164,"mitochondrion",text_anchor="end",fill=ACC,font_size="12",font_weight="600"))
+    for y,a,b in ((44,"Stage 1","digestion"),(150,"Stage 2","to acetyl CoA"),(256,"Stage 3","respiration")):
+        o.append(T(14,y,a,fill=FG,font_weight="600")+T(14,y+17,b,fill=MUT,font_size="12"))
+    xs=(225,385,545)
+    for x,f,s in zip(xs,("Proteins","Polysaccharides","Fats"),("Amino acids","Glucose","Fatty acids, glycerol")):
+        o.append(_box(x-70,22,140,30,f)+_arr(x,52,x,80,"sa")+_box(x-70,82,140,30,s))
+    o.append(_arr(225,112,360,176,"sa")+_arr(385,112,385,172,"sa")+_arr(545,112,410,176,"sa"))
+    o.append(T(392,140,"pyruvate",fill=MUT,font_size="11.5")+T(500,140,"β-oxidation",fill=MUT,font_size="11.5"))
+    o.append(f'<rect x="325" y="176" width="120" height="30" rx="6" fill="{SOFT}" stroke="{ACC}" stroke-width="1.5"/>'+T(385,196,"Acetyl CoA",text_anchor="middle",fill=ACC,font_weight="600"))
+    o.append(T(462,196,"a little ATP, NADH",fill=MUT,font_size="12"))
+    o.append(_arr(385,206,385,236,"sa"))
+    o.append(f'<circle cx="385" cy="270" r="32" fill="#fff" stroke="{ACC}" stroke-width="2"/>'+T(385,266,"citric acid",text_anchor="middle",fill=FG,font_size="12")+T(385,281,"cycle",text_anchor="middle",fill=FG,font_size="12"))
+    o.append(_arr(352,270,280,270,"sa")+T(270,275,"2 CO₂",text_anchor="end",fill=FG))
+    o.append(_arr(418,270,478,270,"sb",ACC)+T(448,262,"NADH",text_anchor="middle",fill=ACC,font_size="11.5")+T(448,288,"FADH₂",text_anchor="middle",fill=ACC,font_size="11.5"))
+    o.append(_box(482,250,150,40,"Ox phos",bold=True,sub="ETC + ATP synthase"))
+    o.append(T(557,312,"O₂ → H₂O,  lots of ATP",text_anchor="middle",fill=FG,font_size="12"))
+    o.append('</svg>');return "".join(o)
+
+def m3_atpcyc():
+    o=_svg(660,230,14)+[_ah("aa",ACC),_ah("ab",FG)]
+    o.append(_box(275,24,110,34,"ATP",col=ACC,fill=SOFT,fs="16",bold=True)+_box(265,168,130,34,"ADP + Pi",fs="15",bold=True))
+    o.append(f'<path d="M392 52 C460 80 460 150 400 176" fill="none" stroke="{ACC}" stroke-width="2.5" marker-end="url(#aa)"/>')
+    o.append(f'<path d="M262 176 C200 150 200 80 268 52" fill="none" stroke="{FG}" stroke-width="2.5" marker-end="url(#ab)"/>')
+    o.append(T(462,90,"hydrolysis",fill=ACC,font_weight="600")+T(462,108,"ΔG°′ = −30.5 kJ/mol",fill=ACC,font_size="12.5"))
+    o.append(T(198,90,"condensation",text_anchor="end",fill=FG,font_weight="600")+T(198,108,"needs +30.5 kJ/mol",text_anchor="end",fill=FG,font_size="12.5"))
+    o.append(_arr(458,160,540,160,"aa",ACC)+T(548,164,"work",fill=FG,font_size="12.5",font_weight="600"))
+    o.append(T(548,182,"motion, transport,",fill=MUT,font_size="11.5")+T(548,197,"biosynthesis",fill=MUT,font_size="11.5"))
+    o.append(_arr(120,160,202,160,"ab")+T(112,164,"fuel oxidation",text_anchor="end",fill=FG,font_size="12.5",font_weight="600"))
+    o.append(T(112,182,"carbs, fats",text_anchor="end",fill=MUT,font_size="11.5")+T(112,197,"(catabolism)",text_anchor="end",fill=MUT,font_size="11.5"))
+    o.append('</svg>');return "".join(o)
+
+def m3_ptp():
+    rows=[("Phosphoenolpyruvate",61.9),("1,3-Bisphosphoglycerate",49.4),("Creatine phosphate",43.0),("ATP (→ ADP + Pi)",30.5),("Glucose 6-phosphate",13.8),("Glycerol 3-phosphate",9.2)]
+    o=_svg(660,334,13)+[_ah("pa",FG),_ah("pb",ACC)]
+    o.append(T(20,22,"Standard free energy of phosphate hydrolysis (−ΔG°′, kJ/mol; textbook values)",fill=MUT,font_size="12"))
+    for i,(n,v) in enumerate(rows):
+        y=50+i*42; atp=i==3
+        o.append(T(196,y+5,n,text_anchor="end",fill=ACC if atp else FG,font_weight="600" if atp else "400"))
+        o.append(f'<rect x="206" y="{y-11}" width="{v*4.6:.1f}" height="22" fill="{ACC if atp else "#c9d3e3"}"/>'+T(212+v*4.6,y+5,f"{v:g}",fill=FG,font_size="12.5"))
+    o.append(f'<path d="M560 52 C600 70 600 150 572 172" fill="none" stroke="{FG}" stroke-width="2" marker-end="url(#pa)"/>'+T(604,104,"Pi to",fill=FG,font_size="12")+T(604,120,"ADP",fill=FG,font_size="12"))
+    o.append(f'<path d="M560 182 C600 200 600 236 572 254" fill="none" stroke="{ACC}" stroke-width="2" marker-end="url(#pb)"/>'+T(604,214,"Pi to",fill=ACC,font_size="12")+T(604,230,"glucose",fill=ACC,font_size="12"))
+    o.append(T(20,306,"Higher on the ladder = higher phosphoryl-transfer potential.",fill=MUT,font_size="12")+T(20,323,"ATP sits in the middle, so ADP can take Pi from above and ATP can give it below.",fill=MUT,font_size="12"))
+    o.append('</svg>');return "".join(o)
+
+CAC_NODES=[("oxaloacetate","4C"),("citrate","6C"),("isocitrate","6C"),("α-ketoglutarate","5C"),("succinyl CoA","4C"),("succinate","4C"),("fumarate","4C"),("malate","4C")]
+def _wheel(o,cx,cy,r,key=(1,3,4,6),labels=True,inner=True,qletters=None):
+    o.append(f'<defs><marker id="wa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="{ACC}"/></marker><marker id="wb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="{GRY}"/></marker></defs>')
+    ang=lambda k:math.radians(-22.5+45*k)
+    P=lambda a,rr:(cx+rr*math.sin(a),cy-rr*math.cos(a))
+    for k in range(8):
+        a0,a1=ang(k)+0.13,ang(k+1)-0.13; hot=(k+1) in key
+        (x0,y0),(x1,y1)=P(a0,r),P(a1,r)
+        o.append(f'<path d="M{x0:.1f} {y0:.1f} A{r} {r} 0 0 1 {x1:.1f} {y1:.1f}" fill="none" stroke="{ACC if hot else GRY}" stroke-width="{3.2 if hot else 1.8}" marker-end="url(#{"wa" if hot else "wb"})"/>')
+        mx,my=P(ang(k)+math.radians(22.5),r)
+        if qletters is None or hot:
+            lab=str(k+1) if qletters is None else qletters[key.index(k+1)]
+            o.append(_num(round(mx,1),round(my,1),lab,ACC if hot else GRY))
+    for k,(n,c) in enumerate(CAC_NODES):
+        a=ang(k); x,y=P(a,r); o.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4" fill="{FG}"/>')
+        if labels:
+            s=math.sin(a); lx,ly=P(a,r+14); anc="start" if s>0.3 else ("end" if s<-0.3 else "middle")
+            ly+=4+(6 if math.cos(a)<-0.5 else 0)-(2 if math.cos(a)>0.5 else 0)
+            o.append(T(lx,ly,f"{n} ({c})",text_anchor=anc,fill=FG,font_size="12.5"))
+    return P,ang
+
+def m3_cacw():
+    o=_svg(660,330,13)+[_ah("wc",FG)]
+    cx,cy,r=215,180,100
+    P,ang=_wheel(o,cx,cy,r)
+    o.append(f'<path d="M{cx} 30 L{cx} {cy-r-6}" stroke="{FG}" stroke-width="2" marker-end="url(#wc)"/>'+T(cx+8,40,"acetyl CoA (2C)",fill=FG,font_size="12.5",font_weight="600"))
+    for k,s,anc,rr in ((2,"CO₂ + NADH","end",r-32),(3,"CO₂ + NADH","middle",r-38),(4,"GTP (ATP)","middle",r-30),(5,"FADH₂","middle",r-38),(7,"NADH","start",r-32)):
+        x,y=P(ang(k)+math.radians(22.5),rr)
+        o.append(T(x,y+4,s,text_anchor=anc,fill=ACC if k!=4 and k!=7 else MUT,font_size="12"))
+    lg=[("1","Citrate synthase","2C + 4C → 6C (joins)"),("3","Isocitrate DH","6C → 5C; 1st CO₂, NADH"),("4","α-KG DH complex","5C → 4C; 2nd CO₂, NADH"),("6","Succinate DH","FADH₂; also Complex II")]
+    for i,(n,a,b) in enumerate(lg):
+        y=70+i*58
+        o.append(_num(468,y,n,ACC)+T(486,y+5,a,fill=FG,font_weight="600")+T(486,y+23,b,fill=MUT,font_size="12"))
+    o.append(T(468,306,"Gray steps: not required by name.",fill=MUT,font_size="12"))
+    o.append('</svg>');return "".join(o)
+
+def m3_cacreg():
+    o=_svg(660,300,13)+[_ah("ra",FG)]
+    cols=[("Acetyl CoA formation","pyruvate → acetyl CoA",[("−","ATP"),("−","NADH"),("−","acetyl CoA")]),
+          ("Citrate synthase","step 1",[("−","citrate (product)"),("−","ATP")]),
+          ("Isocitrate DH","step 3",[("+","Ca²⁺"),("+","ADP"),("○","needs NAD⁺"),("−","NADH")]),
+          ("α-KG DH complex","step 4",[("+","Ca²⁺"),("○","needs NAD⁺, thiamine"),("−","NADH"),("−","ammonia")])]
+    xs=[83,246,409,572]
+    for i,((n,s,eff),x) in enumerate(zip(cols,xs)):
+        o.append(f'<rect x="{x-76}" y="20" width="152" height="46" rx="6" fill="{SOFT}" stroke="{ACC}" stroke-width="1.5"/>'+T(x,40,n,text_anchor="middle",fill=ACC,font_weight="600",font_size="12.5")+T(x,57,s,text_anchor="middle",fill=MUT,font_size="11.5"))
+        if i<3: o.append(_arr(x+78,43,xs[i+1]-80,43,"ra",FG,1.5))
+        for j,(sg,t) in enumerate(eff):
+            y=96+j*30; col=OKC if sg=="+" else (BADC if sg=="−" else FG)
+            o.append((f'<circle cx="{x-62}" cy="{y-4}" r="8" fill="#fff" stroke="{FG}" stroke-width="1.6"/>' if sg=="○" else f'<circle cx="{x-62}" cy="{y-4}" r="9" fill="{col}"/>'+T(x-62,y+1,"+" if sg=="+" else "−",text_anchor="middle",fill="#fff",font_weight="700",font_size="14"))+T(x-48,y+1,t,fill=FG,font_size="12.5"))
+    o.append(f'<line x1="10" y1="226" x2="650" y2="226" stroke="{LINE}"/>')
+    o.append(T(20,250,"Green = activates, red = inhibits, open circle = required cofactor.",fill=FG,font_size="12"))
+    o.append(T(20,268,"High NADH leaves little free NAD⁺, so both dehydrogenases slow. Not primary: succinate DH, malate DH.",fill=FG,font_size="12"))
+    o.append(T(20,288,"Poisons, not regulation: fluoroacetate (citrate → isocitrate), arsenite (α-KG DH), malonate (succinate DH).",fill=MUT,font_size="12"))
+    o.append('</svg>');return "".join(o)
+
+def _membrane(o,x0,x1,y0,y1):
+    o.append(f'<rect x="{x0}" y="{y0}" width="{x1-x0}" height="{y1-y0}" fill="#f4efe1"/>')
+    o.append(f'<line x1="{x0}" y1="{y0}" x2="{x1}" y2="{y0}" stroke="{OIL}" stroke-width="1.5"/><line x1="{x0}" y1="{y1}" x2="{x1}" y2="{y1}" stroke="{OIL}" stroke-width="1.5"/>')
+
+def m3_etc(q=False):
+    W=480 if q else 660
+    o=(_q(W,300,15) if q else _svg(W,320,13))+[_ah("ea3",ACC),_ah("eb3",FG),_ah("ec3",OKC)]
+    s=W/660
+    X=lambda x:round(x*s,1)
+    _membrane(o,0,W,110,160)
+    if not q:
+        o.append(T(12,24,"intermembrane space (more H⁺)",fill=FG,font_weight="600",font_size="12.5"))
+        o.append(T(12,304,"matrix (fewer H⁺)",fill=FG,font_weight="600",font_size="12.5"))
+        o.append(T(522,139,"inner membrane",text_anchor="middle",fill=OIL,font_size="11.5"))
+    cx={"I":75,"II":185,"III":315,"IV":445,"V":590}
+    for k,x in cx.items():
+        if k=="II": o.append(f'<rect x="{X(x)-24}" y="150" width="48" height="36" rx="7" fill="#fff" stroke="{FG}" stroke-width="1.8"/>')
+        elif k=="V":
+            o.append(f'<rect x="{X(x)-20}" y="96" width="40" height="70" rx="6" fill="#fff" stroke="{FG}" stroke-width="1.8"/><rect x="{X(x)-6}" y="166" width="12" height="20" fill="{FG}"/><ellipse cx="{X(x)}" cy="206" rx="34" ry="22" fill="#fff" stroke="{FG}" stroke-width="1.8"/>')
+        else: o.append(f'<rect x="{X(x)-30}" y="92" width="60" height="86" rx="8" fill="#fff" stroke="{FG}" stroke-width="1.8"/>')
+        if q:
+            ty={"II":168,"V":131}.get(k,135); o.append(_num(X(x),ty,{"I":"1","II":"2","III":"3","IV":"4","V":"5"}[k],FG))
+        else:
+            ty={"II":173,"V":136}.get(k,140); o.append(T(X(x),ty,k,text_anchor="middle",fill=FG,font_weight="700",font_size="15"))
+    # mobile carriers
+    o.append(f'<circle cx="{X(250)}" cy="135" r="13" fill="{SOFT}" stroke="{ACC}" stroke-width="1.5"/>'+T(X(250),140,"Q" if not q else "",text_anchor="middle",fill=ACC,font_weight="700"))
+    o.append(f'<circle cx="{X(380)}" cy="86" r="13" fill="{SOFT}" stroke="{ACC}" stroke-width="1.5"/>'+T(X(380),90,"c" if not q else "",text_anchor="middle",fill=ACC,font_weight="700"))
+    # electron path
+    ep=f'stroke="{ACC}" stroke-width="2" stroke-dasharray="5 3" fill="none" marker-end="url(#ea3)"'
+    o.append(f'<path d="M{X(100)} 140 L{X(236)} 137" {ep}/><path d="M{X(196)} 152 L{X(240)} 146" {ep}/><path d="M{X(264)} 135 L{X(286)} 135" {ep}/>')
+    o.append(f'<path d="M{X(330)} 94 Q{X(345)} 78 {X(366)} 83" {ep}/><path d="M{X(394)} 84 Q{X(415)} 80 {X(428)} 94" {ep}/>')
+    # substrates
+    o.append(f'<path d="M{X(55)} 236 L{X(65)} 182" stroke="{FG}" stroke-width="1.8" fill="none" marker-end="url(#eb3)"/>')
+    o.append(f'<path d="M{X(170)} 236 L{X(178)} 190" stroke="{FG}" stroke-width="1.8" fill="none" marker-end="url(#eb3)"/>')
+    o.append(f'<path d="M{X(455)} 182 L{X(465)} 232" stroke="{FG}" stroke-width="1.8" fill="none" marker-end="url(#eb3)"/>')
+    if not q:
+        o.append(T(X(40),254,"NADH → NAD⁺",fill=FG,font_size="12.5")+T(X(150),254,"FADH₂ → FAD",fill=FG,font_size="12.5"))
+        o.append(T(X(150),270,"(succinate → fumarate)",fill=MUT,font_size="11.5")+T(X(430),250,"½O₂ + 2H⁺ → H₂O",fill=FG,font_size="12.5"))
+        o.append(T(X(590),252,"ADP + Pi → ATP",text_anchor="middle",fill=OKC,font_weight="600",font_size="12.5"))
+    else:
+        for x,lab in ((60,"A"),(172,"B"),(462,"C")): o.append(T(X(x)+(18 if x<400 else 16),248 if x<400 else 252,lab,fill=FG,font_weight="700",font_size="16"))
+    # protons
+    for k,n in (("I",4),("III",4),("IV",3)):
+        x=X(cx[k])+(14 if k!="IV" else -14)
+        o.append(f'<path d="M{x} 172 L{x} 52" stroke="{FG}" stroke-width="1.6" fill="none" marker-end="url(#eb3)"/>')
+        if not q: o.append(T(x+(6 if k!="IV" else -6),48,f"{n} H⁺",text_anchor="start" if k!="IV" else "end",fill=FG,font_size="12.5",font_weight="600"))
+    o.append(f'<path d="M{X(590)+30} 50 L{X(590)+30} 186" stroke="{OKC}" stroke-width="2" fill="none" marker-end="url(#ec3)"/>')
+    if not q:
+        o.append(T(X(590)+36,62,"H⁺",fill=OKC,font_size="12.5",font_weight="600"))
+        o.append(T(X(215),182,"pumps 0 H⁺",fill=MUT,font_size="11.5"))
+    o.append('</svg>');return "".join(o)
+
+def m3_leak():
+    o=_svg(660,250,13)+[_ah("la",FG),_ah("lb",OKC),_ah("lc",BADC)]
+    for ox,title,leak in ((0,"Coupled",False),(340,"Uncoupled",True)):
+        o.append(T(ox+160,22,title,text_anchor="middle",fill=FG,font_weight="700",font_size="14"))
+        _membrane(o,ox+10,ox+310,100,140)
+        o.append(f'<rect x="{ox+30}" y="84" width="70" height="72" rx="8" fill="#fff" stroke="{FG}" stroke-width="1.8"/>'+T(ox+65,124,"ETC",text_anchor="middle",fill=FG,font_weight="700"))
+        o.append(f'<path d="M{ox+65} 196 L{ox+65} 46" stroke="{FG}" stroke-width="1.8" fill="none" marker-end="url(#la)"/>'+T(ox+74,52,"H⁺ pumped",fill=FG,font_size="12"))
+        o.append(T(ox+65,214,"O₂ used",text_anchor="middle",fill=FG,font_size="12"))
+        o.append(f'<rect x="{ox+240}" y="80" width="40" height="66" rx="6" fill="#fff" stroke="{FG}" stroke-width="1.8"/><rect x="{ox+254}" y="146" width="12" height="16" fill="{FG}"/><ellipse cx="{ox+260}" cy="178" rx="30" ry="18" fill="#fff" stroke="{FG}" stroke-width="1.8"/>'+T(ox+260,118,"V",text_anchor="middle",fill=FG,font_weight="700"))
+        if not leak:
+            o.append(f'<path d="M{ox+295} 50 L{ox+295} 170" stroke="{OKC}" stroke-width="2.2" fill="none" marker-end="url(#lb)"/>')
+            o.append(T(ox+260,222,"ATP made",text_anchor="middle",fill=OKC,font_weight="600",font_size="12.5"))
+            o.append(T(ox+160,242,"gradient stays high",text_anchor="middle",fill=MUT,font_size="12"))
+        else:
+            o.append(f'<rect x="{ox+150}" y="96" width="30" height="48" rx="5" fill="#fff" stroke="{BADC}" stroke-width="1.8"/>')
+            o.append(f'<path d="M{ox+165} 50 L{ox+165} 168" stroke="{BADC}" stroke-width="2.2" fill="none" marker-end="url(#lc)"/>')
+            o.append(T(ox+165,188,"heat",text_anchor="middle",fill=BADC,font_weight="600",font_size="12.5"))
+            o.append(T(ox+165,206,"UCP1 or DNP",text_anchor="middle",fill=BADC,font_size="12"))
+            o.append(T(ox+260,222,"little ATP",text_anchor="middle",fill=MUT,font_size="12.5"))
+            o.append(T(ox+160,242,"gradient collapses",text_anchor="middle",fill=MUT,font_size="12"))
+    o.append(f'<line x1="330" y1="10" x2="330" y2="240" stroke="{LINE}"/>')
+    o.append('</svg>');return "".join(o)
+
+M3F={"m3metab":m3_metab(),"m3stages":m3_stages(),"m3atp":m3_atpcyc(),"m3ptp":m3_ptp(),"m3cacw":m3_cacw(),"m3cacreg":m3_cacreg(),"m3etc":m3_etc(),"m3leak":m3_leak()}
+
+figs={"energy":energy(),"mm":mmfig(),"lb":lbfig(),"inhib3":inhib3(),"temp":tempfig(),"ph":phfig(),"feedback":feedback(),"levels":levels(),"bilayer":bilayer(),"fold":fold(),"dna":dna(),"hydro":hydro(),"bicarb":bicarb(),"titr":titr(),"classes":classes(),"water":water(),"aagrid":aagrid(),"forces":forces(),"phscale":phscale(),**qfigs,**QF1,**M3F}
 here=os.path.dirname(os.path.abspath(__file__))
 open(os.path.join(here,"figs.js"),"w").write("const FIGS="+json.dumps(figs,ensure_ascii=False)+";\n")
 for k,v in figs.items():
