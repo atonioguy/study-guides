@@ -387,7 +387,183 @@ def levels():
     o.append(T(578,150,"Quaternary",text_anchor="middle",fill=FG,font_weight="600")+T(578,167,"two or more chains",text_anchor="middle",fill=MUT,font_size="12")+T(578,183,"(same weak forces)",text_anchor="middle",fill=MUT,font_size="12"))
     o.append('</svg>');return "".join(o)
 
-figs={"energy":energy(),"mm":mmfig(),"lb":lbfig(),"inhib3":inhib3(),"temp":tempfig(),"ph":phfig(),"feedback":feedback(),"levels":levels(),"bilayer":bilayer(),"fold":fold(),"dna":dna(),"hydro":hydro(),"bicarb":bicarb(),"titr":titr(),"classes":classes(),"water":water(),"aagrid":aagrid(),"forces":forces(),"phscale":phscale()}
+
+# ---------- Question figures (unlabeled; q- prefix). Narrow viewBox + larger text so they read at 390 px ----------
+def _q(w,h,fs=15): return _svg(w,h,fs)
+def _num(x,y,n,col=FG):
+    return f'<circle cx="{x}" cy="{y}" r="11" fill="#fff" stroke="{col}" stroke-width="1.6"/>'+T(x,y+5,n,text_anchor="middle",fill=col,font_weight="700",font_size="14")
+
+def q_energy4():
+    o=_q(480,300)+[_ah("qa",FG)]
+    o.append(_axes(46,16,470,250,"reaction progress →","free energy"))
+    o.append(f'<path d="M56,150 L110,150 C160,150 190,36 240,36 C290,36 320,214 370,214 L462,214" fill="none" stroke="{FG}" stroke-width="2.5"/>')
+    o.append(f'<path d="M56,150 L110,150 C160,150 190,104 240,104 C290,104 320,214 370,214 L462,214" fill="none" stroke="{ACC}" stroke-width="2.5"/>')
+    o.append(f'<line x1="100" y1="150" x2="455" y2="150" stroke="{MUT}" stroke-dasharray="4 4"/>')
+    o.append(f'<line x1="258" y1="147" x2="258" y2="41" stroke="{FG}" stroke-width="1.5" marker-end="url(#qa)" marker-start="url(#qa)"/>'+_num(240,72,"1"))
+    o.append(f'<line x1="222" y1="147" x2="222" y2="109" stroke="{ACC}" stroke-width="1.5" marker-end="url(#qa)" marker-start="url(#qa)"/>'+_num(202,130,"2"))
+    o.append(f'<line x1="430" y1="153" x2="430" y2="210" stroke="{FG}" stroke-width="1.5" marker-end="url(#qa)" marker-start="url(#qa)"/>'+_num(408,182,"3"))
+    o.append(f'<line x1="196" y1="22" x2="232" y2="34" stroke="{FG}" stroke-width="1.5" marker-end="url(#qa)"/>'+_num(182,20,"4"))
+    o.append(T(80,140,"reactants",text_anchor="middle",fill=MUT,font_size="13")+T(415,236,"products",text_anchor="middle",fill=MUT,font_size="13"))
+    o.append('</svg>');return "".join(o)
+
+def q_mm4():
+    L,R,Tp,B=50,465,20,230; X=lambda s:L+(R-L)*s/10; Y=lambda v:B-(B-Tp)*v/1.1
+    o=_q(480,280)+[_axes(L,Tp,R,B,"[S] →","rate")]
+    o.append(_poly([(X(s/50),Y((s/50)/((s/50)+1))) for s in range(0,501)],ACC))
+    for lab,s,dx,dy in [("A",0.15,14,-6),("B",1,-4,-14),("C",3,-6,-14),("D",9,0,-14)]:
+        v=s/(s+1); o.append(f'<circle cx="{X(s):.1f}" cy="{Y(v):.1f}" r="5" fill="{FG}"/>'+T(X(s)+dx,Y(v)+dy,lab,text_anchor="middle",fill=FG,font_weight="700"))
+    o.append('</svg>');return "".join(o)
+
+def q_lbread():
+    # line 1/V = 0.4(1/[S]) + 0.2 ; x from -1 to 2, y 0 to 1
+    L,R,Tp,B=44,465,16,226; x0,x1,y1=-1,2,1.0
+    X=lambda x:L+(R-L)*(x-x0)/(x1-x0); Y=lambda y:B-(B-Tp)*y/y1
+    o=_q(480,282,14)
+    for k in range(7):
+        x=-1+k*0.5; o.append(f'<line x1="{X(x):.1f}" y1="{Tp}" x2="{X(x):.1f}" y2="{B}" stroke="#e6e6e6"/>'+T(X(x),B+18,f"{x:g}".replace("-","−"),text_anchor="middle",fill=MUT,font_size="13"))
+    for k in range(6):
+        y=k*0.2; o.append(f'<line x1="{L}" y1="{Y(y):.1f}" x2="{R}" y2="{Y(y):.1f}" stroke="#e6e6e6"/>')
+        if k: o.append(T(L-5,Y(y)+5,f"{y:.1f}",text_anchor="end",fill=MUT,font_size="13"))
+    o.append(f'<line x1="{L}" y1="{Y(0)}" x2="{R}" y2="{Y(0)}" stroke="{FG}"/><line x1="{X(0)}" y1="{Tp}" x2="{X(0)}" y2="{B}" stroke="{FG}"/>')
+    o.append(_poly([(X(-0.5),Y(0)),(X(2),Y(1.0))],ACC,2.5))
+    for x,y in [(0.5,0.4),(1,0.6),(1.5,0.8)]: o.append(f'<circle cx="{X(x):.1f}" cy="{Y(y):.1f}" r="4.5" fill="{ACC}"/>')
+    o.append(T((L+R)/2,B+40,"1/[S]",text_anchor="middle",fill=MUT)+T(X(0)+8,Tp+14,"1/V",fill=MUT))
+    o.append('</svg>');return "".join(o)
+
+def _lbq(lines,xr=(-2.4,2.4),ymax=2.0,legend=None,tags=None):
+    L,R,Tp,B=24,465,16,220; x0,x1=xr
+    X=lambda x:L+(R-L)*(x-x0)/(x1-x0); Y=lambda y:B-(B-Tp)*y/ymax
+    o=_q(480,268 if legend else 250)
+    o.append(f'<line x1="{L}" y1="{Y(0)}" x2="{R}" y2="{Y(0)}" stroke="{FG}"/><line x1="{X(0)}" y1="{Tp}" x2="{X(0)}" y2="{B}" stroke="{FG}"/>')
+    for i,(m,b,col) in enumerate(lines):
+        xs=max(-b/m,x0); xe=min(x1-(0.12*(x1-x0) if tags else 0),(ymax*0.95-b)/m)
+        o.append(_poly([(X(xs),Y(m*xs+b)),(X(xe),Y(m*xe+b))],col,2.5))
+        if tags: o.append(T(X(xe)+8,Y(m*xe+b)+5,tags[i],fill=col,font_weight="700",font_size="16"))
+    o.append(T(R,Y(0)+20,"1/[S]",text_anchor="end",fill=MUT)+T(X(0)+8,Tp+14,"1/V",fill=MUT))
+    if legend:
+        o.append(f'<line x1="120" y1="256" x2="146" y2="256" stroke="{FG}" stroke-width="2.5"/>'+T(152,261,legend[0],fill=FG,font_size="14"))
+        o.append(f'<line x1="270" y1="256" x2="296" y2="256" stroke="{ACC}" stroke-width="2.5"/>'+T(302,261,legend[1],fill=ACC,font_size="14"))
+    o.append('</svg>');return "".join(o)
+
+def _mmq(curves,smax=12,ymax=2.2,legend=None,dashed=None):
+    L,R,Tp,B=50,465,16,214; X=lambda s:L+(R-L)*s/smax; Y=lambda v:B-(B-Tp)*v/ymax
+    o=_q(480,284)+[_axes(L,Tp,R,B,"[S] →","rate")]
+    if dashed: o.append(f'<line x1="{L}" y1="{Y(dashed)}" x2="{R}" y2="{Y(dashed)}" stroke="{MUT}" stroke-dasharray="5 4"/>')
+    for vm,km,col in curves: o.append(_poly([(X(s*smax/400),Y(vm*(s*smax/400)/(km+s*smax/400))) for s in range(0,401)],col))
+    if legend:
+        o.append(f'<line x1="110" y1="272" x2="136" y2="272" stroke="{FG}" stroke-width="2.5"/>'+T(142,277,legend[0],fill=FG,font_size="14"))
+        o.append(f'<line x1="270" y1="272" x2="296" y2="272" stroke="{ACC}" stroke-width="2.5"/>'+T(302,277,legend[1],fill=ACC,font_size="14"))
+    o.append('</svg>');return "".join(o)
+
+def q_ph2():
+    L,R,Tp,B=50,465,30,214; X=lambda p:L+(R-L)*p/12; Y=lambda a:B-(B-Tp)*a/1.1
+    o=_q(480,262)+[_axes(L,Tp,R,B,"pH","activity")]
+    o.append(_poly([(X(p/25),Y(math.exp(-((p/25-8)/1.2)**2))) for p in range(0,301)],FG))
+    o.append(_poly([(X(p/25),Y(math.exp(-((p/25-2)/1.1)**2))) for p in range(0,301)],ACC))
+    for p in range(0,13,2): o.append(T(X(p),B+18,str(p),text_anchor="middle",fill=MUT,font_size="13"))
+    o.append(T(X(8),Y(1)-10,"P",text_anchor="middle",fill=FG,font_weight="700",font_size="17")+T(X(2),Y(1)-10,"Q",text_anchor="middle",fill=ACC,font_weight="700",font_size="17"))
+    o.append('</svg>');return "".join(o)
+
+def q_temp2():
+    L,R,Tp,B=50,465,30,214; X=lambda t:L+(R-L)*t/100; Y=lambda a:B-(B-Tp)*a/1.1
+    o=_q(480,262)+[_axes(L,Tp,R,B,"temperature (°C)","activity")]
+    fN=lambda t:math.exp(-((t-37)/20)**2) if t<=37 else math.exp(-((t-37)/7)**2)
+    fM=lambda t:math.exp(-((t-75)/18)**2) if t<=75 else math.exp(-((t-75)/5)**2)
+    o.append(_poly([(X(t/4),Y(fN(t/4))) for t in range(0,401)],FG))
+    o.append(_poly([(X(t/4),Y(fM(t/4))) for t in range(0,401)],ACC))
+    for t in range(0,101,20): o.append(T(X(t),B+18,str(t),text_anchor="middle",fill=MUT,font_size="13"))
+    o.append(T(X(37),Y(1)-10,"N",text_anchor="middle",fill=FG,font_weight="700",font_size="17")+T(X(75),Y(1)-10,"M",text_anchor="middle",fill=ACC,font_weight="700",font_size="17"))
+    o.append('</svg>');return "".join(o)
+
+def q_path():
+    o=_q(480,120,16)+[_ah("qp",FG)]
+    xs=[30,135,240,345,450]
+    for i,(x,n) in enumerate(zip(xs,"ABCDE")):
+        o.append(f'<rect x="{x-20}" y="30" width="40" height="34" rx="5" fill="#fff" stroke="{FG}" stroke-width="1.5"/>'+T(x,53,n,text_anchor="middle",fill=FG,font_weight="700",font_size="17"))
+        if i<4:
+            o.append(f'<line x1="{x+23}" y1="47" x2="{xs[i+1]-24}" y2="47" stroke="{FG}" stroke-width="2" marker-end="url(#qp)"/>'+_num((x+xs[i+1])/2,88,str(i+1),ACC))
+    o.append(T(240,116,"numbers = enzymes",text_anchor="middle",fill=MUT,font_size="13"))
+    o.append('</svg>');return "".join(o)
+
+def q_struct4():
+    o=_q(480,330,15)
+    def box(x,y,lab):
+        o.append(f'<rect x="{x}" y="{y}" width="226" height="148" rx="6" fill="none" stroke="{LINE}"/>'+T(x+14,y+22,lab,fill=FG,font_weight="700",font_size="17"))
+    box(8,8,"W");box(246,8,"X");box(8,170,"Y");box(246,170,"Z")
+    # W: quaternary (two chains)
+    for dx,f,c in ((0,"#eef2f9",ACC),(64,"#fff",FG)):
+        x=58+dx
+        o.append(f'<path d="M{x} 92 C{x-8} 52 {x+30} 40 {x+44} 60 C{x+60} 84 {x+56} 124 {x+28} 128 C{x+6} 130 {x+2} 112 {x} 92 Z" fill="{f}" stroke="{c}" stroke-width="2"/>')
+    # X: primary (bead chain)
+    for i in range(7):
+        cx=276+i*26
+        o.append(f'<circle cx="{cx}" cy="86" r="10" fill="#fff" stroke="{ACC}" stroke-width="1.6"/>')
+        if i<6: o.append(f'<line x1="{cx+10}" y1="86" x2="{cx+16}" y2="86" stroke="{FG}" stroke-width="2"/>')
+    # Y: secondary (coil + sheet strands with H-bond dashes)
+    pts=[]
+    for t in range(0,241):
+        a=t/240*5*2*math.pi; pts.append((30+t*0.42+7*math.cos(a), 250+14*math.sin(a)))
+    o.append(_poly(pts,ACC,2.2))
+    for y,d in ((228,1),(258,-1),(288,1)):
+        if d>0: o.append(f'<path d="M150 {y} H222 l-9 -6 M222 {y} l-9 6" fill="none" stroke="{ACC}" stroke-width="2.2"/>')
+        else: o.append(f'<path d="M222 {y} H150 l9 -6 M150 {y} l9 6" fill="none" stroke="{ACC}" stroke-width="2.2"/>')
+    for x in range(158,222,14):
+        for y in (232,262): o.append(f'<line x1="{x}" y1="{y+2}" x2="{x}" y2="{y+20}" stroke="{MUT}" stroke-dasharray="2 3"/>')
+    # Z: tertiary (one folded chain)
+    o.append(f'<path d="M300 258 C290 218 330 203 345 223 C360 243 320 253 335 273 C350 293 390 278 380 248 C372 223 400 208 410 233 C420 258 395 288 360 288 C330 288 305 283 300 258 Z" fill="#eef2f9" stroke="{ACC}" stroke-width="2"/>')
+    o.append('</svg>');return "".join(o)
+
+def q_parts():
+    o=_q(480,250,15)+[_ah("qr",FG)]
+    def enz(x,y,f="#eef2f9"):
+        # protein body with a notch (active site) on top and a small socket on the left
+        return f'<path d="M{x} {y} h26 l10 18 h16 l10 -18 h26 v60 h-88 v-22 h10 v-16 h-10 z" fill="{f}" stroke="{ACC}" stroke-width="2"/>'
+    def cof(x,y): return f'<rect x="{x}" y="{y}" width="12" height="16" rx="2" fill="{OIL}" stroke="{FG}" stroke-width="1.2"/>'
+    def sub(x,y): return f'<path d="M{x} {y} l10 18 h16 l10 -18 z" fill="#fff" stroke="{FG}" stroke-width="1.8"/>'
+    ar=lambda x1,x2,y:f'<line x1="{x1}" y1="{y}" x2="{x2}" y2="{y}" stroke="{FG}" stroke-width="2" marker-end="url(#qr)"/>'
+    # row 1: [1] + [2] -> [3]
+    o.append(enz(30,40)+_num(74,124,"1"))
+    o.append(T(150,78,"+",text_anchor="middle",fill=FG,font_size="22")+cof(176,62)+_num(182,124,"2"))
+    o.append(ar(214,262,72))
+    o.append(enz(300,40)+cof(300,58)+_num(344,124,"3"))
+    # row 2: [3] + [4] -> [5]
+    o.append(T(150,196,"+",text_anchor="middle",fill=FG,font_size="22")+sub(172,182)+_num(190,226,"4"))
+    o.append(enz(30,170)+cof(30,188))
+    o.append(ar(224,262,192))
+    o.append(enz(300,170)+cof(300,188)+sub(326,170)+_num(344,248-0,"5"))
+    o=[x.replace('viewBox="0 0 480 250"','viewBox="0 0 480 262"').replace('height="250"','height="262"') for x in o]
+    o.append('</svg>');return "".join(o)
+
+def q_endo():
+    o=_q(480,270)
+    o.append(_axes(46,16,470,226,"reaction progress →","free energy"))
+    o.append(f'<path d="M56,190 L120,190 C170,190 200,40 250,40 C300,40 320,110 370,110 L462,110" fill="none" stroke="{ACC}" stroke-width="2.5"/>')
+    o.append(T(88,212,"reactants",text_anchor="middle",fill=MUT,font_size="13")+T(415,132,"products",text_anchor="middle",fill=MUT,font_size="13"))
+    o.append('</svg>');return "".join(o)
+
+def q_allo():
+    o=_q(480,200,14)
+    def enz(x,y):
+        # body with active-site notch on top and a square pocket on the right side
+        return f'<path d="M{x} {y} h40 l12 20 h20 l12 -20 h40 v44 h-12 v24 h12 v22 h-124 z" fill="#eef2f9" stroke="{ACC}" stroke-width="2"/>'
+    def sub(x,y): return f'<path d="M{x} {y} l12 20 h20 l12 -20 z" fill="#fff" stroke="{FG}" stroke-width="1.8"/>'
+    def inh(x,y): return f'<rect x="{x}" y="{y}" width="14" height="24" rx="2" fill="{FG}"/>'
+    o.append(enz(46,60)+inh(158,104))
+    o.append(enz(290,60)+sub(330,60)+inh(402,104))
+    o.append(f'<rect x="20" y="168" width="14" height="22" rx="2" fill="{FG}"/>'+T(42,184,"inhibitor",fill=FG))
+    o.append(f'<path d="M140 170 l12 20 h20 l12 -20 z" fill="#fff" stroke="{FG}" stroke-width="1.8"/>'+T(194,184,"substrate",fill=FG))
+    o.append(f'<rect x="290" y="170" width="22" height="18" fill="#eef2f9" stroke="{ACC}" stroke-width="2"/>'+T(320,184,"enzyme",fill=FG))
+    o.append('</svg>');return "".join(o)
+
+qfigs={"q-energy4":q_energy4(),"q-mm4":q_mm4(),"q-lbread":q_lbread(),
+ "q-lb2":_lbq([(0.3,0.6,FG),(0.4,0.2,ACC)],xr=(-2.4,2.4),ymax=1.6,tags=["X","Y"]),
+ "q-mmcomp":_mmq([(2,1,FG),(2,4,ACC)],smax=40,ymax=2.3,legend=["no inhibitor","+ inhibitor"],dashed=2),
+ "q-lbpar":_lbq([(0.5,0.5,FG),(0.5,1.0,ACC)],xr=(-2.4,2.4),ymax=2.4,legend=["no inhibitor","+ inhibitor"]),
+ "q-lby":_lbq([(0.4,0.5,FG),(1.2,0.5,ACC)],xr=(-1.6,1.6),ymax=2.4,legend=["no inhibitor","+ inhibitor"]),
+ "q-mm2e":_mmq([(1,1.5,FG),(2,1.5,ACC)],smax=12,ymax=2.2,legend=["1× enzyme","2× enzyme"]),
+ "q-ph2":q_ph2(),"q-temp2":q_temp2(),"q-path":q_path(),"q-struct4":q_struct4(),"q-parts":q_parts(),"q-endo":q_endo(),"q-allo":q_allo()}
+
+figs={"energy":energy(),"mm":mmfig(),"lb":lbfig(),"inhib3":inhib3(),"temp":tempfig(),"ph":phfig(),"feedback":feedback(),"levels":levels(),"bilayer":bilayer(),"fold":fold(),"dna":dna(),"hydro":hydro(),"bicarb":bicarb(),"titr":titr(),"classes":classes(),"water":water(),"aagrid":aagrid(),"forces":forces(),"phscale":phscale(),**qfigs}
 here=os.path.dirname(os.path.abspath(__file__))
 open(os.path.join(here,"figs.js"),"w").write("const FIGS="+json.dumps(figs,ensure_ascii=False)+";\n")
 for k,v in figs.items():
