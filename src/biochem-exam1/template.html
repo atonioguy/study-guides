@@ -54,6 +54,7 @@ label.chk{display:flex;gap:6px;align-items:center;font-size:15px;cursor:pointer}
 .opt.pick{border-color:var(--acc);background:var(--accbg)}
 .opt.ok{border-color:var(--ok);background:var(--okbg)}
 .opt.bad{border-color:var(--bad);background:var(--badbg)}
+.opt.mine{box-shadow:inset 0 0 0 1px currentColor}.opt.ok.mine{box-shadow:inset 0 0 0 1px var(--ok)}.opt.bad.mine{box-shadow:inset 0 0 0 1px var(--bad)}
 .fb{margin:12px 0;padding:10px 14px;border-left:3px solid var(--line);background:var(--soft)}
 .fb.ok{border-color:var(--ok)}.fb.bad{border-color:var(--bad)}
 .fb b.v{display:block;margin-bottom:2px}
@@ -116,6 +117,10 @@ details.mod>summary{cursor:pointer;font-size:17px;font-weight:600;padding:8px 0}
 .split div{display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;transition:width .15s}
 .split .ha{background:#d9dee6}.split .a{background:var(--acc);color:#fff}
 .presets{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.kin .sl{grid-template-columns:104px 1fr 54px}.kin .seg{flex-wrap:wrap;margin:4px 0 6px}.kin .sl input:disabled{opacity:.4}
+.kplots{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kplots .fig{margin:0}
+@media (max-width:640px){.kplots{grid-template-columns:1fr}}
+.pq .fig{max-width:420px}
 footer{max-width:780px;margin:0 auto;padding:0 16px 24px;font-size:13px;color:var(--mut)}
 .hide{display:none!important}
 @media(max-width:560px){.gtop{top:76px!important}.unit{scroll-margin-top:130px}.hin{padding:6px 10px 4px}.brand{width:100%;font-size:14px}nav{width:100%;justify-content:space-between}nav button{font-size:14px;padding:6px 7px}main{padding-top:12px}}
@@ -219,7 +224,9 @@ h2.lohead .eyebrow{display:block;margin-bottom:2px}
 .mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px 0}
 .outline a.les{display:block;padding:3px 8px 3px 42px;font-size:13px;color:#555}
 .gtop .gjump{flex:1 1 auto;min-width:0;width:0}.gtop .pill{flex:none}
-.card .hl{background:var(--accbg)!important;box-shadow:0 0 0 5px var(--accbg),-8px 0 0 0 var(--acc);border-radius:3px}
+.card .hl{background:#fff4b8!important;box-shadow:0 0 0 5px #fff4b8;border-radius:3px;animation:hlin 1.1s ease-out .15s both}
+@keyframes hlin{0%{background:transparent;box-shadow:0 0 0 5px transparent}35%{background:#ffe680;box-shadow:0 0 0 7px #ffe680}100%{background:#fff4b8;box-shadow:0 0 0 5px #fff4b8}}
+@media (prefers-reduced-motion:reduce){.card .hl{animation:none}}
 .lhead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}.lhead h3{margin:0 0 10px}
 .chip:not(.done){touch-action:none;cursor:grab}.chip.dragging{opacity:.35}
 .ghost{position:fixed;left:0;top:0;pointer-events:none;z-index:60;cursor:grabbing;box-shadow:0 4px 14px rgba(0,0,0,.18)}
@@ -232,7 +239,7 @@ details.drills{margin:6px 0 2px}details.drills summary{cursor:pointer;color:var(
 <header><div class="hin">
 <div class="brand">BMSC 3401 · Exam 1 <span id="modlist"></span></div>
 <nav id="nav">
-<button data-t="sheet">Study guide</button><button data-t="practice">Practice</button><button data-t="mock">Mock exam</button>
+<button data-t="mock">Mock exam</button><button data-t="practice">Practice</button><button data-t="sheet">Study guide</button>
 </nav></div></header>
 <main id="main"></main>
 <footer>__VERSION__ · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
@@ -291,7 +298,7 @@ function qView(q,order,o){
   const fbw=h("div");w.append(fbw);
   function paint(picked,reveal){
     btns.forEach((b,i)=>{b.className="opt";
-      if(reveal){b.disabled=true;if(order[i].c)b.classList.add("ok");else if(i===picked)b.classList.add("bad");}
+      if(reveal){b.disabled=!o.change;if(order[i].c)b.classList.add("ok");else if(i===picked)b.classList.add("bad");if(o.change&&i===picked)b.classList.add("mine");}
       else if(i===picked)b.classList.add("pick");});
     fbw.innerHTML="";
     if(reveal){const ok=picked!=null&&order[picked].c;fbw.append(explain(q,ok,picked==null,reveal==="show"&&picked==null));}
@@ -322,7 +329,7 @@ function openLesson(id,hl){
 // ---- tabs ----
 let tab=null;const tabs={};
 document.getElementById("nav").addEventListener("click",e=>{const t=e.target.dataset.t;if(t){go(t);}});
-function go(t,arg){savePos();tab=t;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(tabs[t].cleanup)tabs[t].cleanup();main.innerHTML="";document.body.dataset.tab=t;tabs[t].render(arg);window.scrollTo(0,(t==="sheet"||t==="practice")?(S.pos[t]||0):0);S.tab=t;save();try{history.replaceState(null,"","#"+t);}catch(e){}}
+function go(t,arg){savePos();if(tab&&tab!==t&&tabs[tab]&&tabs[tab].cleanup)tabs[tab].cleanup();tab=t;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(tabs[t].cleanup)tabs[t].cleanup();main.innerHTML="";document.body.dataset.tab=t;tabs[t].render(arg);window.scrollTo(0,(t==="sheet"||t==="practice")?(S.pos[t]||0):0);S.tab=t;save();try{history.replaceState(null,"","#"+t);}catch(e){}}
 function savePos(){if((tab==="sheet"&&main.querySelector(".gwrap"))||(tab==="practice"&&main.querySelector(".plist"))){S.pos[tab]=Math.round(window.scrollY);save();}}
 let st_;window.addEventListener("scroll",()=>{clearTimeout(st_);st_=setTimeout(savePos,250);},{passive:true});
 window.addEventListener("pagehide",savePos);
@@ -339,7 +346,7 @@ function filterQ(v){if(v==="all")return Q.slice();if(v.startsWith("mod:"))return
 const PF=Object.assign({lo:"all",ty:"",missed:false,flag:false,un:false,show:false},S.set.pf||{});PF.ty="";
 tabs.practice={render(){
   main.append(h("h1",null,"Practice"));
-  main.append(h("p",{class:"mut"},"Every question the mock exams draw from. Answer any of them right here, or reveal them all."));
+  main.append(h("p",{class:"mut"},"All the questions the mock exams use, grouped by objective. You can change an answer anytime. Tap your answer again to clear it."));
   const sel=loSelect("psel",true);sel.value=PF.lo;
     const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);draw();}},l);return b;};
   const cnt=h("span",{class:"mut sm"});
@@ -366,9 +373,13 @@ function qCard(q,show,label){
   const c=h("div",{class:"qcard"});
   c.append(h("div",{class:"qhead"},h("span",null,label||loLabel(q)),flagBtn(q)));
   const order=optsFor(q,"seed");let done=false;
-  const v=qView(q,order,{onPick(k){if(done)return;done=true;record(q,order[k].c,order[k].t);v.paint(k,true);}});
+  // tap another option to change the answer; tap your current answer again to clear the question
+  let cur=null;
+  const v=qView(q,order,{change:true,onPick(k){
+    if(k===cur){cur=null;delete S.q[q.id];save();v.paint(null,show?"show":false);return;}
+    cur=k;record(q,order[k].c,order[k].t);v.paint(k,true);}});
   c.append(v.el);const r=S.q[q.id];const pk=r&&r.pp!=null?order.findIndex(o=>o.t===r.pp):-1;
-  if(pk>=0){done=true;v.paint(pk,true);}else if(show){done=true;v.paint(null,"show");}
+  if(pk>=0){cur=pk;v.paint(pk,true);}else if(show){v.paint(null,"show");}
   return c;
 }
 
@@ -404,6 +415,7 @@ function openDrill(d){
   const body=h("div");main.append(body);
   if(d.kind==="sort")sortDrill(d,body,0);
   else if(d.kind==="case")caseDrill(d,body);
+  else if(d.kind==="plot")plotDrill(d,body);
   else if(d.kind==="tool")body.append(TOOLS[d.tool]());
 }
 function sortDrill(d,body,ri){
@@ -469,8 +481,106 @@ function caseDrill(d,body){
   show();
 }
 
+// ===== KINETICS PLOTS =====
+// mode "mm" (V vs [S]) or "lb" (1/V vs 1/[S]); curves [{km,vm,col,dash,lab}]
+function kinSVG(mode,curves,o){
+  o=o||{};const W=320,H=232,L=34,R=310,T=12,B=200;
+  let g=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="12"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const line=(pts,c)=>`<polyline fill="none" stroke="${c.col}" stroke-width="2.4"${c.dash?` stroke-dasharray="${c.dash}"`:""} points="${pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" ")}"/>`;
+  let leg;
+  if(mode==="mm"){
+    const sx=o.smax||10,vy=o.vmax||Math.max(...curves.map(c=>c.vm))*1.15;
+    const X=v=>L+(R-L)*v/sx,Y=v=>B-(B-T)*v/vy;
+    g+=`<line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="#1c1c1c"/><line x1="${L}" y1="${T}" x2="${L}" y2="${B}" stroke="#1c1c1c"/>`;
+    curves.forEach(c=>{const p=[];for(let k=0;k<=120;k++){const S=sx*k/120;p.push([X(S),Y(c.vm*S/(c.km+S))]);}
+      if(o.vlines)g+=`<line x1="${L}" x2="${R}" y1="${Y(c.vm)}" y2="${Y(c.vm)}" stroke="${c.col}" stroke-width="1" stroke-dasharray="2 3"/>`;
+      g+=line(p,c);
+      if(o.marks&&c.km<=sx)g+=`<line x1="${X(c.km)}" x2="${X(c.km)}" y1="${Y(c.vm/2)}" y2="${B}" stroke="${c.col}" stroke-width="1" stroke-dasharray="3 3"/><circle cx="${X(c.km)}" cy="${Y(c.vm/2)}" r="3.5" fill="${c.col}"/>`;});
+    g+=`<text x="${R}" y="${B+16}" text-anchor="end" fill="#666">[S] →</text><text x="${L+4}" y="${T+10}" fill="#666">V</text>`;
+    leg=[R-6,T+14,"end"];
+  }else{
+    const xmax=o.xmax||2.5,xmin=Math.min(...curves.map(c=>-1/c.km))*1.3;
+    const ymax=Math.max(...curves.map(c=>c.km/c.vm*xmax+1/c.vm))*1.08;
+    const X=v=>L+(R-L)*(v-xmin)/(xmax-xmin),Y=v=>B-(B-T)*v/ymax;
+    g+=`<line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="#1c1c1c"/><line x1="${X(0)}" y1="${T}" x2="${X(0)}" y2="${B}" stroke="#1c1c1c"/>`;
+    curves.forEach(c=>{const x0=-1/c.km;g+=line([[X(x0),Y(0)],[X(xmax),Y(c.km/c.vm*xmax+1/c.vm)]],c);
+      g+=`<circle cx="${X(x0)}" cy="${Y(0)}" r="3.5" fill="${c.col}"/><circle cx="${X(0)}" cy="${Y(1/c.vm)}" r="3.5" fill="${c.col}"/>`;});
+    g+=`<text x="${R}" y="${B+16}" text-anchor="end" fill="#666">1/[S]</text><text x="${X(0)+5}" y="${T+10}" fill="#666">1/V</text>`;
+    leg=[L+4,T+14,"start"];
+  }
+  curves.forEach((c,i)=>{if(!c.lab)return;const y=leg[1]+i*16,x=leg[0];const lx=leg[2]==="end"?x-20:x;
+    g+=`<line x1="${lx}" x2="${lx+16}" y1="${y-4}" y2="${y-4}" stroke="${c.col}" stroke-width="2.4"${c.dash?` stroke-dasharray="${c.dash}"`:""}/><text x="${leg[2]==="end"?x-24:x+20}" y="${y}" text-anchor="${leg[2]}" fill="${c.col}">${c.lab}</text>`;});
+  return g+"</svg>";
+}
+function plotDrill(d,body){
+  const N=10,BK="#1c1c1c",BL="#1f4b8f";
+  const kinds=shuffle(["mmI","mmI","mmI","lbI","lbI","lbI","mmK","mmV","lbK","lbV"]);
+  const rnd=(a,b)=>a+Math.random()*(b-a),pick=a=>a[Math.floor(Math.random()*a.length)];
+  const TY=["Competitive","Noncompetitive","Uncompetitive"];
+  const WHY={mm:["Same plateau, so Vmax is unchanged. The blue curve needs more substrate to reach half of it, so Km went up. Extra substrate outcompetes the inhibitor: competitive.","Lower plateau, but both curves reach half of their own maximum at the same [S]. Vmax down, Km unchanged: noncompetitive.","Lower plateau, and the blue curve reaches half of its own maximum at a lower [S]. Vmax and Km both dropped: uncompetitive."],
+    lb:["The lines meet on the y-axis. Same 1/Vmax means same Vmax. The blue x-intercept moved toward zero, so −1/Km got smaller in size and Km went up: competitive.","The lines meet on the x-axis. Same −1/Km means same Km. The blue y-intercept is higher, so 1/Vmax went up and Vmax went down: noncompetitive.","The lines are parallel, so both intercepts moved. Higher y-intercept means lower Vmax. The x-intercept moved farther left, so Km went down too: uncompetitive."]};
+  const items=kinds.slice(0,N).map(k=>{
+    const mode=k.slice(0,2),q=k.slice(2);
+    if(q==="I"){const t=Math.floor(Math.random()*3),K=rnd(.5,.9),a=pick([2,2.5,3]);let km=K,vm=100;if(t===0)km=K*a;if(t===1)vm=100/a;if(t===2){km=K/a;vm=100/a;}
+      return {mode,cur:[{km:K,vm:100,col:BK,lab:"no inhibitor"},{km,vm,col:BL,lab:"+ inhibitor"}],t:"Black has no inhibitor. Blue has an inhibitor added. Which type of inhibitor is it?",opts:TY,a:t,e:WHY[mode][t]};}
+    const r=pick([1/3,1,3]),K=rnd(.45,.7),V=pick([80,100,120]);
+    let kmA=K,kmB=K,vmA=V,vmB=V;
+    if(q==="K"){kmB=K*r;vmB=pick([V*.6,V,V*1.5]);if(r===1&&vmB===V)vmB=V*1.5;}
+    else{vmB=V*r**.45;kmB=pick([K/2.5,K,K*2.5]);if(r===1&&kmB===K)kmB=K*2.5;}
+    const cur=[{km:kmA,vm:vmA,col:BK,lab:"enzyme A"},{km:kmB,vm:vmB,col:BL,lab:"enzyme B"}];
+    const opts=["Enzyme A (black)","Enzyme B (blue)","About the same"];
+    if(q==="K"){const a=Math.abs(kmA-kmB)<1e-6?2:(kmA<kmB?0:1);
+      const e=mode==="mm"?"Read each curve at half of its own plateau, then drop down to [S]. "+(a===2?"Both reach half of Vmax at the same [S], so the Km values match even though the plateaus differ.":"Enzyme "+(a===0?"A":"B")+" gets there at lower [S], so it has the lower Km."):"The x-intercept is −1/Km. "+(a===2?"Both lines hit the x-axis at the same point, so Km is the same.":"The intercept farther left of zero means a larger 1/Km, so a smaller Km: enzyme "+(a===0?"A":"B")+".");
+      return {mode,cur,t:"Which enzyme has the lower Km for this substrate?",opts,a,e};}
+    const a=Math.abs(vmA-vmB)<1e-6?2:(vmA>vmB?0:1);
+    const e=mode==="mm"?"Vmax is the plateau each curve levels off toward. "+(a===2?"Both level off at the same height.":"Enzyme "+(a===0?"A":"B")+" levels off higher."):"The y-intercept is 1/Vmax, so the lower intercept is the higher Vmax. "+(a===2?"Both lines cross the y-axis at the same point.":"Enzyme "+(a===0?"A":"B")+" has the lower y-intercept.");
+    return {mode,cur,t:"Which enzyme has the higher Vmax?",opts,a,e};
+  });
+  let i=0,right=0;
+  function show(){
+    body.innerHTML="";
+    body.append(h("div",{class:"dtop"},h("button",{class:"btn sm",type:"button",onclick:()=>plotDrill(d,body)},"Restart")));
+    if(i>=N){const res=right+" / "+N+" correct";S.drills[d.id]=res;save();body.append(h("p",null,res),h("div",{class:"row"},h("button",{class:"btn pri",onclick:()=>plotDrill(d,body)},"New set")));return;}
+    const it=items[i];
+    const opt=it.mode==="mm"?{smax:6,vmax:Math.max(...it.cur.map(c=>c.vm))*1.4,vlines:true}:{xmax:2.5};
+    const card=h("div",{class:"case pq"},h("div",{class:"qhead"},h("span",null,(i+1)+" / "+N),h("span",null,it.mode==="mm"?"Michaelis-Menten plot":"Lineweaver-Burk plot")),h("div",{class:"t"},it.t),h("div",{class:"fig",html:kinSVG(it.mode,it.cur,opt)}));
+    const box=h("div",{class:"opts"});const out=h("div");let done=false;
+    const btns=it.opts.map((t,k)=>{const b=h("button",{class:"opt",type:"button",onclick:()=>{if(done)return;done=true;const ok=k===it.a;if(ok)right++;
+      btns.forEach((x,j)=>{x.disabled=true;if(j===it.a)x.classList.add("ok");else if(j===k)x.classList.add("bad");});
+      out.append(h("div",{class:"fb "+(ok?"ok":"bad")},h("b",{class:"v"},ok?"Correct":"Incorrect"),h("div",null,it.e)),h("div",{class:"row"},h("button",{class:"btn pri",onclick:()=>{i++;show();}},i===N-1?"Finish":"Next")));}},t);box.append(b);return b;});
+    card.append(box,out);body.append(card);
+  }
+  show();
+}
+
 // ===== TOOLS =====
-const TOOLS={hh(){
+const TOOLMETA={hh:["pH and ratio explorer","Drag pKa and pH, or pick a lecture example."],kin:["Kinetics and inhibitor plotter","Pick an inhibitor type and drag the sliders. The gray dashed curve is the enzyme with no inhibitor at 1× enzyme."]};
+const TOOLS={kin(){
+  const w=h("div",{class:"hh kin"});let inh="none";
+  const sl=(min,max,step,val)=>h("input",{type:"range",min,max,step,value:val});
+  const km=sl(0.5,3,0.1,1),en=sl(0.5,2,0.1,1),ii=sl(0,3,0.1,1.5);const kmv=h("b"),env=h("b"),iiv=h("b");
+  const seg=h("div",{class:"seg"});[["none","None"],["comp","Competitive"],["non","Noncompetitive"],["un","Uncompetitive"]].forEach(([v,l])=>{const b=h("button",{type:"button",onclick:()=>{inh=v;draw();}},l);b.dataset.v=v;seg.append(b);});
+  const out=h("div",{class:"out"}),p1=h("div",{class:"fig"}),p2=h("div",{class:"fig"});
+  const rs=h("button",{class:"btn sm",type:"button",onclick:()=>{inh="none";km.value=1;en.value=1;ii.value=1.5;draw();}},"Reset");
+  w.append(h("div",{class:"dtop"},rs),h("div",{class:"l sm mut"},"Inhibitor"),seg,h("div",{class:"sl"},h("span",{class:"sm"},"Km (mM)"),km,kmv),h("div",{class:"sl"},h("span",{class:"sm"},"Enzyme amount"),en,env),h("div",{class:"sl"},h("span",{class:"sm"},"Inhibitor amount"),ii,iiv),out,h("div",{class:"kplots"},p1,p2));
+  [km,en,ii].forEach(x=>x.addEventListener("input",draw));
+  const WH={none:"No inhibitor. Change the enzyme amount: Vmax scales with it and Km stays put, because Km describes the enzyme–substrate pair, not how much enzyme there is.",
+    comp:"The inhibitor competes with substrate for the active site. Enough substrate still gets the enzyme to Vmax, but it takes more [S] to reach half of it, so the apparent Km rises. LB lines cross on the y-axis.",
+    non:"The inhibitor binds somewhere else and stops catalysis. More substrate can't undo that, so Vmax falls. Substrate binding is unchanged, so Km stays the same. LB lines cross on the x-axis.",
+    un:"The inhibitor binds only the enzyme–substrate complex and traps it. Vmax and the apparent Km drop by the same factor, so the LB slope (Km/Vmax) is unchanged and the lines are parallel."};
+  const arr=(a,b)=>Math.abs(a-b)<1e-6?"same":(a>b?"up":"down");
+  function draw(){
+    [...seg.children].forEach(b=>b.classList.toggle("on",b.dataset.v===inh));
+    const K=+km.value,E=+en.value,a=inh==="none"?1:1+(+ii.value);ii.disabled=inh==="none";
+    let Km=K,Vm=100*E;if(inh==="comp")Km=K*a;if(inh==="non")Vm/=a;if(inh==="un"){Km=K/a;Vm/=a;}
+    kmv.textContent=K.toFixed(1);env.textContent=E.toFixed(1)+"×";iiv.textContent=inh==="none"?"0":(+ii.value).toFixed(1);
+    out.innerHTML=`Km = <b>${Km.toFixed(2)} mM</b> (${arr(Km,K)}) · Vmax = <b>${Vm.toFixed(0)}</b> (${arr(Vm,100)})<br><span class="sm">${WH[inh]}</span>`;
+    const cur={km:Km,vm:Vm,col:"#1f4b8f",lab:"current"},base={km:K,vm:100,col:"#999",dash:"5 4",lab:"baseline"};
+    const cs=(Math.abs(Km-K)<1e-6&&Math.abs(Vm-100)<1e-6)?[cur]:[base,cur];
+    p1.innerHTML=kinSVG("mm",cs,{smax:10,vmax:230,marks:true});p2.innerHTML=kinSVG("lb",cs,{xmax:2.5});
+  }
+  draw();return w;
+},hh(){
   const w=h("div",{class:"hh"});
   const P=[["Aspirin, stomach",3.5,1.5,"HA","A⁻"],["Aspirin, small intestine",3.5,3.5,"HA","A⁻"],["Aspirin, blood",3.5,7.4,"HA","A⁻"],["Acetic acid, blood",4.8,7.4,"HA","A⁻"],["Blood, normal",6.1,7.4,"H₂CO₃","HCO₃⁻"],["Blood, pH 7.25",6.1,7.25,"H₂CO₃","HCO₃⁻"]];
   let names=["HA","A⁻"];
@@ -510,8 +620,9 @@ const TOOLS={hh(){
 // ===== MOCK =====
 let timerId=null;
 tabs.mock={cleanup(){if(timerId){clearInterval(timerId);timerId=null;}},render(){
+  if(S.mock){if(resumeMock())return;}
   main.append(h("h1",null,"Mock exam"));
-  main.append(h("p",{class:"mut sm"},"Multiple choice and true/false, mixed across objectives, like the real one. Each new mock pulls unseen questions first. Every question in the pool is on the Practice tab."));
+  main.append(h("p",{class:"mut sm"},"Same format as the exam: multiple choice and true/false from every objective. Questions you haven't answered yet get picked first. If you leave mid-mock, it picks up where you were and the timer pauses."));
   const box=h("div",{class:"box"});main.append(box);
   const modChecks=MODS.map(m=>{const c=h("input",{type:"checkbox",checked:true});c.addEventListener("change",upd);box.append(h("label",{class:"chk",style:"margin:4px 0"},c,m.name+" ("+m.questions.length+")"));return [m,c];});
   const missing=["M1","M2","M3"].filter(s=>!MODS.some(m=>m.short===s));
@@ -549,21 +660,28 @@ function buildMock(mods,len){
   });
   return shuffle(picked);
 }
+// An in-progress mock lives in S.mock so it survives tab switches and reloads. The timer only runs while the mock is on screen.
 function runMock(qs){
-  S.mocks++;save();
-  const num=S.mocks;
-  const st=qs.map(q=>({q,order:optsFor(q),pick:null,locked:false}));
-  const each=S.set.fb==="each";
-  let i=0,deadline=S.set.timer?Date.now()+qs.length*120000:null;
-  if(timerId)clearInterval(timerId);
-  if(deadline)timerId=setInterval(()=>{const t=$("#timer");const ms=deadline-Date.now();if(ms<=0){clearInterval(timerId);timerId=null;finish();return;}if(t){t.textContent=fmtT(ms);t.classList.toggle("late",ms<300000);}},1000);
+  S.mocks++;
+  S.mock={num:S.mocks,each:S.set.fb==="each",i:0,left:S.set.timer?qs.length*120000:null,
+    qs:qs.map(q=>({id:q.id,ord:optsFor(q).map(o=>o.t),pick:null,lock:false}))};
+  save();resumeMock();
+}
+function resumeMock(){
+  const M=S.mock;
+  const st=M.qs.map(r=>{const q=QBY[r.id];if(!q)return null;const base=optsFor(q,"seed");const order=r.ord.map(t=>base.find(b=>b.t===t));if(order.some(o=>!o))return null;return {q,order,r,get pick(){return r.pick;},set pick(v){r.pick=v;},get locked(){return r.lock;},set locked(v){r.lock=v;}};});
+  if(!st.length||st.some(x=>!x)){S.mock=null;save();return false;}
+  const num=M.num,each=M.each;
+  let i=Math.min(M.i,st.length-1);
+  if(timerId)clearInterval(timerId);timerId=null;
+  if(M.left!=null){let last=Date.now();timerId=setInterval(()=>{const now=Date.now();M.left=Math.max(0,M.left-(now-last));last=now;save();const t=$("#timer");const ms=M.left;if(ms<=0){clearInterval(timerId);timerId=null;finish();return;}if(t){t.textContent=fmtT(ms);t.classList.toggle("late",ms<300000);}},1000);}
   function fmtT(ms){const s=Math.ceil(ms/1000);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
   function show(){
-    main.innerHTML="";const x=st[i];
+    M.i=i;save();main.innerHTML="";window.scrollTo(0,0);const x=st[i];
     const answered=st.filter(s=>s.pick!=null).length;
-    main.append(h("div",{class:"qhead"},h("span",null,"Mock "+num+" · "+(i+1)+" / "+st.length),h("span",{id:"timer"},deadline?fmtT(deadline-Date.now()):""),h("span",null,(each?loLabel(x.q):answered+" answered")+" ",flagBtn(x.q))));
+    main.append(h("div",{class:"qhead"},h("span",null,"Mock "+num+" · "+(i+1)+" / "+st.length),h("span",{id:"timer"},M.left!=null?fmtT(M.left):""),h("span",null,(each?loLabel(x.q):answered+" answered")+" ",flagBtn(x.q))));
     main.append(h("div",{class:"bar"},h("i",{style:"width:"+((i+(x.pick!=null?1:0))/st.length*100)+"%"})));
-    const v=qView(x.q,x.order,{onPick(k){if(x.locked)return;x.pick=k;if(each){x.locked=true;record(x.q,x.order[k].c,x.order[k].t);v.paint(k,true);}else v.paint(k,false);nav();}});
+    const v=qView(x.q,x.order,{onPick(k){if(x.locked)return;x.pick=k;if(each){x.locked=true;record(x.q,x.order[k].c,x.order[k].t);v.paint(k,true);}else{save();v.paint(k,false);}nav();}});
     main.append(v.el);v.paint(x.pick,x.locked);
     const row=h("div",{class:"row"});main.append(row);
     function nav(){row.innerHTML="";
@@ -572,7 +690,7 @@ function runMock(qs){
       if(!last)row.append(h("button",{class:"btn pri",disabled:each&&!x.locked,onclick:()=>{i++;show();}},"Next"));
       else row.append(h("button",{class:"btn pri",disabled:each&&!x.locked,onclick:()=>tryFinish(row)},"Finish"));
       row.append(h("button",{class:"btn link",onclick:()=>tryFinish(row,true)},"End exam"));
-      const q=h("button",{class:"btn link",type:"button",onclick(){if(!q.dataset.arm){q.dataset.arm="1";q.textContent="Tap again to quit (no score saved)";return;}if(timerId){clearInterval(timerId);timerId=null;}S.mocks=Math.max(0,S.mocks-1);save();go("mock");}},"Quit");row.append(q);
+      const q=h("button",{class:"btn link",type:"button",onclick(){if(!q.dataset.arm){q.dataset.arm="1";q.textContent="Tap again to quit (no score saved)";return;}if(timerId){clearInterval(timerId);timerId=null;}S.mock=null;S.mocks=Math.max(0,S.mocks-1);save();go("mock");}},"Quit");row.append(q);
     }
     nav();
   }
@@ -582,7 +700,7 @@ function runMock(qs){
     finish();
   }
   function finish(){
-    if(timerId){clearInterval(timerId);timerId=null;}
+    if(timerId){clearInterval(timerId);timerId=null;}S.mock=null;
     if(!each)st.forEach(s=>record(s.q,s.pick!=null&&s.order[s.pick].c,s.pick!=null?s.order[s.pick].t:null));
     else st.forEach(s=>{if(!s.locked)record(s.q,false);});
     const right=st.filter(s=>s.pick!=null&&s.order[s.pick].c).length;
@@ -602,7 +720,7 @@ function runMock(qs){
     });
     main.append(h("div",{class:"row"},h("button",{class:"btn pri",onclick:()=>go("mock")},"New mock"),miss.length?h("button",{class:"btn",onclick:()=>runPractice(miss.map(s=>s.q),"Missed from mock "+num)},"Practice the missed ones"):null));
   }
-  show();
+  show();return true;
 }
 
 // ===== STUDY GUIDE =====
@@ -650,10 +768,10 @@ function block(b,m){
     const d=(m.drills||[]).find(x=>x.id===b.drill);const w=h("div",{class:"card drill"});
     w.append(h("div",{class:"clabel"},"Drill"),h("h3",null,d.title),h("p",{class:"mut sm"},d.intro));
     const bd=h("div");w.append(bd);
-    if(d.kind==="sort")sortDrill(d,bd,0);else if(d.kind==="case")caseDrill(d,bd);
+    if(d.kind==="sort")sortDrill(d,bd,0);else if(d.kind==="case")caseDrill(d,bd);else if(d.kind==="plot")plotDrill(d,bd);
     return w;
   }
-  if(b.tool){const w=h("div",{class:"card"});w.append(h("div",{class:"clabel"},"Tool"),h("h3",null,"pH and ratio explorer"),h("p",{class:"mut sm"},"Drag pKa and pH, or pick a lecture example."),TOOLS[b.tool]());return w;}
+  if(b.tool){const tm=TOOLMETA[b.tool];const w=h("div",{class:"card"});w.append(h("div",{class:"clabel"},"Tool"),h("h3",null,tm[0]),h("p",{class:"mut sm"},tm[1]),TOOLS[b.tool]());return w;}
   if(b.steps){
     const w=h("div",{class:"card"});w.append(h("div",{class:"clabel"},"Worked example"),h("h3",{html:b.steps}));
     const ol=h("ol",{class:"wsteps"});w.append(ol);let n=0;
@@ -678,7 +796,7 @@ document.getElementById("reset").addEventListener("click",function(){
   if(this.dataset.arm){S={q:{},mocks:0,set:S.set,drills:{},flag:{},saved:S.saved,pos:S.pos,hist:[]};save();this.textContent="Reset progress";delete this.dataset.arm;go(tab);}
   else{this.dataset.arm="1";this.textContent="Tap again to reset";setTimeout(()=>{this.textContent="Reset progress";delete this.dataset.arm;},3000);}
 });
-const start=(location.hash||"").slice(1)||S.tab;tab=null;go(tabs[start]?start:"sheet");
+const start=(location.hash||"").slice(1)||"mock";tab=null;go(tabs[start]?start:"mock");
 })();
 </script>
 </body>
