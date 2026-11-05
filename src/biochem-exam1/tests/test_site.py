@@ -160,13 +160,12 @@ def run(p, name, vw, vh):
     check(page.query_selector(".modal .call.note") is not None, "Lecture wording link opens the note")
     page.keyboard.press("Escape")
     check(page.query_selector(".modal") is None and page.query_selector(".lw") is not None, "Escape closes the note, window stays")
-    # desktop: page column moves out from under the window, and re-centers when it closes
+    # desktop: Practice sits left of center, leaving the window's default spot free; opening/closing moves nothing
     if not phone:
         lw, mn = rect(page, ".lw"), rect(page, "main")
-        check(mn["x"] + mn["width"] <= lw["x"] + 1, "page column sits beside the lecture window")
+        check(mn["x"] + mn["width"] <= lw["x"] + 1, "page column leaves room for the lecture window")
         page.keyboard.press("Escape"); page.wait_for_timeout(50)
-        mn = rect(page, "main")
-        check(abs(mn["x"] + mn["width"] / 2 - vw / 2) < 12, "page column re-centers when the window closes")
+        check(abs(rect(page, "main")["x"] - mn["x"]) < 1, "closing the window doesn't move the page column")
     # a list of snippets: Glu -> Val marks the Val list, 'aliphatic = hydrophobic' and the Glu line
     page.evaluate("""()=>{let e=[...document.querySelectorAll('.stem')].find(s=>s.textContent.includes('glutamate (Glu) on the surface'));
       while(e&&!e.querySelector('.lecb'))e=e.parentElement;e.querySelector('.lecb').click();}""")

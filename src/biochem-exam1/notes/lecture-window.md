@@ -25,5 +25,5 @@ The `M# L#` tag on each question with a lecture mapping is a button (book icon).
 ## v1.12 (Nov 5)
 - `lec.hl` can be a list of snippets; every one gets marked and the window scrolls to the first found. validate_lec.js checks each.
 - M1 protein questions now point at the amino acid groupings (L1 b22) instead of the generic folding line: m1a12 (Val list, aliphatic = hydrophobic, Phe/Trp nonpolar), m1a13 (Val list, aliphatic = hydrophobic, Glu negatively charged), m1a56 (one line per choice: hydrophobic, negative, positive, hydroxylic/amidic polar). m1a14 stays on b26 (sequence -> fold).
-- Desktop: while the window is open, `lecShift()` moves main/footer into the wider free side beside it (max 760px, needs 480px free or it stays centered). Runs on open, drag, resize, window resize; cleared on close and on phone.
+- Desktop (>=1000px): Practice and Mock tabs sit left of center (CSS only, `body[data-tab]` rule next to `.lecb:disabled`) so the window's default spot on the right is free. Static: opening, dragging or closing the window moves nothing. Study guide stays centered.
 - `expfig` (figure shown with the explanation only) capped at 460px to match the results-page missed list.

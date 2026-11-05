@@ -241,6 +241,10 @@ details.drills{margin:6px 0 2px}details.drills summary{cursor:pointer;color:var(
 .lecb{font:inherit;font-size:13px;color:var(--acc);background:#fff;border:1px solid #c5d1e5;border-radius:5px;padding:0 6px;margin:-2px 0;cursor:pointer;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;line-height:1.5}
 .lecb svg{flex:none}
 @media (hover:hover){.lecb:hover:not(:disabled){background:var(--accbg)}}
+/* desktop: Practice and Mock sit left of center so the lecture window's default spot (right edge, min(480px,40vw) wide) is free.
+   Fixed layout: nothing moves when the window opens, moves or closes. */
+@media (min-width:1000px){body[data-tab=practice] main,body[data-tab=mock] main,body[data-tab=practice] footer,body[data-tab=mock] footer{
+  max-width:min(760px,calc(100vw - min(480px,40vw) - 40px));margin-left:max(8px,calc((100vw - min(480px,40vw) - 24px - 760px)/2));margin-right:auto}}
 .lecb:disabled{color:var(--mut);background:#f3f3f3;border-color:var(--line);cursor:default;opacity:.7}
 .lw{position:fixed;z-index:40;background:#fff;border:1px solid #c8c8c8;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.18);display:flex;flex-direction:column;overflow:hidden}
 .lwgrip{display:none}
@@ -2084,36 +2088,25 @@ function buildLW(){
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
   const sheetDrag=e=>{const y0=e.clientY,h0=w.offsetHeight;let hh=h0;return {move(ev){hh=clamp(h0+y0-ev.clientY,innerHeight*0.25,innerHeight*0.9);w.style.height=hh+"px";document.body.style.paddingBottom=hh+"px";},end(){lecSaveGeo({sh:Math.round(hh)});}};};
   drag(head,e=>{if(PHONE.matches)return sheetDrag(e);const x0=e.clientX,y0=e.clientY,l0=w.offsetLeft,t0=w.offsetTop;let X=l0,Y=t0;
-    return {move(ev){X=clamp(l0+ev.clientX-x0,8,innerWidth-w.offsetWidth-8);Y=clamp(t0+ev.clientY-y0,8,innerHeight-w.offsetHeight-8);w.style.left=X+"px";w.style.top=Y+"px";lecShift();},end(){lecSaveGeo({x:Math.round(X),y:Math.round(Y)});}};});
+    return {move(ev){X=clamp(l0+ev.clientX-x0,8,innerWidth-w.offsetWidth-8);Y=clamp(t0+ev.clientY-y0,8,innerHeight-w.offsetHeight-8);w.style.left=X+"px";w.style.top=Y+"px";},end(){lecSaveGeo({x:Math.round(X),y:Math.round(Y)});}};});
   drag(grip,e=>PHONE.matches?sheetDrag(e):null);
   drag(rz,e=>{if(PHONE.matches)return null;const x0=e.clientX,y0=e.clientY,w0=w.offsetWidth,h0=w.offsetHeight;let W=w0,H=h0;
-    return {move(ev){W=clamp(w0+ev.clientX-x0,300,innerWidth-w.offsetLeft-8);H=clamp(h0+ev.clientY-y0,220,innerHeight-w.offsetTop-8);w.style.width=W+"px";w.style.height=H+"px";lecShift();},end(){lecSaveGeo({w:Math.round(W),h:Math.round(H)});}};});
+    return {move(ev){W=clamp(w0+ev.clientX-x0,300,innerWidth-w.offsetLeft-8);H=clamp(h0+ev.clientY-y0,220,innerHeight-w.offsetTop-8);w.style.width=W+"px";w.style.height=H+"px";},end(){lecSaveGeo({w:Math.round(W),h:Math.round(H)});}};});
   document.addEventListener("keydown",lecEsc);addEventListener("resize",lecLayout);
   try{PHONE.addEventListener("change",lecLayout);}catch(e){PHONE.addListener(lecLayout);}
   ANIMS.add(closeLec);lecLayout();
 }
-// Desktop: while the window is open, move the page column into the free space beside it (the wider side),
-// so questions aren't covered. Too little room (<480px) or phone: column stays centered.
-function lecShift(){
-  const els=[document.querySelector("main"),document.querySelector("footer")].filter(Boolean);
-  const clear=()=>els.forEach(e=>{e.style.marginLeft=e.style.marginRight=e.style.maxWidth="";});
-  if(!LW||PHONE.matches)return clear();
-  const r=LW.w.getBoundingClientRect(),vw=document.documentElement.clientWidth;
-  const [a,b]=r.left>=vw-r.right?[0,r.left-8]:[r.right+8,vw],F=b-a;
-  if(F<480)return clear();
-  const mw=Math.min(760,F-16);els.forEach(e=>{e.style.maxWidth=mw+"px";e.style.marginLeft=Math.round(a+(F-mw)/2)+"px";e.style.marginRight="0";});
-}
 function lecLayout(){
   if(!LW)return;const w=LW.w,g=lecGeo(),vw=document.documentElement.clientWidth,vh=innerHeight;
-  if(PHONE.matches){w.classList.add("sheet");const hh=Math.round(Math.min(vh*0.9,Math.max(vh*0.25,g.sh||vh*0.55)));w.style.cssText="height:"+hh+"px";document.body.style.paddingBottom=hh+"px";lecShift();return;}
+  if(PHONE.matches){w.classList.add("sheet");const hh=Math.round(Math.min(vh*0.9,Math.max(vh*0.25,g.sh||vh*0.55)));w.style.cssText="height:"+hh+"px";document.body.style.paddingBottom=hh+"px";return;}
   w.classList.remove("sheet");document.body.style.paddingBottom="";
   const W=Math.max(300,Math.min(vw-16,g.w||Math.min(480,Math.round(vw*0.4)))),H=Math.max(220,Math.min(vh-16,g.h||Math.round(vh*0.72)));
   const X=Math.max(8,Math.min(vw-W-8,g.x!=null?g.x:vw-W-16)),Y=Math.max(8,Math.min(vh-H-8,g.y!=null?g.y:72));
-  w.style.cssText="left:"+X+"px;top:"+Y+"px;width:"+W+"px;height:"+H+"px";lecShift();
+  w.style.cssText="left:"+X+"px;top:"+Y+"px;width:"+W+"px;height:"+H+"px";
 }
 function lecEsc(e){if(e.key==="Escape"&&!document.querySelector(".modal"))closeLec();}
 function closeLec(){
-  if(!LW)return;LW.w.remove();LW=null;document.body.style.paddingBottom="";lecShift();
+  if(!LW)return;LW.w.remove();LW=null;document.body.style.paddingBottom="";
   document.removeEventListener("keydown",lecEsc);removeEventListener("resize",lecLayout);
   try{PHONE.removeEventListener("change",lecLayout);}catch(e){PHONE.removeListener(lecLayout);}
   ANIMS.delete(closeLec);
