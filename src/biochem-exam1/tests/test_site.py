@@ -154,11 +154,25 @@ def run(p, name, vw, vh):
     vid = page.evaluate("[...document.querySelectorAll('.lw-vid')].map(v=>v.dataset.start)")
     check("3" in vid, "start time kept (&t=3s -> start=3)")
 
+
     # lecture wording note opens the study-guide note on top
     page.click(".lw .lwnote button >> nth=0")
     check(page.query_selector(".modal .call.note") is not None, "Lecture wording link opens the note")
     page.keyboard.press("Escape")
     check(page.query_selector(".modal") is None and page.query_selector(".lw") is not None, "Escape closes the note, window stays")
+    # desktop: page column moves out from under the window, and re-centers when it closes
+    if not phone:
+        lw, mn = rect(page, ".lw"), rect(page, "main")
+        check(mn["x"] + mn["width"] <= lw["x"] + 1, "page column sits beside the lecture window")
+        page.keyboard.press("Escape"); page.wait_for_timeout(50)
+        mn = rect(page, "main")
+        check(abs(mn["x"] + mn["width"] / 2 - vw / 2) < 12, "page column re-centers when the window closes")
+    # a list of snippets: Glu -> Val marks the Val list, 'aliphatic = hydrophobic' and the Glu line
+    page.evaluate("""()=>{let e=[...document.querySelectorAll('.stem')].find(s=>s.textContent.includes('glutamate (Glu) on the surface'));
+      while(e&&!e.querySelector('.lecb'))e=e.parentElement;e.querySelector('.lecb').click();}""")
+    page.wait_for_function("document.querySelectorAll('.lw mark.lwhl').length>=3", timeout=5000)
+    marks = page.evaluate("[...document.querySelectorAll('.lw mark.lwhl')].map(m=>m.textContent).join(' ')")
+    check(all(w in marks for w in ("Valine (Val)", "hydrophobic", "Glutamic Acid")), "multi-snippet highlight (Glu -> Val)")
 
     # drag / resize / persist (desktop) or sheet height (phone)
     if not phone:
