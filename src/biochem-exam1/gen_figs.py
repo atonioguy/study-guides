@@ -954,7 +954,7 @@ def _membrane(o,x0,x1,y0,y1):
     o.append(f'<line x1="{x0}" y1="{y0}" x2="{x1}" y2="{y0}" stroke="{OIL}" stroke-width="1.5"/><line x1="{x0}" y1="{y1}" x2="{x1}" y2="{y1}" stroke="{OIL}" stroke-width="1.5"/>')
 
 def m3_etc(q=False):
-    W=480 if q else 660
+    W=420 if q else 660
     o=(_q(W,300,15) if q else _svg(W,320,13))+[_ah("ea3",ACC),_ah("eb3",FG),_ah("ec3",OKC)]
     s=W/660
     X=lambda x:round(x*s,1)
@@ -970,7 +970,8 @@ def m3_etc(q=False):
             o.append(f'<rect x="{X(x)-20}" y="96" width="40" height="70" rx="6" fill="#fff" stroke="{FG}" stroke-width="1.8"/><rect x="{X(x)-6}" y="166" width="12" height="20" fill="{FG}"/><ellipse cx="{X(x)}" cy="206" rx="34" ry="22" fill="#fff" stroke="{FG}" stroke-width="1.8"/>')
         else: o.append(f'<rect x="{X(x)-30}" y="92" width="60" height="86" rx="8" fill="#fff" stroke="{FG}" stroke-width="1.8"/>')
         if q:
-            ty={"II":168,"V":131}.get(k,135); o.append(_num(X(x),ty,{"I":"1","II":"2","III":"3","IV":"4","V":"5"}[k],FG))
+            ty={"II":168,"V":131}.get(k,135); n={"I":"1","II":"2","III":"3","IV":"4","V":"5"}[k]
+            o.append(f'<circle cx="{X(x)}" cy="{ty}" r="15" fill="#fff" stroke="{FG}" stroke-width="1.8"/>'+T(X(x),ty+6,n,text_anchor="middle",fill=FG,font_weight="700",font_size="18"))
         else:
             ty={"II":173,"V":136}.get(k,140); o.append(T(X(x),ty,k,text_anchor="middle",fill=FG,font_weight="700",font_size="15"))
     # mobile carriers
@@ -988,18 +989,18 @@ def m3_etc(q=False):
         o.append(T(X(40),254,"NADH → NAD⁺",fill=FG,font_size="12.5")+T(X(150),254,"FADH₂ → FAD",fill=FG,font_size="12.5"))
         o.append(T(X(150),270,"(succinate → fumarate)",fill=MUT,font_size="11.5")+T(X(430),250,"½O₂ + 2H⁺ → H₂O",fill=FG,font_size="12.5"))
         o.append(T(X(590),252,"ADP + Pi → ATP",text_anchor="middle",fill=OKC,font_weight="600",font_size="12.5"))
-    else:
-        for x,lab in ((60,"A"),(172,"B"),(462,"C")): o.append(T(X(x)+(18 if x<400 else 16),248 if x<400 else 252,lab,fill=FG,font_weight="700",font_size="16"))
     # protons
     for k,n in (("I",4),("III",4),("IV",3)):
-        x=X(cx[k])+(14 if k!="IV" else -14)
+        d=22 if q else 14; x=X(cx[k])+(d if k!="IV" else -d)
         o.append(f'<path d="M{x} 172 L{x} 52" stroke="{FG}" stroke-width="1.6" fill="none" marker-end="url(#eb3)"/>')
         if not q: o.append(T(x+(6 if k!="IV" else -6),48,f"{n} H⁺",text_anchor="start" if k!="IV" else "end",fill=FG,font_size="12.5",font_weight="600"))
     o.append(f'<path d="M{X(590)+30} 50 L{X(590)+30} 186" stroke="{OKC}" stroke-width="2" fill="none" marker-end="url(#ec3)"/>')
     if not q:
         o.append(T(X(590)+36,62,"H⁺",fill=OKC,font_size="12.5",font_weight="600"))
         o.append(T(X(215),182,"pumps 0 H⁺",fill=MUT,font_size="11.5"))
-    o.append('</svg>');return "".join(o)
+    o.append('</svg>');r="".join(o)
+    if q: r=r.replace('viewBox="0 0 420 300"','viewBox="0 40 420 200"',1).replace('<rect width="420" height="300"','<rect y="40" width="420" height="200"',1)
+    return r
 
 def m3_leak():
     o=_svg(660,250,13)+[_ah("la",FG),_ah("lb",OKC),_ah("lc",BADC)]
@@ -1026,7 +1027,59 @@ def m3_leak():
 
 M3F={"m3metab":m3_metab(),"m3stages":m3_stages(),"m3atp":m3_atpcyc(),"m3ptp":m3_ptp(),"m3cacw":m3_cacw(),"m3cacreg":m3_cacreg(),"m3etc":m3_etc(),"m3leak":m3_leak()}
 
-figs={"energy":energy(),"mm":mmfig(),"lb":lbfig(),"inhib3":inhib3(),"temp":tempfig(),"ph":phfig(),"feedback":feedback(),"levels":levels(),"bilayer":bilayer(),"fold":fold(),"dna":dna(),"hydro":hydro(),"bicarb":bicarb(),"titr":titr(),"classes":classes(),"water":water(),"aagrid":aagrid(),"forces":forces(),"phscale":phscale(),**qfigs,**QF1,**M3F}
+
+# ---------- Module 3 question figures (unlabeled) ----------
+def q_dg3():
+    o=_q(480,270,15)
+    L,R,Tp,B=60,460,20,240; Y0=(Tp+B)/2; sc=(B-Tp)/2/36
+    Y=lambda v:Y0-v*sc
+    o.append(f'<line x1="{L}" y1="{Y0}" x2="{R}" y2="{Y0}" stroke="{FG}"/><line x1="{L}" y1="{Tp}" x2="{L}" y2="{B}" stroke="{FG}"/>')
+    for v in (30,15,-15,-30):
+        o.append(f'<line x1="{L-4}" y1="{Y(v):.1f}" x2="{R}" y2="{Y(v):.1f}" stroke="#eee"/>'+T(L-8,Y(v)+5,f"{v:+d}".replace("-","−"),text_anchor="end",fill=MUT,font_size="13"))
+    o.append(T(L-8,Y0+5,"0",text_anchor="end",fill=MUT,font_size="13"))
+    for i,(n,v) in enumerate((("X",25),("Y",-14),("Z",-32))):
+        cx=L+70+i*130; top=min(Y(v),Y0); h=abs(Y(v)-Y0)
+        o.append(f'<rect x="{cx-30}" y="{top:.1f}" width="60" height="{h:.1f}" fill="{ACC if v>0 else "#c9d3e3"}" stroke="{ACC}"/>')
+        o.append(T(cx,(Y(v)-8) if v>0 else (Y(v)+20),f"{v:+d}".replace("-","−"),text_anchor="middle",fill=FG,font_weight="600"))
+        o.append(T(cx,Y0+(22 if v>0 else -10),n,text_anchor="middle",fill=FG,font_weight="700",font_size="17"))
+    o.append(f'<text x="18" y="{Y0}" text-anchor="middle" fill="{MUT}" font-size="13" transform="rotate(-90 18 {Y0})">ΔG°′ (kJ/mol)</text>')
+    o.append('</svg>');return "".join(o)
+
+def q_ptp4():
+    rows=[("P",52.0),("ATP",30.5),("Q",21.0),("R",9.0)]
+    o=_q(480,230,15)
+    o.append(T(20,24,"−ΔG°′ of phosphate hydrolysis (kJ/mol)",fill=MUT,font_size="13"))
+    for i,(n,v) in enumerate(rows):
+        y=60+i*44; atp=n=="ATP"
+        o.append(T(70,y+6,n,text_anchor="end",fill=ACC if atp else FG,font_weight="700",font_size="16"))
+        o.append(f'<rect x="82" y="{y-13}" width="{v*6.4:.1f}" height="26" fill="{ACC if atp else "#c9d3e3"}"/>'+T(90+v*6.4,y+6,f"{v:g}",fill=FG,font_size="14"))
+    o.append('</svg>');return "".join(o)
+
+def q_cac4():
+    o=_q(480,330,15)+[_ah("wc",FG)]
+    cx,cy,r=240,175,105
+    P,ang=_wheel(o,cx,cy,r,labels=False,qletters=["B","D","A","C"])
+    for k,(n,c) in enumerate(CAC_NODES):
+        a=ang(k); s=math.sin(a); lx,ly=P(a,r+16); anc="start" if s>0.3 else ("end" if s<-0.3 else "middle")
+        ly+=5+(8 if math.cos(a)<-0.5 else 0)-(2 if math.cos(a)>0.5 else 0)
+        o.append(T(lx,ly,c,text_anchor=anc,fill=FG,font_weight="600"))
+    o.append(f'<path d="M{cx} 20 L{cx} {cy-r-8}" stroke="{FG}" stroke-width="2" marker-end="url(#wc)"/>'+T(cx+10,32,"2C",fill=FG,font_weight="600"))
+    o.append('</svg>');return "".join(o)
+
+def q_o2():
+    o=_q(480,280,15)
+    L,R,Tp,B=56,460,20,226
+    X=lambda t:L+(R-L)*t/10; Y=lambda v:B-(B-Tp)*v/100
+    o.append(_axes(L,Tp,R,B,"time →","O₂ remaining"))
+    pts=[(0,92),(3,74),(5,34),(10,34)]
+    o.append(_poly([(X(t),Y(v)) for t,v in pts],ACC,3))
+    for t,v,n in ((3,74,"1"),(5,34,"2")):
+        o.append(f'<line x1="{X(t)}" y1="{Y(v)-14}" x2="{X(t)}" y2="{Y(v)-40}" stroke="{FG}" stroke-width="1.5"/>'+_num(X(t),Y(v)-52,n))
+    o.append('</svg>');return "".join(o)
+
+QF3={"q-dg3":q_dg3(),"q-ptp4":q_ptp4(),"q-cac4":q_cac4(),"q-etc5":m3_etc(q=True),"q-o2":q_o2()}
+
+figs={"energy":energy(),"mm":mmfig(),"lb":lbfig(),"inhib3":inhib3(),"temp":tempfig(),"ph":phfig(),"feedback":feedback(),"levels":levels(),"bilayer":bilayer(),"fold":fold(),"dna":dna(),"hydro":hydro(),"bicarb":bicarb(),"titr":titr(),"classes":classes(),"water":water(),"aagrid":aagrid(),"forces":forces(),"phscale":phscale(),**qfigs,**QF1,**M3F,**QF3}
 here=os.path.dirname(os.path.abspath(__file__))
 open(os.path.join(here,"figs.js"),"w").write("const FIGS="+json.dumps(figs,ensure_ascii=False)+";\n")
 for k,v in figs.items():
