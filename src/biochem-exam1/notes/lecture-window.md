@@ -1,0 +1,19 @@
+# Lecture window (v1.9)
+
+## What it does
+The `M# L#` tag on each question with a lecture mapping is a button (book icon). It opens the whole lecture lesson in a window, scrolled to the passage the question tests, highlighted in the review yellow. Desktop: floating window (drag header, resize corner, position/size in localStorage key `bmsc3401-lecwin`). Phone (max-width 640): bottom sheet, drag the handle or header to change its height. Another lecture button swaps the lesson, or only moves the highlight if it's the same lesson. Escape, Close, a tab switch, opening a drill, or starting/resuming a mock closes it. Shown in Practice (list and quiz-me) and on the mock results page; never during an active mock. Beyond-lecture questions have no button. A tutorial popover points at the first lecture button fully on screen, once per page load (dismissal not stored).
+
+## Files
+- `extract_lecture.py <file.h5p> <mod>`: reads the Interactive Book straight from the zip. Chapter n becomes `Ln`; each top-level chapter item becomes one block `<mod>L<n>-b<i>` (index in the chapter, so ids are stable as long as the .h5p is). Writes `lectures/biochem-exam1/<mod>.json` (repo root, served as-is) and `lectures/biochem-exam1/img/<mod>/*.webp` (max 900 px wide, lazy-loaded). The page fetches the JSON the first time a lecture opens in that module, then caches it. Opening the HTML from `file://` can't fetch it; the window shows "Couldn't load the lecture" with a retry.
+- JSON shape: `{mod, title, lessons:{L1:{t, b:[{id, h}]}}}`. `h` is sanitized HTML (allowlist; no scripts, iframes, styles or attributes beyond href/colspan/rowspan/start; headings demoted to h4/h5).
+- Static rendering: AdvancedText/Text as HTML; Image as figure with alt; Accordion as `<details>`; ImageHotspots as image + list of hotspot titles and text; Video as thumbnail + play button (swaps in a youtube-nocookie iframe on click; start time kept; "Open on YouTube" link); MultiChoice/TrueFalse/QuestionSet/Blanks/DragText/DragQuestion as text with a "Show answer" toggle; Essay as its prompt; MemoryGame as a list of pairs; Link as a link. MemoryGame images are skipped (pairs are listed as text).
+- Mapping lives at the bottom of `m3.js`: `LEC = {qid: [blockId, verbatim snippet]}` becomes `q.lec = {b, hl}`. `M.lecture = "m3"` turns the feature on for the module. `M.lecnotes = {blockId: [studyGuideLessonId]}` adds a "Lecture wording" link under blocks whose wording is wrong; it opens that lesson's note.
+- Highlight rule (page and validator agree): the snippet must sit inside one text element of the block (p, li, td, th, h4, h5, summary, figcaption, caption), tags stripped, whitespace collapsed. If it ever fails on the page, the whole block gets the yellow instead.
+
+## Tests (committed this time)
+- `node tests/validate_lec.js` and `node tests/validate_hl.js` (run from `src/biochem-exam1`).
+- `python3 src/biochem-exam1/tests/test_site.py` from the repo root after `build.py`. Serves the repo on :8765, runs desktop 1280 and mobile 390, runs both validators and the em dash check. Exits non-zero on any failure.
+
+## Status
+- M3: 47 of 48 questions mapped (m3a45 is beyond lecture). Blocks: L1 24, L2 41, L3 60, L4 35. JSON 92 KB, 44 images 0.8 MB.
+- M1, M2: not extracted yet. Next session: `python3 -I extract_lecture.py <m1.h5p> m1`, check that chapter order matches the questions' `src` tags, map with the same LEC/lecnotes pattern at the bottom of m1.js/m2.js, set `M.lecture`, run the tests. Seed candidates by matching each question's `hl`/`exp` against block sentences, then check each one by hand.

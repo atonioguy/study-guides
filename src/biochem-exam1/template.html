@@ -237,6 +237,50 @@ h2.lohead .eyebrow{display:block;margin-bottom:2px}
 .bin.over{border-color:var(--acc);border-style:solid;background:var(--accbg)}
 details.drills{margin:6px 0 2px}details.drills summary{cursor:pointer;color:var(--acc);font-size:15px;padding:6px 0}
 .dtop{display:flex;justify-content:flex-end;margin:0 0 6px}
+/* lecture window */
+.lecb{font:inherit;font-size:13px;color:var(--acc);background:#fff;border:1px solid #c5d1e5;border-radius:5px;padding:0 6px;margin:-2px 0;cursor:pointer;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;line-height:1.5}
+.lecb svg{flex:none}
+@media (hover:hover){.lecb:hover{background:var(--accbg)}}
+.lw{position:fixed;z-index:40;background:#fff;border:1px solid #c8c8c8;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.18);display:flex;flex-direction:column;overflow:hidden}
+.lwgrip{display:none}
+.lwhead{display:flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-bottom:1px solid var(--line);background:var(--soft);cursor:move;touch-action:none;user-select:none;-webkit-user-select:none}
+.lwtitle{flex:1;min-width:0;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lwbody{flex:1;min-height:0;overflow:auto;padding:2px 16px 28px;font-size:15px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.lwrz{position:absolute;right:0;bottom:0;width:20px;height:20px;cursor:nwse-resize;touch-action:none}
+.lwrz::after{content:"";position:absolute;right:4px;bottom:4px;width:8px;height:8px;border-right:2px solid #999;border-bottom:2px solid #999}
+.lw.sheet{left:0;right:0;bottom:0;border-radius:12px 12px 0 0;border-bottom:0;box-shadow:0 -4px 20px rgba(0,0,0,.15)}
+.lw.sheet .lwgrip{display:flex;justify-content:center;padding:7px 0 3px;background:var(--soft);cursor:ns-resize;touch-action:none}
+.lwgrip i{width:40px;height:4px;border-radius:2px;background:#bbb}
+.lw.sheet .lwhead{cursor:ns-resize;padding-top:2px}
+.lw.sheet .lwrz{display:none}
+.lw.sheet .lwbody{padding:2px 14px 24px}
+.lwt{font-size:17px;margin:12px 0 4px}
+.lwb img{max-width:100%;height:auto;display:block}
+.lwb figure{margin:10px 0}
+.lwb h4{font-size:15px;margin:16px 0 4px}.lwb h5{font-size:14px;margin:12px 0 4px}
+.lwb ul,.lwb ol{padding-left:22px;margin:6px 0}.lwb li>p{margin:2px 0}
+.lwb table{border-collapse:collapse;font-size:14px;display:block;overflow-x:auto;margin:8px 0}
+.lwb td,.lwb th{border:1px solid var(--line);padding:4px 8px;text-align:left;vertical-align:top}
+.lw-hot>li>b{display:block;margin-top:8px}
+.lw-vid{margin:10px 0}
+.lw-play,.lw-vid iframe{display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;margin:0;border-radius:6px;overflow:hidden;background:#000;position:relative}
+.lw-play{cursor:pointer}
+.lw-play img{width:100%;height:100%;object-fit:cover;opacity:.92}
+.lw-pi{position:absolute;left:50%;top:50%;width:58px;height:40px;margin:-20px 0 0 -29px;border-radius:10px;background:rgba(0,0,0,.72)}
+.lw-pi::after{content:"";position:absolute;left:23px;top:11px;border-left:16px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent}
+.lw-cap{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--mut);margin-top:4px}
+.lw-cap a{color:var(--acc);white-space:nowrap}
+.lw-q{border:1px solid var(--line);border-radius:8px;padding:4px 12px;margin:10px 0;background:#fafaf8}
+.lw-qh{font-size:13px;font-weight:600;color:var(--mut);margin-top:6px}
+.lw-tf{color:var(--mut);font-size:14px}
+.lw-ans{margin:4px 0 6px}.lw-ans summary,.lw-acc summary{cursor:pointer;color:var(--acc)}
+.lw-acc{border-bottom:1px solid var(--line);padding:6px 0}
+.lwnote{margin:2px 0 10px}.lwnote .btn{font-size:14px;padding:0;margin-right:12px}
+mark.lwhl{background:#fff4b8;box-shadow:0 0 0 3px #fff4b8;color:inherit;border-radius:2px}
+.lwb.lwhit{background:#fff4b8;box-shadow:0 0 0 6px #fff4b8;border-radius:3px}
+.tut{position:absolute;z-index:45;width:min(300px,calc(100vw - 16px));background:#fff;border:1px solid var(--acc);border-radius:8px;padding:10px 12px;box-shadow:0 6px 20px rgba(0,0,0,.15);font-size:14px;line-height:1.4;cursor:pointer}
+.tut::before{content:"";position:absolute;top:-7px;left:calc(var(--ax,50%) - 7px);width:12px;height:12px;background:#fff;border-left:1px solid var(--acc);border-top:1px solid var(--acc);transform:rotate(45deg)}
+.tut p{margin:6px 0 4px}.tutmk svg{display:block;width:132px;height:72px}.tutx{color:var(--acc);font-weight:600}
 </style>
 </head>
 <body>
@@ -274,7 +318,8 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 function seeded(str){let x=0;for(const c of str)x=(x*31+c.charCodeAt(0))|0;return()=>{x=(x*1103515245+12345)|0;return((x>>>8)&0xffff)/65536;};}
 function seededShuffle(a,seed){const r=seeded(seed);a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function fig(k){if(!k||!FIGS[k])return null;return h("div",{class:"fig",html:FIGS[k]});}
-function loLabel(q){return "LO "+q.lo+" · "+q.mod.short+" "+q.src;}
+// btn=true turns the M#L# tag into the lecture-window button (never passed during an active mock)
+function loLabel(q,btn){const t="LO "+q.lo+" · "+q.mod.short+" "+q.src;if(!btn||!q.lec||!q.mod.lecture)return t;return h("span",null,"LO "+q.lo+" · ",lecBtn(q));}
 const FLAG_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path class="fl" d="M5 4h12l-2.5 4.5L17 13H5"/></svg>';
 const BMK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path class="fl" d="M6 3h12v18l-6-4.5L6 21z"/></svg>';
 function bmkBtn(id){const b=h("button",{class:"flagi",type:"button",html:BMK_SVG});const p=()=>{const on=!!S.saved[id];b.classList.toggle("on",on);b.querySelector(".fl").setAttribute("fill",on?"currentColor":"none");const t=on?"Remove bookmark":"Bookmark this lesson";b.title=t;b.setAttribute("aria-label",t);b.setAttribute("aria-pressed",on?"true":"false");};b.addEventListener("click",e=>{e.stopPropagation();if(S.saved[id])delete S.saved[id];else S.saved[id]=1;save();document.querySelectorAll('[data-bmk="'+id+'"]').forEach(x=>x.dispatchEvent(new Event("bmk")));});b.dataset.bmk=id;b.addEventListener("bmk",p);p();return b;}
@@ -330,6 +375,124 @@ function openLesson(id,hl){
   document.addEventListener("keydown",esc);document.body.append(m);box.querySelector("button").focus();if(hx)hx.scrollIntoView({block:"center"});
 }
 
+// ---- lecture window ----
+// q.lec={b,hl} points at a block of lectures/biochem-exam1/<mod>.json (fetched on first open, then cached).
+// Desktop: floating window, drag by the header, resize from the corner, position/size kept in localStorage.
+// Phone: bottom sheet; drag the handle or header to change its height. Clicking another lecture button swaps the
+// lesson (or just re-scrolls if it's the same one). Re-rendering or closing removes the DOM, which stops any video.
+// closeLec is registered in ANIMS, so go() and openDrill() close the window and drop its listeners.
+const BOOK_SVG='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 5.5C5.5 4 8.5 4 12 6c3.5-2 6.5-2 9-.5V19c-2.5-1.5-5.5-1.5-9 .5-3.5-2-6.5-2-9-.5z"/><path d="M12 6v13.5"/></svg>';
+const LECDIR="lectures/biochem-exam1/",LKEY="bmsc3401-lecwin",LCACHE={};
+const PHONE=matchMedia("(max-width:640px)");
+let LW=null;
+function lecData(mod){if(!LCACHE[mod])LCACHE[mod]=fetch(LECDIR+mod+".json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();}).catch(e=>{delete LCACHE[mod];throw e;});return LCACHE[mod];}
+function lecGeo(){try{return JSON.parse(localStorage.getItem(LKEY))||{};}catch(e){return {};}}
+function lecSaveGeo(g){try{localStorage.setItem(LKEY,JSON.stringify(Object.assign(lecGeo(),g)));}catch(e){}}
+function lecBtn(q){const tag=q.mod.short+" "+q.src;const b=h("button",{class:"lecb",type:"button",title:"Open the lecture ("+tag+")","aria-label":"Open the lecture, "+tag,html:BOOK_SVG});b.append(h("span",null,tag));
+  b.addEventListener("click",e=>{e.stopPropagation();tutDismiss();openLec(q);});tutWatch(b);return b;}
+function openLec(q){
+  if(!LW)buildLW();
+  const mod=q.mod.lecture,key=mod+q.src;LW.q=q;
+  if(LW.key===key){if(LW.ready)lecHL(q.lec);return;}
+  LW.key=key;LW.ready=false;LW.title.textContent=q.mod.short+" "+q.src;
+  LW.body.innerHTML="";LW.body.append(h("p",{class:"mut"},"Loading the lecture…"));
+  lecData(mod).then(d=>{
+    if(!LW||LW.key!==key)return;const les=d.lessons[q.src];if(!les)throw new Error("no lesson");
+    LW.title.textContent=q.mod.short+" "+q.src+" · "+les.t;LW.body.innerHTML="";LW.body.scrollTop=0;
+    LW.body.append(h("h3",{class:"lwt"},les.t));
+    const notes=q.mod.lecnotes||{};
+    les.b.forEach(b=>{const e=h("div",{class:"lwb",html:b.h});e.dataset.b=b.id;LW.body.append(e);
+      const n=(notes[b.id]||[]).filter(id=>LES[id]);
+      if(n.length)LW.body.append(h("div",{class:"lwnote"},n.map(id=>h("button",{class:"btn link",type:"button",onclick:()=>openLesson(id)},n.length>1?"Lecture wording: "+LES[id].h:"Lecture wording"))));});
+    LW.ready=true;lecHL(LW.q.lec);
+  }).catch(()=>{
+    if(!LW||LW.key!==key)return;LW.key=null;LW.body.innerHTML="";
+    LW.body.append(h("p",null,"Couldn't load the lecture. Check your connection and try again."),h("button",{class:"btn sm",type:"button",onclick:()=>openLec(LW.q)},"Try again"));
+  });
+}
+function lecWrap(el,re){
+  const tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),nodes=[];let s="";
+  for(let n;(n=tw.nextNode());){nodes.push([n,s.length]);s+=n.data;}
+  const m=re.exec(s);if(!m)return null;const a=m.index,z=a+m[0].length;let first=null;
+  for(const [n,o] of nodes){const e=o+n.data.length;if(e<=a||o>=z)continue;let t=n;const st=Math.max(0,a-o),en=Math.min(n.data.length,z-o);
+    if(en<t.data.length)t.splitText(en);if(st>0)t=t.splitText(st);if(!t.data.trim()&&first)continue;
+    const mk=document.createElement("mark");mk.className="lwhl";t.replaceWith(mk);mk.append(t);if(!first)first=mk;}
+  return first;
+}
+// same segment rule as tests/validate_lec.js: the snippet sits inside one text element of the block
+function lecHL(ref){
+  const B=LW.body;B.querySelectorAll("mark.lwhl").forEach(m=>m.replaceWith(...m.childNodes));B.querySelectorAll(".lwhit").forEach(e=>e.classList.remove("lwhit"));B.normalize();
+  const blk=B.querySelector('[data-b="'+ref.b+'"]');if(!blk)return;
+  const re=new RegExp(ref.hl.trim().replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/\s+/g,"\\s+"));
+  const els=[...blk.querySelectorAll("p,li,td,th,h4,h5,summary,figcaption,caption")].filter(e=>re.test(e.textContent));
+  const vis=els.filter(e=>!e.closest(".lw-ans"));const pool=vis.length?vis:els;
+  const el=pool.find(e=>!pool.some(o=>o!==e&&e.contains(o)));
+  let tgt=el?lecWrap(el,re):null;
+  if(!tgt){blk.classList.add("lwhit");tgt=blk;}
+  for(let d=tgt.closest("details");d;d=d.parentElement&&d.parentElement.closest("details"))d.open=true;
+  requestAnimationFrame(()=>{if(!LW)return;B.scrollTop+=tgt.getBoundingClientRect().top-B.getBoundingClientRect().top-B.clientHeight*0.3;});
+}
+function buildLW(){
+  const grip=h("div",{class:"lwgrip","aria-hidden":"true"},h("i")),title=h("div",{class:"lwtitle"});
+  const x=h("button",{class:"btn sm",type:"button","aria-label":"Close the lecture"},"Close");
+  const head=h("div",{class:"lwhead"},title,x),body=h("div",{class:"lwbody"}),rz=h("div",{class:"lwrz","aria-hidden":"true"});
+  const w=h("div",{class:"lw",role:"dialog","aria-label":"Lecture"},grip,head,body,rz);document.body.append(w);
+  LW={w,title,body,key:null,ready:false,q:null};
+  x.addEventListener("click",closeLec);
+  body.addEventListener("click",e=>{const p=e.target.closest(".lw-play");if(!p)return;const v=p.parentNode,id=v.dataset.yt,st=+v.dataset.start||0;
+    if(!/^[\w-]{11}$/.test(id))return;
+    p.replaceWith(h("iframe",{src:"https://www.youtube-nocookie.com/embed/"+id+"?autoplay=1&rel=0"+(st?"&start="+st:""),title:(p.getAttribute("aria-label")||"").replace(/^Play video: /,""),allow:"autoplay; encrypted-media; picture-in-picture; fullscreen",allowfullscreen:true,referrerpolicy:"strict-origin-when-cross-origin"}));});
+  // pointer drags: header moves (desktop) or sets height (phone); the corner resizes (desktop)
+  function drag(el,fn){el.addEventListener("pointerdown",e=>{if(e.button!==0||e.target.closest("button"))return;const st=fn(e);if(!st)return;e.preventDefault();el.setPointerCapture(e.pointerId);
+    const mv=ev=>st.move(ev),up=()=>{el.removeEventListener("pointermove",mv);el.removeEventListener("pointerup",up);el.removeEventListener("pointercancel",up);st.end();};
+    el.addEventListener("pointermove",mv);el.addEventListener("pointerup",up);el.addEventListener("pointercancel",up);});}
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const sheetDrag=e=>{const y0=e.clientY,h0=w.offsetHeight;let hh=h0;return {move(ev){hh=clamp(h0+y0-ev.clientY,innerHeight*0.25,innerHeight*0.9);w.style.height=hh+"px";document.body.style.paddingBottom=hh+"px";},end(){lecSaveGeo({sh:Math.round(hh)});}};};
+  drag(head,e=>{if(PHONE.matches)return sheetDrag(e);const x0=e.clientX,y0=e.clientY,l0=w.offsetLeft,t0=w.offsetTop;let X=l0,Y=t0;
+    return {move(ev){X=clamp(l0+ev.clientX-x0,8,innerWidth-w.offsetWidth-8);Y=clamp(t0+ev.clientY-y0,8,innerHeight-w.offsetHeight-8);w.style.left=X+"px";w.style.top=Y+"px";},end(){lecSaveGeo({x:Math.round(X),y:Math.round(Y)});}};});
+  drag(grip,e=>PHONE.matches?sheetDrag(e):null);
+  drag(rz,e=>{if(PHONE.matches)return null;const x0=e.clientX,y0=e.clientY,w0=w.offsetWidth,h0=w.offsetHeight;let W=w0,H=h0;
+    return {move(ev){W=clamp(w0+ev.clientX-x0,300,innerWidth-w.offsetLeft-8);H=clamp(h0+ev.clientY-y0,220,innerHeight-w.offsetTop-8);w.style.width=W+"px";w.style.height=H+"px";},end(){lecSaveGeo({w:Math.round(W),h:Math.round(H)});}};});
+  document.addEventListener("keydown",lecEsc);addEventListener("resize",lecLayout);
+  try{PHONE.addEventListener("change",lecLayout);}catch(e){PHONE.addListener(lecLayout);}
+  ANIMS.add(closeLec);lecLayout();
+}
+function lecLayout(){
+  if(!LW)return;const w=LW.w,g=lecGeo(),vw=document.documentElement.clientWidth,vh=innerHeight;
+  if(PHONE.matches){w.classList.add("sheet");const hh=Math.round(Math.min(vh*0.9,Math.max(vh*0.25,g.sh||vh*0.55)));w.style.cssText="height:"+hh+"px";document.body.style.paddingBottom=hh+"px";return;}
+  w.classList.remove("sheet");document.body.style.paddingBottom="";
+  const W=Math.max(300,Math.min(vw-16,g.w||Math.min(480,Math.round(vw*0.4)))),H=Math.max(220,Math.min(vh-16,g.h||Math.round(vh*0.72)));
+  const X=Math.max(8,Math.min(vw-W-8,g.x!=null?g.x:vw-W-16)),Y=Math.max(8,Math.min(vh-H-8,g.y!=null?g.y:72));
+  w.style.cssText="left:"+X+"px;top:"+Y+"px;width:"+W+"px;height:"+H+"px";
+}
+function lecEsc(e){if(e.key==="Escape"&&!document.querySelector(".modal"))closeLec();}
+function closeLec(){
+  if(!LW)return;LW.w.remove();LW=null;document.body.style.paddingBottom="";
+  document.removeEventListener("keydown",lecEsc);removeEventListener("resize",lecLayout);
+  try{PHONE.removeEventListener("change",lecLayout);}catch(e){PHONE.removeListener(lecLayout);}
+  ANIMS.delete(closeLec);
+}
+// ---- lecture button tutorial: points at the first lecture button that is fully on screen, once per page load ----
+const TUT_SVG='<svg viewBox="0 0 132 72" aria-hidden="true"><rect x="1" y="4" width="76" height="64" rx="4" fill="#fff" stroke="#bbb"/><rect x="7" y="10" width="22" height="7" rx="2" fill="#fff" stroke="#1f4b8f"/><rect x="7" y="23" width="60" height="3" fill="#ccc"/><rect x="7" y="30" width="52" height="3" fill="#ccc"/><rect x="7" y="40" width="60" height="7" rx="2" fill="#fff" stroke="#ddd"/><rect x="7" y="51" width="60" height="7" rx="2" fill="#fff" stroke="#ddd"/><rect x="62" y="14" width="68" height="56" rx="4" fill="#fff" stroke="#1f4b8f"/><rect x="62" y="14" width="68" height="9" rx="2" fill="#1f4b8f"/><rect x="68" y="29" width="54" height="3" fill="#ccc"/><rect x="66" y="36" width="60" height="7" fill="#fff4b8"/><rect x="68" y="38" width="50" height="3" fill="#999"/><rect x="68" y="48" width="56" height="3" fill="#ccc"/><rect x="68" y="55" width="44" height="3" fill="#ccc"/></svg>';
+let tutDone=false,tutEl=null,tutIO=null;
+function tutWatch(b){if(tutDone||tutEl||!("IntersectionObserver" in window))return;
+  if(!tutIO)tutIO=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting&&!tutEl&&!tutDone&&e.target.isConnected){tutShow(e.target);break;}},{threshold:1});
+  tutIO.observe(b);}
+function tutShow(b){
+  if(tutIO){tutIO.disconnect();tutIO=null;}
+  tutEl=h("div",{class:"tut",role:"note"},h("div",{class:"tutmk",html:TUT_SVG}),h("p",null,"Opens the lecture this question comes from, scrolled to the passage it tests."),h("span",{class:"tutx"},"Got it"));
+  tutEl.anchor=b;tutEl.addEventListener("click",tutDismiss);document.body.append(tutEl);tutPos();
+  addEventListener("resize",tutPos);ANIMS.add(tutDrop);
+}
+function tutPos(){
+  if(!tutEl)return;const b=tutEl.anchor;if(!b.isConnected){tutDrop();return;}
+  const r=b.getBoundingClientRect(),pw=tutEl.offsetWidth,cw=document.documentElement.clientWidth;
+  const left=Math.max(8,Math.min(r.left+r.width/2-pw/2,cw-pw-8));
+  tutEl.style.left=(left+scrollX)+"px";tutEl.style.top=(r.bottom+scrollY+10)+"px";tutEl.style.setProperty("--ax",(r.left+r.width/2-left)+"px");
+}
+function tutDrop(){if(!tutEl)return;tutEl.remove();tutEl=null;removeEventListener("resize",tutPos);ANIMS.delete(tutDrop);}
+function tutDismiss(){tutDone=true;tutDrop();if(tutIO){tutIO.disconnect();tutIO=null;}}
+
 // ---- tabs ----
 let tab=null;const tabs={};
 document.getElementById("nav").addEventListener("click",e=>{const t=e.target.dataset.t;if(t){go(t);}});
@@ -375,7 +538,7 @@ tabs.practice={render(){
 // one answerable question card (used in Practice list and in the study guide)
 function qCard(q,show,label){
   const c=h("div",{class:"qcard"});
-  c.append(h("div",{class:"qhead"},h("span",null,label||loLabel(q)),flagBtn(q)));
+  c.append(h("div",{class:"qhead"},h("span",null,label||loLabel(q,true)),flagBtn(q)));
   const order=optsFor(q,"seed");let done=false;
   // tap another option to change the answer; tap your current answer again to clear the question
   let cur=null;
@@ -400,7 +563,7 @@ function runPractice(pool,title){
       r.append(h("button",{class:"btn",onclick:()=>go("practice")},"Back"));main.append(r);return;
     }
     const q=qs[i];const order=optsFor(q);
-    main.append(h("div",{class:"qhead"},h("span",null,(i+1)+" / "+qs.length),h("span",null,loLabel(q)+" ",flagBtn(q))));
+    main.append(h("div",{class:"qhead"},h("span",null,(i+1)+" / "+qs.length),h("span",null,loLabel(q,true)," ",flagBtn(q))));
     main.append(h("div",{class:"bar"},h("i",{style:"width:"+(i/qs.length*100)+"%"})));
     let done=false;
     const v=qView(q,order,{onPick(k){if(done)return;done=true;const ok=order[k].c;if(ok)right++;else missedIds.push(q.id);record(q,ok,order[k].t);v.paint(k,true);nx.disabled=false;nx.focus();}});
@@ -860,7 +1023,7 @@ function runMock(qs){
   save();resumeMock();
 }
 function resumeMock(){
-  const M=S.mock;
+  closeLec();tutDrop();const M=S.mock;
   const st=M.qs.map(r=>{const q=QBY[r.id];if(!q)return null;const base=optsFor(q,"seed");const order=r.ord.map(t=>base.find(b=>b.t===t));if(order.some(o=>!o))return null;return {q,order,r,get pick(){return r.pick;},set pick(v){r.pick=v;},get locked(){return r.lock;},set locked(v){r.lock=v;}};});
   if(!st.length||st.some(x=>!x)){S.mock=null;save();return false;}
   const num=M.num,each=M.each;
@@ -904,7 +1067,7 @@ function resumeMock(){
     const miss=st.filter(s=>!(s.pick!=null&&s.order[s.pick].c));
     main.append(h("h2",null,miss.length?"Missed ("+miss.length+")":"Missed (0)"));
     miss.forEach(s=>{
-      const d=h("div",{class:"miss"},h("div",{class:"qhead"},h("span",null,loLabel(s.q)),flagBtn(s.q)),h("div",{class:"stem",html:s.q.stem}));
+      const d=h("div",{class:"miss"},h("div",{class:"qhead"},h("span",null,loLabel(s.q,true)),flagBtn(s.q)),h("div",{class:"stem",html:s.q.stem}));
       const f=fig(s.q.fig);if(f){f.style.maxWidth="460px";d.append(f);}
       d.append(h("div",{class:"sm"},h("span",{class:"ya"},"Your answer: "),h("span",{html:s.pick==null?"none":s.order[s.pick].t})));
       d.append(h("div",{class:"sm"},h("span",{class:"ca"},"Correct: "),h("span",{html:s.order.find(o=>o.c).t})));
