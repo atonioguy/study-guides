@@ -219,6 +219,12 @@ h2.lohead .eyebrow{display:block;margin-bottom:2px}
 .mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px 0}
 .outline a.les{display:block;padding:3px 8px 3px 42px;font-size:13px;color:#555}
 .gtop .gjump{flex:1 1 auto;min-width:0;width:0}.gtop .pill{flex:none}
+.card .hl{background:var(--accbg)!important;box-shadow:0 0 0 5px var(--accbg),-8px 0 0 0 var(--acc);border-radius:3px}
+.lhead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}.lhead h3{margin:0 0 10px}
+.chip:not(.done){touch-action:none;cursor:grab}.chip.dragging{opacity:.35}
+.ghost{position:fixed;left:0;top:0;pointer-events:none;z-index:60;cursor:grabbing;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.bin.over{border-color:var(--acc);border-style:solid;background:var(--accbg)}
+details.drills{margin:6px 0 2px}details.drills summary{cursor:pointer;color:var(--acc);font-size:15px;padding:6px 0}
 .dtop{display:flex;justify-content:flex-end;margin:0 0 6px}
 </style>
 </head>
@@ -259,6 +265,9 @@ function seededShuffle(a,seed){const r=seeded(seed);a=a.slice();for(let i=a.leng
 function fig(k){if(!k||!FIGS[k])return null;return h("div",{class:"fig",html:FIGS[k]});}
 function loLabel(q){return "LO "+q.lo+" · "+q.mod.short+" "+q.src;}
 const FLAG_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path class="fl" d="M5 4h12l-2.5 4.5L17 13H5"/></svg>';
+const BMK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path class="fl" d="M6 3h12v18l-6-4.5L6 21z"/></svg>';
+function bmkBtn(id){const b=h("button",{class:"flagi",type:"button",html:BMK_SVG});const p=()=>{const on=!!S.saved[id];b.classList.toggle("on",on);b.querySelector(".fl").setAttribute("fill",on?"currentColor":"none");const t=on?"Remove bookmark":"Bookmark this lesson";b.title=t;b.setAttribute("aria-label",t);b.setAttribute("aria-pressed",on?"true":"false");};b.addEventListener("click",e=>{e.stopPropagation();if(S.saved[id])delete S.saved[id];else S.saved[id]=1;save();document.querySelectorAll('[data-bmk="'+id+'"]').forEach(x=>x.dispatchEvent(new Event("bmk")));});b.dataset.bmk=id;b.addEventListener("bmk",p);p();return b;}
+function applyHL(card,txt){if(!txt)return null;for(const e of card.querySelectorAll("p,li,tr,.call")){if(e.textContent.includes(txt)){e.classList.add("hl");return e;}}return null;}
 function flagBtn(q){const b=h("button",{class:"flagi",type:"button",html:FLAG_SVG});const p=()=>{const on=!!S.flag[q.id];b.classList.toggle("on",on);b.querySelector(".fl").setAttribute("fill",on?"currentColor":"none");const t=on?"Remove flag":"Flag for review";b.title=t;b.setAttribute("aria-label",t);b.setAttribute("aria-pressed",on?"true":"false");};b.addEventListener("click",e=>{e.stopPropagation();if(S.flag[q.id])delete S.flag[q.id];else S.flag[q.id]=1;save();p();});p();return b;}
 
 // options: returns [{text,correct}] in display order
@@ -294,20 +303,20 @@ function explain(q,ok,skipped,shown){
   d.append(h("b",{class:"v"},shown?"Answer":skipped?"Not answered":(ok?"Correct":"Incorrect")));
   d.append(h("div",{html:q.exp}));
   if(q.steps){const det=h("details",{class:"steps"},h("summary",null,"Work it through"),h("ol",null,q.steps.map(s=>h("li",{html:s}))));d.append(det);}
-  if(q.ref&&LES[q.ref])d.append(h("div",null,h("button",{class:"btn link rev",type:"button",onclick:()=>openLesson(q.ref)},"Review: "+LES[q.ref].h)));
+  if(q.ref&&LES[q.ref])d.append(h("div",null,h("button",{class:"btn link rev",type:"button",onclick:()=>openLesson(q.ref,q.hl)},"Review: "+LES[q.ref].h)));
   return d;
 }
-function openLesson(id){
+function openLesson(id,hl){
   const L=LES[id];if(!L)return;
   const close=()=>{m.remove();document.removeEventListener("keydown",esc);};
   const esc=e=>{if(e.key==="Escape")close();};
   const m=h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":L.h});
   const box=h("div",{class:"mbox"});m.append(box);
   box.append(h("div",{class:"mrow"},h("span",{class:"mut sm"},"LO "+L.lo+" · study guide"),h("button",{class:"btn sm",type:"button",onclick:close},"Close")));
-  box.append(block(L,L.mod));
-  box.append(h("div",{class:"mrow"},h("button",{class:"btn link",type:"button",onclick:()=>{close();if(tabs.mock.cleanup)tabs.mock.cleanup();S.set.onlySaved=false;go("sheet");const e=document.getElementById(id);if(e)e.scrollIntoView();}},"Open in study guide (leaves this page)")));
+  const card=block(L,L.mod);card.removeAttribute("id");box.append(card);const hx=applyHL(card,hl);
+  box.append(h("div",{class:"mrow"},h("button",{class:"btn link",type:"button",onclick:()=>{close();if(tabs.mock.cleanup)tabs.mock.cleanup();S.set.onlySaved=false;go("sheet");const e=document.getElementById(id);if(e){const t=applyHL(e,hl);(t||e).scrollIntoView({block:t?"center":"start"});}}},"Open in study guide (leaves this page)")));
   m.addEventListener("click",e=>{if(e.target===m)close();});
-  document.addEventListener("keydown",esc);document.body.append(m);box.querySelector("button").focus();
+  document.addEventListener("keydown",esc);document.body.append(m);box.querySelector("button").focus();if(hx)hx.scrollIntoView({block:"center"});
 }
 
 // ---- tabs ----
@@ -332,14 +341,15 @@ tabs.practice={render(){
   main.append(h("h1",null,"Practice"));
   main.append(h("p",{class:"mut"},"Every question the mock exams draw from. Answer any of them right here, or reveal them all."));
   const sel=loSelect("psel",true);sel.value=PF.lo;
-  const ty=h("select",null,h("option",{value:""},"All types"),h("option",{value:"mc"},"Multiple choice"),h("option",{value:"tf"},"True / false"));ty.value=PF.ty;
-  const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);draw();}},l);return b;};
+    const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);draw();}},l);return b;};
   const cnt=h("span",{class:"mut sm"});
   const quiz=h("button",{class:"btn pri",onclick:()=>runPractice(pool(),"Practice")},"Quiz me one at a time");
   const clr=h("button",{class:"btn link sm",type:"button",onclick(){const P=pool().filter(q=>S.q[q.id]);if(!P.length)return;if(!clr.dataset.arm){clr.dataset.arm="1";clr.textContent="Tap again to clear "+P.length;setTimeout(()=>{delete clr.dataset.arm;draw();},3000);return;}delete clr.dataset.arm;P.forEach(q=>delete S.q[q.id]);save();draw();}});
-  main.append(h("div",{class:"filters"},h("div",{class:"row"},sel,ty),h("div",{class:"row"},tg("missed","Missed"),tg("flag","Flagged"),tg("un","Unanswered"),tg("show","Show all answers")),h("div",{class:"row"},quiz,cnt,clr)));
+  main.append(h("div",{class:"filters"},h("div",{class:"row"},sel),h("div",{class:"row"},tg("missed","Missed"),tg("flag","Flagged"),tg("un","Unanswered"),tg("show","Show all answers")),h("div",{class:"row"},quiz,cnt,clr)));
+  const ds=[];MODS.forEach(m=>(m.drills||[]).forEach(d=>ds.push(d)));
+  if(ds.length){const dw=h("details",{class:"drills"},h("summary",null,"Drills ("+ds.length+")"));ds.forEach(d=>{const st=S.drills[d.id];dw.append(h("div",{class:"card link",onclick:()=>openDrill(d)},h("b",null,d.title),h("span",{class:"mut sm"}," LO "+d.lo+(st?" · last: "+st:""))));});main.append(dw);}
   const list=h("div");main.append(list);
-  sel.addEventListener("change",()=>{PF.lo=sel.value;draw();});ty.addEventListener("change",()=>{PF.ty=ty.value;draw();});
+  sel.addEventListener("change",()=>{PF.lo=sel.value;draw();});
   function pool(){return filterQ(PF.lo).filter(q=>(!PF.ty||q.type===PF.ty)&&(!PF.missed||(S.q[q.id]&&S.q[q.id].c===false))&&(!PF.flag||S.flag[q.id])&&(!PF.un||!S.q[q.id]));}
   function draw(){
     list.innerHTML="";const P=pool();cnt.textContent=P.length+" question"+(P.length===1?"":"s");quiz.disabled=!P.length;
@@ -350,8 +360,6 @@ tabs.practice={render(){
       qs.forEach(q=>list.append(qCard(q,PF.show)));});
   }
   draw();
-  const ds=[];MODS.forEach(m=>(m.drills||[]).forEach(d=>ds.push(d)));
-  if(ds.length){main.append(h("h2",null,"Drills"));ds.forEach(d=>{const st=S.drills[d.id];main.append(h("div",{class:"card link",onclick:()=>openDrill(d)},h("b",null,d.title),h("span",{class:"mut sm"},"LO "+d.lo+" · "+d.intro+(st?" · last: "+st:""))));});}
 }};
 // one answerable question card (used in Practice list and in the study guide)
 function qCard(q,show,label){
@@ -406,10 +414,21 @@ function sortDrill(d,body,ri){
   let sel=null,first=0;
   const pool=h("div",{class:"chips"});const msg=h("div",{class:"msg"});
   const binEls={};const bins=h("div",{class:"bins"});
-  R.bins.forEach(b=>{const cs=h("div",{class:"chips"});const el=h("div",{class:"bin",onclick:()=>place(b)},h("h5",null,b),cs);binEls[b]={el,cs};bins.append(el);});
+  R.bins.forEach(b=>{const cs=h("div",{class:"chips"});const el=h("div",{class:"bin","data-bin":b,onclick:()=>place(b)},h("h5",null,b),cs);binEls[b]={el,cs};bins.append(el);});
   body.append(pool,msg,bins);
   const chipEl=new Map();
-  items.forEach(it=>{const c=h("button",{class:"chip",onclick:()=>{if(it.done)return;sel=it;paint();}},it.t);chipEl.set(it,c);pool.append(c);});
+  items.forEach(it=>{const c=h("button",{class:"chip",type:"button"},it.t);chipEl.set(it,c);pool.append(c);
+    let st=null,gh=null,over=null;
+    c.addEventListener("pointerdown",e=>{if(it.done||e.button>0)return;st={x:e.clientX,y:e.clientY};try{c.setPointerCapture(e.pointerId);}catch(_){}});
+    c.addEventListener("pointermove",e=>{if(!st)return;
+      if(!gh){if(Math.hypot(e.clientX-st.x,e.clientY-st.y)<6)return;sel=it;paint();gh=c.cloneNode(true);gh.className="chip sel ghost";document.body.append(gh);c.classList.add("dragging");}
+      gh.style.transform="translate("+(e.clientX-gh.offsetWidth/2)+"px,"+(e.clientY-gh.offsetHeight/2)+"px)";
+      const t=document.elementFromPoint(e.clientX,e.clientY);const bn=t&&t.closest(".bin");if(over&&over!==bn)over.classList.remove("over");over=bn;if(bn)bn.classList.add("over");e.preventDefault();});
+    const end=()=>{if(!st)return;st=null;if(!gh)return;gh.remove();gh=null;c.classList.remove("dragging");c.dataset.nc="1";setTimeout(()=>{delete c.dataset.nc;},0);
+      const b=over&&over.dataset.bin;if(over)over.classList.remove("over");over=null;if(b)place(b);else{sel=null;paint();}};
+    c.addEventListener("pointerup",end);c.addEventListener("pointercancel",end);
+    c.addEventListener("click",()=>{if(c.dataset.nc||it.done)return;sel=(sel===it?null:it);paint();});
+  });
   function paint(){items.forEach(it=>{const c=chipEl.get(it);if(!it.done){c.className="chip"+(it===sel?" sel":"")+(it.miss>=2?" rev":"");}});Object.values(binEls).forEach(b=>b.el.classList.toggle("arm",!!sel));}
   function place(b){
     if(!sel)return;const it=sel;
@@ -591,22 +610,22 @@ tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},render(){
   const onlySaved=!!S.set.onlySaved;
   const wrap=h("div",{class:"gwrap"});const side=h("aside",{class:"gside"});const body=h("div",{class:"gbody"});wrap.append(side,body);main.append(wrap);
   // sidebar / outline
-  const sv=h("button",{class:"pill"+(onlySaved?" on":""),onclick:()=>{S.set.onlySaved=!onlySaved;S.pos.sheet=0;save();go("sheet");}},"Saved only ("+Object.keys(S.saved).length+")");
+  const sv=h("button",{class:"pill"+(onlySaved?" on":""),onclick:()=>{S.set.onlySaved=!onlySaved;S.pos.sheet=0;save();go("sheet");}},"Saved only ("+Object.keys(S.saved).filter(k=>LES[k]).length+")");
   side.append(h("div",{class:"gtitle"},"Contents"),sv);
   const jumpSel=h("select",{class:"gjump"},h("option",{value:""},"Jump to…"));
   const outl=h("div",{class:"outline"});side.append(outl);
   body.append(h("div",{class:"gtop"},jumpSel,sv.cloneNode(true)));
   body.querySelector(".gtop .pill").addEventListener("click",()=>{S.set.onlySaved=!onlySaved;S.pos.sheet=0;save();go("sheet");});
   jumpSel.addEventListener("change",()=>{const e=document.getElementById(jumpSel.value);if(e)e.scrollIntoView();jumpSel.value="";});
-  if(onlySaved&&!Object.keys(S.saved).length)body.append(h("p",{class:"mut"},"Nothing saved yet. Use Save at the top of any objective."));
+  if(onlySaved&&!Object.keys(S.saved).filter(k=>LES[k]).length)body.append(h("p",{class:"mut"},"Nothing saved yet. Tap the bookmark on any lesson."));
   const links={};
   MODS.forEach(m=>{
-    const los=m.los.filter(l=>!onlySaved||S.saved[l.id]);if(!los.length)return;
+    const los=m.los.filter(l=>!onlySaved||((m.guide||{})[l.id]||[]).some(b=>b.id&&S.saved[b.id]));if(!los.length)return;
     outl.append(h("div",{class:"omod"},m.short+": "+m.name.split(": ")[1]));
     body.append(h("div",{class:"modhead"},m.name));
     los.forEach(l=>{
       const id="s"+l.id.replace(".","-");
-      const blocks=(m.guide||{})[l.id]||[];
+      const blocks=((m.guide||{})[l.id]||[]).filter(b=>!onlySaved||(b.id&&S.saved[b.id]));
       const qids=Q.filter(q=>q.lo===l.id).map(q=>q.id);
       const prog=()=>qids.filter(x=>S.q[x]).length+" / "+qids.length;
       const pr=h("span",{class:"oprog"},prog());
@@ -615,9 +634,8 @@ tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},render(){
       jumpSel.append(h("option",{value:id},l.id+" "+(l.nick||shortT(l.title))));
       blocks.filter(b=>b.id).forEach(b=>{outl.append(h("a",{class:"les",href:"#"+b.id,onclick:e=>{e.preventDefault();document.getElementById(b.id).scrollIntoView();}},b.h));jumpSel.append(h("option",{value:b.id},"\u00a0\u00a0\u00a0"+b.h));});
       const sec=h("section",{class:"unit",id});
-      const sb=h("button",{class:"flag"});const sp=()=>{const on=!!S.saved[l.id];sb.textContent=on?"Saved":"Save";sb.classList.toggle("on",on);};sb.addEventListener("click",()=>{if(S.saved[l.id])delete S.saved[l.id];else S.saved[l.id]=1;save();sp();});sp();
       const upr=h("span",{class:"uprog"});const updProg=()=>{const t=prog();pr.textContent=t;upr.textContent=qids.length?t+" practice questions answered":"";};updProg();
-      sec.append(h("div",{class:"uhead"},h("div",null,h("div",{class:"eyebrow"},"Objective "+l.id),h("h2",null,l.title),upr),sb));
+      sec.append(h("div",{class:"uhead"},h("div",null,h("div",{class:"eyebrow"},"Objective "+l.id),h("h2",null,l.title),upr)));
       blocks.forEach(b=>sec.append(block(b,m)));
       body.append(sec);
     });
@@ -644,7 +662,7 @@ function block(b,m){
     n=1;paint();return w;
   }
   const w=h("div",{class:"card",id:b.id||null});
-  if(b.h)w.append(h("h3",{html:b.h+(b.beyond?' <span class="tag">beyond lecture</span>':"")}));
+  if(b.h)w.append(h("div",{class:"lhead"},h("h3",{html:b.h+(b.beyond?' <span class="tag">beyond lecture</span>':"")}),b.id?bmkBtn(b.id):null));
   const bodyEl=h("div",{class:"cb",html:b.b||""});
   bodyEl.querySelectorAll("table").forEach(t=>{const x=h("div",{class:"tw"});t.replaceWith(x);x.append(t);});
   const f=b.fig?fig(b.fig):null;
