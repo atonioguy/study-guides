@@ -330,7 +330,7 @@ exp:"It's driven by the entropy gained when caged water molecules are released. 
 stem:"A detergent molecule has a charged head (circle) and a long hydrocarbon tail. Which arrangement will many of them form in water?",
 opts:["A","B","C"],ans:0,
 exp:"In A the tails are packed in the middle and the charged heads face the water. The hydrophobic effect pushes the tails together, and the heads stay in contact with water. B puts the tails out in the water. C leaves every tail surrounded by caged water, which is the low-entropy state the hydrophobic effect moves away from."},
-{id:"m1a57",lo:"1.2",src:"L3",ref:"m1-hydrophobic",type:"mc",fig:"q-surf3",fixed:true,
+{id:"m1a57",lo:"1.2",src:"L3",ref:"m1-hydrophobic",type:"mc",fig:"q-surf3",expfig:"x-cages",fixed:true,
 stem:"Spots A to C mark three interactions on the surface of a protein in water. Which one forms mainly because it raises the entropy of the surrounding water, rather than because the groups attract each other?",
 opts:["A","B","C"],ans:2,
 exp:"C is two nonpolar side chains packed together. Water can't hydrogen-bond to them, so it forms ordered cages around each one, and packing them together frees caged water and raises entropy. That's the hydrophobic effect. A is a + side chain attracting a − side chain (a salt bridge), and B is water's dipoles drawn to a charge (ion–dipole). Both of those are attractions."},

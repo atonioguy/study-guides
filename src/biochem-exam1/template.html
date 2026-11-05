@@ -359,6 +359,8 @@ function explain(q,ok,skipped,shown){
   const d=h("div",{class:"fb "+(shown?"ok":ok?"ok":"bad")});
   d.append(h("b",{class:"v"},shown?"Answer":skipped?"Not answered":(ok?"Correct":"Incorrect")));
   d.append(h("div",{html:q.exp}));
+  // expfig: a figure shown only with the explanation (after answering), e.g. one that would give the answer away in the stem
+  if(q.expfig){const f=fig(q.expfig);if(f){f.style.maxWidth="560px";d.append(f);}}
   if(q.steps){const det=h("details",{class:"steps"},h("summary",null,"Work it through"),h("ol",null,q.steps.map(s=>h("li",{html:s}))));d.append(det);}
   if(q.ref&&LES[q.ref])d.append(h("div",null,h("button",{class:"btn link rev",type:"button",onclick:()=>openLesson(q.ref,q.hl)},"Review: "+LES[q.ref].h)));
   return d;
