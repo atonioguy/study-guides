@@ -711,6 +711,28 @@ def q_amph3():
         mol(x,y,a)
     o.append('</svg>');return "".join(o)
 
+def x_cages():  # explanation figure for m1a57: chains apart (two cages) vs packed (one shared cage, water freed)
+    o=_q(600,236,15); GR="#9aa3ad"
+    def chain(x,y0):
+        pts=[(x+(0 if k%2==0 else -8),y0-k*16) for k in range(6)]
+        o.append('<polyline points="%s" fill="none" stroke="%s" stroke-width="3.5" stroke-linejoin="round"/>'%(" ".join("%.0f,%.0f"%p for p in pts),OIL))
+    def ring(cx,cy,rx,ry,col=ACC):
+        for d in (0,36,144,180,216,252,288,324):
+            a=math.radians(d); o.append(f'<circle cx="{cx+rx*math.cos(a):.1f}" cy="{cy+ry*math.sin(a):.1f}" r="6.5" fill="{col}"/>')
+    o.append(f'<line x1="300" y1="14" x2="300" y2="206" stroke="{LINE}"/>')
+    for x0 in (0,300): o.append(f'<line x1="{x0+14}" y1="176" x2="{x0+286}" y2="176" stroke="{MUT}" stroke-width="1.5"/>')
+    o.append(T(150,30,"Apart: one cage per chain",text_anchor="middle",fill=FG,font_weight="600"))
+    for x in (100,200): chain(x,176); ring(x-4,124,30,40)
+    o.append(T(150,200,"16 ordered waters · low entropy",text_anchor="middle",fill=MUT,font_size="13"))
+    o.append(T(450,30,"Packed: shared cage, water freed",text_anchor="middle",fill=FG,font_weight="600"))
+    chain(438,176); chain(464,176); ring(447,124,44,40)
+    for x,y in ((330,62),(364,112),(338,150),(378,74),(526,64),(560,108),(530,150),(574,150)):
+        o.append(f'<circle cx="{x}" cy="{y}" r="6.5" fill="{GR}"/>')
+    o.append(T(450,200,"8 ordered, 8 freed · entropy rises",text_anchor="middle",fill=MUT,font_size="13"))
+    o.append(f'<circle cx="190" cy="222" r="6" fill="{ACC}"/>'+T(200,226,"caged (ordered) water",fill=FG,font_size="13"))
+    o.append(f'<circle cx="360" cy="222" r="6" fill="{GR}"/>'+T(370,226,"free water",fill=FG,font_size="13"))
+    o.append('</svg>');return "".join(o)
+
 def q_surf3():
     o=_q(480,196,17)
     o.append(f'<path d="M0 196 V150 C60 140 110 162 170 150 C230 138 270 160 330 150 C390 140 440 158 480 150 V196 Z" fill="#eef2f9" stroke="{ACC}" stroke-width="2"/>')
@@ -802,7 +824,7 @@ def q_ratio3():
     o.append('</svg>');return "".join(o)
 
 QF1={"q-ester":q_ester(),"q-mono4":q_mono4(),"q-side4":q_side4(),"q-bilayer2":q_bilayer2(),"q-dna2":q_dna2(),
- "q-contact4":q_contact4(),"q-hydr2":q_hydr2(),"q-amph3":q_amph3(),"q-surf3":q_surf3(),
+ "q-contact4":q_contact4(),"q-hydr2":q_hydr2(),"q-amph3":q_amph3(),"q-surf3":q_surf3(),"x-cages":x_cages(),
  "q-titr":_titrq(4.8,points=[("A",0.3),("B",5),("C",9.7),("D",17)]),"q-titr0":_titrq(4.8),"q-titr9":_titrq(9.0,mark=8),
  "q-gi":q_gi(),"q-bicarbeq":q_bicarbeq(),"q-bicarbleft":q_bicarbeq(True),"q-ratio3":q_ratio3()}
 
