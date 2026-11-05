@@ -1,330 +1,420 @@
-// Module 1 — Intro to Biochemistry (LOs 1.1–1.4)
-// src: lecture lesson the item comes from. tag: "beyond" = not stated in the lecture; reasoned from it or standard biochem.
+// Module 1: Intro to Biochemistry (LOs 1.1 to 1.4)
+// Guide blocks: {id,h,b,fig,img,note,nl,so,beyond} lesson | {steps,s} worked example | {tool} | {drill}
+// Questions: src = lecture lesson (L1 biomolecules, L3 water, L4 pH). ref = lesson id. tag "beyond" = not in lecture.
 MODS.push({
 id:"m1", short:"M1", name:"Module 1: Biomolecules, water, pH",
 los:[
 {id:"1.1", nick:"Biomolecules", title:"Relate the structure and function of biomolecules to their cellular role"},
 {id:"1.2", nick:"Water and weak forces", title:"Describe how the properties of water facilitate biological interactions"},
 {id:"1.3", nick:"pH and buffers", title:"Determine the pH of a solution by direct measurement and calculation"},
-{id:"1.4", nick:"Bicarbonate and acid–base", title:"Apply knowledge of the bicarbonate buffer system to predict pathophysiologic effects of acidosis and alkalosis"}
+{id:"1.4", nick:"Bicarbonate and acid-base", title:"Apply knowledge of the bicarbonate buffer system to predict pathophysiologic effects of acidosis and alkalosis"}
 ],
 
 guide:{
 "1.1":[
-{h:"One pattern for all four classes",
-b:`<p>Every class is built the same way: small <b>building blocks</b> joined by one type of <b>bond</b> into something with a <b>job</b>. If you know the building block and the bond, the role follows.</p>`,
-fig:"classes",
-key:`All four bonds form by <b>dehydration synthesis</b> (water out) and break by <b>hydrolysis</b> (water in).`},
-{h:"The cheat line for each class",
-b:`<table><tr><th>Class</th><th>Building block</th><th>Bond</th><th>Job</th></tr>
-<tr><td>Carbohydrate</td><td>monosaccharide</td><td>glycosidic</td><td>fuel, glucose storage</td></tr>
-<tr><td>Lipid</td><td><b>none</b> (no repeating unit)</td><td>ester</td><td>stored fat, membranes, hormones</td></tr>
-<tr><td>Protein</td><td>amino acid</td><td>peptide</td><td>enzymes, structure, signaling</td></tr>
-<tr><td>Nucleic acid</td><td>nucleotide</td><td>phosphodiester</td><td>genetic information</td></tr></table>`,
-trap:`Ester bonds belong to lipids and phosphodiester bonds to nucleic acids. Lipids are the one class that isn't a polymer.`},
-{check:["m1q01","m1q53"]},
-{h:"Carbohydrates: fuel and storage",
-b:`<div class="trio"><div><b>Mono-</b><span>one sugar</span><i>glucose, fructose, galactose</i></div><div><b>Di-</b><span>two sugars</span><i>sucrose = glucose + fructose; lactose; maltose</i></div><div><b>Poly-</b><span>hundreds to thousands, branched</span><i>glycogen (animals), starch (plants)</i></div></div>
-<p>Glucose is the main fuel, and it's stored as a polysaccharide. Branched carbohydrate chains also provide structure, cell identification and cell-to-cell contact.</p>`},
-{h:"Lipids: three types, three jobs",
-b:`<div class="trio"><div><b>Triglyceride</b><span>glycerol + 3 fatty acids (ester bonds)</span><i>stored fat in adipose tissue</i></div><div><b>Phospholipid</b><span>glycerol + 2 fatty acids + phosphate head; sphingolipids use <u>sphingosine</u></span><i>the membrane bilayer</i></div><div><b>Steroid</b><span>4 fused rings, e.g. cholesterol</span><i>membrane fluidity buffer; makes bile salts, testosterone, estradiol, cortisol</i></div></div>
-<p>All are <b>amphipathic</b>: a hydrophilic head and a hydrophobic tail. In the bilayer, heads face water and tails hide in the middle. That core is what blocks polar molecules, so the membrane is selective.</p>`,
-key:`<b>Saturated</b> = no C=C, so tails pack tightly → solid (butter), stable. <b>Unsaturated</b> = C=C kinks → liquid (olive oil), adds membrane fluidity.`},
-{check:["m1q03","m1q55"]},
-{h:"Proteins: the R group decides everything",
-b:`<p>Every amino acid has an amino group (accepts H⁺, basic), a carboxyl group (donates H⁺, acidic) and a unique <b>R group</b>. Peptide bonds link them into an <b>unbranched</b> chain, which folds according to the polarity and charge of its R groups: hydrophobic ones go inside, polar and charged ones face water. Shape = function. Enzymes are the headline job.</p>`,
-fig:"aagrid",
-trap:`In this book, polar doesn't automatically mean hydrophilic. <b>Gly</b> is nonpolar but counted hydrophilic. <b>Tyr</b> is polar but counted hydrophobic. The sulfur pair splits: <b>Met</b> is hydrophobic, <b>Cys</b> is hydrophilic.`},
-{drill:"m1d1"},
-{check:["m1q54","m1q04"]},
-{h:"Nucleic acids: DNA vs RNA",
-b:`<div class="duo"><div><b>DNA</b><span>deoxyribose sugar</span><span>A · T · G · C</span><i>stores genetic info</i></div><div><b>RNA</b><span>ribose sugar</span><span>A · <u>U</u> · G · C</span><i>carries it to make protein</i></div></div>
-<p>A nucleotide is a 5-carbon sugar + a nitrogenous base + phosphate. Phosphodiester bonds link nucleotides into a strand.</p>`,
-trap:`DNA and RNA differ in their <b>sugar</b> and in one base, not just the base.`},
-{check:["m1q08"]},
-{drill:"m1d2"}
+{id:"m1-carbon",h:"Carbon as a backbone and fuel",
+b:`<p>Carbon forms four stable covalent bonds. With four bonds per atom it can branch and link into chains and rings thousands of atoms long, which is how cells get molecules as large as proteins and DNA.</p>
+<p>C–C and C–H bonds also hold a lot of energy. Breaking them (burning glucose or fat) releases more energy than breaking most other bonds, so carbon compounds make efficient fuel. The end product, CO₂, is a water-soluble gas the body can exhale and other organisms can reuse.</p>
+<p>Organic compounds have carbon bonded to hydrogen. Inorganic compounds may contain carbon, but not bonded to hydrogen (CO₂, carbonate).</p>`,
+so:`Large carbon backbones let biomolecules be big enough to carry structure and information, and energy-rich C–C and C–H bonds let the same molecules serve as fuel.`},
+
+{id:"m1-join",h:"Functional groups and how monomers join",fig:"classes",
+b:`<p>Three groups do most of the joining. A <b>hydroxyl</b> (–OH) is polar. A <b>carboxyl</b> (–COOH) donates H⁺, so it is acidic. An <b>amine</b> (–NH₂) accepts H⁺, so it is basic. Every amino acid has both a carboxyl and an amine.</p>
+<p>Monomers join by <b>dehydration synthesis</b>: an –OH leaves one monomer and an H leaves the other, forming water and a new covalent bond. <b>Hydrolysis</b> adds the water back to split the bond. Digestion is hydrolysis.</p>
+<p>The bond's name depends on what it connects:</p>
+<ul><li>sugar –OH + sugar –OH → <b>glycosidic</b> bond</li>
+<li>fatty acid –COOH + glycerol –OH → <b>ester</b> bond</li>
+<li>amino acid –COOH + next amino acid –NH₂ → <b>peptide</b> bond</li>
+<li>one phosphate linking the sugars of two nucleotides → <b>phosphodiester</b> bond (two ester links through one phosphate)</li></ul>`,
+so:`If you can see which groups react, you can name the bond and predict that water is released when it forms and used up when it breaks.`},
+
+{id:"m1-carbs",h:"Carbohydrates",
+b:`<p>Sugars are C, H and O, usually in a ring, and covered in –OH groups. All those hydroxyls make them polar, so glucose dissolves in blood and cytoplasm and can be delivered anywhere as fuel.</p>
+<p><b>Monosaccharides</b>: glucose, fructose, galactose. <b>Disaccharides</b>: two joined by a glycosidic bond (sucrose = glucose + fructose; lactose; maltose). <b>Polysaccharides</b>: hundreds to thousands of units, often branched.</p>
+<p>Cells store glucose as a polymer (glycogen in animals, starch in plants). One large molecule holds a lot of glucose in a small space. Glycogen's branches also give it many chain ends, so many enzymes can clip glucose off at once when it's needed (beyond lecture).</p>
+<p>Complex carbohydrates digest more slowly than simple sugars because more glycosidic bonds have to be hydrolyzed before glucose is free.</p>
+<p>Branched sugar chains attached to proteins and lipids on the cell surface work as ID tags and contact points between cells. The pattern of the branches carries the information.</p>`,
+so:`Polar hydroxyls make sugar a deliverable fuel. Linking and branching turn it into compact storage and surface identity markers.`},
+
+{id:"m1-lipids",h:"Lipids: three types",
+b:`<p>Lipids are the one class not built from repeating units. What they share is being <b>amphipathic</b>: a polar head that interacts with water and a long nonpolar hydrocarbon tail that doesn't.</p>
+<p><b>Triglycerides</b>: glycerol + 3 fatty acids, joined by ester bonds. The tails are almost all C–H, so they store a lot of energy, and being nonpolar they collect as fat droplets in adipose tissue. This is long-term fuel storage.</p>
+<p><b>Phospholipids</b>: glycerol + 2 fatty acids + a phosphate-containing head. Sphingolipids are phospholipids built on sphingosine instead of glycerol, often with sugars attached. These build membranes.</p>
+<p><b>Steroids</b>: four fused carbon rings. Cholesterol sits between phospholipids and stabilizes the membrane. It is also the starting material for bile salts (fat digestion) and steroid hormones (cortisol, testosterone, estradiol).</p>`,
+so:`Each lipid's job follows from its shape: energy-dense nonpolar tails for storage, a polar head plus tails for membranes, rigid rings for membrane stability and hormones.`},
+
+{id:"m1-membrane",h:"Membranes: bilayer and fluidity",fig:"bilayer",
+b:`<p>Put phospholipids in water and they arrange themselves. The tails cluster away from water (the hydrophobic effect, LO 1.2) and the heads face water on both sides. That's a bilayer, and nothing has to assemble it.</p>
+<p>The bilayer's nonpolar core blocks ions and polar molecules like glucose. Small nonpolar molecules (O₂, CO₂) pass through. This is why the membrane is selectively permeable and needs transport proteins for glucose and ions.</p>
+<p>A <b>saturated</b> fatty acid has no C=C double bonds, so its tail is straight. Straight tails pack tightly: solid at room temperature (butter), stiffer membrane. A C=C in an <b>unsaturated</b> tail puts a kink in it. Kinked tails can't pack tightly: liquid at room temperature (olive oil), more fluid membrane.</p>
+<p>Cholesterol limits phospholipid movement in both directions. When it's warm it keeps the membrane from getting too loose; when it's cold it keeps tails from packing solid.</p>`,
+so:`Amphipathic structure produces the bilayer, the bilayer's nonpolar core produces selectivity, and tail saturation plus cholesterol set fluidity.`},
+
+{id:"m1-aa",h:"Amino acids",
+img:{src:"images/amino-acids-compoundchem.png",alt:"Chart of the twenty common amino acids grouped as aliphatic, aromatic, acidic, basic, hydroxylic, sulfur-containing and amidic, with dashed circles marking essential amino acids",credit:`Chart: <a href="https://www.compoundchem.com/2014/09/16/aminoacids/" target="_blank" rel="noopener">Compound Interest</a>, CC BY-NC-ND 4.0, shown unmodified. Same chart as the lecture.`},
+b:`<p>Every amino acid has the same core: an amine group, a carboxyl group and a central carbon. The <b>R group</b> (side chain) is what differs, and its chemistry decides how that amino acid behaves in water.</p>
+<table><tr><th>Group</th><th>Members</th><th>Side chain</th><th>Course call</th></tr>
+<tr><td>Aliphatic</td><td>Ala, Gly, Ile, Leu, Pro, Val</td><td>open carbon chain</td><td>hydrophobic, except Gly</td></tr>
+<tr><td>Aromatic</td><td>Phe, Trp, Tyr</td><td>carbon ring</td><td>hydrophobic</td></tr>
+<tr><td>Acidic (−)</td><td>Asp, Glu</td><td>extra carboxyl, loses H⁺ at pH 7.4</td><td>hydrophilic</td></tr>
+<tr><td>Basic (+)</td><td>Arg, His, Lys</td><td>extra nitrogen group, gains H⁺</td><td>hydrophilic</td></tr>
+<tr><td>Hydroxylic</td><td>Ser, Thr</td><td>–OH</td><td>hydrophilic</td></tr>
+<tr><td>Amidic</td><td>Asn, Gln</td><td>amide (–CONH₂)</td><td>hydrophilic</td></tr>
+<tr><td>Sulfur</td><td>Cys, Met</td><td>contains S</td><td>Cys hydrophilic, Met hydrophobic</td></tr></table>
+<p>Hydrophobic by the course's count: Ala, Ile, Leu, Pro, Val, Phe, Trp, Tyr, Met. Everything else is hydrophilic.</p>
+<p>Proline is technically an imino acid (its nitrogen is part of a ring). On the chart, a dashed circle means <b>essential</b> (must come from the diet) and a solid circle means non-essential (the body can make it).</p>`,
+nl:"Course grouping",note:`The lecture follows the textbook, which counts Gly as hydrophilic even though its side chain is just an H, and Tyr as hydrophobic even though its –OH is polar (it interacts only weakly with water). Other sources split these differently. Use the course version on the exam. The chart doesn't show hydrophobic vs hydrophilic, so go by the table.`,
+so:`A side chain's group tells you whether it ends up buried inside or exposed on the surface of a folded protein.`},
+
+{id:"m1-fold",h:"Protein folding: side chains set the shape",fig:"fold",
+b:`<p>Peptide bonds link amino acids into a long unbranched chain. In water the chain folds so that hydrophobic side chains pack into the core, away from water, and polar and charged side chains end up on the surface where they interact with water.</p>
+<p>Inside the fold, side chains hold the shape with weak interactions: hydrogen bonds, salt bridges between + and − side chains, and van der Waals contacts. Change the sequence and you change which side chains go where, so you change the shape.</p>
+<p>The shape determines the function. An enzyme's active site, a channel's pore and an antibody's binding pocket are each a specific 3D arrangement of side chains. Proteins catalyze reactions (enzymes), provide structure, carry O₂ (hemoglobin), send and receive signals, defend against pathogens and move cells.</p>
+<p>Folding depends on charge, so anything that changes charge can unfold a protein. A pH change adds or removes H⁺ on acidic and basic side chains, which breaks salt bridges, and the protein can misfold and stop working.</p>`,
+so:`For proteins the chain runs: sequence of R groups → fold → shape → job.`},
+
+{id:"m1-nucleic",h:"Nucleic acids",fig:"dna",
+b:`<p>A nucleotide has three parts: a 5-carbon sugar, a nitrogen-containing ring (the base), and at least one phosphate. Phosphodiester bonds link the phosphate of one nucleotide to the sugar of the next, forming a sugar-phosphate backbone with the bases sticking off it.</p>
+<p>In DNA, two strands pair. The covalent backbones run along the outside and the bases meet in the middle, held by hydrogen bonds (A with T, G with C). Strong covalent bonds keep each strand's sequence intact. Weak hydrogen bonds let the strands separate so the sequence can be copied or read, then come back together.</p>
+<p>DNA uses deoxyribose and the bases A, T, G, C. RNA uses ribose and has U in place of T (A, U, G, C). DNA stores genetic information, it is transcribed into RNA, and RNA is used to build proteins.</p>`,
+so:`A covalent backbone with hydrogen-bonded bases is what lets DNA be both stable storage and readable.`}
 ],
+
 "1.2":[
-{h:"Water is polar",
-b:`<p>Oxygen pulls the shared electrons harder than hydrogen does, so O ends up partially negative (δ−) and each H partially positive (δ+). That permanent dipole lets water surround anything charged or polar and dissolve it.</p>`,
-fig:"water",
-key:`Polar or charged → <b>hydrophilic</b> (dissolves). Nonpolar → <b>hydrophobic</b> (clusters, like oil).`},
-{h:"Hydrogen bonds",
-b:`<p>A δ+ hydrogen attached to <b>N, O or F</b> is attracted to a δ− atom on another molecule. Water molecules H-bond to each other constantly, which produces <b>cohesion</b>: the dome of water on a penny, the meniscus, bugs walking on water. The same bonds hold DNA strands together and keep proteins folded.</p>`},
-{check:["m1q21","m1q27"]},
-{h:"Weak forces, strongest to weakest",
-fig:"forces",
-b:`<p>These act between molecules, not within them. They're weak and <b>reversible</b>, and that's the point: molecules can bind, release and rearrange. Thousands of them together still add up to a lot of stability (gecko feet, folded proteins).</p>
-<p>van der Waals attraction increases as atoms get closer, up to the <b>contact distance</b>. Any closer than that and the electron clouds repel.</p>`},
-{check:["m1q20","m1q23"]},
-{h:"The hydrophobic effect isn't an attraction",
-fig:"hydro",
-b:`<p>Water has to form an ordered "cage" around each nonpolar molecule. When nonpolar molecules cluster, there's less surface to cage, so water molecules are freed, <b>entropy rises</b>, and the clustering is spontaneous. This drives bilayer formation and buries hydrophobic amino acids in the protein core.</p>`,
-trap:`Weak interactions work by attraction. The hydrophobic effect works by water's entropy. That difference is a likely true/false question.`},
-{check:["m1q18","m1q19"]},
-{h:"Why water weakens charge–charge attraction <span class='tag'>beyond lecture</span>",
-b:`<p>Water molecules point their δ− O toward cations and their δ+ H toward anions, shielding each ion from the other (textbooks call this water's high dielectric constant). That's why salt dissolves, and why charge interactions inside proteins are strongest where water is shut out.</p>`},
-{check:["m1q25"]},
-{drill:"m1d3"}
+{id:"m1-polar",h:"Water is polar",fig:"water",
+b:`<p>Oxygen is more electronegative than hydrogen, so the shared electrons in each O–H bond spend more time near the oxygen. The oxygen ends up partially negative (δ−) and the hydrogens partially positive (δ+). Water has no net charge but has a permanent dipole.</p>
+<p>That dipole is why things dissolve. Water's δ− oxygens surround cations, its δ+ hydrogens surround anions, and both line up with the partial charges on polar molecules. Polar and charged molecules are therefore <b>hydrophilic</b>. Nonpolar molecules have no partial charges for water to interact with, so they are <b>hydrophobic</b> and don't dissolve.</p>
+<p>Charged (an ion): net charge, like Na⁺ or Cl⁻. Polar: zero net charge but uneven charge distribution. Nonpolar: zero net charge, evenly distributed.</p>`,
+so:`Water's dipole decides which biomolecules dissolve and which get pushed together, and cells use both outcomes.`},
+
+{id:"m1-hbond",h:"Hydrogen bonds",
+b:`<p>A hydrogen bond forms between a δ+ hydrogen attached to N, O or F and a δ− N, O or F on another molecule (or another part of the same molecule). N, O and F are the most electronegative atoms, so a hydrogen attached to one of them is strongly δ+ and the attraction is unusually strong for a dipole interaction. A hydrogen on carbon is barely δ+ and does not hydrogen-bond.</p>
+<p>Each water molecule hydrogen-bonds to its neighbors. That gives water cohesion: the dome of water on a penny, the meniscus in a graduated cylinder, insects walking on a pond.</p>
+<p>A hydrogen bond is strong for a weak interaction but weak compared to a covalent bond, and in liquid water they constantly break and re-form. Cells use both sides of that. Many hydrogen bonds together hold DNA's double helix and a protein's fold, but each one is easy to break, so DNA strands can separate for replication.</p>`,
+so:`Hydrogen bonds give water cohesion and give DNA and proteins structure that is stable but still reversible.`},
+
+{id:"m1-weak",h:"Weak interactions",fig:"forces",
+b:`<p>Covalent and ionic bonds hold atoms together inside a molecule (intramolecular). Weak, noncovalent interactions act between molecules, or between distant parts of one large molecule (intermolecular). Because they're weak and reversible, a protein can bind a substrate and then release it.</p>
+<p>From strongest to weakest, as the lecture ranks them:</p>
+<ul><li><b>Ion–dipole</b>: a full charge attracts the oppositely charged end of a polar molecule. This is why salt dissolves in water. The lecture also calls these salt bridges.</li>
+<li><b>Hydrogen bond</b>: a strong dipole–dipole interaction involving H on N, O or F.</li>
+<li><b>Dipole–dipole</b>: the δ+ end of one polar molecule attracts the δ− end of another.</li>
+<li><b>van der Waals</b> (dispersion): electrons shift for an instant, creating a temporary dipole that induces one in a neighbor. These happen between all molecules, even nonpolar ones. Each one is the weakest, but thousands of close contacts add up (gecko feet, a tightly packed protein core).</li></ul>
+<p>van der Waals attraction grows as atoms get closer, up to the <b>van der Waals contact distance</b>. Any closer and the electron clouds repel.</p>`,
+so:`Weak interactions are strong in large numbers and easy to break one at a time, so biomolecules can hold a shape and still bind and release partners.`},
+
+{id:"m1-hydrophobic",h:"The hydrophobic effect",fig:"hydro",
+b:`<p>Oil and water separate, but not because oil molecules attract each other. Water can't hydrogen-bond to a nonpolar molecule, so the water molecules next to it are forced into an ordered "cage" around it. Ordered water means low entropy.</p>
+<p>When nonpolar molecules cluster, less nonpolar surface touches water, fewer waters are caged, and the freed waters move randomly. Entropy increases, so clustering happens spontaneously (second law of thermodynamics). The hydrophobic effect is driven by water's entropy, not by attraction between the nonpolar molecules.</p>
+<p>It drives the two big self-assembly events from LO 1.1: phospholipid tails clustering into a bilayer and hydrophobic side chains packing into a protein's core.</p>`,
+so:`The hydrophobic effect is why membranes and folded proteins form on their own in water.`},
+
+{id:"m1-shield",h:"Why water weakens ionic attractions",beyond:true,
+b:`<p>In a salt crystal, Na⁺ and Cl⁻ attract each other strongly. In water, each ion gets surrounded by oriented water molecules (a hydration shell) whose partial charges partly cancel the ion's charge. The ions now attract each other much less, so they separate and stay dissolved. Chemists say water has a high dielectric constant.</p>
+<p>The same thing happens in proteins. A salt bridge between two charged side chains on the surface is weaker than it would be in a nonpolar environment, because water competes for both charges. Salt bridges buried in the protein's core, away from water, are stronger.</p>
+<p>Adding salt (raising ionic strength) shields charges further, which is one reason high salt can disrupt binding that depends on charge.</p>`,
+so:`Water screens charges, so electrostatic interactions in cells stay weak and reversible.`}
 ],
+
 "1.3":[
-{h:"pH is a log scale",
-fig:"phscale",
-b:`<p><b>pH = −log[H⁺]</b>. Every 1 unit is a <b>10×</b> change in [H⁺], and a lower pH means <i>more</i> H⁺. Water splits slightly into H⁺ and OH⁻, and their product is always 10⁻¹⁴, so <b>pH + pOH = 14</b>.</p>`,
-key:`[H⁺] = 10<sup>−pH</sup>. For a strong acid like HCl, [acid] = [H⁺]: 0.01 M → pH 2.`},
-{check:["m1q30","m1q29"]},
-{h:"How strong is an acid? Ka and pKa",
-b:`<p>K<sub>a</sub> = [H⁺][A⁻]/[HA] measures how much an acid dissociates. A bigger K<sub>a</sub> means a stronger acid, which means a <b>smaller</b> pK<sub>a</sub> (pK<sub>a</sub> = −log K<sub>a</sub>). Strong acids dissociate fully; the weak acids your body uses only partly do.</p>
-<p>For any K<sub>eq</sub>: above 1 favors products, below 1 favors reactants. Be able to interpret one; you probably won't have to calculate one.</p>`},
-{check:["m1q33"]},
-{h:"Henderson–Hasselbalch without the math",
-b:`<p><b>pH = pK<sub>a</sub> + log([A⁻]/[HA])</b>. All it really tells you is <i>which form wins</i>:</p>
-<div class="trio"><div><b>pH &lt; pKa</b><span>HA wins</span><i>protonated</i></div><div><b>pH = pKa</b><span>50 / 50</span><i>best buffering</i></div><div><b>pH &gt; pKa</b><span>A⁻ wins</span><i>deprotonated</i></div></div>
-<p>To get the actual ratio: [A⁻]/[HA] = 10<sup>(pH − pKa)</sup>.</p>`},
-{steps:"Aspirin at blood pH (lecture example)",s:["pKa = 3.5, pH = 7.4","7.4 = 3.5 + log(ratio)","log(ratio) = 3.9","ratio = 10<sup>3.9</sup> ≈ 7,943","So roughly 7,943 A⁻ for every 1 HA at blood pH: almost all of it is deprotonated."]},
+{id:"m1-acids",h:"Acids, bases and conjugate pairs",
+b:`<p>An <b>acid</b> donates H⁺ and a <b>base</b> accepts H⁺. When an acid gives up its H⁺, what's left is its <b>conjugate base</b>: HA ⇌ H⁺ + A⁻. When a base picks up an H⁺, it becomes its <b>conjugate acid</b>.</p>
+<p>A free H⁺ in water attaches to a water molecule to form H₃O⁺, so [H⁺] and [H₃O⁺] are used interchangeably.</p>
+<p>The conjugate base of an organic acid ends in -ate: lactic acid and lactate, pyruvic acid and pyruvate. At blood pH 7.4 most organic acids are in the -ate form, which is why later modules say pyruvate, not pyruvic acid.</p>
+<p>Water itself dissociates very slightly (H₂O ⇌ H⁺ + OH⁻), so it can act as an acid or a base.</p>`,
+so:`Every pH question comes down to which way H⁺ moves between an acid and its conjugate base.`},
+
+{id:"m1-scale",h:"The pH scale",fig:"phscale",
+b:`<p>pH = −log[H⁺]. Because it's a log scale, each 1-unit drop in pH means 10 times more H⁺. pH 5 has 100 times the H⁺ of pH 7.</p>
+<p>Pure water has [H⁺] = 1×10⁻⁷ M, so pH 7 is neutral. Below 7 is acidic and above 7 is basic. pOH = −log[OH⁻], and pH + pOH = 14 in any water solution, because [H⁺][OH⁻] = K<sub>w</sub> = 10⁻¹⁴.</p>
+<p>To go from pH back to concentration: [H⁺] = 10<sup>−pH</sup>.</p>`,
+so:`Small pH changes are large changes in H⁺, which is why blood pH is held in a narrow range.`},
+{steps:"A solution has [H₃O⁺] = 1×10⁻³ M (lecture practice)",s:["pH = −log(1×10⁻³) = <b>3</b>","pOH = 14 − 3 = <b>11</b>","[OH⁻] = 10⁻¹¹ M","pH 3 is below 7, so the solution is <b>acidic</b>."]},
+
+{id:"m1-ka",h:"Keq, Ka and pKa",
+b:`<p>K<sub>eq</sub> = [products] / [reactants] at equilibrium. K<sub>eq</sub> above 1 means products are favored; below 1 means reactants are favored. The lecture says to know what it is and how to interpret it; you're unlikely to calculate it on the exam.</p>
+<p>For an acid, HA ⇌ H⁺ + A⁻, the constant is K<sub>a</sub> = [H⁺][A⁻] / [HA]. A large K<sub>a</sub> means the acid gives up its H⁺ easily. HCl has K<sub>a</sub> around 10⁶ and dissociates completely, so 0.1 M HCl has pH 1.</p>
+<p>pK<sub>a</sub> = −log K<sub>a</sub>, which flips the direction: <b>lower pKa means a stronger acid</b>. Strong acids have pKa below 0. The weak acids in the body (acetic acid 4.8, carbonic acid 6.1) only partly dissociate.</p>
+<p>Water's K<sub>eq</sub> is tiny (1.8×10⁻¹⁶) because so little dissociates. Water's concentration (55.5 M) barely changes, so it's treated as constant and folded into K<sub>w</sub> = [H⁺][OH⁻] = 10⁻¹⁴.</p>`,
+nl:"Lecture correction",note:`The lecture writes pKa = log(Ka). It's missing the minus sign: pKa = −log(Ka). With the minus sign, a larger Ka gives a smaller pKa.`,
+so:`pKa tells you how tightly an acid holds its proton, which you need to predict its form at a given pH.`},
+
+{id:"m1-hh",h:"Henderson-Hasselbalch: which form dominates",
+b:`<p>pH = pKa + log([A⁻] / [HA]). The lecture spells it "Hasselback."</p>
+<p>Read it as a comparison of pH to pKa:</p>
+<ul><li>pH = pKa: log of the ratio is 0, so [A⁻] = [HA]. Half dissociated.</li>
+<li>pH above pKa: ratio above 1, so the deprotonated form (A⁻) dominates.</li>
+<li>pH below pKa: ratio below 1, so the protonated form (HA) dominates.</li></ul>
+<p>Each pH unit away from the pKa is another factor of 10: ratio = 10<sup>(pH − pKa)</sup>. Blood at 7.4 with carbonic acid's pKa of 6.1 gives 10<sup>1.3</sup> ≈ 20, so 20 HCO₃⁻ per H₂CO₃.</p>
+<p>A way to reason it out: low pH means H⁺ is plentiful, so molecules hold on to theirs (HA). High pH means H⁺ is scarce, so they give it up (A⁻).</p>`,
+nl:"Lecture correction",note:`The lecture's paragraph on this describes the A⁻-dominant form as a "stronger acid." Skip that wording and use the rule above: pH above pKa, A⁻ dominates.`,
+so:`Comparing pH to pKa lets you predict a molecule's charge in any compartment, usually without a calculator.`},
+{steps:"Aspirin (pKa 3.5) in blood at pH 7.4 (lecture example)",s:["7.4 = 3.5 + log([A⁻]/[HA])","log([A⁻]/[HA]) = 7.4 − 3.5 = 3.9","[A⁻]/[HA] = 10<sup>3.9</sup> ≈ 7,900","Nearly all aspirin in blood is the charged A⁻ form."]},
 {tool:"hh"},
-{check:["m1q31","m1q34"]},
-{h:"Buffers hold pH, they don't neutralize",
-b:`<p>A buffer is a weak acid plus its conjugate base. It soaks up added H⁺ or OH⁻ so the pH barely moves. It works best within <b>pK<sub>a</sub> ± 1</b>, which is the flat part of the titration curve.</p>
-<p>Most organic acids sit in their base form at pH 7.4, which is why pathways say <i>pyruvate</i> and <i>lactate</i>. The uncharged HA form crosses membranes more easily.</p>`,
-trap:`"A buffer moves pH toward 7" is false. It keeps whatever pH it's already at.`},
-{check:["m1q36","m1q37","m1q40"]},
-{h:"Measuring pH directly <span class='tag'>beyond lecture</span>",
-b:`<p>The lecture only covers calculation. In a lab, pH is measured with a <b>pH meter</b> (an electrode that reads [H⁺]) or with <b>indicator</b> dyes or strips that change color over a known range.</p>`}
+
+{id:"m1-ionize",h:"Why ionization matters: aspirin",
+b:`<p>Charged molecules dissolve well in water but cross the membrane's nonpolar core poorly. Ionization at a given pH therefore affects where a drug is absorbed, how soluble a molecule is, and how biomolecules behave.</p>
+<p>The lecture's aspirin question gives a premise: <b>aspirin is absorbed in its conjugate base (A⁻) form</b>. With pKa 3.5, the stomach (pH 1.5) is 2 units below the pKa, so aspirin there is about 99% HA. The small intestine in the problem (pH 3.5) equals the pKa, so it's 50% A⁻. Under that premise, absorption is better in the small intestine.</p>
+<p>On the exam, use the absorption premise the question gives you and apply the pH vs pKa rule. Standard pharmacology says the uncharged form crosses membranes more easily, which is the opposite framing, so read the stem.</p>
+<p>The same logic applies to biomolecules: gaining or losing H⁺ changes side-chain charges in proteins (misfolding) and disrupts hydrogen bonding between DNA bases.</p>`,
+so:`Ionization connects pH to absorption, solubility and folding.`},
+
+{id:"m1-buffers",h:"Buffers",fig:"titr",
+b:`<p>A buffer is a weak acid plus its conjugate base. Add H⁺ and A⁻ absorbs it, becoming HA. Add OH⁻ and HA neutralizes it, becoming A⁻ and water. The ratio shifts a little, so the pH shifts only a little.</p>
+<p>Buffering works best near the pKa, roughly <b>pKa ± 1</b>. At the pKa there are equal amounts of HA and A⁻, so the buffer can absorb acid or base equally well. Far from the pKa, one form is almost used up.</p>
+<p>A buffer holds pH where it is. It does not bring pH to 7. A buffer with pKa 4.8 holds pH near 4.8.</p>
+<p>On the titration curve: A is mostly HA. B is half titrated, where pH = pKa and buffering is best (the flat stretch). C is where HA is nearly gone and the steep rise starts. D is past the buffer, with excess base.</p>`,
+so:`Buffers are why metabolic acid added to blood moves its pH far less than it would move the pH of pure water.`},
+
+{id:"m1-measure",h:"Measuring pH directly",beyond:true,
+b:`<p>The LO says "direct measurement and calculation," and the lecture only covers calculation. Two ways to measure pH:</p>
+<ul><li><b>pH meter</b>: a glass electrode produces a voltage that depends on [H⁺]. It's calibrated with standard buffers of known pH first and reads to about 0.01 units. Blood gas analyzers work this way.</li>
+<li><b>Indicators and pH paper</b>: dyes that are weak acids whose HA and A⁻ forms are different colors. The color changes around the dye's pKa. Fast and cheap but approximate (about 0.5 to 1 unit). Urine dipsticks work this way.</li></ul>
+<p>An indicator changes color near its own pKa for the same reason a buffer works near its pKa: that's where HA and A⁻ trade places as the dominant form.</p>`,
+so:`Measurement gives you the pH; the equations tell you what that pH means for each molecule.`}
 ],
+
 "1.4":[
-{h:"One equation runs blood pH",
-fig:"bicarb",
-b:`<p>CO₂ from metabolism becomes carbonic acid, which releases H⁺ and HCO₃⁻. In the lungs the reaction runs left and CO₂ is exhaled, taking the acid with it.</p>`},
-{steps:"Why normal blood is 20:1",s:["pH = pKa + log([HCO₃⁻]/[H₂CO₃])","7.4 = 6.1 + log(ratio)","log(ratio) = 1.3","ratio = 10<sup>1.3</sup> ≈ 20","So there are 20 bicarbonates for every carbonic acid. That large base reserve soaks up acids like lactic acid. Ratio drops → pH drops."]},
-{check:["m1q42"]},
-{h:"Predicting the disorder",
-b:`<p><b>Step 1:</b> What changed first, CO₂ (→ <i>respiratory</i>) or acid/HCO₃⁻ (→ <i>metabolic</i>)?<br><b>Step 2:</b> Which way does pH go?</p>
-<table><tr><th>Cause</th><th>pH</th><th>Disorder</th></tr>
-<tr><td>Slow breathing, CO₂ retained (opioids, COPD)</td><td>↓</td><td>respiratory acidosis</td></tr>
-<tr><td>Fast breathing, CO₂ blown off (panic, altitude)</td><td>↑</td><td>respiratory alkalosis</td></tr>
-<tr><td>Acid added (lactic, keto) or HCO₃⁻ lost (diarrhea)</td><td>↓</td><td>metabolic acidosis</td></tr>
-<tr><td>Acid lost (vomiting)</td><td>↑</td><td>metabolic alkalosis</td></tr></table>`,
-trap:`More CO₂ means <b>lower</b> pH. CO₂ becomes an acid by making H₂CO₃.`},
-{drill:"m1d5"},
-{check:["m1q44","m1q50"]},
-{h:"Why acidosis hurts",
-b:`<p>A pH shift changes which side chains carry H⁺. That breaks the electrostatic interactions and H-bonds that hold a protein's shape, so proteins misfold and enzymes stop working. Peptide bonds stay intact; it's the 3D shape that fails.</p>
-<p class="mut sm">7.4 lies outside 6.1 ± 1, but the system still works because the lungs (CO₂) and kidneys (HCO₃⁻) keep adjusting it. <span class="tag">beyond lecture</span></p>`},
-{check:["m1q51"]}
+{id:"m1-bicarb",h:"The bicarbonate buffer",fig:"bicarb",
+b:`<p>CO₂ from metabolism dissolves in blood and forms carbonic acid, which dissociates into H⁺ and bicarbonate. Carbonic acid's pKa is 6.1, and at normal blood pH 7.4 the HCO₃⁻ : H₂CO₃ ratio is 20 : 1.</p>
+<p>Le Chatelier's principle predicts the shifts: add something to one side and the reaction moves away from it; remove something and the reaction moves to replace it.</p>
+<ul><li>More CO₂: shifts right, more H⁺, pH falls.</li>
+<li>Less CO₂: shifts left, H⁺ consumed, pH rises.</li>
+<li>Added H⁺ (lactic acid): HCO₃⁻ absorbs it, the reaction shifts left, bicarbonate is used up and the extra CO₂ is exhaled.</li></ul>
+<p>In the lungs the reaction runs left and CO₂ is exhaled, so breathing rate controls how much CO₂, and therefore how much acid, stays in the blood.</p>`,
+so:`Every acid-base question in this LO is this equation plus a change on one side.`},
+
+{id:"m1-resp",h:"Respiratory acidosis and alkalosis",beyond:true,
+b:`<p>Respiratory disorders start with CO₂, which the lungs control.</p>
+<p><b>Respiratory acidosis</b>: breathing too slowly or ineffectively (opioid overdose, COPD, airway obstruction). CO₂ builds up, the reaction shifts right, H⁺ rises and pH falls. H₂CO₃ rises while HCO₃⁻ hasn't changed yet, so the ratio drops below 20 : 1.</p>
+<p><b>Respiratory alkalosis</b>: breathing too fast (panic attack, high altitude). CO₂ is blown off, the reaction shifts left, H⁺ is consumed and pH rises.</p>
+<p>The lecture leaves breathing as a question to think through. The disorder names are standard physiology.</p>`,
+so:`If the problem changes breathing, it's respiratory, and the CO₂ direction gives you the pH direction.`},
+
+{id:"m1-metab",h:"Metabolic acidosis and alkalosis",beyond:true,
+b:`<p>Metabolic disorders start with H⁺ or HCO₃⁻ directly, not with CO₂.</p>
+<p><b>Metabolic acidosis</b>: acid added or base lost. Lactic acid (intense exercise, shock), ketoacids (diabetic ketoacidosis), or bicarbonate lost in severe diarrhea. HCO₃⁻ falls, the ratio drops below 20 : 1 and pH falls.</p>
+<p><b>Metabolic alkalosis</b>: acid lost or base gained. Vomiting removes stomach HCl. The reaction shifts right to replace the lost H⁺, which leaves extra HCO₃⁻. The ratio rises above 20 : 1 and pH rises.</p>`,
+so:`If the problem adds or removes acid or bicarbonate directly, it's metabolic; follow HCO₃⁻ to get the pH.`},
+
+{id:"m1-comp",h:"Compensation and the open system",beyond:true,
+b:`<p>The body pushes back using the other system:</p>
+<ul><li>Metabolic acidosis: breathe faster and deeper (Kussmaul breathing in DKA) to blow off CO₂, which pulls pH back up.</li>
+<li>Metabolic alkalosis: breathe more slowly to hold on to CO₂.</li>
+<li>Respiratory problems: over days, the kidneys adjust how much HCO₃⁻ they reabsorb and how much H⁺ they excrete.</li></ul>
+<p>Compensation moves pH back toward normal but usually doesn't fully correct it.</p>
+<p><b>Why bicarbonate works at 7.4 when its pKa is 6.1.</b> 7.4 is outside pKa ± 1, so in a sealed flask this would be a weak buffer. Blood is an open system: the lungs remove or keep CO₂ and the kidneys adjust HCO₃⁻, so neither side of the equation runs out.</p>`,
+so:`Lungs adjust CO₂ within minutes and kidneys adjust HCO₃⁻ over days, which keeps blood near 7.4.`},
+{drill:"m1d5"}
 ]
 },
 
 questions:[
 // ---------- 1.1 ----------
-{id:"m1q01",lo:"1.1",src:"L1",type:"mc",
-stem:"Which pairing of bond and biomolecule is correct?",
-opts:["Ester bond — links fatty acids to glycerol in a triglyceride","Phosphodiester bond — links monosaccharides in glycogen","Glycosidic bond — links amino acids in a polypeptide","Peptide bond — links nucleotides in RNA"],ans:0,
-exp:"Ester bonds attach fatty acids to glycerol. Glycosidic bonds join sugars, peptide bonds join amino acids, and phosphodiester bonds join nucleotides."},
-{id:"m1q02",lo:"1.1",src:"L1",type:"tf",
-stem:"Like the other three classes of biomolecules, lipids are polymers built from a repeating monomer.",ans:false,
-exp:"Lipids are the exception: they are not made of repeating units. Carbohydrates, proteins and nucleic acids are polymers."},
-{id:"m1q03",lo:"1.1",src:"L1",type:"mc",
-stem:"A membrane is enriched in phospholipids carrying unsaturated fatty acid tails. Compared with a membrane of saturated tails, it will be:",
-opts:["More fluid, because C=C double bonds keep the tails from packing tightly","More rigid, because C=C double bonds are stronger than single bonds","More fluid, because unsaturated tails are more hydrophilic","More rigid, because unsaturated tails carry extra hydrogens"],ans:0,
-exp:"Double bonds put kinks in the tails so they pack loosely, which gives fluidity. Saturated tails, with no double bonds, pack tightly and give stability. Unsaturated tails are still hydrophobic, and they carry fewer hydrogens, not more."},
-{id:"m1q04",lo:"1.1",src:"L1",type:"mc",
-stem:"Which amino acid is grouped as hydrophilic even though its R group is nonpolar?",
-opts:["Glycine","Tyrosine","Methionine","Proline"],ans:0,
-exp:"Glycine is the aliphatic exception: nonpolar but counted hydrophilic. Tyrosine is the reverse case (polar but hydrophobic). Met and Pro are nonpolar and hydrophobic."},
-{id:"m1q05",lo:"1.1",src:"L1",type:"tf",
-stem:"Because tyrosine's side chain is polar, it is classified with the hydrophilic amino acids.",ans:false,
-exp:"Tyrosine is polar but interacts only weakly with water, so the book counts it as polar hydrophobic, alongside Phe and Trp in the aromatic group."},
-{id:"m1q06",lo:"1.1",src:"L1",type:"mc",
-stem:"A residue buried in the water-excluding core of a folded protein is most likely to be:",
-opts:["Methionine","Cysteine","Serine","Glutamine"],ans:0,
-exp:"The core holds hydrophobic residues. Of the two sulfur amino acids, Met is hydrophobic and Cys is hydrophilic. Ser (hydroxylic) and Gln (amidic) are polar hydrophilic."},
-{id:"m1q07",lo:"1.1",src:"L1",type:"mc",
-stem:"Which set contains only amino acids that are positively charged at neutral pH?",
-opts:["Arg, His, Lys","Asp, Glu, Lys","Arg, Gln, His","Asn, Arg, Lys"],ans:0,
-exp:"The basic (positive) amino acids are Arg, His and Lys. Asp and Glu are acidic (negative). Gln and Asn are amidic and uncharged."},
-{id:"m1q08",lo:"1.1",src:"L1",type:"tf",
-stem:"DNA and RNA nucleotides differ only in which nitrogenous bases they use.",ans:false,
-exp:"They also differ in the sugar: deoxyribose in DNA, ribose in RNA. Base-wise, DNA has T and RNA has U."},
-{id:"m1q09",lo:"1.1",src:"L1",type:"mc",
-stem:"Glycogen and starch are best described as:",
-opts:["Branched glucose polysaccharides storing fuel in animals and plants, respectively","Branched glucose polysaccharides storing fuel in plants and animals, respectively","Glucose disaccharides storing fuel in animals and plants, respectively","Structural fructose polysaccharides found in animals and plants, respectively"],ans:0,
-exp:"Both store glucose as polysaccharides joined by glycosidic bonds. Glycogen is the animal form and starch is the plant form."},
-{id:"m1q53",lo:"1.1",src:"L1",type:"mc",
-stem:"Why does carbon form the backbone of biomolecules?",
-opts:["It forms four stable covalent bonds, and breaking C–C bonds releases a lot of energy","It forms ionic bonds with water, which makes biomolecules dissolve","It is the most abundant element in the Earth's crust, so it is easy to obtain","It carries a permanent partial charge that drives weak interactions"],ans:0,
-exp:"Four stable bonds let carbon build large backbones, and C–C bonds store a lot of energy, which makes carbon molecules efficient fuel. Burning them also yields CO₂, which can be recycled."},
-{id:"m1q54",lo:"1.1",src:"L1",type:"mc",
-stem:"A protein's final three-dimensional shape is determined mainly by:",
-opts:["The polarity and charge of its amino acid R groups","The total number of peptide bonds in the chain","Whether its chain is branched or unbranched","The amount of ATP available while it folds"],ans:0,
-exp:"The chain folds according to the polarity and charge of its R groups: hydrophobic ones get buried, while polar and charged ones face water. Peptide chains are always unbranched."},
-{id:"m1q55",lo:"1.1",src:"L1",type:"mc",
-stem:"Which structural feature makes a phospholipid bilayer selectively permeable?",
-opts:["A hydrophobic core of fatty acid tails that blocks polar and charged molecules","Hydrophilic phosphate heads that actively pump ions across","Ester bonds that open and close to let molecules pass","A glycerol backbone that forms pores through the membrane"],ans:0,
-exp:"Few molecules can get through the tail-filled core on their own. Transmembrane proteins let specific molecules (glucose, Na⁺) through, which is what makes the membrane selective."},
-{id:"m1q56",lo:"1.1",src:"L1",type:"tf",
-stem:"Triglycerides are the main structural lipid of cell membranes.",ans:false,
-exp:"Phospholipids build the bilayer. Triglycerides are stored fat (adipose)."},
-{id:"m1q13",lo:"1.1",src:"L1",type:"mc",
-stem:"Cholesterol's effect on the plasma membrane is to:",
-opts:["Limit phospholipid movement at high temperature and prevent tight packing at low temperature","Increase fluidity at all temperatures by separating phospholipid tails","Decrease fluidity at all temperatures by stiffening phospholipid tails","Form transmembrane channels that let polar molecules cross the bilayer"],ans:0,
-exp:"Cholesterol buffers fluidity in both directions: it keeps the membrane from getting too loose when warm and from packing solid when cold. Channels are formed by integral proteins, not cholesterol."},
-{id:"m1q14",lo:"1.1",src:"L1",type:"tf",
-stem:"Sphingolipids are phospholipids built on a glycerol backbone, like diglyceride phospholipids.",ans:false,
-exp:"Sphingolipids use a sphingosine backbone instead of glycerol, and they are often studded with carbohydrates."},
-{id:"m1q15",lo:"1.1",src:"L1",type:"mc",
-stem:"Which functional group in amino acids acts as a base by accepting H⁺?",
-opts:["Amine (–NH₂)","Carboxyl (–COOH)","Hydroxyl (–OH)","Phosphate (–PO₄)"],ans:0,
-exp:"The amine group accepts H⁺ (basic, becoming –NH₃⁺). The carboxyl group donates H⁺ (acidic). Both are found in every amino acid."},
-{id:"m1q16",lo:"1.1",src:"L1",type:"tf",
-stem:"Carbon dioxide is an organic compound because it contains carbon.",ans:false,
-exp:"Organic compounds have carbon bonded to hydrogen. CO₂ has carbon bonded only to oxygen, so it's inorganic."},
-{id:"m1q17",lo:"1.1",src:"L1",type:"tf",
-stem:"Phospholipids spontaneously arrange tail-to-tail in water because each molecule is amphipathic.",ans:true,
-exp:"The hydrophilic heads face water and the hydrophobic tails hide together. That's how the bilayer forms with no energy input."},
+{id:"m1a01",lo:"1.1",src:"L1",ref:"m1-carbon",type:"mc",
+stem:"Which property of carbon best explains why cells use carbon compounds both to build structures and as fuel?",
+opts:["It forms four stable covalent bonds, allowing large backbones, and C–C and C–H bonds release a lot of energy when broken","It forms ionic bonds with water, so carbon compounds dissolve and spread easily through the cell","It is the most abundant element in the body by number of atoms, so it is always available","It carries a permanent partial negative charge that lets it hydrogen-bond with proteins and DNA"],ans:0,
+exp:"Four bonds per carbon allow branching chains and rings large enough to form proteins and DNA. C–C and C–H bonds release more energy when broken than most bonds, which makes carbon compounds efficient fuel. Hydrogen, not carbon, is the most abundant atom in the body."},
+{id:"m1a02",lo:"1.1",src:"L1",ref:"m1-join",type:"tf",
+stem:"Hydrolysis of a peptide bond uses up a water molecule and leaves one amino acid with a free carboxyl group and the other with a free amine group.",ans:true,
+exp:"A peptide bond forms between a carboxyl and an amine by dehydration synthesis, releasing water. Hydrolysis adds the water back and restores both groups."},
+{id:"m1a03",lo:"1.1",src:"L1",ref:"m1-join",type:"mc",
+stem:"The –COOH of a fatty acid reacts with an –OH on glycerol. Which statement describes this reaction?",
+opts:["Dehydration synthesis that forms an ester bond","Hydrolysis that forms an ester bond","Dehydration synthesis that forms a glycosidic bond","Hydrolysis that forms a phosphodiester bond"],ans:0,
+exp:"Joining two monomers releases water, so it is dehydration synthesis. A carboxyl plus a hydroxyl makes an ester, which is how fatty acids attach to glycerol in triglycerides. Glycosidic bonds join sugars."},
+{id:"m1a04",lo:"1.1",src:"L1",ref:"m1-carbs",type:"mc",tag:"beyond",
+stem:"Animals store glucose as glycogen, a large branched polymer, instead of as free glucose. Which explanation best relates the structure to the role?",
+opts:["One large molecule holds a lot of glucose compactly, and the many branch ends let glucose be released quickly","Glycogen's glycosidic bonds cannot be hydrolyzed, so the stored glucose is protected until death","Branching makes glycogen nonpolar, so it can be stored inside the hydrophobic core of membranes","Glycogen is classified as a lipid, so it stores more energy per gram than glucose does"],ans:0,
+exp:"Polymerizing glucose packs it into a compact store. Each branch ends in a chain end that enzymes can trim, so a highly branched molecule can release glucose quickly. Glycogen is a polysaccharide, is still polar, and is broken down by hydrolysis."},
+{id:"m1a05",lo:"1.1",src:"L1",ref:"m1-carbs",type:"tf",
+stem:"Complex carbohydrates release glucose more slowly than simple sugars because more glycosidic bonds must be hydrolyzed before glucose is free.",ans:true,
+exp:"A polysaccharide has hundreds to thousands of glycosidic bonds to break. A monosaccharide is already free glucose, so it is absorbed right away."},
+{id:"m1a06",lo:"1.1",src:"L1",ref:"m1-membrane",type:"mc",
+stem:"Phospholipids added to water form a bilayer without any enzyme or energy input. Which feature of their structure causes this?",
+opts:["Each has a polar head and nonpolar tails, so the tails cluster away from water while the heads face it","They are polymers whose repeating units bond to one another into flat sheets","Phosphodiester bonds form between neighboring phospholipids and link them covalently","Their fatty acid tails carry charges that form salt bridges with one another"],ans:0,
+exp:"Phospholipids are amphipathic. The hydrophobic effect pushes the nonpolar tails together and the polar heads stay in contact with water on both faces. Lipids are not polymers, and no covalent bonds form between neighboring phospholipids."},
+{id:"m1a07",lo:"1.1",src:"L1",ref:"m1-membrane",type:"mc",
+stem:"O₂ diffuses across a pure phospholipid bilayer, but glucose does not. Which explanation is best?",
+opts:["Glucose is polar and can't pass the nonpolar core of the bilayer; O₂ is small and nonpolar","Glucose is negatively charged at pH 7.4 and is repelled by the phosphate heads","O₂ forms hydrogen bonds with the fatty acid tails, which pull it through","The bilayer has pores sized to admit gases but not sugars"],ans:0,
+exp:"The bilayer's hydrophobic core blocks polar molecules like glucose, which is covered in –OH groups but is not charged. Small nonpolar gases dissolve in the core and pass. Glucose needs a transport protein."},
+{id:"m1a08",lo:"1.1",src:"L1",ref:"m1-membrane",type:"tf",
+stem:"Replacing a membrane's saturated fatty acid tails with unsaturated ones would make the membrane less fluid.",ans:false,
+exp:"Double bonds in unsaturated tails create kinks that prevent tight packing, which makes the membrane more fluid. Saturated tails are straight and pack tightly."},
+{id:"m1a09",lo:"1.1",src:"L1",ref:"m1-membrane",type:"mc",
+stem:"Fish that live in near-freezing water have a higher proportion of unsaturated fatty acids in their membranes than warm-water fish. What does this accomplish?",
+opts:["Kinks from C=C double bonds keep tails from packing tightly, so the membrane stays fluid in the cold","The double bonds make the tails more polar, so they bind water and resist freezing","Unsaturated tails pack more tightly, which keeps the membrane from becoming too fluid","Unsaturated tails form extra ester bonds that hold the bilayer together in the cold"],ans:0,
+exp:"Cold makes lipids pack tighter and stiffen. Kinked unsaturated tails can't pack as closely, so the membrane stays fluid enough for transport. The double bonds don't make tails polar."},
+{id:"m1a10",lo:"1.1",src:"L1",ref:"m1-lipids",type:"mc",
+stem:"Which lipid is suited to long-term energy storage, and why?",
+opts:["Triglyceride, because its three fatty acid tails are rich in energy-storing C–H bonds","Phospholipid, because its polar head lets it dissolve in blood for easy delivery","Cholesterol, because its four fused rings hold more bonds than any fatty acid","Sphingolipid, because its attached sugars can be released as glucose"],ans:0,
+exp:"Triglycerides are three hydrocarbon tails on glycerol, nearly all C–H, stored as fat droplets in adipose tissue. Phospholipids build membranes and cholesterol stabilizes membranes and makes hormones."},
+{id:"m1a11",lo:"1.1",src:"L1",ref:"m1-lipids",type:"tf",
+stem:"Cholesterol's only role in the body is as a structural component of cell membranes.",ans:false,
+exp:"Cholesterol also stabilizes membrane fluidity and is the precursor of bile salts and steroid hormones such as cortisol, testosterone and estradiol."},
+{id:"m1a12",lo:"1.1",src:"L1",ref:"m1-fold",type:"mc",
+stem:"In a water-soluble protein, where would you most expect to find the side chains of leucine, valine and phenylalanine?",
+opts:["Packed in the interior, away from water","On the surface, hydrogen-bonding with water","On the surface, forming salt bridges with ions in solution","Spread evenly between surface and core"],ans:0,
+exp:"All three are hydrophobic. The hydrophobic effect drives them into the core during folding, while polar and charged side chains stay on the surface in contact with water."},
+{id:"m1a13",lo:"1.1",src:"L1",ref:"m1-fold",type:"mc",
+stem:"A mutation replaces a glutamate (Glu) on the surface of a protein with valine (Val). Which effect is most likely?",
+opts:["A charged, hydrophilic side chain becomes nonpolar, which can change how that region folds or binds","No effect, since every amino acid forms the same peptide bond","The protein gains an extra positive charge at that position","Valine adds a sulfur that can form a new disulfide bond"],ans:0,
+exp:"Glu is acidic and negatively charged at pH 7.4. Val is aliphatic and hydrophobic. Swapping them changes what that surface patch interacts with. This exact swap in hemoglobin causes sickle cell disease (beyond lecture)."},
+{id:"m1a14",lo:"1.1",src:"L1",ref:"m1-fold",type:"tf",
+stem:"Two proteins with the same amino acids in a different order will fold into the same shape.",ans:false,
+exp:"The sequence decides which side chains are next to each other and where hydrophobic stretches sit, so a different order generally gives a different fold."},
+{id:"m1a15",lo:"1.1",src:"L1",ref:"m1-aa",type:"mc",
+stem:"Using the course's classification, which amino acid is hydrophobic?",
+opts:["Tyrosine","Glycine","Cysteine","Serine"],ans:0,
+exp:"The course (following the textbook) counts Tyr as hydrophobic because its –OH interacts only weakly with water. It counts Gly and Cys as hydrophilic, and Ser has a hydroxyl."},
+{id:"m1a16",lo:"1.1",src:"L1",ref:"m1-aa",type:"mc",
+stem:"Which pair of amino acids has side chains that are negatively charged at pH 7.4?",
+opts:["Aspartate and glutamate","Lysine and arginine","Serine and threonine","Asparagine and glutamine"],ans:0,
+exp:"Asp and Glu carry an extra carboxyl that loses H⁺ at physiological pH. Lys and Arg are positive. Asn and Gln are their uncharged amide versions."},
+{id:"m1a17",lo:"1.1",src:"L1",ref:"m1-nucleic",type:"mc",
+stem:"During DNA replication the two strands separate, but each strand's sequence stays intact. Which feature explains this?",
+opts:["Bases pair by hydrogen bonds, which break easily, while each backbone is held by covalent phosphodiester bonds","Both base pairs and backbones are held by hydrogen bonds, but the backbone's are stronger","Base pairs are joined by phosphodiester bonds that enzymes cut and later re-form","The backbone is held together by ionic bonds that water cannot disrupt"],ans:0,
+exp:"The weak hydrogen bonds between bases let the strands unzip. The covalent sugar-phosphate backbone keeps the order of bases on each strand."},
+{id:"m1a18",lo:"1.1",src:"L1",ref:"m1-nucleic",type:"tf",
+stem:"A nucleic acid sample containing ribose and uracil is DNA.",ans:false,
+exp:"Ribose and uracil mark RNA. DNA has deoxyribose and thymine."},
 
 // ---------- 1.2 ----------
-{id:"m1q18",lo:"1.2",src:"L3",type:"mc",
-stem:"When small oil droplets in water merge into one large droplet, the main driving force is:",
-opts:["An increase in entropy as ordered water molecules around the oil are released","Hydrogen bonds forming between neighboring oil molecules","A decrease in entropy as oil molecules become more ordered","Ion–dipole attraction between oil molecules and water"],ans:0,
-exp:"That's the hydrophobic effect: merging shrinks the total oil surface, freeing caged water molecules and raising entropy. Oil can't hydrogen-bond, and merging isn't driven by attraction.",fig:"hydro"},
-{id:"m1q19",lo:"1.2",src:"L3",type:"tf",
-stem:"Nonpolar molecules cluster in water because they are strongly attracted to one another.",ans:false,
-exp:"The hydrophobic effect is about water's entropy, not attraction. That's the key difference between it and the weak interactions."},
-{id:"m1q20",lo:"1.2",src:"L3",type:"mc",
-stem:"Which ranks the interactions from strongest to weakest?",
-opts:["Ion–dipole > hydrogen bond > dipole–dipole > van der Waals","Hydrogen bond > ion–dipole > van der Waals > dipole–dipole","Ion–dipole > dipole–dipole > hydrogen bond > van der Waals","van der Waals > dipole–dipole > hydrogen bond > ion–dipole"],ans:0,
-exp:"A full ionic charge beats partial charges. A hydrogen bond is the strongest type of dipole–dipole. van der Waals forces are the weakest individually."},
-{id:"m1q21",lo:"1.2",src:"L3",type:"mc",
+{id:"m1a19",lo:"1.2",src:"L3",ref:"m1-polar",type:"mc",
+stem:"Why does NaCl dissolve in water but not in oil?",
+opts:["Water's δ− oxygens surround Na⁺ and its δ+ hydrogens surround Cl⁻; oil has no partial charges to do this","Water forms covalent bonds with Na⁺ and Cl⁻ that oil cannot form","Oil is more polar than water, so it holds the ions together in the crystal","Water donates electrons to Na⁺, turning it into neutral sodium"],ans:0,
+exp:"Water's dipole lets it orient around each ion (ion–dipole interactions), stabilizing them apart. Oil is nonpolar, so nothing replaces the attraction between Na⁺ and Cl⁻."},
+{id:"m1a20",lo:"1.2",src:"L3",ref:"m1-polar",type:"tf",
+stem:"In a water molecule, the oxygen carries a partial positive charge because it holds the shared electrons less tightly than hydrogen does.",ans:false,
+exp:"Oxygen is more electronegative and pulls the shared electrons toward itself, so it is δ− and the hydrogens are δ+."},
+{id:"m1a21",lo:"1.2",src:"L3",ref:"m1-hbond",type:"mc",
 stem:"Which pair can form a hydrogen bond?",
-opts:["The H of an –OH group and the O of water","The H of a C–H group and the O of water","A Na⁺ ion and the O of water","Two methane (CH₄) molecules"],ans:0,
-exp:"The donor H has to be bonded to N, O or F. A C–H hydrogen isn't polarized enough. Na⁺ with water is ion–dipole, and methane–methane is only van der Waals."},
-{id:"m1q22",lo:"1.2",src:"L3",type:"tf",
-stem:"van der Waals interactions can occur only between polar molecules.",ans:false,
-exp:"They happen between all molecules, even nonpolar ones, because electrons briefly sit unevenly and create transient dipoles."},
-{id:"m1q23",lo:"1.2",src:"L3",type:"mc",
-stem:"Two atoms are pushed closer together than their van der Waals contact distance. What happens?",
-opts:["Repulsion between their electron clouds outweighs attraction","Attraction reaches its maximum and stays there","A covalent bond forms between them","The transient dipoles become permanent dipoles"],ans:0,
-exp:"Attraction increases as atoms approach until the contact distance. Closer than that, the electron clouds repel."},
-{id:"m1q24",lo:"1.2",src:"L3",type:"mc",
-stem:"A gecko can hang from a glass ceiling with no glue. Which interaction explains this?",
-opts:["Very many van der Waals interactions acting together","A few strong hydrogen bonds to the glass","Ion–dipole attraction between foot proteins and glass","The hydrophobic effect excluding water from the foot"],ans:0,
-exp:"Each van der Waals interaction is tiny, but millions of close contacts add up. It's the lecture's example of their cumulative strength."},
-{id:"m1q25",lo:"1.2",src:"L3",type:"mc",tag:"beyond",
-stem:"Why does water weaken the attraction between two oppositely charged ions?",
-opts:["Water molecules orient around each ion and shield the charges from each other","Water forms covalent bonds with the ions, neutralizing their charge","Water donates electrons to the cation until both ions are neutral","Water excludes the ions from solution through the hydrophobic effect"],ans:0,
-exp:"Because water is polar, it surrounds each ion with oppositely oriented partial charges (δ− O toward cations, δ+ H toward anions), which screens the ions from each other. In textbook terms, water has a high dielectric constant. This is also why salt dissolves."},
-{id:"m1q26",lo:"1.2",src:"L3",type:"tf",
-stem:"A major advantage of weak interactions in biology is that they form and break easily, letting molecules bind and release.",ans:true,
-exp:"Weak forces are transient and reversible. That's what lets a cell interact with its environment dynamically, while their large numbers still give stability."},
-{id:"m1q27",lo:"1.2",src:"L3",type:"tf",
-stem:"Hydrogen bonds hold the two strands of DNA together, yet they are weak enough to let the strands separate during replication.",ans:true,
-exp:"This is the lecture's main example of weak-but-useful: stable in large numbers, but easy to break."},
-{id:"m1q28",lo:"1.2",src:"L3",type:"mc",
-stem:"Which property of water most directly explains why a water strider can stand on a pond surface?",
-opts:["Cohesion from hydrogen bonding between water molecules","Water's ability to act as both an acid and a base","The hydrophobic effect around the insect's legs","Ion–dipole interactions at the water surface"],ans:0,
-exp:"Hydrogen bonds between water molecules create cohesion and surface tension. The penny water dome and the meniscus are the same effect."},
+opts:["The H of an N–H group and the O of a C=O group","The H of a C–H group and the O of a water molecule","Two methane (CH₄) molecules","A Na⁺ ion and the O of a water molecule"],ans:0,
+exp:"A hydrogen bond needs H bonded to N, O or F plus a δ− N, O or F acceptor. C–H hydrogens are barely δ+. Na⁺ with water is an ion–dipole interaction."},
+{id:"m1a22",lo:"1.2",src:"L3",ref:"m1-hbond",type:"mc",
+stem:"Hydrogen bonds hold the two DNA strands together, yet enzymes separate the strands at body temperature. Which property of hydrogen bonds allows both?",
+opts:["Each one is weak and easy to break, but many together provide stability","They are covalent bonds that enzymes can reverse","They are stronger than covalent bonds but only form in water","They form only between identical bases on the two strands"],ans:0,
+exp:"Thousands of hydrogen bonds add up to a stable helix, but each is weak and transient, so the strands can be pulled apart one pair at a time."},
+{id:"m1a23",lo:"1.2",src:"L3",ref:"m1-hbond",type:"tf",
+stem:"The cohesion that lets water form a dome on a penny comes from hydrogen bonds between water molecules.",ans:true,
+exp:"Each water molecule hydrogen-bonds to its neighbors, so the surface holds together. The same cohesion explains the meniscus and insects walking on water."},
+{id:"m1a24",lo:"1.2",src:"L3",ref:"m1-weak",type:"mc",
+stem:"A gecko clings to a glass ceiling even though its foot surface and the glass are largely nonpolar. Which interaction explains this?",
+opts:["van der Waals forces summed over millions of close contacts","Hydrogen bonds between the foot and the glass","Ion–dipole interactions between the foot and the glass","The hydrophobic effect pushing the foot against the glass"],ans:0,
+exp:"van der Waals forces act between all molecules, including nonpolar ones. Each is the weakest interaction, but the gecko's foot makes so many close contacts that they add up."},
+{id:"m1a25",lo:"1.2",src:"L3",ref:"m1-weak",type:"mc",
+stem:"Which list orders these interactions from strongest to weakest, as taught in the lecture?",
+opts:["Ion–dipole, hydrogen bond, dipole–dipole, van der Waals","Hydrogen bond, ion–dipole, van der Waals, dipole–dipole","Dipole–dipole, hydrogen bond, ion–dipole, van der Waals","van der Waals, dipole–dipole, hydrogen bond, ion–dipole"],ans:0,
+exp:"A full charge (ion–dipole) attracts most strongly. A hydrogen bond is an especially strong dipole–dipole interaction. van der Waals forces are the weakest individually."},
+{id:"m1a26",lo:"1.2",src:"L3",ref:"m1-weak",type:"tf",
+stem:"Pushing two atoms closer than their van der Waals contact distance increases the attraction between them.",ans:false,
+exp:"Attraction grows only up to the contact distance. Closer than that, the electron clouds repel."},
+{id:"m1a27",lo:"1.2",src:"L3",ref:"m1-hydrophobic",type:"mc",
+stem:"Which statement best explains why nonpolar molecules cluster together in water?",
+opts:["Clustering reduces the number of ordered water molecules caged around nonpolar surfaces, increasing entropy","Nonpolar molecules attract one another strongly through hydrogen bonds","Water repels nonpolar molecules through ionic interactions","Clustering releases energy by forming covalent bonds between the molecules"],ans:0,
+exp:"Water forms ordered cages around nonpolar surfaces. Clustering exposes less surface and frees caged water, raising entropy. The effect comes from water, not attraction between the nonpolar molecules."},
+{id:"m1a28",lo:"1.2",src:"L3",ref:"m1-hydrophobic",type:"tf",
+stem:"The hydrophobic effect is driven mainly by attraction between nonpolar molecules.",ans:false,
+exp:"It's driven by the entropy gained when caged water molecules are released. The lecture stresses that this is the difference between the hydrophobic effect and weak interactions."},
+{id:"m1a29",lo:"1.2",src:"L3",ref:"m1-hydrophobic",type:"mc",
+stem:"A detergent molecule has a charged head and a long hydrocarbon tail. What will many of them do when added to water?",
+opts:["Form clusters with the tails inside and the heads facing the water","Dissolve as single molecules with their tails hydrogen-bonded to water","Form a layer with the tails facing the water","Separate into an oil layer the way triglycerides do"],ans:0,
+exp:"Like phospholipids, detergents are amphipathic. The hydrophobic effect gathers the tails together and the charged heads stay in contact with water."},
+{id:"m1a30",lo:"1.2",src:"L3",ref:"m1-shield",type:"mc",tag:"beyond",
+stem:"Two oppositely charged side chains form a salt bridge. Where would this interaction be strongest?",
+opts:["Buried in the nonpolar core of the protein","On the protein surface, fully exposed to water","On the surface, in a high-salt solution","Equally strong anywhere, since the charges are the same"],ans:0,
+exp:"Water and dissolved ions surround charges and screen them, weakening attraction. Away from water, nothing competes for the two charges, so the salt bridge is stronger."},
 
 // ---------- 1.3 ----------
-{id:"m1q29",lo:"1.3",src:"L4",type:"mc",
-stem:"A solution has [H₃O⁺] = 1 × 10⁻³ M. What are its pOH and [OH⁻]?",
-opts:["pOH 11; [OH⁻] = 1 × 10⁻¹¹ M","pOH 3; [OH⁻] = 1 × 10⁻³ M","pOH 11; [OH⁻] = 1 × 10⁻³ M","pOH 3; [OH⁻] = 1 × 10⁻¹¹ M"],ans:0,
-exp:"pH = 3, so pOH = 14 − 3 = 11 and [OH⁻] = 10⁻¹¹ M.",
-steps:["pH = −log(10⁻³) = 3","pOH = 14 − pH = 11","[OH⁻] = 10<sup>−pOH</sup> = 10⁻¹¹ M"]},
-{id:"m1q30",lo:"1.3",src:"L4",type:"mc",
-stem:"Urine pH changes from 6 to 4. The [H⁺] has:",
-opts:["Increased 100-fold","Increased 2-fold","Decreased 100-fold","Increased 20-fold"],ans:0,
-exp:"Each pH unit is a 10× change, and lower pH means more H⁺. Two units down = 10 × 10 = 100× more H⁺.",
-steps:["Δ pH = 4 − 6 = −2","[H⁺] ratio = 10<sup>2</sup> = 100","pH went down, so [H⁺] went up"]},
-{id:"m1q31",lo:"1.3",src:"L4",type:"mc",
-stem:"Acetic acid has a pKa of 4.8. At pH 7.4, it exists mostly as:",
-opts:["Acetate, with [A⁻]/[HA] ≈ 400","Acetic acid, with [HA]/[A⁻] ≈ 400","Acetate, with [A⁻]/[HA] ≈ 2.6","Equal amounts of acetate and acetic acid"],ans:0,
-exp:"pH is above the pKa, so the deprotonated form wins. Ratio = 10^(7.4 − 4.8) = 10^2.6 ≈ 400.",
-steps:["pH = pKa + log([A⁻]/[HA])","7.4 = 4.8 + log(ratio) → log(ratio) = 2.6","ratio = 10<sup>2.6</sup> ≈ 398","Common trap: 2.6 is the log of the ratio, not the ratio itself"]},
-{id:"m1q32",lo:"1.3",src:"L4",type:"tf",
-stem:"When the pH equals the pKa, half of the acid molecules are deprotonated.",ans:true,
-exp:"pH = pKa makes log([A⁻]/[HA]) = 0, so the ratio is 1:1. This is also where buffering is strongest."},
-{id:"m1q33",lo:"1.3",src:"L4",type:"mc",
-stem:"Acid X has Ka = 1 × 10⁻³ and acid Y has Ka = 1 × 10⁻⁶. Which is correct?",
-opts:["X is the stronger acid and has the lower pKa (3 vs 6)","X is the stronger acid and has the higher pKa (6 vs 3)","Y is the stronger acid and has the lower pKa (3 vs 6)","Y is the stronger acid and has the higher pKa (6 vs 3)"],ans:0,
-exp:"A larger Ka means it dissociates more, so it's a stronger acid. pKa = −log Ka gives 3 for X and 6 for Y. Stronger acid = lower pKa."},
-{id:"m1q34",lo:"1.3",src:"L4",type:"mc",
-stem:"A drug is a weak acid with pKa 3.5. Assume it is absorbed only in its conjugate base form. Where is absorption greater?",
-opts:["Small intestine (pH 3.5), because there [A⁻] equals [HA]","Stomach (pH 1.5), because there [A⁻] exceeds [HA]","Stomach (pH 1.5), because there [HA] exceeds [A⁻]","Absorption is equal, since the pKa does not change"],ans:0,
-exp:"In the stomach, pH 1.5 is below the pKa, so HA dominates (A⁻:HA = 1:100). At pH 3.5, pH = pKa, so half the drug is A⁻. More conjugate base means more absorption.",
-steps:["Stomach: ratio = 10<sup>1.5 − 3.5</sup> = 10⁻² → 1 A⁻ per 100 HA","Intestine: ratio = 10<sup>0</sup> = 1 → 1:1","More A⁻ available in the intestine → more absorbed"]},
-{id:"m1q35",lo:"1.3",src:"L4",type:"mc",
-stem:"Which form of a weak acid diffuses through the hydrophobic core of the plasma membrane more easily?",
-opts:["The protonated, uncharged form (HA)","The deprotonated, charged form (A⁻)","Both cross equally well","Neither; weak acids cross only through channels"],ans:0,
-exp:"Charged forms are more polar and water-soluble but struggle to cross the hydrophobic core. The uncharged HA crosses more readily."},
-{id:"m1q36",lo:"1.3",src:"L4",type:"mc",
-stem:"You need a buffer to hold a solution at pH 7.0. Which weak acid is the best choice?",
-opts:["H₂PO₄⁻ (pKa 6.8)","Acetic acid (pKa 4.8)","NH₄⁺ (pKa 9.2)","H₃PO₄ (pKa 2.1)"],ans:0,
-exp:"A buffer works best within pKa ± 1. Only 6.8 covers 7.0 (range 5.8–7.8)."},
-{id:"m1q37",lo:"1.3",src:"L4",type:"tf",
-stem:"Adding a buffer to an acidic solution moves its pH toward 7.",ans:false,
-exp:"This is the misconception the lecture calls out. A buffer resists change at whatever pH it's at; it doesn't neutralize."},
-{id:"m1q38",lo:"1.3",src:"L4",type:"mc",
-stem:"What is the pH of 0.01 M HCl?",
-opts:["2","1","12","0.01"],ans:0,
-exp:"HCl is a strong acid and fully dissociates, so [H⁺] = 0.01 = 10⁻² M and pH = 2.",
-steps:["Strong acid → [H⁺] = 0.01 M = 10⁻² M","pH = −log(10⁻²) = 2"]},
-{id:"m1q39",lo:"1.3",src:"L4",type:"mc",
-stem:"Metabolic pathways name intermediates like \"pyruvate\" and \"lactate\" rather than \"pyruvic acid\" and \"lactic acid\" because:",
-opts:["Their pKa values are well below 7.4, so they exist mostly as conjugate bases","Their pKa values are well above 7.4, so they exist mostly as conjugate bases","They are strong acids that dissociate completely at any pH","Cells convert them to bases with ATP before using them"],ans:0,
-exp:"When pH > pKa the deprotonated (-ate) form dominates. Organic acids have pKa values far below blood pH."},
-{id:"m1q40",lo:"1.3",src:"L4",type:"mc",
-stem:"In the titration curve shown, which point marks the region of strongest buffering?",
-opts:["A","B","C","D"],ans:1,fixed:true,fig:"titr",
-exp:"B is the flat middle of the curve, where pH = pKa and [HA] = [A⁻]. Adding base barely moves pH there. At A and D almost all of the acid is in one form, and C is past the buffer zone."},
-{id:"m1q41",lo:"1.3",src:"L4",type:"tf",
-stem:"A Keq less than 1 indicates that a reaction at equilibrium favors the reactants.",ans:true,
-exp:"Keq is products over reactants. Below 1 means more reactant at equilibrium. Water's tiny Keq shows how little it dissociates."},
+{id:"m1a31",lo:"1.3",src:"L4",ref:"m1-scale",type:"mc",
+stem:"A solution has [H⁺] = 1×10⁻⁴ M. What are its pH and pOH?",
+opts:["pH 4, pOH 10","pH 10, pOH 4","pH 4, pOH 4","pH −4, pOH 18"],ans:0,
+exp:"pH = −log(10⁻⁴) = 4. pOH = 14 − 4 = 10."},
+{id:"m1a32",lo:"1.3",src:"L4",ref:"m1-scale",type:"mc",
+stem:"Solution A has pH 3 and solution B has pH 5. How does [H⁺] in A compare with B?",
+opts:["100 times higher","2 times higher","100 times lower","2 times lower"],ans:0,
+exp:"Each pH unit is a factor of 10. A is 2 units lower, so it has 10 × 10 = 100 times more H⁺."},
+{id:"m1a33",lo:"1.3",src:"L4",ref:"m1-scale",type:"tf",
+stem:"A solution with pOH 3 is acidic.",ans:false,
+exp:"pH = 14 − 3 = 11, which is basic."},
+{id:"m1a34",lo:"1.3",src:"L4",ref:"m1-ka",type:"mc",
+stem:"Acid X has pKa 2.1 and acid Y has pKa 9.2. Which statement is correct?",
+opts:["X is the stronger acid and gives up its proton more readily","Y is the stronger acid because its pKa is higher","X has the smaller Ka of the two","Both are equally strong at pH 7"],ans:0,
+exp:"pKa = −log Ka, so a lower pKa means a larger Ka and a stronger acid."},
+{id:"m1a35",lo:"1.3",src:"L4",ref:"m1-ka",type:"tf",
+stem:"A reaction with Keq = 0.001 favors the reactants at equilibrium.",ans:true,
+exp:"Keq is products over reactants. A value below 1 means reactants dominate at equilibrium."},
+{id:"m1a36",lo:"1.3",src:"L4",ref:"m1-hh",type:"mc",
+stem:"A weak acid has pKa 6.0. At pH 8.0, what is the ratio [A⁻] : [HA]?",
+opts:["100 : 1","2 : 1","1 : 100","1 : 2"],ans:0,
+exp:"Ratio = 10^(pH − pKa) = 10² = 100. pH is above the pKa, so A⁻ dominates.",
+steps:["8.0 = 6.0 + log([A⁻]/[HA])","log([A⁻]/[HA]) = 2","[A⁻]/[HA] = 10² = 100"]},
+{id:"m1a37",lo:"1.3",src:"L4",ref:"m1-hh",type:"tf",
+stem:"A weak acid is half dissociated when the pH equals its pKa.",ans:true,
+exp:"At pH = pKa, log([A⁻]/[HA]) = 0, so the ratio is 1 and the acid is split evenly."},
+{id:"m1a38",lo:"1.3",src:"L4",ref:"m1-hh",type:"mc",
+stem:"Lactic acid has a pKa of about 3.9. In blood at pH 7.4, which form predominates?",
+opts:["Lactate (A⁻), because the pH is well above the pKa","Lactic acid (HA), because the pH is above the pKa","Equal amounts of each, because blood is buffered","Lactic acid (HA), because it is a weak acid"],ans:0,
+exp:"pH above pKa means the deprotonated form dominates. 7.4 is 3.5 units above 3.9, so lactate outnumbers lactic acid by thousands to one. That's why it's called lactate in metabolism."},
+{id:"m1a39",lo:"1.3",src:"L4",ref:"m1-ionize",type:"mc",
+stem:"Assume aspirin (pKa 3.5) is absorbed in its conjugate base form. Where is absorption greater: the stomach (pH 1.5) or the small intestine (pH 3.5)?",
+opts:["Small intestine, because there [A⁻] equals [HA], while in the stomach HA dominates","Stomach, because the extra H⁺ helps carry aspirin across the membrane","Stomach, because below the pKa the A⁻ form dominates","Neither, because ionization does not depend on pH"],ans:0,
+exp:"At pH 1.5, two units below the pKa, aspirin is about 99% HA. At pH 3.5 it's 50% A⁻. With absorption as A⁻, the small intestine wins."},
+{id:"m1a40",lo:"1.3",src:"L4",ref:"m1-buffers",type:"mc",
+stem:"Which conjugate pair would buffer best at pH 4.8?",
+opts:["Acetic acid and acetate (pKa 4.8)","Carbonic acid and bicarbonate (pKa 6.1)","HCl and Cl⁻ (pKa below 0)","H₂PO₄⁻ and HPO₄²⁻ (pKa 7.2)"],ans:0,
+exp:"A buffer works best within about 1 unit of its pKa, best of all at the pKa. HCl is a strong acid and does not form a useful buffer."},
+{id:"m1a41",lo:"1.3",src:"L4",ref:"m1-buffers",type:"tf",
+stem:"Adding a buffer to an acidic solution brings its pH to 7.",ans:false,
+exp:"A buffer resists change and holds pH near its own pKa. It doesn't neutralize a solution to 7."},
+{id:"m1a42",lo:"1.3",src:"L4",ref:"m1-buffers",type:"mc",fig:"titr",
+stem:"On this titration curve of a weak acid, at which point does the solution resist pH change the most?",
+opts:["A","B","C","D"],ans:1,fixed:true,
+exp:"B is the midpoint of the flat region, where pH = pKa and HA and A⁻ are equal. At C the acid is nearly used up and pH climbs steeply."},
+{id:"m1a43",lo:"1.3",src:"L4",ref:"m1-measure",type:"mc",tag:"beyond",
+stem:"A lab needs the pH of a blood sample to the nearest 0.01 unit. Which method fits?",
+opts:["A pH meter calibrated with standard buffers","Universal pH paper compared to a color chart","A single indicator dye with a pKa near 7.4","Litmus paper, read as red or blue"],ans:0,
+exp:"A calibrated pH meter reads to about 0.01. Indicators and paper are quick but only accurate to roughly 0.5 to 1 unit."},
+{id:"m1a44",lo:"1.3",src:"L4",ref:"m1-measure",type:"tf",tag:"beyond",
+stem:"An indicator dye changes color over a pH range centered near its own pKa.",ans:true,
+exp:"The dye's HA and A⁻ forms are different colors, and they switch dominance at the pKa."},
 
 // ---------- 1.4 ----------
-{id:"m1q42",lo:"1.4",src:"L4",type:"mc",
-stem:"A patient's blood pH is 7.1. Using pKa 6.1, what is the [HCO₃⁻]:[H₂CO₃] ratio?",
-opts:["10:1","20:1","1:10","1:1"],ans:0,
-exp:"Ratio = 10^(7.1 − 6.1) = 10¹ = 10. That's half the normal 20:1, so this patient is acidemic.",
-steps:["7.1 = 6.1 + log(ratio)","log(ratio) = 1.0","ratio = 10¹ = 10 → 10:1 (normal is 20:1 at 7.4)"]},
-{id:"m1q43",lo:"1.4",src:"L4",type:"mc",
-stem:"A blood sample has [HCO₃⁻]:[H₂CO₃] = 40:1 (pKa 6.1). This patient has:",
-opts:["Alkalosis, pH ≈ 7.7","Acidosis, pH ≈ 7.1","Alkalosis, pH ≈ 46","Normal pH, 7.4"],ans:0,
-exp:"pH = 6.1 + log 40 ≈ 6.1 + 1.6 = 7.7, which is above 7.4. Doubling the ratio raises pH by log 2 ≈ 0.3.",
-steps:["pH = 6.1 + log(40)","log(40) ≈ 1.6","pH ≈ 7.7 → above 7.4 = alkalosis"]},
-{id:"m1q44",lo:"1.4",src:"L4",type:"mc",
-stem:"An opioid overdose slows a patient's breathing. Which sequence follows?",
-opts:["CO₂ rises → equilibrium shifts toward H⁺ + HCO₃⁻ → pH falls → respiratory acidosis","CO₂ rises → equilibrium shifts toward CO₂ + H₂O → pH rises → respiratory alkalosis","CO₂ falls → equilibrium shifts toward H⁺ + HCO₃⁻ → pH falls → metabolic acidosis","CO₂ falls → equilibrium shifts toward CO₂ + H₂O → pH rises → respiratory alkalosis"],ans:0,fig:"bicarb",
-exp:"Slower breathing means less CO₂ is exhaled. The extra CO₂ pushes the equation right, making more H⁺. It's respiratory because the problem started with CO₂."},
-{id:"m1q45",lo:"1.4",src:"L4",type:"mc",
-stem:"During a panic attack a person hyperventilates. Their blood will show:",
-opts:["Lower CO₂, lower [H⁺], higher pH","Higher CO₂, higher [H⁺], lower pH","Lower CO₂, higher [H⁺], lower pH","Higher CO₂, lower [H⁺], higher pH"],ans:0,
-exp:"Blowing off CO₂ pulls the equation left, which uses up H⁺, so pH rises (respiratory alkalosis)."},
-{id:"m1q46",lo:"1.4",src:"L4",type:"tf",
-stem:"Increasing the CO₂ concentration in blood raises blood pH.",ans:false,
-exp:"More CO₂ makes more carbonic acid, which releases H⁺, so pH goes down."},
-{id:"m1q47",lo:"1.4",src:"L4",type:"tf",
-stem:"In the lungs, the bicarbonate reactions run toward CO₂, so acid leaves the body as exhaled gas.",ans:true,
-exp:"Enzymes in the lung favor the reverse reaction. That's how CO₂ made by metabolism stops building up as acid."},
-{id:"m1q48",lo:"1.4",src:"L4",type:"mc",
-stem:"During a sprint, lactic acid floods the blood. How does the bicarbonate system respond?",
-opts:["HCO₃⁻ binds the added H⁺, forming H₂CO₃ that converts to CO₂ for exhalation","H₂CO₃ binds the added H⁺, forming HCO₃⁻ that is excreted","CO₂ binds the added H⁺, forming H₂CO₃ that releases HCO₃⁻","The added H⁺ converts water into more HCO₃⁻ to raise pH"],ans:0,
-exp:"Bicarbonate is the base that soaks up H⁺. This is why the 20:1 bicarbonate reserve matters. The equation shifts left and the extra CO₂ is breathed off."},
-{id:"m1q49",lo:"1.4",src:"L4",type:"mc",tag:"beyond",
-stem:"A patient with severe vomiting loses large amounts of stomach HCl. Which disturbance is most likely?",
+{id:"m1a45",lo:"1.4",src:"L4",ref:"m1-resp",type:"mc",
+stem:"A patient's breathing is depressed after an opioid overdose. Which prediction is correct?",
+opts:["CO₂ accumulates, the equilibrium shifts toward H⁺ + HCO₃⁻, and blood pH falls","CO₂ accumulates, the equilibrium shifts toward CO₂ + H₂O, and blood pH rises","CO₂ falls, H⁺ is consumed, and blood pH rises","CO₂ accumulates, but bicarbonate neutralizes all of it, so pH is unchanged"],ans:0,
+exp:"Slow breathing retains CO₂. Adding CO₂ pushes the reaction right, producing H⁺, so pH drops. This is respiratory acidosis."},
+{id:"m1a46",lo:"1.4",src:"L4",ref:"m1-resp",type:"tf",
+stem:"Hyperventilating during a panic attack raises blood pH.",ans:true,
+exp:"Fast breathing removes CO₂, the reaction shifts left, H⁺ is consumed and pH rises (respiratory alkalosis)."},
+{id:"m1a47",lo:"1.4",src:"L4",ref:"m1-resp",type:"tf",
+stem:"A climber breathing rapidly at high altitude will develop respiratory acidosis.",ans:false,
+exp:"Rapid breathing blows off CO₂ and raises pH. That's respiratory alkalosis."},
+{id:"m1a48",lo:"1.4",src:"L4",ref:"m1-bicarb",type:"tf",
+stem:"Adding CO₂ to blood shifts the bicarbonate equilibrium toward CO₂ + H₂O.",ans:false,
+exp:"Adding a reactant pushes the reaction away from it, toward H₂CO₃ and then H⁺ + HCO₃⁻."},
+{id:"m1a49",lo:"1.4",src:"L4",ref:"m1-bicarb",type:"mc",
+stem:"During an all-out sprint, lactic acid enters the blood. What does the bicarbonate system do first?",
+opts:["HCO₃⁻ binds the added H⁺, forming H₂CO₃ that becomes CO₂ and water, so HCO₃⁻ falls","CO₂ binds the added H⁺ directly, which raises HCO₃⁻","The equilibrium shifts toward H⁺ + HCO₃⁻, raising bicarbonate","Lactate is converted into bicarbonate, which cancels the acid"],ans:0,
+exp:"Added H⁺ is absorbed by bicarbonate, pushing the reaction left. Bicarbonate is used up and the CO₂ produced is exhaled."},
+{id:"m1a50",lo:"1.4",src:"L4",ref:"m1-bicarb",type:"mc",
+stem:"Blood pH falls from 7.4 to 7.1. Using pKa 6.1, what happens to the [HCO₃⁻] : [H₂CO₃] ratio?",
+opts:["It falls from 20 : 1 to 10 : 1","It rises from 20 : 1 to 40 : 1","It stays 20 : 1, since the pKa doesn't change","It falls from 20 : 1 to 1 : 10"],ans:0,
+exp:"Ratio = 10^(pH − pKa). 10^(7.1 − 6.1) = 10^1 = 10. Less bicarbonate relative to acid means lower pH."},
+{id:"m1a51",lo:"1.4",src:"L4",ref:"m1-metab",type:"mc",tag:"beyond",
+stem:"Severe, prolonged vomiting removes HCl from the stomach. Which disorder is most likely?",
 opts:["Metabolic alkalosis","Metabolic acidosis","Respiratory alkalosis","Respiratory acidosis"],ans:0,
-exp:"Losing H⁺ leaves extra HCO₃⁻ behind, so pH rises. The cause is acid loss, not CO₂, so it's metabolic. Severe diarrhea is the opposite: it loses HCO₃⁻ and causes metabolic acidosis."},
-{id:"m1q50",lo:"1.4",src:"L4",type:"mc",tag:"beyond",
-stem:"A patient with diabetic ketoacidosis breathes deeply and rapidly. What does this accomplish?",
-opts:["Exhaling more CO₂ pulls the equilibrium left, removing H⁺ and raising pH toward normal","Inhaling more O₂ neutralizes the ketoacids directly","Exhaling more CO₂ pushes the equilibrium right, making HCO₃⁻ to cause alkalosis","Retaining CO₂ increases carbonic acid, which buffers the ketoacids"],ans:0,
-exp:"This is respiratory compensation for metabolic acidosis. Removing CO₂ pulls H⁺ + HCO₃⁻ back toward CO₂. It partly corrects pH but doesn't fix the cause."},
-{id:"m1q51",lo:"1.4",src:"L4",type:"mc",
-stem:"Acidosis can impair enzyme function mainly because a pH change:",
-opts:["Alters protonation of side chains, disrupting the electrostatic interactions and H-bonds that hold the protein's shape","Breaks the peptide bonds that link the protein's amino acids","Converts hydrophobic amino acids into hydrophilic ones","Increases the hydrophobic effect so the protein cannot fold"],ans:0,
-exp:"Gaining or losing H⁺ changes side-chain charges, which disrupts the weak interactions that set the 3D shape. Peptide bonds are covalent and stay intact. This links 1.2 with 1.4."},
-{id:"m1q52",lo:"1.4",src:"L4",type:"tf",tag:"beyond",
-stem:"Even though blood pH (7.4) lies outside carbonic acid's pKa ± 1 range, the bicarbonate system remains effective because the lungs can adjust CO₂.",ans:true,
-exp:"6.1 ± 1 only reaches 7.1, but it's an open system: breathing removes or keeps CO₂, and the kidneys handle HCO₃⁻. That's why it still buffers well at 7.4."}
+exp:"Losing acid shifts the reaction right to replace H⁺, leaving excess HCO₃⁻. It starts with acid loss, not CO₂, so it's metabolic."},
+{id:"m1a52",lo:"1.4",src:"L4",ref:"m1-metab",type:"mc",tag:"beyond",
+stem:"Which condition causes metabolic acidosis by losing base rather than adding acid?",
+opts:["Severe diarrhea","Diabetic ketoacidosis","Severe vomiting","Slowed breathing"],ans:0,
+exp:"Intestinal fluid is rich in bicarbonate, so diarrhea removes base. DKA adds ketoacids. Vomiting causes alkalosis, and slowed breathing is respiratory."},
+{id:"m1a53",lo:"1.4",src:"L4",ref:"m1-comp",type:"tf",tag:"beyond",
+stem:"In diabetic ketoacidosis, rapid deep breathing helps raise blood pH back toward normal.",ans:true,
+exp:"Breathing off CO₂ pulls the reaction left and consumes H⁺. This is respiratory compensation for a metabolic acidosis."},
+{id:"m1a54",lo:"1.4",src:"L4",ref:"m1-comp",type:"mc",tag:"beyond",
+stem:"Carbonic acid's pKa (6.1) is more than 1 unit below blood pH (7.4), yet bicarbonate is the main blood buffer. Why?",
+opts:["Blood is an open system: lungs adjust CO₂ and kidneys adjust HCO₃⁻, so neither form runs out","At body temperature its pKa shifts up to 7.4","Bicarbonate is a strong base, so it buffers well at any pH","At 20 : 1 it buffers added base much better than added acid"],ans:0,
+exp:"In a closed flask, 7.4 would be outside the useful range. The lungs and kidneys keep refilling both sides, so the system keeps working. With so much HCO₃⁻, it actually handles added acid well, not base."}
 ],
 
 drills:[
@@ -335,14 +425,6 @@ rounds:[
 items:[["Ala","Aliphatic"],["Gly","Aliphatic","Book groups Gly as aliphatic"],["Ile","Aliphatic"],["Leu","Aliphatic"],["Pro","Aliphatic","Aliphatic, and technically an imino acid"],["Val","Aliphatic"],["Phe","Aromatic"],["Trp","Aromatic"],["Tyr","Aromatic"],["Asp","Acidic"],["Glu","Acidic"],["Arg","Basic"],["His","Basic"],["Lys","Basic"],["Ser","Hydroxylic"],["Thr","Hydroxylic"],["Asn","Amidic"],["Gln","Amidic"],["Cys","Sulfur"],["Met","Sulfur"]]},
 {name:"Hydrophobic or hydrophilic",bins:["Hydrophobic","Hydrophilic"],
 items:[["Ala","Hydrophobic"],["Gly","Hydrophilic","Nonpolar, but the book counts it hydrophilic"],["Ile","Hydrophobic"],["Leu","Hydrophobic"],["Pro","Hydrophobic"],["Val","Hydrophobic"],["Phe","Hydrophobic"],["Trp","Hydrophobic"],["Tyr","Hydrophobic","Polar, but only weakly interacts with water → polar hydrophobic"],["Asp","Hydrophilic"],["Glu","Hydrophilic"],["Arg","Hydrophilic"],["His","Hydrophilic"],["Lys","Hydrophilic"],["Ser","Hydrophilic"],["Thr","Hydrophilic"],["Asn","Hydrophilic"],["Gln","Hydrophilic"],["Cys","Hydrophilic","Sulfur pair splits: Cys polar hydrophilic"],["Met","Hydrophobic","Sulfur pair splits: Met nonpolar hydrophobic"]]}
-]},
-{id:"m1d2",lo:"1.1",kind:"sort",title:"Structure → role",
-intro:"Match the structure to its class, then the job to the molecule.",
-rounds:[
-{name:"Which class?",bins:["Carbohydrate","Lipid","Protein","Nucleic acid"],
-items:[["Glycerol + three fatty acids","Lipid","Triglyceride"],["Four fused carbon rings","Lipid","Steroid"],["Sphingosine backbone","Lipid","Sphingolipid (a phospholipid)"],["Glucose + fructose","Carbohydrate","Sucrose, a disaccharide"],["Highly branched glucose chain","Carbohydrate","Glycogen"],["Unbranched chain of peptide bonds","Protein"],["Folds based on R-group charge","Protein"],["5-C sugar + base + phosphate","Nucleic acid","A nucleotide"],["Subunits joined by phosphodiester bonds","Nucleic acid"],["Contains ribose and uracil","Nucleic acid","RNA"]]},
-{name:"Which molecule does the job?",bins:["Triglyceride","Phospholipid","Cholesterol","Glycogen","Starch","Protein","DNA","RNA"],
-items:[["Long-term fat storage in adipose","Triglyceride"],["Forms the membrane bilayer","Phospholipid"],["Precursor of cortisol, testosterone, bile salts","Cholesterol"],["Buffers membrane fluidity hot and cold","Cholesterol"],["Glucose storage in animals","Glycogen"],["Glucose storage in plants","Starch"],["Catalyzes reactions","Protein","Enzymes are proteins"],["Stores genetic information","DNA"],["Carries the code used to build proteins","RNA","DNA → RNA → protein"]]}
 ]},
 {id:"m1d3",lo:"1.2",kind:"sort",title:"Name the interaction",
 intro:"Which interaction is doing the work?",

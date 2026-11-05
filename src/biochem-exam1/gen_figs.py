@@ -172,7 +172,83 @@ def phscale():
     h.append('<div class="phmk"><span style="left:calc(1.75/15*100%)">stomach ~1.5–2</span><span style="left:calc(7.9/15*100%)">blood 7.4</span></div></div>')
     return "".join(h)
 
-figs={"hydro":hydro(),"bicarb":bicarb(),"titr":titr(),"classes":classes(),"water":water(),"aagrid":aagrid(),"forces":forces(),"phscale":phscale()}
+
+def bilayer():
+    W,H=680,250
+    o=[f'<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="13">',f'<rect width="{W}" height="{H}" fill="#fff"/>']
+    def lipid(x,y,down,kink):
+        d=1 if down else -1
+        o.append(f'<circle cx="{x}" cy="{y}" r="8" fill="{ACC}"/>')
+        for k,dx in enumerate((-3,3)):
+            if kink and k==1:
+                pts=f"{x+dx},{y+d*8} {x+dx},{y+d*26} {x+dx+8},{y+d*44}"
+            else:
+                pts=f"{x+dx},{y+d*8} {x+dx},{y+d*44}"
+            o.append(f'<polyline points="{pts}" fill="none" stroke="{OIL}" stroke-width="2.5"/>')
+    # left: one phospholipid labelled
+    lipid(70,70,True,False)
+    o.append(T(88,74,"polar head",fill=FG)+T(88,104,"nonpolar tails",fill=FG))
+    o.append(T(70,150,"amphipathic",text_anchor="middle",fill=MUT))
+    # middle: bilayer saturated (tight)
+    def layer(x0,n,gap,kinks):
+        for i in range(n):
+            x=x0+i*gap; lipid(x,48,True,kinks and i%2==0); lipid(x,182,False,kinks and i%2==1)
+    o.append(f'<rect x="200" y="58" width="200" height="114" fill="#fbf3dd"/>')
+    layer(212,8,25,False)
+    o.append(f'<rect x="440" y="58" width="220" height="114" fill="#fbf3dd"/>')
+    layer(452,7,33,True)
+    o.append(T(300,225,"saturated tails: pack tightly",text_anchor="middle",fill=FG))
+    o.append(T(550,225,"unsaturated (kinked): looser, more fluid",text_anchor="middle",fill=FG))
+    o.append(T(300,20,"water side",text_anchor="middle",fill=MUT)+T(550,20,"water side",text_anchor="middle",fill=MUT))
+    o.append(T(300,119,"nonpolar core",text_anchor="middle",fill=MUT,font_size="12"))
+    o.append('</svg>');return "".join(o)
+
+def fold():
+    W,H=680,230
+    o=[f'<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="13">',f'<rect width="{W}" height="{H}" fill="#fff"/>',
+       '<defs><marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1c1c1c"/></marker></defs>']
+    seq="PHPHHPCPHHPCHP"
+    def col(c): return OIL if c=="H" else ("#fff" if c=="P" else "#cfd8e6")
+    o.append(f'<line x1="30" y1="110" x2="{30+20*(len(seq)-1)}" y2="110" stroke="{FG}" stroke-width="1.5"/>')
+    for i,c in enumerate(seq):
+        x=30+i*20
+        o.append(f'<circle cx="{x}" cy="110" r="8" fill="{col(c)}" stroke="{FG}" stroke-width="1.2"/>')
+    o.append(T(160,140,"unfolded chain in water",text_anchor="middle",fill=MUT))
+    o.append(f'<path d="M318 110 H372" stroke="{FG}" stroke-width="2" marker-end="url(#fa)"/>')
+    cx,cy=510,110
+    pts=[]
+    import math as m
+    inner=[(cx+28*m.cos(a),cy+28*m.sin(a)) for a in [k*m.pi/3 for k in range(6)]]
+    outer=[(cx+72*m.cos(a),cy+66*m.sin(a)) for a in [k*2*m.pi/10+0.3 for k in range(10)]]
+    o.append(f'<ellipse cx="{cx}" cy="{cy}" rx="88" ry="82" fill="none" stroke="{LINE}" stroke-dasharray="4 4"/>')
+    for x,y in outer: o.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="8" fill="#fff" stroke="{FG}" stroke-width="1.2"/>')
+    for k in (1,4,7): x,y=outer[k]; o.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="8" fill="#cfd8e6" stroke="{FG}" stroke-width="1.2"/>')
+    for x,y in inner: o.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="8" fill="{OIL}" stroke="{FG}" stroke-width="1.2"/>')
+    o.append(T(510,216,"folded: nonpolar inside, polar and charged outside",text_anchor="middle",fill=FG))
+    o.append(f'<circle cx="24" cy="20" r="7" fill="{OIL}" stroke="{FG}"/>'+T(36,24,"nonpolar R",fill=MUT))
+    o.append(f'<circle cx="140" cy="20" r="7" fill="#fff" stroke="{FG}"/>'+T(152,24,"polar R",fill=MUT))
+    o.append(f'<circle cx="236" cy="20" r="7" fill="#cfd8e6" stroke="{FG}"/>'+T(248,24,"charged R",fill=MUT))
+    o.append('</svg>');return "".join(o)
+
+def dna():
+    W,H=680,200
+    o=[f'<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="13">',f'<rect width="{W}" height="{H}" fill="#fff"/>']
+    pairs=[("A","T"),("G","C"),("T","A"),("C","G"),("A","T")]
+    for i,(a,b) in enumerate(pairs):
+        x=60+i*80
+        o.append(f'<line x1="{x}" y1="40" x2="{x}" y2="60" stroke="{FG}" stroke-width="1.5"/><line x1="{x}" y1="140" x2="{x}" y2="160" stroke="{FG}" stroke-width="1.5"/>')
+        o.append(f'<rect x="{x-14}" y="60" width="28" height="30" rx="3" fill="{ACC}"/>'+T(x,80,a,text_anchor="middle",fill="#fff",font_weight="600"))
+        o.append(f'<rect x="{x-14}" y="110" width="28" height="30" rx="3" fill="{ACC}"/>'+T(x,130,b,text_anchor="middle",fill="#fff",font_weight="600"))
+        o.append(f'<line x1="{x-6}" y1="92" x2="{x-6}" y2="108" stroke="{ACC}" stroke-dasharray="2 2"/><line x1="{x+6}" y1="92" x2="{x+6}" y2="108" stroke="{ACC}" stroke-dasharray="2 2"/>')
+    for y in (40,160):
+        o.append(f'<line x1="36" y1="{y}" x2="404" y2="{y}" stroke="{FG}" stroke-width="3"/>')
+        for i in range(5): o.append(f'<circle cx="{60+i*80}" cy="{y}" r="6" fill="#fff" stroke="{FG}" stroke-width="1.5"/>')
+    o.append(T(424,44,"sugar–phosphate backbone",fill=FG)+T(424,62,"(phosphodiester bonds,",fill=MUT)+T(424,78,"covalent, charged)",fill=MUT))
+    o.append(T(424,104,"bases pair inside",fill=FG)+T(424,122,"by hydrogen bonds",fill=MUT)+T(424,138,"(weak, can unzip)",fill=MUT))
+    o.append(T(424,164,"backbone",fill=FG))
+    o.append('</svg>');return "".join(o)
+
+figs={"bilayer":bilayer(),"fold":fold(),"dna":dna(),"hydro":hydro(),"bicarb":bicarb(),"titr":titr(),"classes":classes(),"water":water(),"aagrid":aagrid(),"forces":forces(),"phscale":phscale()}
 here=os.path.dirname(os.path.abspath(__file__))
 open(os.path.join(here,"figs.js"),"w").write("const FIGS="+json.dumps(figs,ensure_ascii=False)+";\n")
 for k,v in figs.items():

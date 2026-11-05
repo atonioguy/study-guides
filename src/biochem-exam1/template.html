@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BMSC 3401 Biochemistry — Exam 1</title>
+<title>BMSC 3401 Biochemistry: Exam 1</title>
 <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 <style>
 :root{--fg:#1c1c1c;--mut:#666;--line:#ddd;--soft:#f5f5f3;--acc:#1f4b8f;--accbg:#eef2f9;--ok:#1d7a3a;--okbg:#eef7f0;--bad:#b42318;--badbg:#fdf1f0}
@@ -36,10 +36,11 @@ label.chk{display:flex;gap:6px;align-items:center;font-size:15px;cursor:pointer}
 .seg{display:inline-flex;border:1px solid #c8c8c8;border-radius:6px;overflow:hidden}
 .seg button{font:inherit;font-size:14px;border:0;background:#fff;padding:7px 11px;cursor:pointer;color:var(--fg)}
 .seg button+button{border-left:1px solid #c8c8c8}
+.case.done .seg button{cursor:default}
 .seg button.on{background:var(--acc);color:#fff}
 .box{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:12px 0;background:var(--soft)}
-.card{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:10px 0;cursor:pointer;background:#fff}
-@media (hover:hover){.card:hover{border-color:#999}}
+.card{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:10px 0;background:#fff}
+@media (hover:hover){.card.link:hover{border-color:#999}.outline a:hover{background:#ecece8}}
 .card.link b{display:block}
 .qhead{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:var(--mut)}
 .bar{height:3px;background:#eee;margin:6px 0 14px}.bar i{display:block;height:100%;background:var(--acc)}
@@ -95,8 +96,8 @@ details.mod>summary{cursor:pointer;font-size:17px;font-weight:600;padding:8px 0}
 .chip.done{cursor:default;border-color:var(--ok);background:var(--okbg);font-size:14px;padding:3px 9px}
 .chip.rev{border-color:var(--bad);background:var(--badbg)}
 .bins{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
-.bin{border:1px dashed #bbb;border-radius:8px;padding:8px;min-height:64px;cursor:pointer;background:#fff}
-.bin.arm{border-color:var(--acc);border-style:solid;background:var(--accbg)}
+.bin{border:1px dashed #bbb;border-radius:8px;padding:8px;min-height:64px;background:#fff}
+.bin.arm{cursor:pointer;border-color:var(--acc);border-style:solid;background:var(--accbg)}
 .bin h5{margin:0 0 6px;font-size:14px}
 .bin .chips{margin:0;min-height:0;gap:4px}
 .msg{min-height:24px;font-size:15px;margin:8px 0}
@@ -171,7 +172,7 @@ h2.lohead .eyebrow{display:block;margin-bottom:2px}
 .outline{margin-top:12px}
 .omod{font-size:13px;font-weight:600;margin:14px 0 4px}
 .outline a{display:grid;grid-template-columns:30px 1fr auto;gap:4px;align-items:baseline;padding:6px 8px;border-radius:6px;color:var(--fg);text-decoration:none;font-size:14px;line-height:1.3}
-.outline a:hover{background:#ecece8}
+
 .outline a.cur{background:#fff;box-shadow:0 0 0 1px var(--line);font-weight:600}
 .outline .ot{color:#444}.outline .oprog{font-size:12px;color:var(--mut)}
 .gtop{display:none}
@@ -203,6 +204,22 @@ h2.lohead .eyebrow{display:block;margin-bottom:2px}
 .phmk{position:relative;height:22px;font-size:12px}
 .phmk span{position:absolute;transform:translateX(-50%);white-space:nowrap;color:var(--fg)}
 .phmk span:before{content:"▲ ";color:var(--acc)}
+
+.flagi{background:none;border:0;padding:3px;margin:-3px 0;cursor:pointer;color:var(--mut);display:inline-flex;vertical-align:middle;border-radius:5px}
+.flagi svg{width:18px;height:18px;display:block}.flagi.on{color:var(--acc)}
+@media (hover:hover){.flagi:hover{background:#ecece8}}
+.so{margin:14px 0 0;padding:6px 0 6px 12px;border-left:3px solid var(--acc);font-size:16px;line-height:1.5;color:#333}
+.call.note{background:#f4f4f1}.call.note>b{color:var(--mut)}
+.limg{margin:4px 0 12px}.limg img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:8px}
+.credit{font-size:13px;color:var(--mut);margin:4px 0 0}
+.fb .rev{display:inline-block;margin:8px 0 0;padding:0;font-size:15px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:flex-start;justify-content:center;padding:20px 10px;overflow:auto;z-index:50}
+.modal>.mbox{background:var(--bg,#fff);border-radius:12px;max-width:760px;width:100%;padding:6px 6px 12px}
+.modal .card{margin:6px 0}
+.mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px 0}
+.outline a.les{display:block;padding:3px 8px 3px 42px;font-size:13px;color:#555}
+.gtop .gjump{flex:1 1 auto;min-width:0;width:0}.gtop .pill{flex:none}
+.dtop{display:flex;justify-content:flex-end;margin:0 0 6px}
 </style>
 </head>
 <body>
@@ -230,6 +247,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 
 const Q=[],LOS=[],LOBY={},QBY={};
 MODS.forEach(m=>{m.los.forEach(l=>{l.mod=m;LOS.push(l);LOBY[l.id]=l;});m.questions.forEach(q=>{q.mod=m;Q.push(q);QBY[q.id]=q;});});
+const LES={};MODS.forEach(m=>Object.entries(m.guide||{}).forEach(([lo,bs])=>bs.forEach(b=>{if(b.id)LES[b.id]=Object.assign({lo,mod:m},b);})));
 document.getElementById("modlist").textContent="· "+MODS.map(m=>m.short).join(", ");
 
 const $=(s,el)=>(el||document).querySelector(s);
@@ -240,7 +258,8 @@ function seeded(str){let x=0;for(const c of str)x=(x*31+c.charCodeAt(0))|0;retur
 function seededShuffle(a,seed){const r=seeded(seed);a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function fig(k){if(!k||!FIGS[k])return null;return h("div",{class:"fig",html:FIGS[k]});}
 function loLabel(q){return "LO "+q.lo+" · "+q.mod.short+" "+q.src;}
-function flagBtn(q){const b=h("button",{class:"flag"});const p=()=>{const on=!!S.flag[q.id];b.textContent=on?"Flagged":"Flag";b.classList.toggle("on",on);b.title=on?"Remove flag":"Flag for review";};b.addEventListener("click",()=>{if(S.flag[q.id])delete S.flag[q.id];else S.flag[q.id]=1;save();p();});p();return b;}
+const FLAG_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path class="fl" d="M5 4h12l-2.5 4.5L17 13H5"/></svg>';
+function flagBtn(q){const b=h("button",{class:"flagi",type:"button",html:FLAG_SVG});const p=()=>{const on=!!S.flag[q.id];b.classList.toggle("on",on);b.querySelector(".fl").setAttribute("fill",on?"currentColor":"none");const t=on?"Remove flag":"Flag for review";b.title=t;b.setAttribute("aria-label",t);b.setAttribute("aria-pressed",on?"true":"false");};b.addEventListener("click",e=>{e.stopPropagation();if(S.flag[q.id])delete S.flag[q.id];else S.flag[q.id]=1;save();p();});p();return b;}
 
 // options: returns [{text,correct}] in display order
 function optsFor(q,shuf){
@@ -275,7 +294,20 @@ function explain(q,ok,skipped,shown){
   d.append(h("b",{class:"v"},shown?"Answer":skipped?"Not answered":(ok?"Correct":"Incorrect")));
   d.append(h("div",{html:q.exp}));
   if(q.steps){const det=h("details",{class:"steps"},h("summary",null,"Work it through"),h("ol",null,q.steps.map(s=>h("li",{html:s}))));d.append(det);}
+  if(q.ref&&LES[q.ref])d.append(h("div",null,h("button",{class:"btn link rev",type:"button",onclick:()=>openLesson(q.ref)},"Review: "+LES[q.ref].h)));
   return d;
+}
+function openLesson(id){
+  const L=LES[id];if(!L)return;
+  const close=()=>{m.remove();document.removeEventListener("keydown",esc);};
+  const esc=e=>{if(e.key==="Escape")close();};
+  const m=h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":L.h});
+  const box=h("div",{class:"mbox"});m.append(box);
+  box.append(h("div",{class:"mrow"},h("span",{class:"mut sm"},"LO "+L.lo+" · study guide"),h("button",{class:"btn sm",type:"button",onclick:close},"Close")));
+  box.append(block(L,L.mod));
+  box.append(h("div",{class:"mrow"},h("button",{class:"btn link",type:"button",onclick:()=>{close();if(tabs.mock.cleanup)tabs.mock.cleanup();S.set.onlySaved=false;go("sheet");const e=document.getElementById(id);if(e)e.scrollIntoView();}},"Open in study guide (leaves this page)")));
+  m.addEventListener("click",e=>{if(e.target===m)close();});
+  document.addEventListener("keydown",esc);document.body.append(m);box.querySelector("button").focus();
 }
 
 // ---- tabs ----
@@ -304,12 +336,14 @@ tabs.practice={render(){
   const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);draw();}},l);return b;};
   const cnt=h("span",{class:"mut sm"});
   const quiz=h("button",{class:"btn pri",onclick:()=>runPractice(pool(),"Practice")},"Quiz me one at a time");
-  main.append(h("div",{class:"filters"},h("div",{class:"row"},sel,ty),h("div",{class:"row"},tg("missed","Missed"),tg("flag","Flagged"),tg("un","Unanswered"),tg("show","Show all answers")),h("div",{class:"row"},quiz,cnt)));
+  const clr=h("button",{class:"btn link sm",type:"button",onclick(){const P=pool().filter(q=>S.q[q.id]);if(!P.length)return;if(!clr.dataset.arm){clr.dataset.arm="1";clr.textContent="Tap again to clear "+P.length;setTimeout(()=>{delete clr.dataset.arm;draw();},3000);return;}delete clr.dataset.arm;P.forEach(q=>delete S.q[q.id]);save();draw();}});
+  main.append(h("div",{class:"filters"},h("div",{class:"row"},sel,ty),h("div",{class:"row"},tg("missed","Missed"),tg("flag","Flagged"),tg("un","Unanswered"),tg("show","Show all answers")),h("div",{class:"row"},quiz,cnt,clr)));
   const list=h("div");main.append(list);
   sel.addEventListener("change",()=>{PF.lo=sel.value;draw();});ty.addEventListener("change",()=>{PF.ty=ty.value;draw();});
   function pool(){return filterQ(PF.lo).filter(q=>(!PF.ty||q.type===PF.ty)&&(!PF.missed||(S.q[q.id]&&S.q[q.id].c===false))&&(!PF.flag||S.flag[q.id])&&(!PF.un||!S.q[q.id]));}
   function draw(){
     list.innerHTML="";const P=pool();cnt.textContent=P.length+" question"+(P.length===1?"":"s");quiz.disabled=!P.length;
+    const na=P.filter(q=>S.q[q.id]).length;if(!clr.dataset.arm){clr.textContent="Clear answers for these ("+na+")";clr.disabled=!na;clr.title="Marks the questions shown here as unanswered. Flags and mocks are kept.";}
     if(!P.length){list.append(h("p",{class:"mut"},"No questions match these filters."));return;}
     LOS.forEach(l=>{const qs=P.filter(q=>q.lo===l.id);if(!qs.length)return;
       list.append(h("h2",{class:"lohead"},h("span",{class:"eyebrow"},"LO "+l.id+" · "+qs.length),l.title));
@@ -365,6 +399,7 @@ function openDrill(d){
 }
 function sortDrill(d,body,ri){
   body.innerHTML="";
+  body.append(h("div",{class:"dtop"},h("button",{class:"btn sm",type:"button",onclick:()=>sortDrill(d,body,0)},"Restart drill")));
   const R=d.rounds[ri];
   if(d.rounds.length>1)body.append(h("h3",{style:"margin-top:4px"},"Round "+(ri+1)+" of "+d.rounds.length+": "+R.name));
   const items=shuffle(R.items).map(([t,bin,why])=>({t,bins:Array.isArray(bin)?bin:[bin],why,miss:0,done:false}));
@@ -401,13 +436,14 @@ function caseDrill(d,body){
   const cs=shuffle(d.cases);let i=0,right=0;
   function show(){
     body.innerHTML="";
+    body.append(h("div",{class:"dtop"},h("button",{class:"btn sm",type:"button",onclick:()=>caseDrill(d,body)},"Restart")));
     if(i>=cs.length){const res=right+" / "+cs.length+" fully correct";S.drills[d.id]=res;save();body.append(h("p",null,res),h("div",{class:"row"},h("button",{class:"btn pri",onclick:()=>caseDrill(d,body)},"Again")));return;}
     const c=cs[i];const pick=[null,null,null];
     const card=h("div",{class:"case"},h("div",{class:"qhead"},h("span",null,(i+1)+" / "+cs.length),h("span",null,c.beyond?"beyond lecture":"")),h("div",{class:"t"},c.t));
     const segs=d.fields.map((f,fi)=>{const seg=h("div",{class:"seg"});f.slice(1).forEach((lab,oi)=>seg.append(h("button",{onclick:()=>{if(pick.every(p=>p!=null)&&done)return;pick[fi]=oi;paintSeg();check();}},lab)));card.append(h("div",{class:"fld"},h("div",{class:"l"},f[0]),seg));return seg;});
     let done=false;const out=h("div");card.append(out);body.append(card);
     function paintSeg(){segs.forEach((s,fi)=>[...s.children].forEach((b,oi)=>{b.className="";if(done){if(oi===c.a[fi])b.className="ok";else if(oi===pick[fi])b.className="bad";}else if(oi===pick[fi])b.className="on";}));}
-    function check(){if(done||pick.some(p=>p==null))return;done=true;const ok=pick.every((p,k)=>p===c.a[k]);if(ok)right++;paintSeg();
+    function check(){if(done||pick.some(p=>p==null))return;done=true;card.classList.add("done");const ok=pick.every((p,k)=>p===c.a[k]);if(ok)right++;paintSeg();
       out.append(h("div",{class:"fb "+(ok?"ok":"bad")},h("b",{class:"v"},ok?"Correct":"Incorrect"),h("div",{html:c.e})),h("div",{class:"row"},h("button",{class:"btn pri",onclick:()=>{i++;show();}},i===cs.length-1?"Finish":"Next")));}
   }
   show();
@@ -422,13 +458,14 @@ const TOOLS={hh(){
   const pkv=h("b"),phv=h("b");
   const out=h("div",{class:"out"}),split=h("div",{class:"split"}),plot=h("div",{class:"fig"});
   const pre=h("div",{class:"presets"},P.map(p=>h("button",{class:"btn sm",onclick:()=>{pk.value=p[1];ph.value=p[2];names=[p[3],p[4]];draw();}},p[0])));
-  w.append(pre,h("div",{class:"sl"},h("span",null,"pKa"),pk,pkv),h("div",{class:"sl"},h("span",null,"pH"),ph,phv),out,split,plot);
+  const rs=h("button",{class:"btn sm",type:"button",onclick:()=>{pk.value=4.8;ph.value=7.4;names=["HA","A⁻"];draw();}},"Reset");
+  w.append(h("div",{class:"dtop"},rs),pre,h("div",{class:"sl"},h("span",null,"pKa"),pk,pkv),h("div",{class:"sl"},h("span",null,"pH"),ph,phv),out,split,plot);
   pk.addEventListener("input",()=>{names=["HA","A⁻"];draw();});ph.addEventListener("input",draw);
   function fmt(r){if(r>=1e4||r<1e-3)return r.toExponential(1).replace("e+","×10^").replace("e","×10^");if(r>=100)return Math.round(r).toLocaleString();if(r>=10)return r.toFixed(1);return r.toPrecision(2);}
   function draw(){
     const a=+pk.value,b=+ph.value,d=b-a,r=Math.pow(10,d),f=r/(1+r);
     pkv.textContent=a.toFixed(2).replace(/0$/,"");phv.textContent=b.toFixed(2).replace(/0$/,"");
-    const who=Math.abs(d)<0.05?"Equal amounts — best buffering":(d>0?"pH above pKa → "+names[1]+" dominates":"pH below pKa → "+names[0]+" dominates");
+    const who=Math.abs(d)<0.05?"Equal amounts, best buffering":(d>0?"pH above pKa → "+names[1]+" dominates":"pH below pKa → "+names[0]+" dominates");
     const inb=Math.abs(d)<=1?"inside the buffer range (pKa ± 1)":"outside the buffer range (pKa ± 1)";
     out.innerHTML=`pH − pKa = ${d.toFixed(2)} → [${names[1]}]/[${names[0]}] = 10<sup>${d.toFixed(2)}</sup> = <b>${fmt(r)} : 1</b><br>${who}; ${inb}.`;
     split.innerHTML="";const pa=(f*100);
@@ -473,6 +510,7 @@ tabs.mock={cleanup(){if(timerId){clearInterval(timerId);timerId=null;}},render()
   upd();
   main.append(h("h2",null,"Past mocks"));
   const hist=S.hist||[];
+  if(hist.length){const ch=h("button",{class:"btn link sm",type:"button",onclick(){if(!ch.dataset.arm){ch.dataset.arm="1";ch.textContent="Tap again to clear history";setTimeout(()=>{if(ch.isConnected){delete ch.dataset.arm;ch.textContent="Clear mock history";}},3000);return;}S.hist=[];S.mocks=0;save();go("mock");}},"Clear mock history");main.append(h("p",{class:"sm"},ch,h("span",{class:"mut"}," Question answers stay.")));}
   main.append(hist.length?h("div",{class:"tw"},h("table",null,h("tr",null,h("th",null,"#"),h("th",null,"Date"),h("th",null,"Score")),hist.slice().reverse().map(x=>h("tr",null,h("td",null,x.n),h("td",null,new Date(x.d).toLocaleDateString()),h("td",null,x.s+" / "+x.of))))):h("p",{class:"mut sm"},"None yet."));
 }};
 function buildMock(mods,len){
@@ -514,6 +552,7 @@ function runMock(qs){
       if(!last)row.append(h("button",{class:"btn pri",disabled:each&&!x.locked,onclick:()=>{i++;show();}},"Next"));
       else row.append(h("button",{class:"btn pri",disabled:each&&!x.locked,onclick:()=>tryFinish(row)},"Finish"));
       row.append(h("button",{class:"btn link",onclick:()=>tryFinish(row,true)},"End exam"));
+      const q=h("button",{class:"btn link",type:"button",onclick(){if(!q.dataset.arm){q.dataset.arm="1";q.textContent="Tap again to quit (no score saved)";return;}if(timerId){clearInterval(timerId);timerId=null;}S.mocks=Math.max(0,S.mocks-1);save();go("mock");}},"Quit");row.append(q);
     }
     nav();
   }
@@ -568,17 +607,18 @@ tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},render(){
     los.forEach(l=>{
       const id="s"+l.id.replace(".","-");
       const blocks=(m.guide||{})[l.id]||[];
-      const qids=blocks.flatMap(b=>b.check||[]);
+      const qids=Q.filter(q=>q.lo===l.id).map(q=>q.id);
       const prog=()=>qids.filter(x=>S.q[x]).length+" / "+qids.length;
       const pr=h("span",{class:"oprog"},prog());
       const a=h("a",{href:"#"+id,onclick:e=>{e.preventDefault();document.getElementById(id).scrollIntoView();}},h("span",null,l.id),h("span",{class:"ot"},l.nick||shortT(l.title)),pr);
       outl.append(a);links[id]=a;
       jumpSel.append(h("option",{value:id},l.id+" "+(l.nick||shortT(l.title))));
+      blocks.filter(b=>b.id).forEach(b=>{outl.append(h("a",{class:"les",href:"#"+b.id,onclick:e=>{e.preventDefault();document.getElementById(b.id).scrollIntoView();}},b.h));jumpSel.append(h("option",{value:b.id},"\u00a0\u00a0\u00a0"+b.h));});
       const sec=h("section",{class:"unit",id});
       const sb=h("button",{class:"flag"});const sp=()=>{const on=!!S.saved[l.id];sb.textContent=on?"Saved":"Save";sb.classList.toggle("on",on);};sb.addEventListener("click",()=>{if(S.saved[l.id])delete S.saved[l.id];else S.saved[l.id]=1;save();sp();});sp();
-      const upr=h("span",{class:"uprog"});const updProg=()=>{const t=prog();pr.textContent=t;upr.textContent=qids.length?t+" checks done":"";};updProg();
+      const upr=h("span",{class:"uprog"});const updProg=()=>{const t=prog();pr.textContent=t;upr.textContent=qids.length?t+" practice questions answered":"";};updProg();
       sec.append(h("div",{class:"uhead"},h("div",null,h("div",{class:"eyebrow"},"Objective "+l.id),h("h2",null,l.title),upr),sb));
-      blocks.forEach(b=>sec.append(block(b,m,updProg)));
+      blocks.forEach(b=>sec.append(block(b,m)));
       body.append(sec);
     });
   });
@@ -586,12 +626,7 @@ tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},render(){
   try{io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){Object.values(links).forEach(a=>a.classList.remove("cur"));const a=links[e.target.id];if(a)a.classList.add("cur");}});},{rootMargin:"-30% 0px -60% 0px"});body.querySelectorAll(".unit").forEach(u=>io.observe(u));}catch(e){}
 }};
 function shortT(t){return t.replace(/^(Relate|Describe|Determine|Apply knowledge of|Summarize|Outline|Classify|Explain|Interpret|Categorize|Investigate|Apply|Diagram|Predict) /,"").replace(/^the /,"").replace(/^./,c=>c.toUpperCase());}
-function block(b,m,onAns){
-  if(b.check){
-    const w=h("div",{class:"checks"},h("div",{class:"clabel"},"Check yourself"));
-    b.check.forEach(id=>{const q=QBY[id];if(!q)return;const c=qCard(q,false,q.type==="tf"?"True or false":"Multiple choice");c.addEventListener("click",()=>setTimeout(onAns,0));w.append(c);});
-    return w;
-  }
+function block(b,m){
   if(b.drill){
     const d=(m.drills||[]).find(x=>x.id===b.drill);const w=h("div",{class:"card drill"});
     w.append(h("div",{class:"clabel"},"Drill"),h("h3",null,d.title),h("p",{class:"mut sm"},d.intro));
@@ -599,23 +634,24 @@ function block(b,m,onAns){
     if(d.kind==="sort")sortDrill(d,bd,0);else if(d.kind==="case")caseDrill(d,bd);
     return w;
   }
-  if(b.tool){const w=h("div",{class:"card"});w.append(h("div",{class:"clabel"},"Try it"),h("h3",null,"pH / ratio explorer"),h("p",{class:"mut sm"},"Drag pKa and pH, or tap a preset from the lecture."),TOOLS[b.tool]());return w;}
+  if(b.tool){const w=h("div",{class:"card"});w.append(h("div",{class:"clabel"},"Tool"),h("h3",null,"pH and ratio explorer"),h("p",{class:"mut sm"},"Drag pKa and pH, or pick a lecture example."),TOOLS[b.tool]());return w;}
   if(b.steps){
-    const w=h("div",{class:"card"});w.append(h("div",{class:"clabel"},"Worked example"),h("h3",null,b.steps));
+    const w=h("div",{class:"card"});w.append(h("div",{class:"clabel"},"Worked example"),h("h3",{html:b.steps}));
     const ol=h("ol",{class:"wsteps"});w.append(ol);let n=0;
     const nb=h("button",{class:"btn sm",onclick:()=>{n++;paint();}},"Next step");const all=h("button",{class:"btn link sm",onclick:()=>{n=b.s.length;paint();}},"Show all");
     w.append(h("div",{class:"row"},nb,all));
-    function paint(){ol.innerHTML="";b.s.slice(0,Math.max(1,n)).forEach((x,i)=>ol.append(h("li",{html:x,class:i===b.s.length-1?"last":""})));const done=n>=b.s.length-1&&n>0||b.s.length===1;nb.disabled=n>=b.s.length;nb.classList.toggle("hide",n>=b.s.length);all.classList.toggle("hide",n>=b.s.length);}
+    function paint(){ol.innerHTML="";b.s.slice(0,Math.max(1,n)).forEach((x,i)=>ol.append(h("li",{html:x,class:i===b.s.length-1?"last":""})));nb.disabled=n>=b.s.length;nb.classList.toggle("hide",n>=b.s.length);all.classList.toggle("hide",n>=b.s.length);}
     n=1;paint();return w;
   }
-  const w=h("div",{class:"card"});
-  if(b.h)w.append(h("h3",{html:b.h}));
+  const w=h("div",{class:"card",id:b.id||null});
+  if(b.h)w.append(h("h3",{html:b.h+(b.beyond?' <span class="tag">beyond lecture</span>':"")}));
   const bodyEl=h("div",{class:"cb",html:b.b||""});
   bodyEl.querySelectorAll("table").forEach(t=>{const x=h("div",{class:"tw"});t.replaceWith(x);x.append(t);});
   const f=b.fig?fig(b.fig):null;
   if(f&&(b.fig==="phscale"||b.fig==="forces"||b.fig==="classes"||b.fig==="water"||b.fig==="bicarb")){w.append(f,bodyEl);}else{w.append(bodyEl);if(f)w.append(f);}
-  if(b.key)w.append(h("div",{class:"call key"},h("b",null,"Key idea"),h("div",{html:b.key})));
-  if(b.trap)w.append(h("div",{class:"call trap"},h("b",null,"Watch out"),h("div",{html:b.trap})));
+  if(b.img){const fi=h("figure",{class:"limg"},h("img",{src:b.img.src,alt:b.img.alt,loading:"lazy"}),h("figcaption",{class:"credit",html:b.img.credit}));w.insertBefore(fi,bodyEl.nextSibling);}
+  if(b.note)w.append(h("div",{class:"call note"},h("b",null,b.nl||"Note"),h("div",{html:b.note})));
+  if(b.so)w.append(h("p",{class:"so",html:b.so}));
   return w;
 }
 
