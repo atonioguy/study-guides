@@ -240,7 +240,8 @@ details.drills{margin:6px 0 2px}details.drills summary{cursor:pointer;color:var(
 /* lecture window */
 .lecb{font:inherit;font-size:13px;color:var(--acc);background:#fff;border:1px solid #c5d1e5;border-radius:5px;padding:0 6px;margin:-2px 0;cursor:pointer;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;line-height:1.5}
 .lecb svg{flex:none}
-@media (hover:hover){.lecb:hover{background:var(--accbg)}}
+@media (hover:hover){.lecb:hover:not(:disabled){background:var(--accbg)}}
+.lecb:disabled{color:var(--mut);background:#f3f3f3;border-color:var(--line);cursor:default;opacity:.7}
 .lw{position:fixed;z-index:40;background:#fff;border:1px solid #c8c8c8;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.18);display:flex;flex-direction:column;overflow:hidden}
 .lwgrip{display:none}
 .lwhead{display:flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-bottom:1px solid var(--line);background:var(--soft);cursor:move;touch-action:none;user-select:none;-webkit-user-select:none}
@@ -388,7 +389,9 @@ let LW=null;
 function lecData(mod){if(!LCACHE[mod])LCACHE[mod]=fetch(LECDIR+mod+".json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();}).catch(e=>{delete LCACHE[mod];throw e;});return LCACHE[mod];}
 function lecGeo(){try{return JSON.parse(localStorage.getItem(LKEY))||{};}catch(e){return {};}}
 function lecSaveGeo(g){try{localStorage.setItem(LKEY,JSON.stringify(Object.assign(lecGeo(),g)));}catch(e){}}
-function lecBtn(q){const tag=q.mod.short+" "+q.src;const b=h("button",{class:"lecb",type:"button",title:"Open the lecture ("+tag+")","aria-label":"Open the lecture, "+tag,html:BOOK_SVG});b.append(h("span",null,tag));
+// off: a reason string makes the button greyed out (disabled, reason as its tooltip).
+function lecBtn(q,off){const tag=q.mod.short+" "+q.src;const b=h("button",{class:"lecb",type:"button",disabled:!!off,title:off||"Open the lecture ("+tag+")","aria-label":off?"Lecture: "+off:"Open the lecture, "+tag,html:BOOK_SVG});b.append(h("span",null,tag));
+  if(off)return b;
   b.addEventListener("click",e=>{e.stopPropagation();tutDismiss();openLec(q);});tutWatch(b);return b;}
 function openLec(q){
   if(!LW)buildLW();
@@ -1032,11 +1035,19 @@ function resumeMock(){
   if(M.left!=null){let last=Date.now();timerId=setInterval(()=>{const now=Date.now();M.left=Math.max(0,M.left-(now-last));last=now;save();const t=$("#timer");const ms=M.left;if(ms<=0){clearInterval(timerId);timerId=null;finish();return;}if(t){t.textContent=fmtT(ms);t.classList.toggle("late",ms<300000);}},1000);}
   function fmtT(ms){const s=Math.ceil(ms/1000);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
   function show(){
-    M.i=i;save();main.innerHTML="";window.scrollTo(0,0);const x=st[i];
+    // a new question closes the lecture window, so it can't stay open while answering the next one
+    closeLec();M.i=i;save();main.innerHTML="";window.scrollTo(0,0);const x=st[i];
     const answered=st.filter(s=>s.pick!=null).length;
-    main.append(h("div",{class:"qhead"},h("span",null,"Mock "+num+" · "+(i+1)+" / "+st.length),h("span",{id:"timer"},M.left!=null?fmtT(M.left):""),h("span",null,(each?loLabel(x.q):answered+" answered")+" ",flagBtn(x.q))));
+    // Lecture button: with instant feedback it's greyed out until the question is answered, then clicking it opens the lecture.
+    // Without feedback there's no button during the mock; the results page has working ones.
+    const lecSlot=h("span");
+    function paintLec(){lecSlot.innerHTML="";const has=x.q.lec&&x.q.mod.lecture;
+      if(each)lecSlot.append("LO "+x.q.lo+" · ",has?lecBtn(x.q,x.locked?null:"Answer the question to open the lecture"):x.q.mod.short+" "+x.q.src);
+      else lecSlot.append(answered+" answered");}
+    paintLec();
+    main.append(h("div",{class:"qhead"},h("span",null,"Mock "+num+" · "+(i+1)+" / "+st.length),h("span",{id:"timer"},M.left!=null?fmtT(M.left):""),h("span",null,lecSlot," ",flagBtn(x.q))));
     main.append(h("div",{class:"bar"},h("i",{style:"width:"+((i+(x.pick!=null?1:0))/st.length*100)+"%"})));
-    const v=qView(x.q,x.order,{onPick(k){if(x.locked)return;x.pick=k;if(each){x.locked=true;record(x.q,x.order[k].c,x.order[k].t);v.paint(k,true);}else{save();v.paint(k,false);}nav();}});
+    const v=qView(x.q,x.order,{onPick(k){if(x.locked)return;x.pick=k;if(each){x.locked=true;record(x.q,x.order[k].c,x.order[k].t);v.paint(k,true);paintLec();}else{save();v.paint(k,false);}nav();}});
     main.append(v.el);v.paint(x.pick,x.locked);
     const row=h("div",{class:"row"});main.append(row);
     function nav(){row.innerHTML="";

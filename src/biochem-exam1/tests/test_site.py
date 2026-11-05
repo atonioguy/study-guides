@@ -206,13 +206,25 @@ def run(p, name, vw, vh):
     page.query_selector(".lecb").click(); page.wait_for_selector(".lw")
     nav(page, "mock")
     check(page.query_selector(".lw") is None, "tab switch closes the window")
+    # instant feedback (default): button greyed until answered, then opens the lecture; Next closes the window
     page.click("text=Start mock")
     page.wait_for_selector("#main .opt")
-    check(page.query_selector("#main .lecb") is None, "no lecture button during active mock (q1)")
+    seen = opened = 0
     for _ in range(4):
+        b = page.query_selector("#main .qhead .lecb")
+        if b:
+            seen += 1
+            check(b.is_disabled(), "mock lecture button greyed before answering")
         page.click("#main .opt >> nth=0"); page.wait_for_timeout(50)
-        check(page.query_selector("#main .lecb") is None, "no lecture button after answering in mock")
-        page.click("#main .row .btn.pri")
+        b = page.query_selector("#main .qhead .lecb")
+        if b:
+            check(not b.is_disabled(), "mock lecture button clickable after answering")
+            if not opened:
+                tap(page, b); page.wait_for_selector(".lw mark.lwhl, .lw .lwhit", timeout=5000)
+                opened = 1; check(True, "lecture opens from a mock question with feedback")
+        tap(page, page.query_selector("#main .row .btn.pri")); page.wait_for_timeout(50)
+        check(page.query_selector(".lw") is None, "next question closes the lecture window")
+    check(seen > 0, "mock showed lecture buttons (%d of 4 questions)" % seen)
     nav(page, "sheet"); nav(page, "mock")
     check("Mock" in page.inner_text(".qhead") and "5 / " in page.inner_text(".qhead"), "mock resumes after tab switch")
     page.reload(); page.wait_for_selector("#main .opt")
@@ -220,6 +232,19 @@ def run(p, name, vw, vh):
     q = page.locator("text=Quit"); q.click(); q.click()
     page.wait_for_selector("text=Start mock")
     check(page.query_selector(".qhead") is None, "quit returns to mock start")
+
+    # feedback at the end: no lecture button during the mock, even after answering
+    page.click("text=At the end"); page.click("text=Start mock"); page.wait_for_selector("#main .opt")
+    none = True
+    for _ in range(4):
+        none = none and page.query_selector("#main .lecb") is None
+        page.click("#main .opt >> nth=0"); page.wait_for_timeout(50)
+        none = none and page.query_selector("#main .lecb") is None
+        page.click("#main .row .btn.pri"); page.wait_for_timeout(50)
+    check(none, "no-feedback mock: no lecture button until results")
+    q = page.locator("text=Quit"); q.click(); q.click()
+    page.wait_for_selector("text=Start mock")
+    page.click("text=After each question")
 
     # end a mock early: results page figures and lecture buttons
     page.click("text=Start mock"); page.wait_for_selector("#main .opt")
