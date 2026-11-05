@@ -214,7 +214,7 @@ def run(p, name, vw, vh):
             no_hscroll(page, "drill %d" % i)
     check(n >= 8, "opened %d drills" % n)
 
-    # quiz me one at a time: button greyed until answered; Next closes the window
+    # quiz me one at a time: button live before and after answering; Next closes the window
     nav(page, "practice")
     page.click("text=Quiz me one at a time"); page.wait_for_selector("#main .opt")
     seen = opened = 0
@@ -222,7 +222,7 @@ def run(p, name, vw, vh):
         b = page.query_selector("#main .qhead .lecb")
         if b:
             seen += 1
-            check(b.is_disabled(), "quiz: lecture button greyed before answering")
+            check(not b.is_disabled(), "quiz: lecture button clickable before answering")
         page.click("#main .opt >> nth=0"); page.wait_for_timeout(50)
         b = page.query_selector("#main .qhead .lecb")
         if b:
