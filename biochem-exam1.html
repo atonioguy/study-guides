@@ -794,6 +794,67 @@ cases:[
 (function(){const HL={m1a01:"Carbon forms four stable covalent bonds",m1a02:"Hydrolysis adds the water back",m1a03:"fatty acid –COOH + glycerol –OH",m1a04:"Glycogen's branches also give it many chain ends",m1a05:"Complex carbohydrates digest more slowly",m1a06:"Put phospholipids in water",m1a07:"nonpolar core blocks ions and polar molecules",m1a08:"puts a kink in it",m1a09:"puts a kink in it",m1a10:"Triglycerides: glycerol + 3 fatty acids",m1a11:"Cholesterol sits between phospholipids",m1a12:"hydrophobic side chains pack into the core",m1a13:"Change the sequence and you change",m1a14:"Change the sequence and you change",m1a15:"counts Gly as hydrophilic",m1a16:"Asp, Glu",m1a17:"Weak hydrogen bonds let the strands separate",m1a18:"RNA uses ribose",m1a19:"Water's δ− oxygens surround cations",m1a20:"Oxygen is more electronegative than hydrogen",m1a21:"A hydrogen bond forms between",m1a22:"Many hydrogen bonds together hold",m1a23:"That gives water cohesion",m1a24:"van der Waals (dispersion)",m1a25:"From strongest to weakest",m1a26:"van der Waals contact distance",m1a27:"When nonpolar molecules cluster",m1a28:"driven by water's entropy",m1a29:"phospholipid tails clustering into a bilayer",m1a30:"A salt bridge between two charged side chains",m1a31:"pOH = −log[OH⁻]",m1a32:"each 1-unit drop in pH means 10 times more H⁺",m1a33:"pOH = −log[OH⁻]",m1a34:"lower pKa means a stronger acid",m1a35:"Keq above 1 means products are favored",m1a36:"Each pH unit away from the pKa",m1a37:"pH = pKa: log of the ratio is 0",m1a38:"pH above pKa: ratio above 1",m1a39:"aspirin is absorbed in its conjugate base",m1a40:"Buffering works best near the pKa",m1a41:"A buffer holds pH where it is",m1a42:"On the titration curve",m1a43:"pH meter: a glass electrode",m1a44:"An indicator changes color near its own pKa",m1a45:"Respiratory acidosis: breathing too slowly",m1a46:"Respiratory alkalosis: breathing too fast",m1a47:"Respiratory alkalosis: breathing too fast",m1a48:"More CO₂: shifts right",m1a49:"Added H⁺ (lactic acid)",m1a50:"ratio is 20 : 1",m1a51:"Metabolic alkalosis: acid lost",m1a52:"bicarbonate lost in severe diarrhea",m1a53:"Kussmaul breathing",m1a54:"Blood is an open system",m1a62:"the HCO₃⁻ : H₂CO₃ ratio is 20 : 1",m1a61:"Respiratory alkalosis: breathing too fast",m1a60:"pH above pKa: ratio above 1",m1a59:"roughly pKa ± 1",m1a58:"B is half titrated, where pH = pKa",m1a57:"driven by water's entropy, not by attraction",m1a56:"hydrophobic side chains pack into the core",m1a55:"one phosphate linking the sugars of two nucleotides"};
 MODS[MODS.length-1].questions.forEach(q=>{if(HL[q.id])q.hl=HL[q.id];});})();
 
+// Lecture window: question -> [lecture block id, verbatim snippet to highlight]. Blocks from lectures/biochem-exam1/m1.json.
+// LECNOTES: lecture blocks with wrong wording -> study-guide lesson(s) holding the "Lecture correction" note.
+(function(){const LEC={
+m1a01:["m1L1-b5","First, a carbon backbone can build much larger molecules. Second, breaking carbon-carbon bonds releases more energy, making it an efficient fuel."],
+m1a02:["m1L1-b21","Amino acids are linked via peptide bonds to form a long unbranched chain."],
+m1a03:["m1L1-b17","Triglycerides (fatty acids) contain a hydrophilic glycerol backbone to which three hydrophobic fatty acids are attached via ester bonds."],
+m1a55:["m1L1-b29","Nucleotides are linked via a phosphodiester bond to form nucleic acids."],
+m1a05:["m1L1-b14","Complex carbohydrates take longer to digest due to their complex structure."],
+m1a06:["m1L1-b17","Notice in the image below how the phospholipids naturally arrange themselves tail to tail, blocking the hydrophobic fatty acids from aqueous environments."],
+m1a08:["m1L1-b17","The saturated fatty acid provides structural stability, while the unsaturated fatty acid provides the fluidity required to allow passage of molecules in and out of the cell."],
+m1a09:["m1L1-b17","The saturated fatty acid provides structural stability, while the unsaturated fatty acid provides the fluidity required to allow passage of molecules in and out of the cell."],
+m1a10:["m1L1-b17","These lipids form our stored fat, or adipose tissue."],
+m1a11:["m1L1-b17","It is also the precursor for bile salts which aid in fat digestion, and steroid hormones such as the sex steroids testosterone and estradiol, and the stress steroid cortisol."],
+m1a12:["m1L1-b26","This structure is dependent on the polarity and charge of its constituent amino acids."],
+m1a13:["m1L1-b26","This structure is dependent on the polarity and charge of its constituent amino acids."],
+m1a14:["m1L1-b26","The amino acid chain folds up into a three-dimensional structure. This structure is dependent on the polarity and charge of its constituent amino acids."],
+m1a56:["m1L1-b26","This structure is dependent on the polarity and charge of its constituent amino acids."],
+m1a15:["m1L1-b22","Tyrosine is polar, but only weakly interacts with water, so it is considered polar hydrophobic."],
+m1a16:["m1L1-b22","Aspartic Acid (Asp) and Glutamic Acid (Glu) have R-group structures that are acidic at a neutral pH. These are also known as negatively charged AAs."],
+m1a17:["m1L1-b29","Nucleotides are linked via a phosphodiester bond to form nucleic acids."],
+m1a18:["m1L1-b30","Nucleotides with a ribose sugar base form RNA. These include adenine (A), uracil (U), guanine (G), and cytosine (C)."],
+m1a19:["m1L3-b12","Dipole interactions are the reason salt can dissociate in water."],
+m1a20:["m1L3-b7","Oxygen is more electronegative than hydrogen, meaning the shared electrons of the O-H covalent bond spend more time around oxygen."],
+m1a21:["m1L3-b15","When the element bonding with water is nitrogen, oxygen, or fluorine, the bond is especially strong, and is known as a hydrogen bond."],
+m1a22:["m1L3-b15","Hydrogen bonds keep DNA in its double-stranded shape and allow for strand dissociation during DNA replication."],
+m1a23:["m1L3-b7","As discussed in the video, all these phenomena are due to the cohesive property of water."],
+m1a24:["m1L3-b19","An example of the additive effect of van der Walls forces is a gecko walking up a wall or across a ceiling."],
+m1a25:["m1L3-b20","Arrange the intermolecular forces in order from strongest (top) to weakest (bottom)."],
+m1a26:["m1L3-b19","if the distance is too close, reaching what is known as the van der Waals contact distance (a term I would know if I were you), the attraction is counteracted by the repelling forces of the electron clouds."],
+m1a27:["m1L3-b22","When two hydrophobic molecules come together, some of the water molecules forming the “cages” are freed into solution."],
+m1a28:["m1L3-b22","Thus, hydrophobic molecules don’t associate because of attraction or affinity."],
+m1a29:["m1L3-b22","Amphipathic phospholipids form lipid bilayers, with the hydrophilic head forming hydrogen bonds with water and the hydrophobic effect forcing water from the hydrophobic tails."],
+m1a57:["m1L3-b22","They simply associate because it excludes water and increases the entropy of the system."],
+m1a31:["m1L4-b10","In a nutshell, what you need to know is that pH and pOH add up to 14. So if pH is 4, pOH must be 10."],
+m1a32:["m1L4-b13","NOTE: All logs are base 10, so a 1 unit change in pH is equivalent to a 10 fold change in concentration."],
+m1a33:["m1L4-b15","As we mentioned previously, pH+pOH =14."],
+m1a34:["m1L4-b20","The lower the value of pKa, the stronger the acid and the greater its ability to donate its protons."],
+m1a35:["m1L4-b10","Since Keq is a ratio, reactions that favor the reactant will have a Keq less than 1, while reactions that favor the products will have a Keq greater than 1."],
+m1a36:["m1L4-b21","Raise each side by the log base. 10^3.9 = [A-] / [HA]"],
+m1a37:["m1L4-b20","The pKa is the pH at which half of the acid is dissociated (because log (1) =0)."],
+m1a38:["m1L4-b7","Most organic acids at physiologic pH of 7.4 (the standard pH of human blood) are in conjugate base form"],
+m1a60:["m1L4-b20","If pH is above the pKa, [A-] is dominant"],
+m1a39:["m1L4-b25","In the small intestines, pH of 3.5 is equal to pKa, so the small intestine is the scenario with more base available for absorption."],
+m1a40:["m1L4-b28","A buffer solution resists changes in pH most effectively at pH values close to the pKa of the solution."],
+m1a41:["m1L4-b28","One of the most common misconceptions is that buffers neutralize solutions."],
+m1a42:["m1L4-b28","The pKa is the pH at which half of the acid is dissociated, maximizing the range at which changes in [A-] or [HA] minimally impact the pH."],
+m1a58:["m1L4-b20","The pKa is the pH at which half of the acid is dissociated (because log (1) =0)."],
+m1a59:["m1L4-b28","For any given conjugate acid-base pair, the pH buffering capacity is estimated as pKa ± 1."],
+m1a45:["m1L4-b28","This would alter the amount of CO2 available and push the above reaction to the left or the right, depending on if we were increasing or decreasing respiration."],
+m1a46:["m1L4-b28","This would alter the amount of CO2 available and push the above reaction to the left or the right, depending on if we were increasing or decreasing respiration."],
+m1a47:["m1L4-b28","This would alter the amount of CO2 available and push the above reaction to the left or the right, depending on if we were increasing or decreasing respiration."],
+m1a61:["m1L4-b28","This would alter the amount of CO2 available and push the above reaction to the left or the right, depending on if we were increasing or decreasing respiration."],
+m1a48:["m1L4-b28","CO2 reacts with water to produce carbonic acid (H2CO3), a weak acid."],
+m1a49:["m1L4-b28","This produces sufficient bicarbonate to buffer excess protons from other organic acids such as lactic acid produced during exercise."],
+m1a50:["m1L4-b28","So, there is a 20:1 ratio of bicarbonate to carbonic acid in our bloodstream."],
+m1a62:["m1L4-b28","So, there is a 20:1 ratio of bicarbonate to carbonic acid in our bloodstream."]};
+const M=MODS[MODS.length-1];
+M.lecture="m1";
+M.lecnotes={"m1L4-b20":["m1-ka","m1-hh"]};
+M.questions.forEach(q=>{if(LEC[q.id])q.lec={b:LEC[q.id][0],hl:LEC[q.id][1]};});})();
+
 // Module 2: Enzymes (LOs 2.1 to 2.8)
 // Questions: src = lecture lesson (L1 structure and function, L2 free energy, L3 kinetics, L4 regulation). ref = lesson id. tag "beyond" = not in lecture.
 MODS.push({

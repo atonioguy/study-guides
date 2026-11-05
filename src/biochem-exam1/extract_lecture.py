@@ -231,6 +231,12 @@ def render(c, ctx):
         li = "".join("<li><b>%s</b> matches <b>%s</b>. %s</li>" % (txt(cd.get("imageAlt")), txt(cd.get("matchAlt") or cd.get("imageAlt")), txt(cd.get("description")))
                      for cd in p.get("cards", []))
         return '<div class="lw-q"><div class="lw-qh">Matching pairs</div><ul>%s</ul></div>' % li
+    if lib == "H5P.Dialogcards":  # flash cards: front as the prompt, image, back behind Show answer
+        out = '<div class="lw-q"><div class="lw-qh">%s</div>%s<ol>' % (txt(p.get("title")) or "Flash cards", san(p.get("description")))
+        for dc in p.get("dialogs", []):
+            im = ctx.img(dc.get("image"), dc.get("imageAltText"))
+            out += "<li>%s%s%s</li>" % (san(dc.get("text")), ('<figure class="lw-fig">%s</figure>' % im) if im else "", answer(san(dc.get("answer"))))
+        return out + "</ol></div>"
     if lib == "H5P.DragQuestion":
         t = p["question"]["task"]; s = p["question"]["settings"]
         els = [txt(e["type"]["params"].get("text") or e["type"]["params"].get("alt")) for e in t["elements"]]
