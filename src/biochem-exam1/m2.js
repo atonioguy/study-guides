@@ -366,7 +366,7 @@ exp:"A noncompetitive inhibitor binds away from the active site and doesn't affe
 {id:"m2a36",lo:"2.6",src:"L4",ref:"m2-irrev",type:"mc",
 stem:"An inhibitor forms a covalent bond in an enzyme's active site. Removing all the free inhibitor from the solution does not bring activity back. How is this inhibitor best classified?",
 opts:["Irreversible","Competitive","Uncompetitive","Allosteric activator"],ans:0,
-exp:"If activity doesn't return after the free inhibitor is gone, the enzyme has been permanently disabled. Reversible inhibitors, competitive or not, come off and let the enzyme work again."},
+exp:"If activity doesn't return after the free inhibitor is gone, the enzyme has been permanently disabled. Reversible inhibitors, competitive or not, come off and let the enzyme work again. <b>Watch the overlap with noncompetitive:</b> the lecture brings up permanent inhibitors inside its noncompetitive section, and on a plot they look the same. Every enzyme the inhibitor kills is simply gone, and the ones left work normally, so Vmax drops and Km stays the same. But noncompetitive means binding <i>away</i> from the active site, and this one bonds <i>in</i> it. So by mechanism it's irreversible; if a question only asks which Km/Vmax pattern you'd see, answer like noncompetitive."},
 {id:"m2a50",lo:"2.6",src:"L4",ref:"m2-inhib",type:"mc",fig:"q-allo",
 stem:"The diagram shows how an inhibitor binds its enzyme, with and without substrate in the active site. Which type of inhibitor is it?",
 opts:["Noncompetitive","Competitive","Uncompetitive","Transition-state analog"],ans:0,

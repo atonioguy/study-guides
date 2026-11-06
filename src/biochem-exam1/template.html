@@ -245,6 +245,7 @@ details.drills{margin:6px 0 2px}details.drills summary{cursor:pointer;color:var(
    Fixed layout: nothing moves when the window opens, moves or closes. */
 @media (min-width:1000px){body[data-tab=practice] main,body[data-tab=mock] main,body[data-tab=practice] footer,body[data-tab=mock] footer{
   max-width:min(760px,calc(100vw - min(480px,40vw) - 40px));margin-left:max(8px,calc((100vw - min(480px,40vw) - 24px - 760px)/2));margin-right:auto}}
+.lotip{position:absolute;z-index:60;max-width:min(300px,calc(100vw - 16px));background:#fff;border:1px solid var(--acc);border-radius:8px;padding:8px 10px;box-shadow:0 6px 20px rgba(0,0,0,.15);font-size:14px;line-height:1.4;color:var(--fg,#222)}
 .lot{text-decoration:underline dotted;text-decoration-thickness:1px;text-underline-offset:3px;cursor:help}
 .lecb:disabled{color:var(--mut);background:#f3f3f3;border-color:var(--line);cursor:default;opacity:.7}
 .lw{position:fixed;z-index:40;background:#fff;border:1px solid #c8c8c8;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.18);display:flex;flex-direction:column;overflow:hidden}
@@ -327,7 +328,18 @@ function fig(k){if(!k||!FIGS[k])return null;return h("div",{class:"fig",html:FIG
 // btn=true turns the M#L# tag into the lecture-window button (never passed during an active mock)
 // full LO wording, verbatim from Canvas (typos included); shown on hover over "LO x.y"
 const LOFULL={"1.1": "Relate the structure and function of biomolecules to their cellular role", "1.2": "Describe how the properties of water facilitate biological interactions", "1.3": "Determine the pH of a solution by direct measurement and calculation", "1.4": "Apply knowledge of the bicarbonate buffer system to predict pathophysiologic effects of acidosis and alkalosis", "2.1": "Summarize the 3-dimentional structure of proteins", "2.2": "Outline six major enzyme classes and their corresponding enzymatic reactions", "2.3": "Classify exergonic and endergonic reactions using Gibbs free energy.", "2.4": "Explain how enzymatic stabilization of transition states promotes endergonic reactions", "2.5": "Interpret KM and Vmax using Michaelis-Menton and Lineweaver-Burk plots", "2.6": "Categorize enzyme inhibitors based on changes in KM and/or Vmax", "2.7": "Investigate the effects of temperature, pH, and enzyme concentration on enzyme kinetics", "2.8": "Apply knowledge of enzyme regulation to drug discovery, design, and/or utilization", "3.1": "Describe the general purpose of metabolism.", "3.2": "Categorize activated carriers by their metabolic role.", "3.3": "Explain three methods by which cells regulate metabolism.", "3.4": "Describe the central role of the citric acid cycle in metabolism.", "3.5": "Diagram the cellular location, rate-limiting steps, products, and regulation of the citric acid cycle and oxidative phosphorylation.", "3.6": "Predict the effects of perturbations in oxidative phosphorylation"};
-function loTag(lo){const t=LOFULL[lo];return t?h("span",{class:"lot",title:"LO "+lo+": "+t},"LO "+lo):"LO "+lo;}
+function loTag(lo){const t=LOFULL[lo];return t?h("span",{class:"lot",title:"LO "+lo+": "+t,role:"button",tabindex:"0","aria-label":"LO "+lo+": "+t,"data-lo":lo},"LO "+lo):"LO "+lo;}
+// tap/click/Enter on an LO label shows its full wording in a small popover (hover title only works with a mouse).
+// Capture phase so the tap doesn't also trigger a surrounding button. Tap elsewhere, Escape, or the same label closes it.
+let LOTIP=null;
+function loTipClose(){if(LOTIP){LOTIP.el.remove();LOTIP=null;}}
+function loTipOpen(t){const lo=t.dataset.lo;if(LOTIP&&LOTIP.t===t)return loTipClose();loTipClose();
+  const el=h("div",{class:"lotip",role:"tooltip"},h("b",null,"LO "+lo+": "),LOFULL[lo]);document.body.append(el);
+  const r=t.getBoundingClientRect(),vw=document.documentElement.clientWidth,w=el.offsetWidth;
+  el.style.left=Math.round(Math.max(8,Math.min(r.left,vw-w-8))+scrollX)+"px";el.style.top=Math.round(r.bottom+6+scrollY)+"px";LOTIP={el,t};}
+document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest(".lot");
+  if(t){e.preventDefault();e.stopPropagation();loTipOpen(t);}else if(LOTIP&&!e.target.closest(".lotip"))loTipClose();},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")loTipClose();else if((e.key==="Enter"||e.key===" ")&&e.target.classList&&e.target.classList.contains("lot")){e.preventDefault();loTipOpen(e.target);}});
 function loLabel(q,btn){const tag=loTag(q.lo);if(!btn||!q.lec||!q.mod.lecture)return h("span",null,tag," · "+q.mod.short+" "+q.src);return h("span",null,tag," · ",lecBtn(q));}
 const FLAG_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path class="fl" d="M5 4h12l-2.5 4.5L17 13H5"/></svg>';
 const BMK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path class="fl" d="M6 3h12v18l-6-4.5L6 21z"/></svg>';

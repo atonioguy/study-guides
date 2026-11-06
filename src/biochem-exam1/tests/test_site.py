@@ -114,6 +114,13 @@ def run(p, name, vw, vh):
     tags = [b.inner_text().strip() for b in btns]
     check(all(t[:2] in ("M1", "M2", "M3") for t in tags), "only M1/M2/M3 questions have lecture buttons (%d)" % len(btns))
     check(all(any(t.startswith(m) for t in tags) for m in ("M1", "M2", "M3")), "M1, M2 and M3 all have lecture buttons")
+    # LO label: tap shows the full objective; tapping elsewhere closes it
+    lot = page.query_selector("#main .lot")
+    tap(page, lot); page.wait_for_selector(".lotip", timeout=3000)
+    tip = page.inner_text(".lotip")
+    check(tip.startswith("LO ") and len(tip) > 20 and page.query_selector(".lw") is None, "tapping an LO label shows its full wording")
+    page.mouse.click(5, vh - 5); page.wait_for_timeout(50)
+    check(page.query_selector(".lotip") is None, "tapping elsewhere closes the LO popover")
     b1 = btns[tags.index("M3 L1")]
     tap(page, b1)
     page.wait_for_selector(".lw mark.lwhl", timeout=5000)
