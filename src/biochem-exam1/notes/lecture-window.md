@@ -28,3 +28,4 @@ The `M# L#` tag on each question with a lecture mapping is a button (book icon).
 - Desktop (>=1000px): Practice and Mock tabs sit left of center (CSS only, `body[data-tab]` rule next to `.lecb:disabled`) so the window's default spot on the right is free. Static: opening, dragging or closing the window moves nothing. Study guide stays centered.
 - `expfig` (figure shown with the explanation only) capped at 460px to match the results-page missed list.
 - Quiz me (one at a time): each new question, Finish and End close the window; the button stays clickable before and after answering (unlike instant-feedback mocks).
+- v1.13 (Nov 6): footer version bumped (it had stayed at v1.9 through 1.10-1.12); LO tap popover; m2a36 + m2-irrev follow the lecture's permanent-noncompetitive framing.
