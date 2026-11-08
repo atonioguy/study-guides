@@ -297,7 +297,7 @@ mark.lwhl{background:#fff4b8;box-shadow:0 0 0 3px #fff4b8;color:inherit;border-r
 <button data-t="mock">Mock exam</button><button data-t="practice">Practice</button><button data-t="sheet">Study guide</button>
 </nav></div></header>
 <main id="main"></main>
-<footer>v1.13 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
+<footer>v1.14 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
 <script>
 const MODS=[];
 </script>
@@ -1935,6 +1935,8 @@ M.questions.forEach(q=>{if(LEC[q.id])q.lec={b:LEC[q.id][0],hl:LEC[q.id][1]};});}
 (function(){
 "use strict";
 const KEY="bmsc3401-exam1";
+// mock timer pace: 96 s per question, so a 25-question mock is 40 minutes
+const Q_MS=96000;
 let S={q:{},mocks:0,set:{timer:true,fb:"each",len:25},drills:{},flag:{},saved:{},pos:{}};
 try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r));}catch(e){}
 S.flag=S.flag||{};S.saved=S.saved||{};S.pos=S.pos||{};
@@ -2649,7 +2651,7 @@ tabs.mock={cleanup(){if(timerId){clearInterval(timerId);timerId=null;}},render()
   box.append(start);
   function upd(){const mods=modChecks.filter(x=>x[1].checked).map(x=>x[0]);const pool=Q.filter(q=>mods.includes(q.mod));const un=pool.filter(q=>!S.q[q.id]).length;
     info.textContent=un+" of "+pool.length+" questions unseen."+(pool.length<S.set.len?" Only "+pool.length+" available for now.":"");
-    $("#tinfo").textContent=S.set.timer?Math.round(Math.min(+S.set.len,pool.length)*2)+" min (2 min per question)":"";
+    $("#tinfo").textContent=S.set.timer?Math.round(Math.min(+S.set.len,pool.length)*Q_MS/60000)+" min (1.6 min per question)":"";
     start.disabled=!pool.length;}
   upd();
   main.append(h("h2",null,"Past mocks"));
@@ -2676,7 +2678,7 @@ function buildMock(mods,len){
 // An in-progress mock lives in S.mock so it survives tab switches and reloads. The timer only runs while the mock is on screen.
 function runMock(qs){
   S.mocks++;
-  S.mock={num:S.mocks,each:S.set.fb==="each",i:0,left:S.set.timer?qs.length*120000:null,
+  S.mock={num:S.mocks,each:S.set.fb==="each",i:0,left:S.set.timer?qs.length*Q_MS:null,
     qs:qs.map(q=>({id:q.id,ord:optsFor(q).map(o=>o.t),pick:null,lock:false}))};
   save();resumeMock();
 }

@@ -29,3 +29,4 @@ The `M# L#` tag on each question with a lecture mapping is a button (book icon).
 - `expfig` (figure shown with the explanation only) capped at 460px to match the results-page missed list.
 - Quiz me (one at a time): each new question, Finish and End close the window; the button stays clickable before and after answering (unlike instant-feedback mocks).
 - v1.13 (Nov 6): footer version bumped (it had stayed at v1.9 through 1.10-1.12); LO tap popover; m2a36 + m2-irrev follow the lecture's permanent-noncompetitive framing.
+- v1.14 (Nov 8): mock timer 96 s/question (Q_MS), so 25 questions = 40 min, 10 = 16 min.
