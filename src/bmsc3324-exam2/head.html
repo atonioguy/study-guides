@@ -138,11 +138,35 @@ h2.mod+section.sheet{border-top:0}
  table{font-size:14px}
 }
 .ctx{display:block;margin-top:12px;font-size:14px;line-height:1.4;color:#333;text-align:left}
+/* mock setup + practice */
+.lab{width:76px;flex:none}
+.seg{display:inline-flex;border:1px solid #c8c8c8;border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-size:14px;padding:7px 12px;border:0;border-right:1px solid #c8c8c8;background:#fff;color:var(--fg);cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--acc);color:#fff}
+.pill{font:inherit;font-size:14px;padding:6px 12px;border:1px solid #c8c8c8;border-radius:999px;background:#fff;color:var(--fg);cursor:pointer}
+.pill.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.filters{padding:2px 0 6px;border-bottom:1px solid var(--line)}
+.filters .row{margin:8px 0}
+.filters select{max-width:100%}
+.sechead{font-size:18px;margin:24px 0 4px;line-height:1.3}
+.qcard{border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:10px 0}
+.qcard .stem{font-size:16px;margin:8px 0}
+.qcard .fig{max-height:260px;width:auto}
+.opt.pick{border-color:var(--acc);background:#eef3fa}
+.opt.mine{box-shadow:inset 3px 0 0 currentColor}
+.flagi{background:none;border:0;padding:2px 4px;margin-left:4px;cursor:pointer;color:var(--mut);vertical-align:middle;line-height:0}
+.flagi svg{width:18px;height:18px}
+.flagi.on{color:#b7791f}
+.qhead{align-items:center;gap:8px}
+.miss .qhead{margin-bottom:-4px}
+nav button{white-space:nowrap}
+@media (max-width:520px){nav button{font-size:14px;padding:8px 2px}}
 </style>
 </head>
 <body>
 <header><div class="hin"><span class="brand">BMSC 3324 · Exam 2 <span class="mods">Modules 3–4</span></span>
-<nav><button data-v="cards">Flashcards</button><button data-v="mock">Mock exam</button><button data-v="sheet">Cheat sheet</button></nav></div></header>
+<nav><button data-v="cards">Flashcards</button><button data-v="mock">Mock exam</button><button data-v="practice">Practice</button><button data-v="sheet">Cheat sheet</button></nav></div></header>
 <main id="app"></main>
 <div id="peek" hidden></div>
 <div id="zoom" hidden></div>
