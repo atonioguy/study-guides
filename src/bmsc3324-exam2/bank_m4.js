@@ -42,8 +42,6 @@ Q('m4-types','c','Habituation and sensitization are both forms of',
  'Both come from a single repeated stimulus with no pairing.');
 TF('m4-types','t','In habituation, the response increases with repeated exposure.', false,
  'False. It decreases. An increase is sensitization.');
-TF('m4-types','t','Implicit memories do not require conscious thought to encode.', true,
- 'True. They are the long-term product of implicit learning.');
 TF('m4-types','t','Non-associative learning requires pairing two stimuli.', false,
  'False. It comes from a single repeated stimulus; pairing is classical conditioning.');
 
@@ -72,8 +70,6 @@ Q('m4-princ','r','As a principle of learning, forgetting is described as',
 Q('m4-princ','r','Forgetting is defined as',
  ['failure to recall previously learned information','failure to attend to an incoming sensory stimulus','failure to form an association between CS and UCS','failure to imitate the behavior of a social model'],
  'Forgetting is failing to recall what was learned.');
-TF('m4-princ','t','Metacognition is a developmental process.', true,
- 'True. The ability to monitor your own learning develops over time.');
 TF('m4-princ','t','Transfer-appropriate processing says memory is best when the test uses different processes than the original learning.', false,
  'False. Memory is best when the test taps the same processes.');
 
@@ -129,12 +125,6 @@ Q('m4-mem','r','A failure at any of the three stages of memory can lead to',
 Q('m4-mem','f','In the information processing model, which box is labeled B?',
  ['Working memory','Sensory memory','Long-term memory','Episodic memory'],
  'B sits between attention and long-term memory and has a rehearsal loop: working memory.', {fig:'f_ipm'});
-Q('m4-mem','f','In the information processing model, the store labeled A holds 3–7 units for 0.5 to 3 seconds. A is',
- ['sensory memory','working memory','long-term memory','semantic memory'],
- 'A is sensory memory, the first stop for stimuli.', {fig:'f_ipm'});
-Q('m4-mem','f','In the information processing model, the store labeled C has infinite capacity and permanent duration. C is',
- ['long-term memory','working memory','sensory memory','episodic memory'],
- 'C is long-term memory.', {fig:'f_ipm'});
 Q('m4-mem','f','In the information processing model, what is arrow D, which moves information from the first store into the second?',
  ['Attention','Encoding','Retrieval','Rehearsal'],
  'Attention moves information from sensory memory into working memory.', {fig:'f_ipm'});
@@ -147,15 +137,8 @@ Q('m4-mem','f','In the information processing model, what is arrow F, which brin
 Q('m4-mem','f','In the information processing model, label G marks the loop above working memory. G is',
  ['maintenance and elaborative rehearsal','attention and encoding into storage','storage and retrieval from long-term','decay and interference with old traces'],
  'G is rehearsal, which keeps information active in working memory.', {fig:'f_ipm'});
-Q('m4-mem','f','In the information processing model, how long does information last in working memory without rehearsal?',
- ['5 to 15 seconds','0.5 to 3 seconds','About 24 hours','Permanently'],
- 'Working memory: 5 to 15 seconds without rehearsal. Sensory memory: 0.5 to 3 seconds.', {fig:'f_ipm'});
 TF('m4-mem','t','Semantic memory refers to remembering the salient events of one\'s life.', false,
  'False. That is episodic memory. Semantic memory is general knowledge of facts.');
-TF('m4-mem','t','Encoding involves relating new information to past knowledge.', true,
- 'True. Encoding is perceiving information and relating it to what you already know.');
-TF('m4-mem','t','Working memory holds information briefly while you work with it.', true,
- 'True. It is the short-term, active store.');
 
 /* ---- m4-strat ---- */
 Q('m4-strat','r','Rehearsal as a memory strategy means',
@@ -191,21 +174,14 @@ Q('m4-strat','a','A student draws a single diagram linking rods, cones, the fove
 Q('m4-strat','c','How does elaboration differ from associations?',
  ['Elaboration links new information to prior knowledge; associations link new pieces to each other','Elaboration forms mental images of new material; associations rely on rereading it aloud','Elaboration links new pieces to each other; associations explain them in your own words','Elaboration uses acronyms and silly sentences; associations use self-written practice questions'],
  'Elaboration ties to what you already know; associations tie the new items together.');
-Q('m4-strat','r','The key to improving memory is to improve',
- ['encoding and use techniques that ensure retrieval','storage capacity by limiting the amount of new learning','sensory memory duration by paying closer attention','long-term memory by avoiding interfering material'],
- 'Better encoding plus techniques that ensure retrieval.');
 Q('m4-strat','f','The "15 ways to improve memory" infographic lists acronyms and silly sentences. These belong to which strategy?',
  ['Mnemonics','Elaboration','Visualization','Rehearsal'],
  'Acronyms and silly sentences are mnemonics.', {fig:'o_ways'});
 Q('m4-strat','f','The infographic includes "Teach it to someone else." Which strategy is this?',
  ['Teaching','Elaboration','Associations','Testing yourself'],
  'Explaining material to others in your own words is teaching.', {fig:'o_ways'});
-TF('m4-strat','t','Testing yourself means writing and answering questions to assess your knowledge.', true,
- 'True. It is one of the listed memory strategies.');
 TF('m4-strat','t','Elaboration means repeating information aloud until it sticks.', false,
  'False. That is rehearsal. Elaboration relates new information to what you already know.');
-TF('m4-strat','t','Visualization includes mind mapping.', true,
- 'True. Visualization is forming mental images and mind mapping.');
 
 /* ---- m4-cc ---- */
 Q('m4-cc','r','Learning is defined as',
@@ -272,8 +248,6 @@ TF('m4-cc','t','Classical conditioning is a form of passive learning.', true,
  'True. The learner responds automatically; operant conditioning is the active one.');
 TF('m4-cc','t','In extinction, the CS is repeatedly presented together with the UCS.', false,
  'False. In extinction the CS is presented without the UCS.');
-TF('m4-cc','t','Spontaneous recovery is the reappearance of a conditioned response after extinction.', true,
- 'True. It shows the response was not totally lost.');
 TF('m4-cc','t','Classical conditioning is highly effective for complex forms of learning.', false,
  'False. It works well on automatic processes but is less effective for complex learning.');
 
@@ -383,10 +357,8 @@ Q('m4-oc','f','In the comparison table, what goes in hidden cells E and F (timin
 Q('m4-oc','f','The figure shows a dog with its tail tucked, weight shifted backward, and mouth closed and tense, placed beside the limitations of punishment. Which limitation does it illustrate?',
  ['Punishment can create anxiety in the learner','Punishment only suppresses behavior temporarily','Punishment must fit the crime','Punishment must be delivered immediately'],
  'The fearful body language illustrates that punishment can create anxiety.', {fig:'o_dog'});
-TF('m4-oc','t','Negative reinforcement decreases the behavior that it follows.', false,
- 'False. All reinforcement increases behavior; negative means a stimulus is removed.');
-TF('m4-oc','t','Money for working a job is an example of a secondary reinforcer.', true,
- 'True. Its value comes from a learned association.');
+TF('m4-oc','t','Negative reinforcement increases the behavior it follows, even though a stimulus is removed.', true,
+ 'True. All reinforcement increases behavior; negative only means a stimulus is taken away.');
 TF('m4-oc','t','In operant conditioning the learner is passive.', false,
  'False. The operant learner is active; the classical learner is passive.');
 TF('m4-oc','t','Punishment may suppress or decrease all behavior, not just the target behavior.', true,
@@ -573,8 +545,6 @@ Q('m4-forget','f','In the "Five Impediments to Remembering" box, item A (hidden)
  'Never learning it in the first place is a failure of encoding.', {fig:'f_impede'});
 TF('m4-forget','t','Proactive interference is when a later event interferes with an earlier one.', false,
  'False. That is retroactive. Proactive is an earlier event interfering with a later one.');
-TF('m4-forget','t','Procedural memory tends to decay with normal aging.', false,
- 'False. Declarative memories tend to decay; procedural memory does not.');
 TF('m4-forget','t','Retrieval failure can be resolved with a retrieval cue.', true,
  'True. The memory is still there and a cue brings it back.');
 TF('m4-forget','t','Anterograde amnesia leaves memories formed before the damage intact.', true,
@@ -605,15 +575,10 @@ Q('m4-adapt','f','On Ebbinghaus\'s forgetting curve, when does memory retention 
 Q('m4-adapt','r','Which strategy is recommended to decrease the rate of forgetting?',
  ['Space learning across smaller units of time','Study everything in one long, unbroken session','Move information out of working memory quickly','Wait about a week before reviewing new material'],
  'Spacing learning, using memory strategies, and interrupting study for primacy and recency effects slow forgetting.');
-Q('m4-adapt','a','A student breaks a three-hour study block into several shorter sessions with breaks. Besides spacing, she gains more',
- ['primacy and recency effects','retroactive interference','decay of the memory trace','motivated forgetting'],
- 'Interrupting learning increases the number of primacy and recency effects.');
 TF('m4-adapt','t','Ebbinghaus found that most forgetting happens long after learning, not right away.', false,
  'False. Forgetting is exponential; the steepest loss is right after learning.');
 TF('m4-adapt','t','Forgetting aligns with and supports the information processing model of memory.', true,
  'True. That is one of the listed reasons forgetting is adaptive.');
-TF('m4-adapt','t','Shereshevsky\'s perfect memory made his everyday life easier.', false,
- 'False. The flood of details made everyday life debilitating.');
 
 /* ---- added for coverage ---- */
 Q('m4-types','c','How does implicit learning differ from procedural learning?',
@@ -622,13 +587,9 @@ Q('m4-types','c','How does implicit learning differ from procedural learning?',
 Q('m4-types','r','Implicit learning leads to',
  ['implicit memories','episodic memories','semantic memories','working memory'],
  'Implicit learning produces implicit memories: long-term, encoded without conscious thought.');
-TF('m4-types','t','Implicit memories are short-term memories held while working with information.', false,
- 'False. They are long-term memories that do not require conscious thought to encode. Short-term working storage is working memory.');
 Q('m4-mem','c','Which term covers encoding, storing, and retrieving information as a whole?',
  ['Memory','Learning','Metacognition','Perception'],
  'Memory is encoding, storing, and retrieving. Learning is a lasting change in behavior from experience.');
-TF('m4-mem','t','Memory is a single ability rather than a construct reflecting several abilities.', false,
- 'False. Memory is a construct that reflects several abilities, such as working, episodic, and semantic memory.');
 Q('m4-strat','a','To learn the ear\'s structures, a student closes her eyes and pictures sound traveling down the canal and into the spiral cochlea. She is using',
  ['visualization','rehearsal','mnemonics','testing yourself'],
  'Forming mental images is visualization.');

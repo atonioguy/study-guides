@@ -45,11 +45,6 @@ Q('m3-sp','c','How does a difference threshold differ from an absolute threshold
 Q('m3-sp','f','In the figure, which concept do panel A (the candle flame) and panel B (the two shades of green) illustrate, in that order?',
  ['Absolute threshold, difference threshold','Psychophysics, difference threshold','Sensation, perception','Brightness, saturation'],
  'Seeing a faint flame at all is the absolute threshold; telling two hues apart is the difference threshold.', {fig:'f_thresh'});
-Q('m3-sp','f','Panel B in the figure says one pair of colors can be told apart but another cannot. The panel is showing the',
- ['difference threshold','absolute threshold','opponent process','transduction step'],
- 'The smallest change between two stimuli that can be detected is the difference threshold.', {fig:'f_thresh'});
-TF('m3-sp','t','Every sense receptor is a transducer.', true,
- 'True. Each receptor converts physical energy into a neural signal.');
 TF('m3-sp','t','The absolute threshold is the stimulus intensity a person can detect 75 percent of the time.', false,
  'False. It is the intensity detected 50 percent of the time.');
 TF('m3-sp','t','Perception is the direct effect of a stimulus on receptor cells.', false,
@@ -125,53 +120,13 @@ Q('m3-eye','r','The thick fluid behind the lens that keeps the eye spherical is 
 Q('m3-eye','c','How does aqueous humor differ from vitreous humor?',
  ['Aqueous is watery, in front of the lens; vitreous is thick, behind it','Aqueous is thick, in front of the lens; vitreous is watery, behind it','Aqueous is watery, behind the lens; vitreous is thick, in front of it','Aqueous is thick, behind the lens; vitreous is watery, in front of it'],
  'Aqueous: watery, between cornea and lens. Vitreous: thick, behind the lens, keeps the eye round.');
-Q('m3-eye','f','In the eye figure, what is the structure labeled F?',
- ['Retina','Lens','Iris','Fovea'],
- 'F marks the retina, the light-sensitive layer at the back of the eye.', {fig:'f_eye'});
-Q('m3-eye','f','In the eye figure, what is labeled G?',
- ['Fovea','Blind spot','Optic nerve','Pupil'],
- 'G is the macula/fovea, the area with the densest cones.', {fig:'f_eye'});
-Q('m3-eye','f','In the eye figure, which lettered label marks the spot with no photoreceptors?',
- ['I','G','F','H'],
- 'I marks the blind spot (optic disc), where the optic nerve leaves. G is the fovea.', {fig:'f_eye'});
-Q('m3-eye','f','In the eye figure, what is the structure labeled H?',
- ['Optic nerve','Retina','Ciliary muscle','Vitreous humor'],
- 'H is the optic nerve, which carries visual messages to the brain.', {fig:'f_eye'});
-Q('m3-eye','f','In the eye figure, what is the structure labeled D?',
- ['Lens','Pupil','Cornea','Fovea'],
- 'D is the lens, which changes shape to focus the image.', {fig:'f_eye'});
-Q('m3-eye','f','In the eye figure, label B marks the',
- ['pupil','lens','cornea','iris'],
- 'B is the pupil, the opening of the iris.', {fig:'f_eye'});
-Q('m3-eye','f','In the eye figure, label C marks the',
- ['iris','pupil','ciliary muscle','retina'],
- 'C is the iris, which reflexively opens and closes the pupil.', {fig:'f_eye'});
-Q('m3-eye','f','In the eye figure, what is labeled J?',
- ['Ciliary muscle','Iris','Optic nerve','Retina'],
- 'J is the ciliary muscle, which changes the lens shape for focusing.', {fig:'f_eye'});
-Q('m3-eye','f','In the eye figure, the large region labeled E behind the lens is filled with',
- ['vitreous humor','aqueous humor','endolymph','cerebrospinal fluid'],
- 'E is the vitreous chamber, filled with the thick fluid that keeps the eye spherical.', {fig:'f_eye'});
-Q('m3-eye','f','In the eye figure, the space labeled K lies between the cornea and the lens. The fluid there is',
- ['aqueous humor','vitreous humor','endolymph','lacrimal fluid'],
- 'Aqueous humor is the watery fluid between the cornea and the lens.', {fig:'f_eye'});
-Q('m3-eye','f','In the eye figure, label A marks the',
- ['cornea','lens','iris','retina'],
- 'A is the cornea; aqueous humor lies between it and the lens.', {fig:'f_eye'});
-TF('m3-eye','t','The image focused on the retina is inverted.', true,
- 'True. Patterns of light are focused on the retina and the image is inverted.');
-TF('m3-eye','t','Cones outnumber rods in the human retina.', false,
- 'False. There are about 120 million rods and about 6 million cones.');
-TF('m3-eye','t','The iris changes the shape of the lens to focus images.', false,
- 'False. The ciliary muscles shape the lens; the iris opens and closes the pupil.');
+TF('m3-eye','t','The ciliary muscles, not the iris, change the shape of the lens to focus images.', true,
+ 'True. The iris opens and closes the pupil; the ciliary muscles shape the lens.');
 TF('m3-eye','t','More white in a light means lower saturation.', true,
  'True. Saturation is the amount of white present: whiter means less saturated.');
 TF('m3-eye','t','The fovea is the part of the retina with no photoreceptors.', false,
  'False. That is the blind spot. The fovea has the densest cones.');
 
-Q('m3-eye','r','Which statement about vision is accurate?',
- ['Some animals see a broader range of light than humans','Humans see infrared, unlike most other animals','We see objects because they absorb light','Adults rate hearing as more valuable than vision'],
- 'Other animals have a broader range and can see infrared. We see objects because they reflect light, and vision is rated most valued.');
 
 /* ---- m3-color ---- */
 Q('m3-color','r','The trichromatic theory proposes that',
@@ -192,9 +147,6 @@ Q('m3-color','e','Which claim belongs to the trichromatic theory?',
 Q('m3-color','f','The figure shows three cone types (S, M, L) feeding into three channels that produce black-white, red-green, and blue-yellow. Which theory does it illustrate?',
  ['Opponent-process theory','Trichromatic theory','Place theory','Frequency theory'],
  'Three opposing pairs as outputs is the opponent-process theory.', {fig:'f_opponent'});
-Q('m3-color','f','Which opposing pair is NOT produced by any of the three channels in the figure?',
- ['Blue/green','Black/white','Red/green','Blue/yellow'],
- 'The three opponent pairs are black/white, red/green, and blue/yellow.', {fig:'f_opponent'});
 TF('m3-color','t','The opponent-process theory explains why we never see a greenish red.', true,
  'True. Red and green work in opposition, so they are never perceived together.');
 TF('m3-color','t','The trichromatic theory proposes three opposing color pairs.', false,
@@ -237,39 +189,12 @@ Q('m3-ear','a','An ear infection keeps the eardrum and the three small bones beh
 Q('m3-ear','c','Put these in the order sound travels: oval window, auditory canal, ossicles, cochlea.',
  ['Auditory canal, ossicles, oval window, cochlea','Ossicles, oval window, cochlea, auditory canal','Oval window, cochlea, auditory canal, ossicles','Cochlea, auditory canal, ossicles, oval window'],
  'Canal (outer) → eardrum and ossicles (middle) → oval window → cochlea (inner).');
-Q('m3-ear','f','In the ear figure, what is structure B?',
- ['Cochlea','Semicircular canals','Ossicles','Oval window'],
- 'B is the cochlea, where sound becomes neural impulses.', {fig:'f_ear'});
-Q('m3-ear','f','In the ear figure, what is labeled D?',
- ['Tympanic membrane','Oval window','Basilar membrane','Pinna'],
- 'D is the tympanic membrane (eardrum).', {fig:'f_ear'});
-Q('m3-ear','f','In the ear figure, what is labeled E?',
- ['Ossicles','Semicircular canals','Cochlea','Auditory canal'],
- 'E is the auditory ossicles: hammer, anvil, and stirrup.', {fig:'f_ear'});
-Q('m3-ear','f','In the ear figure, what is labeled F?',
- ['Auditory canal','Eustachian tube','Oval window','Cochlea'],
- 'F is the external auditory canal, part of the outer ear.', {fig:'f_ear'});
-Q('m3-ear','f','In the ear figure, what is labeled C?',
- ['Oval window','Tympanic membrane','Cochlea','Auditory canal'],
- 'C is the oval window, through which vibrations enter the inner ear.', {fig:'f_ear'});
-Q('m3-ear','f','In the ear figure, the color key labels G, H, and I are hidden. The cochlea is colored to match key I. Key I stands for the',
- ['inner ear','middle ear','outer ear','auditory canal'],
- 'The cochlea is in the inner ear, so its color key is the inner ear.', {fig:'f_ear'});
-Q('m3-ear','f','In the ear figure, the eardrum and ossicles share the color of key H. Key H stands for the',
- ['middle ear','inner ear','outer ear','vestibular system'],
- 'The tympanic membrane and ossicles make up the middle ear.', {fig:'f_ear'});
-Q('m3-ear','f','In the ear figure, the pinna and the auditory canal share the color of key G. Key G stands for the',
- ['outer ear','middle ear','inner ear','vestibular system'],
- 'The pinna and auditory canal make up the outer ear.', {fig:'f_ear'});
-Q('m3-ear','f','In the ear figure, the loops labeled A sit next to the cochlea in the inner ear but handle balance, not hearing. A marks the',
- ['semicircular canals','ossicles','auditory canal','oval window'],
- 'A marks the semicircular canals, vestibular receptors that sit beside the cochlea.', {fig:'f_ear'});
 TF('m3-ear','t','The oval window is part of the outer ear.', false,
  'False. It is where vibrations enter the inner ear.');
 TF('m3-ear','t','The hammer, anvil, and stirrup are the ossicles of the middle ear.', true,
  'True. They pass vibrations from the eardrum to the inner ear.');
-TF('m3-ear','t','Sound waves become neural impulses at the tympanic membrane.', false,
- 'False. That happens in the cochlea. The tympanic membrane vibrates.');
+TF('m3-ear','t','Sound waves become neural impulses in the cochlea, not at the tympanic membrane.', true,
+ 'True. The tympanic membrane vibrates; the fluid-filled cochlea is where sound becomes neural impulses.');
 
 /* ---- m3-aud ---- */
 Q('m3-aud','r','According to place theory, we distinguish pitch because',
@@ -284,9 +209,6 @@ Q('m3-aud','c','A researcher finds that a high tone and a low tone vibrate diffe
 Q('m3-aud','c','A researcher finds that the auditory nerve fires faster for higher tones. This supports',
  ['frequency theory','place theory','spatial hearing','trichromatic theory'],
  'Firing rate tied to the tone\'s frequency is frequency theory.');
-Q('m3-aud','r','The basilar membrane lies between the',
- ['tympanic canal and cochlear duct','eardrum and oval window','pinna and auditory canal','utricle and saccule'],
- 'The basilar membrane is between the tympanic canal and the cochlear duct.');
 Q('m3-aud','r','Spatial hearing is the ability to',
  ['locate where a sound is coming from','tell two pitches apart','detect a sound half the time','turn vibration into neural signals'],
  'Spatial hearing locates sound: front or behind, above or below.');
@@ -301,10 +223,6 @@ Q('m3-aud','r','Spatial hearing is based on interaural time differences (ITD) an
  'The two cues for locating sound are ITD and ILD.');
 TF('m3-aud','t','Place theory says pitch depends on how often hair cells fire.', false,
  'False. That is frequency theory. Place theory says different frequencies move different regions of the basilar membrane.');
-TF('m3-aud','t','Interaural time differences are one of the cues used in spatial hearing.', true,
- 'True. A sound arrives at the nearer ear slightly sooner.');
-TF('m3-aud','t','Spatial hearing lets us judge whether a sound is in front of or behind us.', true,
- 'True. It covers front/behind and above/below.');
 
 /* ---- m3-chem ---- */
 Q('m3-chem','r','Taste and smell are called the chemical senses because',
@@ -328,20 +246,13 @@ Q('m3-chem','r','Receptor cells for smell are found in the',
 Q('m3-chem','a','With a stuffy nose, someone eating chocolate can barely tell it from any other sweet. This shows that',
  ['smell contributes to how food tastes','smell depends on the papillae','sweet receptors sit in the nose','congestion blocks the taste buds'],
  'Plugging the nose makes chocolate hard to distinguish: smell contributes to taste.');
-Q('m3-chem','f','In the nasal cavity figure, region A holds the smell receptor cells. The membrane lining it is the',
- ['olfactory mucosa','papillae','taste buds','tympanic membrane'],
- 'Smell receptor cells are in the olfactory mucosa, the membrane lining the nasal cavity.', {fig:'f_nose'});
 Q('m3-chem','f','The four labels on the tongue figure are the basic tastes our receptors distinguish. Our pleasure and displeasure for these tastes are',
  ['hard-wired in the brain','set by the papillae on the tongue','learned through classical conditioning','shaped by the olfactory mucosa'],
  'Pleasure and displeasure for the basic tastes are hard-wired in the brain, not learned.', {fig:'o_tongue'});
 TF('m3-chem','t','Human taste receptors distinguish five basic tastes.', false,
  'False. They distinguish four: sweet, salty, sour, and bitter.');
-TF('m3-chem','t','Olfaction is a life-or-death necessity.', false,
- 'False. It is not life or death, but it matters for our ability to taste.');
-TF('m3-chem','t','Taste and smell work together to help an omnivore identify healthy foods and avoid poisons.', true,
- 'True. Taste and smell work together to solve this problem for omnivores.');
-TF('m3-chem','t','Papillae are the taste receptors themselves.', false,
- 'False. Papillae are the bumps; taste buds are the receptors.');
+TF('m3-chem','t','Papillae are bumps that hold the taste receptors rather than being the receptors themselves.', true,
+ 'True. Papillae are the bumps; taste buds are the receptors.');
 
 /* ---- m3-touch ---- */
 Q('m3-touch','r','Touch and pain are both part of the',
@@ -401,21 +312,13 @@ Q('m3-touch','s','In Harlow\'s (1958) study, infant rhesus monkeys under stress 
 Q('m3-touch','s','What did Harlow\'s surrogate-mother study show?',
  ['Comfort and a secure base were valued over nourishment','Infants bonded to whichever surrogate fed them milk','Infants preferred whichever surrogate was warmer','Infants bonded to the surrogate they saw first'],
  'The need for comfort and a "secure base" outweighed physical nourishment.');
-Q('m3-touch','s','In Harlow\'s study, infant monkeys that never spent time with the soft surrogate',
- ['developed digestive problems','gained weight faster','showed no differences','fed themselves sooner'],
- 'Those infants developed digestive issues, read as internal anxiety and stress.');
 Q('m3-touch','f','What does this photo from Harlow\'s study show?',
  ['Comfort comes from the cloth mother, food from the wire one','It prefers whichever surrogate happens to provide milk','It treats the wire mother as its secure base under stress','It avoids both surrogates whenever it becomes frightened'],
  'Infants used the cloth mother for comfort and the wire mother only for food.', {fig:'o_harlow'});
-Q('m3-touch','f','The figure shows a brain region mapped part by part onto the body, with its legend labels hidden. Which system does this map belong to?',
- ['Somatosensory system','Vestibular system','Olfactory system','Visual system'],
- 'It is the somatosensory cortex, which maps touch from each body part.', {fig:'f_somato'});
 TF('m3-touch','t','Proprioception refers to body position.', true,
  'True. Body movement is kinesthesis.');
 TF('m3-touch','t','Exteroception is sensing the physiological state of one\'s own body.', false,
  'False. That is interoception. Exteroception senses the immediate external world.');
-TF('m3-touch','t','Harlow\'s infant monkeys spent most of their time with the wire surrogate because it provided milk.', false,
- 'False. They clung to the cloth surrogate and used the wire one only when hungry.');
 TF('m3-touch','t','How much pain a person feels can be shaped by motivation, attention, emotion, and context.', true,
  'True. The Ralston case illustrates this.');
 
@@ -435,9 +338,6 @@ Q('m3-vest','r','The vestibular sense conveys',
 Q('m3-vest','r','Where are the vestibular receptors located?',
  ['In the inner ear next to the cochlea','In the middle ear next to the ossicles','In the hippocampus next to place cells','In the skin next to cutaneous receptors'],
  'They lie in the inner ear beside the cochlea.');
-Q('m3-vest','r','The three semicircular canals are the',
- ['horizontal, anterior, and posterior canals','utricle, saccule, and cochlea','hammer, anvil, and stirrup','place, grid, and head direction canals'],
- 'The three canals are horizontal, anterior, and posterior.');
 Q('m3-vest','r','The vestibular receptors in the inner ear detect',
  ['head turns, straight-line motion, and head tilt','sound frequency and loudness in the cochlea','light intensity and wavelength at the retina','skin pressure and temperature across the body'],
  'They detect rotational motion (head turns), linear motion, and tilts of the head relative to gravity, and turn them into neural signals.');
@@ -447,15 +347,9 @@ Q('m3-vest','r','The receptor cells of the semicircular canals are called',
 Q('m3-vest','r','Vestibular efferents are fibers that',
  ['project from the brain out to the vestibular receptors','carry signals from the receptors to the brain','connect the cochlea to the ossicles','link place cells to grid cells'],
  'Efferents go from the brain to the receptor organs and are thought to control their sensitivity.');
-Q('m3-vest','r','The primary neurotransmitter of the vestibular efferents is',
- ['acetylcholine','dopamine','serotonin','glutamate'],
- 'The primary efferent neurotransmitter is acetylcholine.');
 Q('m3-vest','r','Vestibular efferents are thought to',
  ['control the sensitivity of the vestibular receptors','encode the heading direction of the head in space','convert incoming sound waves into neural impulses','store the cognitive map used for navigation'],
  'They are thought to set how sensitive the receptors are.');
-Q('m3-vest','r','There are five vestibular receptors in each ear. Besides the three semicircular canals, the other two are the',
- ['utricle and saccule','cochlea and oval window','hammer and anvil','fovea and blind spot'],
- 'The other two are the otolith organs, the utricle and saccule.', {tb:1});
 Q('m3-vest','r','Place cells, which encode specific locations, are found in the',
  ['hippocampus','entorhinal cortex','anterior-dorsal thalamus','cochlea'],
  'Place cells: hippocampus. Grid cells: entorhinal cortex. Head direction cells: thalamus.');
@@ -480,23 +374,12 @@ Q('m3-vest','s','Motion sickness is generally thought to come from',
 Q('m3-vest','a','Reading in the back seat of a moving car, your eyes say you are still while your inner ear says you are moving. You start to feel queasy. This is explained by',
  ['a mismatch in sensory cues','a damaged cochlea','habituation to motion','a failure of orthostasis'],
  'Motion sickness comes from a mismatch between vestibular, visual, and proprioceptive cues.');
-Q('m3-vest','f','In the vestibular figure, what is labeled A?',
- ['Semicircular canals','Vestibular efferents','Auditory ossicles','Basilar membrane'],
- 'A marks the semicircular canals.', {fig:'f_vestib'});
-Q('m3-vest','f','In the vestibular figure, structure D is the',
- ['cochlea','utricle','saccule','ampulla'],
- 'D is the cochlea, next to the vestibular receptors.', {fig:'f_vestib'});
-Q('m3-vest','f','In the close-up on the right of the vestibular figure, the cells labeled E are',
- ['hair cells','place cells','rods','papillae'],
- 'E marks hair cells, the receptor cells of the semicircular canals.', {fig:'f_vestib'});
 TF('m3-vest','t','Place cells are found in the entorhinal cortex.', false,
  'False. Place cells are in the hippocampus; grid cells are in the entorhinal cortex.');
-TF('m3-vest','t','The vestibular receptors lie in the inner ear next to the cochlea.', true,
- 'True. They sit beside the auditory cochlea.');
 TF('m3-vest','t','Head direction cells encode heading regardless of the animal\'s location.', true,
  'True. They track heading, independent of spatial location.');
-TF('m3-vest','t','Vestibular efferents carry signals from the receptors to the brain.', false,
- 'False. Efferents project from the brain out to the receptor organs.');
+TF('m3-vest','t','Vestibular efferents carry signals from the brain out to the vestibular receptors.', true,
+ 'True. Efferents project from the brain to the receptor organs and are thought to control their sensitivity.');
 
 /* ---- added for coverage ---- */
 Q('m3-sp','a','A smoke detector\'s sensor responds to particles in the air before anyone notices a smell. In people, the comparable first step, receptors responding to a stimulus, is',
@@ -505,13 +388,9 @@ Q('m3-sp','a','A smoke detector\'s sensor responds to particles in the air befor
 Q('m3-sp','a','A lab measures the faintest light, the softest sound, and the smallest weight change people can detect. This research belongs to',
  ['psychophysics','perception','transduction','metacognition'],
  'Psychophysics relates physical stimulus attributes to experience, including thresholds.');
-TF('m3-sp','t','Psychophysics studies the relationship between the physical attributes of stimuli and the psychological experiences they produce.', true,
- 'True. It is the field that measures sensory thresholds.');
 Q('m3-eye','a','Two flashlights shine the same color, but one sends out far more photons at once. The flashlights differ in',
  ['brightness','hue','saturation','wavelength'],
  'Brightness is intensity: the number of photons seen at one time.');
-TF('m3-eye','t','Human vision can detect infrared radiation, just as some animals can.', false,
- 'False. Some animals have a broader range that includes infrared; human vision does not.');
 Q('m3-ear','c','Which structure is part of the outer ear?',
  ['Pinna','Anvil','Oval window','Cochlea'],
  'The pinna is outer ear. The anvil is middle ear; the oval window and cochlea are inner ear.');
@@ -524,8 +403,6 @@ Q('m3-aud','a','A researcher argues that we hear a tone as high because nerve fi
 Q('m3-chem','a','A patient loses smell after an infection damages the membrane lining her nasal cavity. The damaged tissue is the',
  ['olfactory mucosa','papillae','taste buds','tympanic membrane'],
  'The olfactory mucosa lines the nasal cavity and holds the smell receptors.');
-TF('m3-chem','t','Receptor cells for smell are found in the olfactory mucosa.', true,
- 'True. It is the membrane lining the nasal cavity.');
 Q('m3-touch','a','A patient can feel pressure, temperature, and pain normally across her skin. Which system is working as it should?',
  ['Somatosensory system','Vestibular system','Olfactory system','Auditory system'],
  'Pressure, temperature, and pain come from somatosensory receptors.');
@@ -544,6 +421,3 @@ Q('m3-vest','a','A figure skater spins rapidly and stops without falling over. T
 Q('m3-vest','a','Recording from a rat\'s entorhinal cortex, a researcher finds cells that fire at points spaced in a regular repeating pattern across the floor. These are',
  ['grid cells','place cells','head direction cells','hair cells'],
  'Grid cells, in the entorhinal cortex, map space in a tessellated pattern.');
-Q('m3-touch','s','Harlow\'s surrogate study used one surrogate made of metal mesh. What did that surrogate provide?',
- ['A milk dispenser','Soft, fluffy cloth','Warmth and comfort','A secure base'],
- 'The wire-mesh surrogate held the milk; the cloth surrogate gave comfort but no milk.', {fig:'o_harlow2'});

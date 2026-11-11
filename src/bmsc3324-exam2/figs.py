@@ -160,12 +160,14 @@ def mask(big, specs):
             d.text((cx, cy + 1), letter, fill='black', font=f, anchor='mm')
     return big
 
+# anatomy figures stay as study aids (cards, cheat sheet) but aren't quizzed, so no masked copy
+NO_QUIZ = {'eye', 'ear', 'vestib', 'nose', 'somato'}
 IMG, CARDFIG, LETTERS = {}, {}, {}
 for k, (fn, specs) in F.items():
     im = Image.open(os.path.join(MEDIA, fn)).convert('RGB')
     big = im.resize((im.width * S, im.height * S), Image.LANCZOS)
     IMG['o_' + k] = b64(big)
-    if specs:
+    if specs and k not in NO_QUIZ:
         IMG['f_' + k] = b64(mask(big.copy(), specs))
         LETTERS[k] = [s[0] for s in specs if s[0]]
     for letter, (x, y, w, h), terms in specs:

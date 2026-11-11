@@ -110,7 +110,7 @@ function mockView() {
   <h2>Past mocks</h2>
   ${S.hist.length ? `<p class="sm"><button class="btn link sm" id="clrHist" style="margin-left:0;padding-left:0">Clear mock history</button> <span class="mut">Question answers stay.</span></p>
   <table class="res"><tr><th>#</th><th>Date</th><th>Score</th></tr>${S.hist.slice().reverse().map(x => `<tr><td>${x.n}</td><td>${new Date(x.d).toLocaleDateString()}</td><td>${x.s} / ${x.of}</td></tr>`).join('')}</table>` : '<p class="mut sm">None yet.</p>'}
-  <p class="sm mut" style="margin-top:28px"><button class="btn link sm" id="reset" style="margin-left:0;padding-left:0">Reset progress</button> · v1.1</p>`;
+  <p class="sm mut" style="margin-top:28px"><button class="btn link sm" id="reset" style="margin-left:0;padding-left:0">Reset progress</button> · v1.2</p>`;
   document.querySelectorAll('[data-mod]').forEach(c => c.onchange = () => { S.set[c.dataset.mod] = c.checked; save(); mockView(); });
   document.querySelectorAll('.seg button').forEach(b => b.onclick = () => { const k = b.parentNode.dataset.key; const v = b.dataset.v; S.set[k] = v === 'true' ? true : v === 'false' ? false : isNaN(+v) ? v : +v; save(); mockView(); });
   $('#startMock').onclick = () => startMock();
