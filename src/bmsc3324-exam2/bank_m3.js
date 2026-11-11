@@ -13,13 +13,13 @@ Q('m3-sp','a','Two friends hear the same song at the same volume. One finds it s
  ['perception','sensation','the stimulus','the absolute threshold'],
  'The stimulus and the receptor response are about the same for both; the interpretation is what differs. That is perception.');
 Q('m3-sp','c','Which statement correctly contrasts sensation and perception?',
- ['People sense stimuli similarly but perceive them differently','People sense and perceive stimuli in nearly identical ways','Sensation is interpretation; perception is receptor stimulation','Sensation requires a threshold; perception does not'],
+ ['People sense stimuli similarly but perceive them differently','People perceive stimuli similarly but sense them differently','Sensation is interpretation; perception is receptor stimulation','People sense and perceive stimuli in nearly identical ways'],
  'Sensation is the receptor response, which is similar across people. Perception is the interpretation, which varies.');
 Q('m3-sp','r','Some type of physical energy to which we can respond is called a',
  ['stimulus','transducer','threshold','sensation'],
  'A stimulus is the physical energy every perception starts from. A transducer is what converts it.');
 Q('m3-sp','r','Any mechanism that converts energy from one form to another, such as a sense receptor, is a',
- ['transducer','stimulus','threshold','papilla'],
+ ['transducer','stimulus','threshold','sensation'],
  'Each sense receptor is a transducer: it turns physical energy into a neural signal.');
 Q('m3-sp','e','Which example best describes a sense receptor acting as a transducer?',
  ['Light energy becomes a neural signal in the eye','A listener decides that a song sounds sad and slow','Two close shades of green look identical to a viewer','A faint tone is detected on half of all trials'],
@@ -28,22 +28,22 @@ Q('m3-sp','r','The study of the relationship between the physical attributes of 
  ['psychophysics','perception','transduction','sensation'],
  'Psychophysics links physical stimulus properties to experience; it is the field that measures thresholds.');
 Q('m3-sp','r','The minimal intensity a stimulus must reach to activate the sensory process is its',
- ['threshold','saturation','brightness','hue'],
+ ['threshold','difference threshold','stimulus','transducer'],
  'Below the threshold the sensory process is not activated. The other options are properties of light.');
 Q('m3-sp','r','The absolute threshold is operationally defined as the stimulus intensity a person can detect',
  ['50 percent of the time','100 percent of the time','75 percent of the time','25 percent of the time'],
  'Because there is no absolute measure of sensitivity, the absolute threshold is set at detection 50 percent of the time.');
 Q('m3-sp','a','In a hearing test, a tone is made softer until the listener reports hearing it on only half of the trials. The tester has found the listener\'s',
- ['absolute threshold','difference threshold','frequency threshold','perceptual threshold'],
+ ['absolute threshold','difference threshold','interaural level difference','perception'],
  'The intensity detected 50 percent of the time is the absolute threshold. A difference threshold compares two stimuli.');
 Q('m3-sp','a','A coffee taster can tell that one cup has slightly more sugar than another, but not when the gap between them is any smaller. That limit is the',
- ['difference threshold','absolute threshold','psychophysics','saturation'],
+ ['difference threshold','absolute threshold','psychophysics','perception'],
  'The smallest detectable difference between two stimuli is the difference threshold.');
 Q('m3-sp','c','How does a difference threshold differ from an absolute threshold?',
- ['It is about telling two stimuli apart, not detecting one at all','It is the strength a stimulus needs to start any sensation','It measures detection 50 percent of the time; the other does not','It is measured for vision; the other is measured for hearing'],
+ ['It is about telling two stimuli apart, not detecting one at all','It is about detecting a stimulus at all, not telling two apart','It is the strength a stimulus needs to start any sensation','It measures detection 50 percent of the time; the other does not'],
  'Absolute threshold: can you detect the stimulus at all. Difference threshold: can you tell two stimuli apart.');
 Q('m3-sp','f','In the figure, which concept do panel A (the candle flame) and panel B (the two shades of green) illustrate, in that order?',
- ['Absolute threshold, difference threshold','Psychophysics, difference threshold','Sensation, perception','Brightness, saturation'],
+ ['Absolute threshold, difference threshold','Difference threshold, absolute threshold','Absolute threshold, psychophysics','Psychophysics, difference threshold'],
  'Seeing a faint flame at all is the absolute threshold; telling two hues apart is the difference threshold.', {fig:'f_thresh'});
 TF('m3-sp','t','The absolute threshold is the stimulus intensity a person can detect 75 percent of the time.', false,
  'False. It is the intensity detected 50 percent of the time.');
@@ -52,7 +52,7 @@ TF('m3-sp','t','Perception is the direct effect of a stimulus on receptor cells.
 
 /* ---- m3-eye ---- */
 Q('m3-eye','r','The three properties of light are',
- ['brightness, hue, and saturation','brightness, pitch, and wavelength','hue, pitch, and intensity','saturation, wavelength, and intensity'],
+ ['brightness, hue, and saturation','brightness, hue, and wavelength','hue, saturation, and intensity','brightness, saturation, and wavelength'],
  'Brightness (photons), hue (wavelength), and saturation (white mixed in).');
 Q('m3-eye','r','Brightness is measured by',
  ['the number of photons seen at one time','the wavelength in nanometers','the amount of white in the light','the size of the pupil'],
@@ -64,7 +64,7 @@ Q('m3-eye','a','A paint store adds white to a deep red until it becomes pale pin
  ['saturation','hue','brightness','wavelength'],
  'More white means less saturation. The hue (red) is unchanged.');
 Q('m3-eye','c','Two lights have the same wavelength but one contains much more white. They differ in',
- ['saturation','hue','wavelength','visual range'],
+ ['saturation','hue','brightness','wavelength'],
  'Same wavelength means same hue; more white means lower saturation.');
 Q('m3-eye','f','Moving from left to right across the visible spectrum in the figure changes which property of light?',
  ['Hue','Saturation','Brightness','Intensity'],
@@ -79,10 +79,10 @@ Q('m3-eye','r','Rods are the photoreceptors that',
  ['let us see in dim light','let us perceive color','focus images on the retina','carry signals to the brain'],
  'Rods (about 120 million) handle dim light. Cones handle color.');
 Q('m3-eye','a','Walking into a dark movie theater, you can make out shapes but not colors. The photoreceptors doing most of the work are',
- ['rods','cones','hair cells','ganglion cells'],
+ ['rods','cones','foveal cones','rods and cones equally'],
  'Rods allow vision in dim light; cones, which give color, need more light.');
 Q('m3-eye','c','How do rods and cones differ?',
- ['Rods work in dim light; cones aid color perception','Rods aid color perception; cones work in dim light','Rods are in the lens; cones are in the retina','Rods number about 6 million; cones about 120 million'],
+ ['Rods work in dim light; cones aid color perception','Rods aid color perception; cones work in dim light','Rods work in dim light; cones are absent from the fovea','Rods are densest in the fovea; cones aid color perception'],
  'Rods: dim light, about 120 million. Cones: color, about 6 million.');
 Q('m3-eye','r','The area of the retina with the densest concentration of cones is the',
  ['fovea','blind spot','optic disc','lens'],
@@ -94,7 +94,7 @@ Q('m3-eye','r','The blind spot exists because',
  ['the optic nerve exits there, leaving no photoreceptors','the fovea packs too many cones there to process','the lens cannot focus incoming light on that area','the iris blocks incoming light from reaching that area'],
  'Where the optic nerve exits, the retina has no photoreceptors.');
 Q('m3-eye','c','Which pairing of retinal areas is correct?',
- ['Fovea: densest cones; blind spot: no photoreceptors','Fovea: densest cones; blind spot: densest cones','Fovea: no photoreceptors; blind spot: no photoreceptors','Fovea: no photoreceptors; blind spot: densest cones'],
+ ['Fovea: densest cones; blind spot: no photoreceptors','Fovea: no photoreceptors; blind spot: densest cones','Fovea: densest rods; blind spot: no photoreceptors','Fovea: where the optic nerve exits; blind spot: densest cones'],
  'The fovea is packed with cones; the blind spot, where the optic nerve leaves, has none.');
 Q('m3-eye','r','The pupil is',
  ['the opening of the iris','the colored part of the eye','the fluid behind the lens','the muscle that shapes the lens'],
@@ -106,16 +106,16 @@ Q('m3-eye','r','The structure behind the iris that changes shape to focus visual
  ['lens','cornea','retina','pupil'],
  'The lens changes shape to focus; ciliary muscles control that shape.');
 Q('m3-eye','r','Small muscles attached to the lens that control its shape and focusing are the',
- ['ciliary muscles','iris muscles','optic muscles','vestibular muscles'],
+ ['ciliary muscles','iris muscles','optic nerve fibers','rods and cones'],
  'The ciliary muscles change the lens\'s shape.');
 Q('m3-eye','c','Which structure-function pairing is correct?',
- ['Ciliary muscles: change lens shape; iris: opens and closes pupil','Ciliary muscles: change lens shape; iris: changes lens shape','Ciliary muscles: open and close pupil; iris: opens and closes pupil','Ciliary muscles: open and close pupil; iris: changes lens shape'],
+ ['Ciliary muscles: change lens shape; iris: opens and closes pupil','Ciliary muscles: open and close pupil; iris: changes lens shape','Ciliary muscles: change lens shape; iris: records images','Lens: opens and closes pupil; iris: changes lens shape'],
  'Ciliary muscles act on the lens; the iris acts on the pupil.');
 Q('m3-eye','r','Aqueous humor is the',
- ['watery fluid between the cornea and the lens','thick fluid behind the lens that keeps the eye round','thin tissue at the back of the eye that records images','fluid inside the cochlea that carries sound waves'],
+ ['watery fluid between the cornea and the lens','thick fluid behind the lens that keeps the eye round','thin tissue at the back of the eye that records images','transparent outer shell at the front of the eye'],
  'Aqueous humor sits in front of the lens; vitreous humor fills the space behind it.');
 Q('m3-eye','r','The thick fluid behind the lens that keeps the eye spherical is the',
- ['vitreous humor','aqueous humor','olfactory mucosa','endolymph'],
+ ['vitreous humor','aqueous humor','cornea','retina'],
  'Vitreous humor is behind the lens and holds the eye\'s shape.');
 Q('m3-eye','c','How does aqueous humor differ from vitreous humor?',
  ['Aqueous is watery, in front of the lens; vitreous is thick, behind it','Aqueous is thick, in front of the lens; vitreous is watery, behind it','Aqueous is watery, behind the lens; vitreous is thick, in front of it','Aqueous is thick, behind the lens; vitreous is watery, in front of it'],
@@ -136,7 +136,7 @@ Q('m3-color','r','In the opponent-process theory, which three pairs work in oppo
  ['Black/white, red/green, blue/yellow','Black/white, red/blue, green/yellow','Red/yellow, blue/green, black/white','Red/green, blue/white, black/yellow'],
  'The three pairs are black/white, red/green, and blue/yellow.');
 Q('m3-color','a','You can picture a reddish yellow (orange), but never a greenish red. Which theory explains this?',
- ['Opponent-process theory','Trichromatic theory','Place theory','Frequency theory'],
+ ['Opponent-process theory','Trichromatic theory','Both color theories equally','Neither; it reflects saturation'],
  'Red and green are an opposing pair, so they cannot be perceived together.');
 Q('m3-color','c','Which observation supports the opponent-process theory over the trichromatic theory?',
  ['No one sees a bluish yellow','Mixing red, green, and blue light makes white','The retina contains cones','Hue depends on wavelength'],
@@ -145,7 +145,7 @@ Q('m3-color','e','Which claim belongs to the trichromatic theory?',
  ['Any color can be made by mixing red, green, and blue','Red, green, and blue cancel each other out in pairs','Colors are coded as differences within pairs','Blue and yellow cannot be seen together'],
  'The trichromatic theory is about red, green, and blue combining. Canceling pairs, coding by differences within pairs, and no bluish yellow describe opponent-process.');
 Q('m3-color','f','The figure shows three cone types (S, M, L) feeding into three channels that produce black-white, red-green, and blue-yellow. Which theory does it illustrate?',
- ['Opponent-process theory','Trichromatic theory','Place theory','Frequency theory'],
+ ['Opponent-process theory','Trichromatic theory','Hue coding by wavelength','Saturation coding by white light'],
  'Three opposing pairs as outputs is the opponent-process theory.', {fig:'f_opponent'});
 TF('m3-color','t','The opponent-process theory explains why we never see a greenish red.', true,
  'True. Red and green work in opposition, so they are never perceived together.');
@@ -166,7 +166,7 @@ Q('m3-ear','r','The tympanic membrane is',
  ['the eardrum, which vibrates','the ear lobe','the shaft into the middle ear','the entry into the inner ear'],
  'The tympanic membrane is the eardrum, part of the middle ear.');
 Q('m3-ear','r','The ossicles that pass vibrations to the inner ear are the',
- ['hammer, anvil, and stirrup','pinna, canal, and eardrum','utricle, saccule, and canals','rods, cones, and hair cells'],
+ ['hammer, anvil, and stirrup','pinna, auditory canal, and eardrum','oval window, cochlea, and basilar membrane','semicircular canals, hair cells, and cochlea'],
  'The ossicles are the hammer, anvil, and stirrup.');
 Q('m3-ear','r','The pinna is part of the',
  ['outer ear','middle ear','inner ear','cochlea'],
@@ -187,7 +187,7 @@ Q('m3-ear','a','An ear infection keeps the eardrum and the three small bones beh
  ['Middle ear','Outer ear','Inner ear','Cochlea'],
  'The eardrum and ossicles make up the middle ear.');
 Q('m3-ear','c','Put these in the order sound travels: oval window, auditory canal, ossicles, cochlea.',
- ['Auditory canal, ossicles, oval window, cochlea','Ossicles, oval window, cochlea, auditory canal','Oval window, cochlea, auditory canal, ossicles','Cochlea, auditory canal, ossicles, oval window'],
+ ['Auditory canal, ossicles, oval window, cochlea','Auditory canal, oval window, ossicles, cochlea','Ossicles, auditory canal, oval window, cochlea','Auditory canal, ossicles, cochlea, oval window'],
  'Canal (outer) → eardrum and ossicles (middle) → oval window → cochlea (inner).');
 TF('m3-ear','t','The oval window is part of the outer ear.', false,
  'False. It is where vibrations enter the inner ear.');
@@ -204,10 +204,10 @@ Q('m3-aud','r','According to frequency theory, perceived pitch depends on',
  ['how often hair cells trigger firing in the auditory nerve','which region of the basilar membrane is displaced','the difference in arrival time between the ears','the size of the tympanic membrane'],
  'Frequency theory: the rate of auditory nerve firing tracks pitch.');
 Q('m3-aud','c','A researcher finds that a high tone and a low tone vibrate different spots along the basilar membrane. This supports',
- ['place theory','frequency theory','opponent-process theory','trichromatic theory'],
+ ['place theory','frequency theory','spatial hearing','interaural time differences'],
  'Different locations for different frequencies is place theory.');
 Q('m3-aud','c','A researcher finds that the auditory nerve fires faster for higher tones. This supports',
- ['frequency theory','place theory','spatial hearing','trichromatic theory'],
+ ['frequency theory','place theory','spatial hearing','interaural time differences'],
  'Firing rate tied to the tone\'s frequency is frequency theory.');
 Q('m3-aud','r','Spatial hearing is the ability to',
  ['locate where a sound is coming from','tell two pitches apart','detect a sound half the time','turn vibration into neural signals'],
@@ -219,23 +219,23 @@ Q('m3-aud','a','A car horn sounds to your right, and you turn right before you e
  ['interaural time differences','interaural level differences','frequency theory','place theory'],
  'A difference in arrival time between the ears is ITD.');
 Q('m3-aud','r','Spatial hearing is based on interaural time differences (ITD) and',
- ['interaural level differences (ILD)','the difference threshold','basilar membrane place coding','the opponent process'],
+ ['interaural level differences (ILD)','frequency theory','place theory','the difference threshold'],
  'The two cues for locating sound are ITD and ILD.');
 TF('m3-aud','t','Place theory says pitch depends on how often hair cells fire.', false,
  'False. That is frequency theory. Place theory says different frequencies move different regions of the basilar membrane.');
 
 /* ---- m3-chem ---- */
 Q('m3-chem','r','Taste and smell are called the chemical senses because',
- ['both respond to chemical substances in the environment','both rely on photoreceptors to detect incoming molecules','both send their signals through the cochlea first','both depend on interaural differences to locate sources'],
+ ['both respond to chemical substances in the environment','both detect molecules through receptors on the papillae','both rely on receptors in the olfactory mucosa','both are hard-wired for sweet, salty, sour, and bitter'],
  'Both respond to chemicals in the environment.');
 Q('m3-chem','r','The receptors for taste located on the tongue are',
  ['taste buds','papillae','olfactory mucosa','hair cells'],
  'Taste buds are the receptors. Papillae are the bumps that hold them.');
 Q('m3-chem','r','The bumps on the tongue that hold taste receptors are called',
- ['papillae','taste buds','ossicles','mucosa'],
+ ['papillae','taste buds','olfactory mucosa','cutaneous receptors'],
  'Papillae are the bumps; the receptors on them are taste buds.');
 Q('m3-chem','c','How do papillae and taste buds relate?',
- ['Papillae are bumps that hold the taste receptors; taste buds are the receptors','Papillae and taste buds are two names for the same taste receptors','Papillae detect smell in the nose; taste buds detect taste on the tongue','Papillae line the nasal cavity; taste buds line the surface of the tongue'],
+ ['Papillae are bumps that hold the taste receptors; taste buds are the receptors','Taste buds are bumps that hold the taste receptors; papillae are the receptors','Papillae and taste buds are two names for the same taste receptors','Papillae line the nasal cavity; taste buds line the surface of the tongue'],
  'Papillae are the visible bumps; taste buds are the receptors on them.');
 Q('m3-chem','r','Our pleasure and displeasure for the basic tastes are',
  ['hard-wired in the brain','learned through classical conditioning','set by the olfactory mucosa','developed through habituation'],
@@ -268,7 +268,7 @@ Q('m3-touch','a','You notice your heart pounding and your stomach churning befor
  ['interoception','exteroception','kinesthesis','cutaneous sensing'],
  'Sensing your own body\'s physiological state is interoception.');
 Q('m3-touch','c','Feeling that a doorknob is cold and rough, and feeling that you are hungry, are examples of, respectively,',
- ['exteroception and interoception','proprioception and interoception','proprioception and kinesthesis','nociception and proprioception'],
+ ['exteroception and interoception','interoception and exteroception','proprioception and interoception','exteroception and nociception'],
  'The doorknob is the external world (exteroception); hunger is the body\'s state (interoception).');
 Q('m3-touch','r','Which list gives the four somatosensory modalities?',
  ['Cutaneous senses, proprioception, kinesthesis, nociception','Cutaneous senses, interoception, kinesthesis, orthostasis','Exteroception, proprioception, transduction, nociception','Cutaneous senses, proprioception, orthostasis, interoception'],
@@ -298,22 +298,22 @@ Q('m3-touch','r','The process by which skin receptors convert stimulation into e
  ['transduction','perception','habituation','nociception'],
  'Transduction converts the stimulus into nerve impulses.');
 Q('m3-touch','c','How does transduction relate to a transducer?',
- ['Transduction is the conversion; a transducer is the mechanism that does it','Transduction is the stimulus; a transducer is the sensation it causes','Transduction is perception; a transducer is the sensation it interprets','Transduction is a threshold; a transducer is the receptor it activates'],
+ ['Transduction is the conversion; a transducer is the mechanism that does it','A transducer is the conversion; transduction is the mechanism that does it','Transduction is the stimulus; a transducer is the sensation it causes','Transduction is perception; a transducer is the sensation it interprets'],
  'A transducer (a receptor) carries out transduction (energy conversion).');
 Q('m3-touch','r','Pain is defined as an unpleasant sensory and emotional experience associated with',
- ['actual or potential tissue damage','a mismatch of vestibular and visual cues','a stimulus below threshold','the loss of a secure base'],
+ ['actual or potential tissue damage','strong stimulation of the cutaneous senses','sudden changes in body position or movement','damage the brain is unable to modulate'],
  'Pain is tied to actual or potential tissue damage.');
 Q('m3-touch','s','Aron Ralston amputated his own trapped arm and still walked, talked, and thought clearly afterward. The point of this case is that',
  ['the brain modulates pain through motivation, attention, emotion, and context','pain receptors in a trapped limb gradually lose their sensitivity over time','pain depends mainly on how much tissue is damaged, not on the situation','nociception is a modality that matters little to survival in emergencies'],
  'His case shows the brain can "stop" pain; the experience is subjective and shaped by motivation, attention, emotion, and context.');
 Q('m3-touch','s','In Harlow\'s (1958) study, infant rhesus monkeys under stress clung to the',
- ['soft cloth surrogate with no milk','wire surrogate with a milk dispenser','surrogate that provided the most food','experimenter who fed them'],
+ ['soft cloth surrogate with no milk','wire surrogate with a milk dispenser','whichever surrogate had fed them last','neither surrogate, staying alone'],
  'They clung to the cloth surrogate and visited the wire one only to eat.');
 Q('m3-touch','s','What did Harlow\'s surrogate-mother study show?',
  ['Comfort and a secure base were valued over nourishment','Infants bonded to whichever surrogate fed them milk','Infants preferred whichever surrogate was warmer','Infants bonded to the surrogate they saw first'],
  'The need for comfort and a "secure base" outweighed physical nourishment.');
 Q('m3-touch','f','What does this photo from Harlow\'s study show?',
- ['Comfort comes from the cloth mother, food from the wire one','It prefers whichever surrogate happens to provide milk','It treats the wire mother as its secure base under stress','It avoids both surrogates whenever it becomes frightened'],
+ ['Comfort comes from the cloth mother, food from the wire one','Comfort comes from the wire mother, food from the cloth one','Comfort and food both come from the wire mother','Comfort and food both come from the cloth mother'],
  'Infants used the cloth mother for comfort and the wire mother only for food.', {fig:'o_harlow'});
 TF('m3-touch','t','Proprioception refers to body position.', true,
  'True. Body movement is kinesthesis.');
@@ -330,7 +330,7 @@ Q('m3-vest','r','Orthostasis refers to',
  ['equilibrium during positional changes','sensing the movement of the body','sensing pain and tissue discomfort','a stable cognitive map of space'],
  'Orthostasis is staying balanced while changing position.');
 Q('m3-vest','a','You stand up quickly from a chair without losing your balance. The vestibular function involved is',
- ['orthostasis','nociception','exteroception','transduction'],
+ ['orthostasis','kinesthesis','proprioception','exteroception'],
  'Equilibrium during a positional change is orthostasis.');
 Q('m3-vest','r','The vestibular sense conveys',
  ['balance in relation to gravity and acceleration','the physiological state of the body','pain signaling actual or potential tissue damage','the pitch and loudness of incoming sounds'],
@@ -339,7 +339,7 @@ Q('m3-vest','r','Where are the vestibular receptors located?',
  ['In the inner ear next to the cochlea','In the middle ear next to the ossicles','In the hippocampus next to place cells','In the skin next to cutaneous receptors'],
  'They lie in the inner ear beside the cochlea.');
 Q('m3-vest','r','The vestibular receptors in the inner ear detect',
- ['head turns, straight-line motion, and head tilt','sound frequency and loudness in the cochlea','light intensity and wavelength at the retina','skin pressure and temperature across the body'],
+ ['head turns, straight-line motion, and head tilt','sound frequency and loudness in the cochlea','vibrations passed along by the ossicles','changes in the body\'s internal physiological state'],
  'They detect rotational motion (head turns), linear motion, and tilts of the head relative to gravity, and turn them into neural signals.');
 Q('m3-vest','r','The receptor cells of the semicircular canals are called',
  ['hair cells','rod cells','place cells','grid cells'],
@@ -395,10 +395,10 @@ Q('m3-ear','c','Which structure is part of the outer ear?',
  ['Pinna','Anvil','Oval window','Cochlea'],
  'The pinna is outer ear. The anvil is middle ear; the oval window and cochlea are inner ear.');
 Q('m3-ear','a','A tiny bone in the middle ear is fractured, so vibration from the eardrum no longer reaches the inner ear. The broken bone is one of the',
- ['hammer, anvil, and stirrup','semicircular canals','papillae','vestibular efferents'],
+ ['hammer, anvil, and stirrup','pinna, auditory canal, and eardrum','oval window, cochlea, and basilar membrane','three semicircular canals'],
  'The hammer, anvil, and stirrup (the ossicles) carry vibration to the inner ear.');
 Q('m3-aud','a','A researcher argues that we hear a tone as high because nerve fibers fire many times per second for it. Which theory is she defending?',
- ['Frequency theory','Place theory','Opponent-process theory','Spatial hearing theory'],
+ ['Frequency theory','Place theory','Interaural time differences','Interaural level differences'],
  'Firing rate as the code for pitch is frequency theory.');
 Q('m3-chem','a','A patient loses smell after an infection damages the membrane lining her nasal cavity. The damaged tissue is the',
  ['olfactory mucosa','papillae','taste buds','tympanic membrane'],
@@ -416,7 +416,7 @@ Q('m3-vest','c','Which function belongs to the vestibular system rather than the
  ['Orthostasis','Nociception','Cutaneous sensing','Interoception'],
  'Equilibrium during positional changes (orthostasis) is a vestibular function.');
 Q('m3-vest','a','A figure skater spins rapidly and stops without falling over. The sense that keeps her balanced relative to gravity and acceleration is the',
- ['vestibular sense','cutaneous sense','nociceptive sense','olfactory sense'],
+ ['vestibular sense','proprioception','cutaneous senses','interoception'],
  'Balance in relation to gravity and acceleration is the vestibular sense.');
 Q('m3-vest','a','Recording from a rat\'s entorhinal cortex, a researcher finds cells that fire at points spaced in a regular repeating pattern across the floor. These are',
  ['grid cells','place cells','head direction cells','hair cells'],
