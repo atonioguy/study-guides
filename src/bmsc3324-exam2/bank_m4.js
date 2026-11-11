@@ -35,7 +35,7 @@ Q('m4-types','a','A coworker\'s shrill laugh bothers you more each time you hear
  ['sensitization','habituation','spontaneous recovery','positive punishment'],
  'A response that grows with repeated exposure is sensitization.');
 Q('m4-types','c','How does habituation differ from extinction?',
- ['Habituation: a response fades to one repeated stimulus; extinction: a CR fades when the CS appears without the UCS','Habituation: a response fades to one repeated stimulus; extinction: a response fades to one repeated stimulus','Habituation: a CR fades when the CS appears without the UCS; extinction: a CR fades when the CS appears without the UCS','Habituation: a CR fades when the CS appears without the UCS; extinction: a response fades to one repeated stimulus'],
+ ['Habituation: a response fades to one repeated stimulus; extinction: a CR fades when the CS appears without the UCS','Habituation: a CR fades when the CS appears without the UCS; extinction: a response fades to one repeated stimulus','Habituation: a response grows with one repeated stimulus; extinction: a CR fades when the CS appears without the UCS','Habituation: a response fades to one repeated stimulus; extinction: a CR fades when the UCS appears without the CS'],
  'Habituation is non-associative (one stimulus). Extinction fades a learned CR when the CS appears without the UCS; the association is not erased.');
 Q('m4-types','c','Habituation and sensitization are both forms of',
  ['non-associative learning','classical conditioning','operant conditioning','observational learning'],
@@ -47,7 +47,7 @@ TF('m4-types','t','Non-associative learning requires pairing two stimuli.', fals
 
 /* ---- m4-princ ---- */
 Q('m4-princ','r','Which are the three general principles of learning?',
- ['Metacognition, transfer-appropriate processing, forgetting','Encoding, storing, and retrieving information in memory','Attention, retention, initiation, and then motivation','Acquisition, extinction, and spontaneous recovery'],
+ ['Metacognition, transfer-appropriate processing, forgetting','Encoding, storing, and retrieving information in memory','Procedural, implicit, and non-associative learning','Metacognition, transfer-appropriate processing, and elaboration'],
  'The three principles: metacognition, transfer-appropriate processing, and forgetting.');
 Q('m4-princ','r','Metacognition is the ability to',
  ['monitor, control, and evaluate your own learning and memory','perform better when the test matches the original study conditions','recall information from long-term memory without a retrieval cue','learn new behaviors by watching others perform them first'],
@@ -62,7 +62,7 @@ Q('m4-princ','a','Students often sit in the same seats on exam day that they use
  ['transfer-appropriate processing','non-associative learning','retroactive interference','motivated forgetting'],
  'Matching test conditions to learning conditions is transfer-appropriate processing.');
 Q('m4-princ','c','How does metacognition differ from transfer-appropriate processing?',
- ['Metacognition is knowing what you know; transfer-appropriate processing is matching test and study processes','Metacognition is learning without intent; transfer-appropriate processing is knowing what you know','Metacognition is matching test and study processes; transfer-appropriate processing is a kind of forgetting','Metacognition is a kind of forgetting; transfer-appropriate processing is learning without intent'],
+ ['Metacognition is knowing what you know; transfer-appropriate processing is matching test and study processes','Metacognition is matching test and study processes; transfer-appropriate processing is knowing what you know','Metacognition is learning without intent; transfer-appropriate processing is knowing what you know','Metacognition is knowing what you know; transfer-appropriate processing is learning without intent'],
  'Metacognition is self-monitoring; transfer-appropriate processing is about match between encoding and test.');
 Q('m4-princ','r','As a principle of learning, forgetting is described as',
  ['not the enemy of learning','the opposite of metacognition','a failure that mostly comes with age','a sign of weak encoding skills'],
@@ -96,13 +96,13 @@ Q('m4-mem','a','Knowing that a triangle has three sides, without remembering whe
  ['semantic memory','episodic memory','working memory','sensory memory'],
  'General knowledge of facts and concepts is semantic memory.');
 Q('m4-mem','c','How does episodic memory differ from semantic memory?',
- ['Episodic is your own life events; semantic is general knowledge','Episodic is held in working memory; semantic in sensory memory','Episodic is short-term; semantic is long-term and permanent','Episodic needs rehearsal; semantic needs a retrieval cue'],
+ ['Episodic is your own life events; semantic is general knowledge','Episodic is general knowledge; semantic is your own life events','Episodic is your own life events; semantic is short-term memory','Episodic is short-term memory; semantic is general knowledge'],
  'Episodic: personal events. Semantic: facts, words, concepts, numbers.');
 Q('m4-mem','r','The Information Processing Model (IPM) explains',
  ['how raw information enters memory and is recalled when needed','why forgetting happens at an exponential rate after learning','how salient social models shape the behavior of learners','how consequences change the rate of the response they follow'],
  'The IPM traces information from entry to recall.');
 Q('m4-mem','r','The three processes involved in remembering an episode, in order, are',
- ['encoding, storing, retrieving','storing, encoding, retrieving','retrieving, encoding, storing','attention, retention, motivation'],
+ ['encoding, storing, retrieving','storing, encoding, retrieving','encoding, retrieving, storing','retrieving, encoding, storing'],
  'Encode, then store, then retrieve. Attention, retention, motivation are parts of observational learning.');
 Q('m4-mem','r','Encoding is',
  ['perceiving information and relating it to past knowledge','maintaining information in memory over a period of time','accessing stored information at the moment it is needed','repeating information aloud until it can be recalled'],
@@ -120,7 +120,7 @@ Q('m4-mem','a','While reading about place cells, a student connects them to a GP
  ['encoding','storing','retrieving','habituating'],
  'Perceiving new information and relating it to past knowledge is encoding.');
 Q('m4-mem','r','A failure at any of the three stages of memory can lead to',
- ['forgetting or false memories','spontaneous recovery of memories','habituation to memory cues','sensitization of memories'],
+ ['forgetting or false memories','extinction or spontaneous recovery','habituation or sensitization','implicit or procedural memories'],
  'Failures at encoding, storing, or retrieving lead to forgetting or false memories.');
 Q('m4-mem','f','In the information processing model, which box is labeled B?',
  ['Working memory','Sensory memory','Long-term memory','Episodic memory'],
@@ -172,7 +172,7 @@ Q('m4-strat','a','A student draws a single diagram linking rods, cones, the fove
  ['associations','rehearsal','mnemonics','teaching'],
  'Creating links among the pieces that need remembering is associations.');
 Q('m4-strat','c','How does elaboration differ from associations?',
- ['Elaboration links new information to prior knowledge; associations link new pieces to each other','Elaboration forms mental images of new material; associations rely on rereading it aloud','Elaboration links new pieces to each other; associations explain them in your own words','Elaboration uses acronyms and silly sentences; associations use self-written practice questions'],
+ ['Elaboration links new information to prior knowledge; associations link new pieces to each other','Elaboration links new pieces to each other; associations link new information to prior knowledge','Elaboration forms mental images of new material; associations link new pieces to each other','Elaboration links new information to prior knowledge; associations rely on rereading it aloud'],
  'Elaboration ties to what you already know; associations tie the new items together.');
 Q('m4-strat','f','The "15 ways to improve memory" infographic lists acronyms and silly sentences. These belong to which strategy?',
  ['Mnemonics','Elaboration','Visualization','Rehearsal'],
@@ -200,13 +200,13 @@ Q('m4-cc','a','After conditioning, a dog salivates when it hears a whistle alone
  ['conditioned response','unconditioned response','conditioned stimulus','neutral stimulus'],
  'A learned response to the CS is the conditioned response.');
 Q('m4-cc','a','After conditioning, the whistle that now triggers salivation is the',
- ['conditioned stimulus','unconditioned stimulus','unconditioned response','neutral response'],
+ ['conditioned stimulus','unconditioned stimulus','neutral stimulus','conditioned response'],
  'The once-neutral stimulus that now triggers the response is the CS.');
 Q('m4-cc','r','The stage during which an organism learns to associate the CS with the UCS is called',
  ['acquisition','extinction','spontaneous recovery','shaping'],
  'Acquisition is the learning stage. Extinction is when the CR is eliminated.');
 Q('m4-cc','r','In classical conditioning, each pairing of the stimuli is called a',
- ['trial','reinforcer','shaping step','retrieval cue'],
+ ['trial','reinforcer','conditioned stimulus','conditioned response'],
  'Each pairing is a trial.');
 Q('m4-cc','r','Repeated trials strengthen, or reinforce,',
  ['the association between the CS and UCS','the time gap between the CS and UCS','the unconditioned response to the UCS','the extinction of the conditioned response'],
@@ -286,8 +286,8 @@ Q('m4-oc','a','A driver buckles her seatbelt to make the car\'s beeping stop, an
  ['negative reinforcement','positive punishment','negative punishment','positive reinforcement'],
  'Removing an annoying stimulus to increase a behavior is negative reinforcement.');
 Q('m4-oc','c','Negative reinforcement differs from punishment because negative reinforcement',
- ['increases a behavior','decreases a behavior','adds a stimulus','always involves pain'],
- 'All reinforcement increases behavior; punishment decreases it.');
+ ['increases a behavior','decreases a behavior','removes a stimulus','adds a stimulus'],
+ 'All reinforcement increases behavior; punishment decreases it. Removing a stimulus does not separate them, since negative punishment also removes one.');
 Q('m4-oc','r','Shaping is the process of',
  ['reinforcing closer and closer approximations of the desired behavior','pairing a neutral stimulus with an unconditioned stimulus over trials','removing a pleasant stimulus to decrease an unwanted behavior','withholding a reinforcer until the response gradually stops'],
  'Shaping reinforces successive approximations of the target behavior.');
@@ -310,7 +310,7 @@ Q('m4-oc','r','For punishment to be effective, it should be delivered',
  ['immediately after the response','at the end of the day','once the behavior becomes severe','after a warning period'],
  'A lapse of time between response and punishment delays learning.');
 Q('m4-oc','r','Which is listed as a limitation of punishment?',
- ['It can teach aggressive behavior','It works only on automatic processes','It permanently erases the behavior','It requires a social model'],
+ ['It can teach aggressive behavior','It works best when delivered immediately','It works best when applied consistently','It works best when it fits the crime'],
  'Limits: temporary suppression, can teach aggression, can create anxiety.');
 Q('m4-oc','r','Which is a guideline for making punishment effective?',
  ['Introduce alternatives to the punished response','Vary the punishment so it stays unpredictable','Delay the punishment so the learner can reflect','Make the punishment stronger than the offense'],
@@ -322,7 +322,7 @@ Q('m4-oc','c','Which pair of features describes operant conditioning, compared w
  ['Voluntary response; learner is active','Involuntary response; learner is passive','Voluntary response; learner is passive','Involuntary response; learner is active'],
  'Operant: voluntary and active. Classical: involuntary and passive.');
 Q('m4-oc','c','In classical conditioning the stimulus comes before the response. In operant conditioning the key stimulus (the consequence) comes',
- ['after the response','before the response','at the same time as the response','only during extinction'],
+ ['after the response','before the response','during the response','before and after it'],
  'In operant conditioning the consequence follows the response.');
 Q('m4-oc','c','Which is a similarity between classical and operant conditioning?',
  ['Both can become extinct and recover spontaneously','Both rely on voluntary responses from the learner','Both make the learner an active participant','Both depend on stimuli that follow the response'],
@@ -343,16 +343,16 @@ Q('m4-oc','f','In the reinforcement grid, cell D is where a stimulus is removed 
  ['negative punishment','negative reinforcement','positive punishment','extinction'],
  'Removed + decreases = negative punishment.', {fig:'f_reinf'});
 Q('m4-oc','f','In the comparison table, what goes in hidden cells A and B (nature of response, classical then operant)?',
- ['Involuntary; voluntary','Voluntary; involuntary','Passive; active','Precedes; after'],
+ ['Involuntary; voluntary','Voluntary; involuntary','Involuntary; involuntary','Voluntary; voluntary'],
  'Classical responses are involuntary (reflexive); operant responses are voluntary.', {fig:'f_cvo'});
 Q('m4-oc','f','In the comparison table, what goes in hidden cells G and H (role of learner, classical then operant)?',
- ['Passive; active','Active; passive','Involuntary; voluntary','After; before'],
+ ['Passive; active','Active; passive','Passive; passive','Active; active'],
  'The classical learner is passive; the operant learner is active.', {fig:'f_cvo'});
 Q('m4-oc','f','In the comparison table, what goes in hidden cells C and D (timing of stimulus, classical then operant)?',
- ['Precedes the response; after the response','After the response; precedes the response','Before the stimulus; after the stimulus','Passive; active'],
+ ['Precedes the response; after the response','After the response; precedes the response','Precedes the response; precedes the response','After the response; after the response'],
  'In classical conditioning the stimulus precedes the response; in operant it comes after.', {fig:'f_cvo'});
 Q('m4-oc','f','In the comparison table, what goes in hidden cells E and F (timing of response, classical then operant)?',
- ['After the stimulus; before the stimulus','Before the stimulus; after the stimulus','Involuntary; voluntary','Precedes the response; after the response'],
+ ['After the stimulus; before the stimulus','Before the stimulus; after the stimulus','After the stimulus; after the stimulus','Before the stimulus; before the stimulus'],
  'Classical responses come after the stimulus; operant responses come before the consequence.', {fig:'f_cvo'});
 Q('m4-oc','f','The figure shows a dog with its tail tucked, weight shifted backward, and mouth closed and tense, placed beside the limitations of punishment. Which limitation does it illustrate?',
  ['Punishment can create anxiety in the learner','Punishment only suppresses behavior temporarily','Punishment must fit the crime','Punishment must be delivered immediately'],
@@ -383,10 +383,10 @@ Q('m4-obs','r','In Social Learning Theory, social models are',
  ['salient others with higher status or authority than the learner','peers of equal status whom the learner happens to sit beside','strangers whose behavior the learner has never observed before','the learner\'s own past behaviors that were reinforced over time'],
  'Social models have higher status or authority: parents, older siblings, superheroes, mentors.');
 Q('m4-obs','e','Which person is the best example of a social model?',
- ['An older sibling','A stranger on the bus','A younger classmate','A newborn cousin'],
+ ['An older sibling','A stranger on the bus','A younger classmate','A younger cousin'],
  'Social models have higher status or authority than the learner.');
 Q('m4-obs','r','The four parts of observational learning, in order, are',
- ['attention, retention, initiation (production), motivation','attention, encoding, retrieval (production), motivation','retention, attention, motivation (production), initiation','encoding, storage, retrieval (initiation), production'],
+ ['attention, retention, initiation (production), motivation','retention, attention, initiation (production), motivation','attention, retention, motivation, initiation (production)','attention, initiation (production), retention, motivation'],
  'Bandura\'s four parts: attention, retention, initiation (production), motivation.');
 Q('m4-obs','a','A medical student watches a resident place an IV, remembers the steps, and has the skill to do it, but sees no situation where doing it would be useful to her. Which part of observational learning is missing?',
  ['Motivation','Attention','Retention','Initiation (production)'],
@@ -460,7 +460,7 @@ Q('m4-forget','r','Which list gives the five causes of normal forgetting?',
  ['Decay, interference, retrieval failure, motivated forgetting, organic factors','Decay, interference, encoding error, storage error, extinction','Retrieval failure, motivated forgetting, encoding error, habituation, spontaneous recovery','Organic factors, storage error, extinction, habituation, spontaneous recovery'],
  'Normal forgetting: decay, interference, retrieval failure, motivated forgetting, organic factors.');
 Q('m4-forget','r','With normal aging, which kind of memory tends to decay?',
- ['Declarative memories','Procedural memory','Implicit memories','Sensory memory only'],
+ ['Declarative memories','Procedural memory','Implicit memories','Motor skill memories'],
  'Declarative memories tend to decay with age; procedural memory does not.');
 Q('m4-forget','c','An older adult struggles to recall names and dates but can still ride a bike and knit without trouble. This pattern fits the idea that',
  ['declarative memories decay with age but procedural memory does not','declarative memories improve with age while procedural memory fades','both kinds of memory decay at about the same rate with age','neither kind of memory is affected by normal aging'],
@@ -478,10 +478,10 @@ Q('m4-forget','r','Interfering material means memory is determined by',
  ['what we do before or after learning','how long ago the original event occurred','whether we want to remember the material','damage to the brain from illness or injury'],
  'Interference comes from material learned before or after.');
 Q('m4-forget','r','Retroactive interference occurs when',
- ['a later event interferes with an earlier one','a fading trace interferes with recall','an injury interferes with old memories','a suppressed memory interferes with recall'],
+ ['a later event interferes with an earlier one','an earlier event interferes with a later one','a fading trace interferes with recall','an injury interferes with old memories'],
  'Retroactive = backward: new interferes with old.');
 Q('m4-forget','r','Proactive interference occurs when',
- ['a previous event interferes with learning a later one','a missing cue interferes with recalling a stored memory','brain damage interferes with forming new memories','deliberate suppression interferes with an old memory'],
+ ['a previous event interferes with learning a later one','a later event interferes with memory of an earlier one','a missing cue interferes with recalling a stored memory','brain damage interferes with forming new memories'],
  'Proactive = forward: old interferes with new.');
 Q('m4-forget','a','After learning Spanish, a student finds that Spanish words keep slipping in when she tries to learn Italian. This is',
  ['proactive interference','retroactive interference','retrieval failure','decay of memory trace'],
@@ -520,13 +520,13 @@ Q('m4-forget','a','After surgery that removed her hippocampus, a woman remembers
  ['anterograde amnesia','retrograde amnesia','retroactive interference','decay of memory trace'],
  'Old memories intact, no new ones: anterograde amnesia.');
 Q('m4-forget','c','How does retrograde amnesia differ from anterograde amnesia?',
- ['Retrograde loses memories from before the damage; anterograde blocks new ones after it','Retrograde comes from stroke or Alzheimer\'s; anterograde comes from normal decay','Retrograde affects procedural memory; anterograde affects declarative memories','Retrograde is deliberate suppression; anterograde comes from retroactive interference'],
+ ['Retrograde loses memories from before the damage; anterograde blocks new ones after it','Retrograde blocks new memories after the damage; anterograde loses memories from before it','Retrograde loses memories from before the damage; anterograde comes from deliberate suppression','Retrograde comes from deliberate suppression; anterograde blocks new ones after it'],
  'Retrograde: past lost. Anterograde: future blocked.');
 Q('m4-forget','r','Which is an example of the disease/trauma type of organic amnesia?',
  ['Memory deficit from Alzheimer\'s disease','Forgetting an old passcode after learning a new one','Blocking out an embarrassing memory','Losing a name on the tip of the tongue'],
  'Disease/trauma includes brain-cell deterioration, poor circulation, stroke, Alzheimer\'s.');
 Q('m4-forget','c','Retroactive interference and retrograde amnesia both involve losing older memories. What separates them?',
- ['Interference comes from newer learning; retrograde amnesia comes from organic damage','Interference comes from organic damage; retrograde amnesia comes from deliberate suppression','Interference affects procedural memory; retrograde amnesia affects declarative memories','Interference blocks new learning; retrograde amnesia comes from older learning'],
+ ['Interference comes from newer learning; retrograde amnesia comes from organic damage','Interference comes from organic damage; retrograde amnesia comes from newer learning','Interference affects procedural memory; retrograde amnesia affects declarative memories','Interference comes from newer learning; retrograde amnesia comes from deliberate suppression'],
  'Retroactive interference is newer learning getting in the way; retrograde amnesia is caused by brain damage or illness.');
 Q('m4-forget','f','In the "Five Impediments to Remembering" box, item C (hidden) is described as "we lack sufficient reminders." It matches which cause of normal forgetting?',
  ['Retrieval failure','Decay of memory trace','Motivated forgetting','Organic factors'],
@@ -552,13 +552,13 @@ TF('m4-forget','t','Anterograde amnesia leaves memories formed before the damage
 
 /* ---- m4-adapt ---- */
 Q('m4-adapt','s','Shereshevsky ("S"), the mnemonist studied by Luria, never forgot anything. What effect did this have on his life?',
- ['He struggled to function, distracted by a flood of details','He excelled at work because he could recall details easily','He handled everyday tasks with little trouble','He forgot emotional memories but kept the rest'],
+ ['He struggled to function, distracted by a flood of details','He excelled at work because he could recall details easily','He handled everyday tasks with little trouble','He functioned well once he learned mnemonics'],
  'His limitless memory was debilitating: constant details and associations distracted him.');
 Q('m4-adapt','s','What does the case of Shereshevsky suggest about forgetting?',
- ['Forgetting is adaptive and makes the mind more efficient','Forgetting is a reliable sign of disease or brain injury','Forgetting can be fully eliminated with good mnemonics','Forgetting happens only in short-term, never long-term'],
+ ['Forgetting is adaptive and makes the mind more efficient','Forgetting is usually a sign of disease or brain injury','Forgetting can be prevented with strong mnemonics','Forgetting is the main enemy of efficient learning'],
  'Remembering everything is overwhelming; forgetting is adaptive.');
 Q('m4-adapt','r','Which is given as a reason forgetting is adaptive?',
- ['Our brains need room for new information','Forgetting makes older memories stronger','Forgetting helps prevent habituation','Forgetting lowers our sensory thresholds'],
+ ['Our brains need room for new information','Forgetting makes older memories stronger','Forgetting removes the need for retrieval cues','Forgetting keeps procedural memories from decaying'],
  'Reasons: remembering everything overwhelms, is inefficient, and leaves no room for new information.');
 Q('m4-adapt','s','Ebbinghaus found that we forget information',
  ['at an exponential rate, fastest right after learning','at a steady, even rate across the whole first week','slowly at first, then quickly near the week\'s end','mostly after several days have passed since learning'],
@@ -594,7 +594,7 @@ Q('m4-strat','a','To learn the ear\'s structures, a student closes her eyes and 
  ['visualization','rehearsal','mnemonics','testing yourself'],
  'Forming mental images is visualization.');
 Q('m4-strat','c','How does teaching differ from testing yourself as a memory strategy?',
- ['Teaching: explaining in your own words; testing yourself: answering your own questions','Teaching: explaining in your own words; testing yourself: explaining in your own words','Teaching: answering your own questions; testing yourself: answering your own questions','Teaching: answering your own questions; testing yourself: explaining in your own words'],
+ ['Teaching: explaining in your own words; testing yourself: answering your own questions','Teaching: answering your own questions; testing yourself: explaining in your own words','Teaching: explaining in your own words; testing yourself: rereading aloud','Teaching: forming mental images; testing yourself: answering your own questions'],
  'Teaching: explain in your own words. Testing yourself: write and answer questions.');
 TF('m4-strat','t','Creating associations among the pieces of information you need to remember is a strategy for improving memory.', true,
  'True. Associations link the items that need to be remembered.');
@@ -607,7 +607,7 @@ Q('m4-cc','r','In classical conditioning, each trial serves to',
 TF('m4-cc','t','In classical conditioning, repeated trials reinforce the association between the CS and the UCS.', true,
  'True. Each pairing strengthens the association.');
 Q('m4-oc','a','A rat presses a lever and gets food, so it presses more; when pressing brings a shock, it presses less. Which principle summarizes both results?',
- ['Law of Effect','Spontaneous recovery','Transfer-appropriate processing','Social Learning Theory'],
+ ['Law of Effect','Shaping','Reinforcement','Spontaneous recovery'],
  'Behavior strengthened by positive consequences and weakened by negative ones is the Law of Effect.');
 TF('m4-oc','t','The Law of Effect states that behavior followed by a negative consequence is strengthened.', false,
  'False. Behavior followed by a negative consequence is weakened.');
