@@ -8,7 +8,7 @@ page is a single HTML file you can open directly or serve over GitHub Pages.
 | File | What it is |
 |------|------------|
 | `bmsc3324-exam1.html` | BMSC 3324 Psychology — Exam 1 (Modules 1 & 2): flashcards, mock exams, cheat sheet. Images embedded, no `images/` files. |
-| `bmsc3324-exam2.html` | BMSC 3324 Psychology — Exam 2 (Modules 3 & 4): flashcards with in-context lines, mock exams, cheat sheet. **Built file — edit `src/bmsc3324-exam2/` and run `python3 figs.py <media dir>` (figures) then `python3 build.py`.** |
+| `bmsc3324-exam2.html` | BMSC 3324 Psychology — Exam 2 (Modules 3 & 4): flashcards with in-context lines, mock exam and practice tabs (biochem-style), cheat sheet. **Built file — edit `src/bmsc3324-exam2/` and run `python3 figs.py <media dir>` (figures) then `python3 build.py`.** |
 | `exam3.html` | Microbiology — Exam 3 (Modules 5 & 6) review |
 | `exam2.html` | BMSC 3404 — Exam 2 (Modules 3 & 4) review |
 | `biochem-exam1.html` | BMSC 3401 Biochemistry — Exam 1 (Modules 1–3): study guide, practice + drills, mock exams, question bank. **Built file — edit `src/biochem-exam1/` and run `python3 build.py`.** |

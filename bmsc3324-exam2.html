@@ -138,11 +138,35 @@ h2.mod+section.sheet{border-top:0}
  table{font-size:14px}
 }
 .ctx{display:block;margin-top:12px;font-size:14px;line-height:1.4;color:#333;text-align:left}
+/* mock setup + practice */
+.lab{width:76px;flex:none}
+.seg{display:inline-flex;border:1px solid #c8c8c8;border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-size:14px;padding:7px 12px;border:0;border-right:1px solid #c8c8c8;background:#fff;color:var(--fg);cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--acc);color:#fff}
+.pill{font:inherit;font-size:14px;padding:6px 12px;border:1px solid #c8c8c8;border-radius:999px;background:#fff;color:var(--fg);cursor:pointer}
+.pill.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.filters{padding:2px 0 6px;border-bottom:1px solid var(--line)}
+.filters .row{margin:8px 0}
+.filters select{max-width:100%}
+.sechead{font-size:18px;margin:24px 0 4px;line-height:1.3}
+.qcard{border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:10px 0}
+.qcard .stem{font-size:16px;margin:8px 0}
+.qcard .fig{max-height:260px;width:auto}
+.opt.pick{border-color:var(--acc);background:#eef3fa}
+.opt.mine{box-shadow:inset 3px 0 0 currentColor}
+.flagi{background:none;border:0;padding:2px 4px;margin-left:4px;cursor:pointer;color:var(--mut);vertical-align:middle;line-height:0}
+.flagi svg{width:18px;height:18px}
+.flagi.on{color:#b7791f}
+.qhead{align-items:center;gap:8px}
+.miss .qhead{margin-bottom:-4px}
+nav button{white-space:nowrap}
+@media (max-width:520px){nav button{font-size:14px;padding:8px 2px}}
 </style>
 </head>
 <body>
 <header><div class="hin"><span class="brand">BMSC 3324 · Exam 2 <span class="mods">Modules 3–4</span></span>
-<nav><button data-v="cards">Flashcards</button><button data-v="mock">Mock exam</button><button data-v="sheet">Cheat sheet</button></nav></div></header>
+<nav><button data-v="cards">Flashcards</button><button data-v="mock">Mock exam</button><button data-v="practice">Practice</button><button data-v="sheet">Cheat sheet</button></nav></div></header>
 <main id="app"></main>
 <div id="peek" hidden></div>
 <div id="zoom" hidden></div>
@@ -1903,15 +1927,17 @@ const sheetHTML = t => SHEET[t].replace(/@(o_\w+)/g, (m, k) => IMG[k] || '');
 
 // ---------- nav ----------
 // remember where you were on each tab
-const SCROLL = {}; let CUR_VIEW = null; let MOCK_SCREEN = 'home';
+const SCROLL = {}; let CUR_VIEW = null;
 function go(v) {
   if (CUR_VIEW) SCROLL[CUR_VIEW] = window.scrollY;
   CUR_VIEW = v; S.view = v; save(); stopTimer();
   document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
   if (v === 'cards') { if (QZ) drawQuiz(); else cardsView(); }
-  else if (v === 'mock') { if (S.cur && MOCK_SCREEN === 'q') showQ(); else if (S.cur && MOCK_SCREEN === 'res') finish(); else mockHome(); }
+  else if (v === 'mock') mockView();
+  else if (v === 'practice') practiceView();
   else sheetView();
-  const y = SCROLL[v] || 0; window.scrollTo(0, y); requestAnimationFrame(() => window.scrollTo(0, y));
+  const y = (v === 'mock' && S.mock) || (v === 'practice' && PR) ? 0 : SCROLL[v] || 0;
+  window.scrollTo(0, y); requestAnimationFrame(() => window.scrollTo(0, y));
 }
 
 // ---------- option order ----------
@@ -1922,161 +1948,261 @@ function optOrder(q, seed) {
   return shuffle(idx, seed + q.id);
 }
 
-// ---------- mock / practice ----------
-function pickFrom(pool, n, tbLeft) {
-  const r = rng(Date.now() + ':' + pool.length);
-  const ranked = pool.map(q => [S.seen[q.id] || 0, r(), q]).sort((a, b) => a[0] - b[0] || a[1] - b[1]).map(x => x[2]);
-  const out = [];
-  for (const q of ranked) {
-    if (out.length >= n) break;
-    if (q.tb && tbLeft.n <= 0) continue;
-    if (q.tb) tbLeft.n--;
-    out.push(q);
-  }
-  return out;
+// ---------- shared question state ----------
+// S.q[id] = {n: times answered, t: last answered (ms), c: last answer correct, p: option index picked}
+S.q = S.q || {}; S.flag = S.flag || {}; S.hist = S.hist || [];
+S.set = Object.assign({ len: MOCK_N, timer: true, fb: 'each', m3: true, m4: true }, S.set || {});
+S.pf = Object.assign({ sec: 'all', missed: false, flag: false, un: false, show: false }, S.pf || {});
+// carry over answers from v1.0 (seen / wrong only)
+if (S.seen && !S.migr) { Object.keys(S.seen).forEach(id => { if (QBYID[id] && !S.q[id]) S.q[id] = { n: S.seen[id], t: 1, c: !S.wrong[id] }; }); S.migr = 1; delete S.cur; save(); }
+const Q_MS = 47 * 60000 / MOCK_N; // same pace as the 47-minute, 30-question exam
+function record(q, pick) { const r = S.q[q.id] || { n: 0 }; r.n++; r.t = Date.now(); r.c = pick === q.ans; r.p = pick; S.q[q.id] = r; save(); }
+const age = q => (S.q[q.id] ? S.q[q.id].t : 0);
+const FLAG_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path class="fl" d="M5 4h12l-2.5 4.5L17 13H5"/></svg>';
+function flagBtn(q) {
+  const on = !!S.flag[q.id];
+  return `<button class="flagi ${on ? 'on' : ''}" type="button" data-flag="${q.id}" title="${on ? 'Remove flag' : 'Flag for review'}" aria-label="${on ? 'Remove flag' : 'Flag for review'}" aria-pressed="${on}">${FLAG_SVG}</button>`;
 }
-function buildMock() {
-  const tbLeft = { n: 1 }; const m1 = [], m2 = [];
-  ORDER.forEach(t => { const got = pickFrom(BANK.filter(q => q.t === t), TOPICS[t].quota, tbLeft); (TOPICS[t].m === 3 ? m1 : m2).push(...got); });
-  const seed = Date.now();
-  return shuffle(m1, seed).concat(shuffle(m2, seed + 1)).map(q => q.id);
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-flag]'); if (!b) return;
+  e.stopPropagation(); const id = b.dataset.flag;
+  if (S.flag[id]) delete S.flag[id]; else S.flag[id] = 1; save();
+  document.querySelectorAll(`[data-flag="${id}"]`).forEach(x => { const on = !!S.flag[id]; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); x.title = on ? 'Remove flag' : 'Flag for review'; });
+}, true);
+const exText = q => esc(q.type === 'tf' ? q.ex.replace(/^(True|False)[.,] (it is the reverse\. )?/, '') : q.ex);
+function fb(q, picked, shown) {
+  const ok = picked === q.ans;
+  const head = shown ? 'Answer:' : picked == null ? 'Not answered.' : ok ? 'Correct.' : 'Incorrect.';
+  return `<div class="fb ${shown || ok ? 'ok' : 'bad'}"><b>${head}</b>${!ok || shown ? ` ${shown ? '' : 'Answer: '}${esc(q.o[q.ans])}.` : ''}
+  <p>${exText(q)}</p><a href="#" onclick="peek('${peekTopic(q)}','${q.id}');return false">Review: ${esc(TOPICS[peekTopic(q)].name)}</a></div>`;
 }
-function startRun(mode, ids, label, timed) {
-  const seed = String(Date.now());
-  S.cur = { mode, label, ids, i: 0, picks: {}, seed, timed: !!timed, start: Date.now() };
-  save(); showQ();
-}
-
-let timerH = null;
-function stopTimer() { if (timerH) { clearInterval(timerH); timerH = null; } }
-function tick() {
-  const el = $('#timer'); if (!el || !S.cur) return;
-  const left = 47 * 60 - Math.floor((Date.now() - S.cur.start) / 1000);
-  el.textContent = left > 0 ? `${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')} left` : 'Time is up';
-  el.classList.toggle('late', left <= 300);
-}
-
-S.ql = Object.assign({ open: false, filt: 'all' }, S.ql || {});
-function qlItems() {
-  const f = S.ql.filt;
-  return BANK.filter(q => f === 'all' || (f === 'm3' && q.t.startsWith('m3')) || (f === 'm4' && q.t.startsWith('m4')) || q.t === f)
-    .sort((a, b) => ORDER.indexOf(a.t) - ORDER.indexOf(b.t));
-}
-function drawQList() {
-  const h = $('#qlh'), box = $('#qlist'); if (!h || !box) return;
-  const items = qlItems();
-  h.innerHTML = `${S.ql.open ? 'Hide questions' : 'See all questions'} (${items.length}) <span class="chev ${S.ql.open ? 'up' : ''}">⌄</span>`;
-  h.setAttribute('aria-expanded', S.ql.open);
-  if (!S.ql.open) { box.innerHTML = ''; return; }
-  let last = null;
-  box.innerHTML = items.map((q, n) => {
-    const head = q.t !== last ? `<h3 class="qlsec">M${TOPICS[q.t].m}: ${esc(TOPICS[q.t].name)}</h3>` : ''; last = q.t;
-    const order = optOrder(q, 'list');
-    return `${head}<div class="qli"><p class="stem">${esc(q.q)}${q.tb ? ' <span class="tbm">textbook</span>' : ''}</p>
-      ${q.fig ? img(q.fig) : ''}
-      <ul class="qlo">${order.map(i => `<li class="${i === q.ans ? 'ok' : ''}">${i === q.ans ? '<span class="ck" aria-label="Correct answer">✓</span>' : ''}${esc(q.o[i])}</li>`).join('')}</ul>
-      <p class="sm mut">${esc(q.type === 'tf' ? q.ex.replace(/^(True|False)[.,] (it is the reverse\. )?/, '') : q.ex)} <a href="#" onclick="peek('${peekTopic(q)}','${q.id}');return false">Review</a></p></div>`;
-  }).join('');
-}
-function mockHome() {
-  MOCK_SCREEN = 'home';
-  const c = S.cur;
-  const seenN = BANK.filter(q => S.seen[q.id]).length;
-  const wrongN = Object.keys(S.wrong).length;
-  const last = S.mocks.slice(-5).map(m => `${m.score}/${m.n}`).join(', ');
-  $('#app').innerHTML = `
-  <h1>Mock exam</h1>
-  <p class="mut">${MOCK_N} questions: ${MOCK_M[3]} from Module 3, ${MOCK_M[4]} from Module 4. Unseen questions come first.</p>
-  ${c ? `<div class="box"><p>Unfinished: ${esc(c.label)}, question ${Math.min(c.i + 1, c.ids.length)} of ${c.ids.length}.</p>
-    <div class="row"><button class="btn pri" onclick="showQ()">Resume</button><button class="btn" onclick="S.cur=null;save();mockHome()">Discard</button></div></div>` : ''}
-  <div class="row"><button class="btn ${c ? '' : 'pri'}" id="startMock">${c ? 'Discard and start new mock' : 'Start mock'}</button>
-  <label class="chk"><input type="checkbox" id="timed" checked> 47-minute timer</label></div>
-  <p class="mut sm">${S.mocks.length ? `Recent scores: ${last}. ` : ''}Questions seen: ${seenN} of ${BANK.length}.</p>
-  <h2>Practice</h2>
-  <div class="row"><select id="sec">${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name} · ${BANK.filter(q => q.t === t).length} questions</option>`).join('')}</select>
-  <button class="btn" id="startSec">Practice section</button></div>
-  <div class="row"><button class="btn" id="startWrong" ${wrongN ? '' : 'disabled'}>Missed questions (${wrongN})</button></div>
-  <button class="tlh" id="qlh"></button>
-  <div id="qlf" ${S.ql.open ? '' : 'hidden'}><select id="qls" aria-label="Filter questions by section"><option value="all">All sections</option><option value="m3">Module 3</option><option value="m4">Module 4</option>
-    ${ORDER.map(t => `<option value="${t}">M${TOPICS[t].m}: ${TOPICS[t].name}</option>`).join('')}</select></div>
-  <div id="qlist"></div>
-  <p class="sm mut"><a href="#" id="reset" class="quiet">Reset progress</a> · v1.0</p>`;
-  $('#startMock').onclick = () => startRun('mock', buildMock(), 'Mock exam', $('#timed').checked);
-  $('#startSec').onclick = () => { const t = $('#sec').value; startRun('sec', pickFrom(BANK.filter(q => q.t === t), 999, { n: 99 }).map(q => q.id), TOPICS[t].name); };
-  $('#qls').value = S.ql.filt;
-  $('#qls').onchange = e => { S.ql.filt = e.target.value; save(); drawQList(); };
-  $('#qlh').onclick = () => { S.ql.open = !S.ql.open; save(); $('#qlf').hidden = !S.ql.open; drawQList(); };
-  drawQList();
-  $('#startWrong').onclick = () => startRun('wrong', shuffle(Object.keys(S.wrong).filter(id => QBYID[id])), 'Missed questions');
-  $('#reset').onclick = e => { e.preventDefault(); if (confirm('Erase all scores and flashcard progress?')) { S = { seen: {}, wrong: {}, mocks: [], cur: null, known: {}, mark: {}, fc: S.fc, view: 'mock' }; save(); mockHome(); } };
-}
-
-function showQ() {
-  MOCK_SCREEN = 'q';
-  const c = S.cur; if (!c) return mockHome();
-  if (c.i >= c.ids.length) return finish();
-  const q = QBYID[c.ids[c.i]];
-  if (!q) { c.i++; save(); return showQ(); }
-  const order = optOrder(q, c.seed);
-  const picked = c.picks[q.id];
-  const done = picked !== undefined;
-  $('#app').innerHTML = `
-  <div class="qhead"><span>${esc(c.label)} · ${c.i + 1} of ${c.ids.length}</span>${c.timed ? '<span id="timer"></span>' : ''}</div>
-  <div class="bar"><i style="width:${(c.i / c.ids.length) * 100}%"></i></div>
-  <p class="stem">${esc(q.q)}${q.tb ? ' <span class="tbm">textbook</span>' : ''}</p>
-  ${q.fig ? img(q.fig) : ''}
+// question body: stem, figure, options. state: picked index or null; reveal: bool
+function qBody(q, order, picked, reveal, change) {
+  return `<p class="stem">${esc(q.q)}${q.tb ? ' <span class="tbm">textbook</span>' : ''}</p>${q.fig ? img(q.fig) : ''}
   <div class="opts">${order.map(i => {
     let cls = 'opt';
-    if (done) { if (i === q.ans) cls += ' right'; else if (i === picked) cls += ' wrongpick'; }
-    return `<button class="${cls}" data-i="${i}" ${done ? 'disabled' : ''}>${esc(q.o[i])}</button>`;
-  }).join('')}</div>
-  <div id="fb">${done ? fb(q, picked) : ''}</div>
-  <div class="row nav2">
-    <button class="btn" onclick="prevQ()" ${c.i ? '' : 'disabled'}>Back</button>
-    <button class="btn ${done ? 'pri' : ''}" id="next" onclick="nextQ()">${c.i === c.ids.length - 1 ? 'Finish' : done ? 'Next' : 'Skip'}</button>
-    <button class="btn link" onclick="stopTimer();mockHome();window.scrollTo(0,0)">Exit</button>
-  </div>`;
-  document.querySelectorAll('.opt').forEach(b => b.onclick = () => answer(q, +b.dataset.i));
-  stopTimer(); if (c.timed) { tick(); timerH = setInterval(tick, 1000); }
+    if (reveal) { if (i === q.ans) cls += ' right'; else if (i === picked) cls += ' wrongpick'; if (change && i === picked) cls += ' mine'; }
+    else if (i === picked) cls += ' pick';
+    return `<button class="${cls}" data-i="${i}" ${reveal && !change ? 'disabled' : ''}>${esc(q.o[i])}</button>`;
+  }).join('')}</div>`;
 }
-function fb(q, picked) {
-  const ok = picked === q.ans;
-  return `<div class="fb ${ok ? 'ok' : 'bad'}"><b>${ok ? 'Correct.' : 'Incorrect.'}</b>${ok ? '' : ` Answer: ${esc(q.o[q.ans])}.`}
-  <p>${esc(q.type === 'tf' ? q.ex.replace(/^(True|False)[.,] (it is the reverse\. )?/, '') : q.ex)}</p><a href="#" onclick="peek('${peekTopic(q)}','${q.id}');return false">Review: ${esc(TOPICS[peekTopic(q)].name)}</a></div>`;
+const secName = t => `M${TOPICS[t].m}: ${TOPICS[t].name}`;
+function secSelect(id, val) {
+  return `<select id="${id}" aria-label="Section"><option value="all">All sections</option>
+  ${[3, 4].map(m => `<optgroup label="Module ${m}: ${m === 3 ? 'Sensation and perception' : 'Learning and memory'}"><option value="m${m}">M${m}: all</option>${ORDER.filter(t => TOPICS[t].m === m).map(t => `<option value="${t}">${secName(t)}</option>`).join('')}</optgroup>`).join('')}
+  </select>`.replace(`value="${val}"`, `value="${val}" selected`);
 }
-function answer(q, i) {
-  const c = S.cur; if (c.picks[q.id] !== undefined) return;
-  c.picks[q.id] = i;
-  S.seen[q.id] = (S.seen[q.id] || 0) + 1;
-  if (i === q.ans) delete S.wrong[q.id]; else S.wrong[q.id] = 1;
-  save(); showQ();
-  const f = $('#fb'); if (f && f.getBoundingClientRect().bottom > window.innerHeight) f.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+const inSec = (q, v) => v === 'all' || q.t === v || q.t.startsWith(v + '-');
+function armBtn(btn, label, fn) { // tap twice to confirm
+  btn.onclick = () => { if (!btn.dataset.arm) { btn.dataset.arm = 1; const old = btn.textContent; btn.textContent = label; setTimeout(() => { if (btn.isConnected && btn.dataset.arm) { delete btn.dataset.arm; btn.textContent = old; } }, 3000); return; } fn(); };
 }
-function nextQ() { S.cur.i++; save(); window.scrollTo(0, 0); showQ(); }
-function prevQ() { if (S.cur.i > 0) { S.cur.i--; save(); window.scrollTo(0, 0); showQ(); } }
 
-function finish() {
-  MOCK_SCREEN = 'res';
-  stopTimer();
-  const c = S.cur; const qs = c.ids.map(id => QBYID[id]).filter(Boolean);
-  const score = qs.filter(q => c.picks[q.id] === q.ans).length;
-  if (c.mode === 'mock' && !c.logged) { S.mocks.push({ score, n: qs.length, d: Date.now() }); c.logged = 1; }
-  const by = {};
-  qs.forEach(q => { by[q.t] = by[q.t] || [0, 0]; by[q.t][1]++; if (c.picks[q.id] === q.ans) by[q.t][0]++; });
-  const missed = qs.filter(q => c.picks[q.id] !== q.ans);
-  const mins = Math.round((Date.now() - c.start) / 60000);
-  save();
+// ---------- MOCK ----------
+let timerH = null;
+function stopTimer() { if (timerH) { clearInterval(timerH); timerH = null; } }
+const fmtT = ms => { const s = Math.ceil(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+function mockView() {
+  if (S.mock) return mockQ();
+  const pool = BANK.filter(q => S.set['m' + TOPICS[q.t].m]);
+  const n = Math.min(+S.set.len, pool.length), un = pool.filter(q => !S.q[q.id]).length;
+  const seg = (key, vals) => `<div class="seg" data-key="${key}">${vals.map(([v, l]) => `<button type="button" data-v="${v}" class="${String(S.set[key]) === String(v) ? 'on' : ''}">${l}</button>`).join('')}</div>`;
   $('#app').innerHTML = `
-  <h1>${esc(c.label)}: ${score}/${qs.length} correct (${Math.round(score / qs.length * 100)}%)</h1>
-  ${c.mode === 'mock' ? `<p class="mut">Time: ${mins < 1 ? 'under 1 min' : mins + ' min'}</p>` : ''}
-  <table class="res"><tr><th>Section</th><th>Score</th></tr>
-  ${ORDER.filter(t => by[t]).map(t => `<tr class="${by[t][0] / by[t][1] < 0.5 ? 'lo' : ''}"><td><a href="#" onclick="peek('${t}');return false">${esc(TOPICS[t].name)}</a></td><td>${by[t][0]}/${by[t][1]}</td></tr>`).join('')}</table>
-  <div class="row"><button class="btn pri" onclick="S.cur=null;save();go('mock')">Done</button>
-  ${missed.length ? `<button class="btn" onclick="startRun('wrong',[${missed.map(q => `'${q.id}'`).join(',')}],'Missed questions')">Retry missed (${missed.length})</button>` : ''}</div>
-  ${missed.length ? `<h2>Missed questions</h2>${missed.map(q => `<div class="miss"><p class="stem">${esc(q.q)}</p>
-    ${q.fig ? img(q.fig) : ''}
-    <p class="sm">Your answer: ${c.picks[q.id] === undefined ? '(none)' : esc(q.o[c.picks[q.id]])}<br>Correct: <b>${esc(q.o[q.ans])}</b></p><p class="sm mut">${esc(q.type === 'tf' ? q.ex.replace(/^(True|False)[.,] (it is the reverse\. )?/, '') : q.ex)} <a href="#" onclick="peek('${peekTopic(q)}','${q.id}');return false">Review</a></p></div>`).join('')}` : ''}`;
+  <h1>Mock exam</h1>
+  <p class="mut sm">Same format as the exam: multiple choice and true/false, split across both modules and every section. Questions you haven't answered yet come first. If you leave mid-mock, it picks up where you were and the timer pauses.</p>
+  <div class="box">
+    <label class="chk"><input type="checkbox" data-mod="m3" ${S.set.m3 ? 'checked' : ''}> Module 3: Sensation and perception (${BANK.filter(q => q.t.startsWith('m3')).length})</label>
+    <label class="chk"><input type="checkbox" data-mod="m4" ${S.set.m4 ? 'checked' : ''}> Module 4: Learning and memory (${BANK.filter(q => q.t.startsWith('m4')).length})</label>
+    <div class="row"><span class="sm lab">Length</span>${seg('len', [[MOCK_N, MOCK_N + ' questions'], [10, '10 questions']])}</div>
+    <div class="row"><span class="sm lab">Timer</span>${seg('timer', [[true, 'On'], [false, 'Off']])}<span class="mut sm">${S.set.timer ? Math.round(n * Q_MS / 60000) + ' min' : ''}</span></div>
+    <div class="row"><span class="sm lab">Feedback</span>${seg('fb', [['each', 'After each question'], ['end', 'At the end']])}</div>
+    <p class="sm">${un} of ${pool.length} questions unseen.</p>
+    <button class="btn pri" id="startMock" ${pool.length ? '' : 'disabled'}>Start mock ${S.hist.length + 1}</button>
+  </div>
+  <h2>Past mocks</h2>
+  ${S.hist.length ? `<p class="sm"><button class="btn link sm" id="clrHist" style="margin-left:0;padding-left:0">Clear mock history</button> <span class="mut">Question answers stay.</span></p>
+  <table class="res"><tr><th>#</th><th>Date</th><th>Score</th></tr>${S.hist.slice().reverse().map(x => `<tr><td>${x.n}</td><td>${new Date(x.d).toLocaleDateString()}</td><td>${x.s} / ${x.of}</td></tr>`).join('')}</table>` : '<p class="mut sm">None yet.</p>'}
+  <p class="sm mut" style="margin-top:28px"><button class="btn link sm" id="reset" style="margin-left:0;padding-left:0">Reset progress</button> · v1.1</p>`;
+  document.querySelectorAll('[data-mod]').forEach(c => c.onchange = () => { S.set[c.dataset.mod] = c.checked; save(); mockView(); });
+  document.querySelectorAll('.seg button').forEach(b => b.onclick = () => { const k = b.parentNode.dataset.key; const v = b.dataset.v; S.set[k] = v === 'true' ? true : v === 'false' ? false : isNaN(+v) ? v : +v; save(); mockView(); });
+  $('#startMock').onclick = () => startMock();
+  if ($('#clrHist')) armBtn($('#clrHist'), 'Tap again to clear history', () => { S.hist = []; save(); mockView(); });
+  armBtn($('#reset'), 'Tap again to erase all answers, flags, and flashcard marks', () => { S = { q: {}, flag: {}, hist: [], mock: null, mark: {}, fc: S.fc, set: S.set, pf: S.pf, migr: 1, view: 'mock' }; save(); mockView(); });
+}
+function buildMock(len) {
+  const mods = [3, 4].filter(m => S.set['m' + m]);
+  const tb = { n: 1 };
+  const pick = (pool, k, out) => {
+    const r = rng(Date.now() + ':' + pool.length);
+    pool.map(q => [age(q), r(), q]).sort((a, b) => a[0] - b[0] || a[1] - b[1]).map(x => x[2]).forEach(q => {
+      if (k <= 0 || out.includes(q)) return; if (q.tb) { if (tb.n <= 0) return; tb.n--; } out.push(q); k--;
+    });
+    return out;
+  };
+  // split the length across the chosen modules, then across sections by the exam blueprint
+  const wsum = mods.reduce((s, m) => s + MOCK_M[m], 0);
+  let res = [];
+  mods.forEach((m, mi) => {
+    const nm = mi === mods.length - 1 ? len - res.length : Math.round(len * MOCK_M[m] / wsum);
+    const ts = ORDER.filter(t => TOPICS[t].m === m);
+    const raw = ts.map(t => TOPICS[t].quota * nm / MOCK_M[m]);
+    const q = raw.map(Math.floor); let left = nm - q.reduce((a, b) => a + b, 0);
+    raw.map((x, i) => [x - q[i], i]).sort((a, b) => b[0] - a[0] || Math.random() - .5).forEach(([, i]) => { if (left > 0) { q[i]++; left--; } });
+    let got = [];
+    ts.forEach((t, i) => { got = pick(BANK.filter(x => x.t === t), q[i], got); });
+    if (got.length < nm) got = pick(BANK.filter(x => x.t.startsWith('m' + m)), nm - got.length, got);
+    res = res.concat(shuffle(got));
+  });
+  return res;
+}
+function startMock() {
+  const qs = buildMock(+S.set.len); if (!qs.length) return;
+  const seed = String(Date.now());
+  S.mock = { num: S.hist.length + 1, each: S.set.fb === 'each', i: 0, left: S.set.timer ? qs.length * Q_MS : null, start: Date.now(), qs: qs.map(q => ({ id: q.id, pick: null, lock: false })), seed };
+  save(); window.scrollTo(0, 0); mockQ();
+}
+function mockQ() {
+  const M = S.mock; stopTimer();
+  const st = M.qs.filter(r => QBYID[r.id]); if (!st.length) { S.mock = null; save(); return mockView(); }
+  M.i = Math.min(M.i, st.length - 1);
+  const r = st[M.i], q = QBYID[r.id], order = optOrder(q, M.seed);
+  const answered = st.filter(x => x.pick != null).length, last = M.i === st.length - 1;
+  $('#app').innerHTML = `
+  <div class="qhead"><span>Mock ${M.num} · ${M.i + 1} of ${st.length}</span><span id="timer">${M.left != null ? fmtT(M.left) : ''}</span><span>${M.each ? '' : answered + ' answered '}${flagBtn(q)}</span></div>
+  <div class="bar"><i style="width:${(M.i + (r.pick != null ? 1 : 0)) / st.length * 100}%"></i></div>
+  ${qBody(q, order, r.pick, r.lock, false)}
+  <div id="fb">${r.lock ? fb(q, r.pick) : ''}</div>
+  <div class="row nav2" id="mnav">
+    ${M.i > 0 ? '<button class="btn" id="mback">Back</button>' : ''}
+    <button class="btn pri" id="mnext" ${M.each && !r.lock ? 'disabled' : ''}>${last ? 'Finish' : 'Next'}</button>
+    <button class="btn link" id="mend">End exam</button><button class="btn link" id="mquit" style="margin-left:0">Quit</button>
+  </div>`;
+  document.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+    if (r.lock) return; r.pick = +b.dataset.i;
+    if (M.each) { r.lock = true; record(q, r.pick); }
+    save(); const y = window.scrollY; mockQ(); window.scrollTo(0, y);
+    const f = $('#fb'); if (M.each && f && f.getBoundingClientRect().bottom > window.innerHeight) f.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  });
+  if ($('#mback')) $('#mback').onclick = () => { M.i--; save(); window.scrollTo(0, 0); mockQ(); };
+  $('#mnext').onclick = () => last ? tryFinish() : (M.i++, save(), window.scrollTo(0, 0), mockQ());
+  $('#mend').onclick = () => tryFinish();
+  armBtn($('#mquit'), 'Tap again to quit (no score saved)', () => { stopTimer(); S.mock = null; save(); mockView(); });
+  function tryFinish() {
+    const un = st.filter(x => x.pick == null).length;
+    if (un && !$('#conf2')) { $('#mnav').insertAdjacentHTML('beforeend', `<span class="sm" id="conf2" style="width:100%">${un} unanswered. <button class="btn sm" id="finAny">Finish anyway</button></span>`); $('#finAny').onclick = mockFinish; return; }
+    mockFinish();
+  }
+  if (M.left != null) {
+    let lastT = Date.now();
+    timerH = setInterval(() => {
+      const now = Date.now(); M.left = Math.max(0, M.left - (now - lastT)); lastT = now; save();
+      const t = $('#timer'); if (M.left <= 0) { stopTimer(); return mockFinish(); }
+      if (t) { t.textContent = fmtT(M.left); t.classList.toggle('late', M.left < 300000); }
+    }, 1000);
+  }
+}
+function mockFinish() {
+  stopTimer(); const M = S.mock; if (!M) return mockView();
+  const st = M.qs.filter(r => QBYID[r.id]);
+  st.forEach(r => { if (!r.lock) record(QBYID[r.id], r.pick); });
+  const right = st.filter(r => r.pick === QBYID[r.id].ans).length;
+  S.hist.push({ n: M.num, d: Date.now(), s: right, of: st.length });
+  const seed = M.seed; S.mock = null; save();
+  const by = {}; st.forEach(r => { const t = QBYID[r.id].t; by[t] = by[t] || [0, 0]; by[t][1]++; if (r.pick === QBYID[r.id].ans) by[t][0]++; });
+  const miss = st.filter(r => r.pick !== QBYID[r.id].ans);
+  const mins = Math.round((Date.now() - M.start) / 60000);
   window.scrollTo(0, 0);
+  $('#app').innerHTML = `
+  <h1>Mock ${M.num}: ${right} / ${st.length} (${Math.round(right / st.length * 100)}%)</h1>
+  <p class="mut sm">Time: ${mins < 1 ? 'under 1 min' : mins + ' min'}</p>
+  <h2>By section</h2>
+  <table class="res"><tr><th>Section</th><th>Score</th></tr>
+  ${ORDER.filter(t => by[t]).map(t => `<tr class="${by[t][0] / by[t][1] < 0.5 ? 'lo' : ''}"><td><a href="#" onclick="peek('${t}');return false">${esc(secName(t))}</a></td><td>${by[t][0]}/${by[t][1]}</td></tr>`).join('')}</table>
+  <div class="row"><button class="btn pri" id="newMock">New mock</button>${miss.length ? `<button class="btn" id="pracMiss">Practice the ${miss.length} missed</button>` : ''}</div>
+  <h2>Missed (${miss.length})</h2>
+  ${miss.map(r => { const q = QBYID[r.id]; return `<div class="miss"><div class="qhead"><span>${esc(secName(q.t))}</span>${flagBtn(q)}</div><p class="stem">${esc(q.q)}</p>${q.fig ? img(q.fig) : ''}
+    <p class="sm">Your answer: ${r.pick == null ? '(none)' : esc(q.o[r.pick])}<br>Correct: <b>${esc(q.o[q.ans])}</b></p>
+    <p class="sm mut">${exText(q)} <a href="#" onclick="peek('${peekTopic(q)}','${q.id}');return false">Review</a></p></div>`; }).join('')}`;
+  $('#newMock').onclick = () => mockView();
+  if ($('#pracMiss')) $('#pracMiss').onclick = () => { go('practice'); runPractice(miss.map(r => QBYID[r.id]), `Missed from mock ${M.num}`); };
+}
+
+// ---------- PRACTICE ----------
+let PR = null; // one-at-a-time run in progress
+function prPool() {
+  const f = S.pf;
+  return BANK.filter(q => inSec(q, f.sec) && (!f.missed || (S.q[q.id] && S.q[q.id].c === false)) && (!f.flag || S.flag[q.id]) && (!f.un || !S.q[q.id]))
+    .sort((a, b) => ORDER.indexOf(a.t) - ORDER.indexOf(b.t));
+}
+function practiceView() {
+  if (PR) return prShow();
+  const pill = (k, l) => `<button type="button" class="pill ${S.pf[k] ? 'on' : ''}" data-pf="${k}" aria-pressed="${!!S.pf[k]}">${l}</button>`;
+  $('#app').innerHTML = `
+  <h1>Practice</h1>
+  <p class="mut">Every question the mock exams use, grouped by section. You can change an answer anytime. Tap your answer again to clear it.</p>
+  <div class="filters">
+    <div class="row">${secSelect('psel', S.pf.sec)}</div>
+    <div class="row">${pill('missed', 'Missed')}${pill('flag', 'Flagged')}${pill('un', 'Unanswered')}${pill('show', 'Show all answers')}</div>
+    <div class="row"><button class="btn pri" id="pquiz">Quiz me one at a time</button><span class="mut sm" id="pcnt"></span><button class="btn sm" id="pclr" title="Clears your answers to the questions shown with the current filters. Flags and mock history are kept.">Reset answers</button></div>
+  </div>
+  <div class="plist" id="plist"></div>`;
+  $('#psel').onchange = e => { S.pf.sec = e.target.value; save(); prDraw(); };
+  document.querySelectorAll('[data-pf]').forEach(b => b.onclick = () => { const k = b.dataset.pf; S.pf[k] = !S.pf[k]; b.classList.toggle('on', S.pf[k]); b.setAttribute('aria-pressed', S.pf[k]); save(); prDraw(); });
+  $('#pquiz').onclick = () => runPractice(prPool(), 'Practice');
+  prDraw();
+}
+function prDraw() {
+  const P = prPool(), list = $('#plist'); if (!list) return;
+  $('#pcnt').textContent = `${P.length} question${P.length === 1 ? '' : 's'}`; $('#pquiz').disabled = !P.length;
+  prClr(P);
+  if (!P.length) { list.innerHTML = '<p class="mut">No questions match these filters.</p>'; return; }
+  let last = null;
+  list.innerHTML = P.map(q => { const head = q.t !== last ? `<h2 class="sechead"><span class="mut sm">M${TOPICS[q.t].m} · ${P.filter(x => x.t === q.t).length}</span><br>${esc(TOPICS[q.t].name)}</h2>` : ''; last = q.t; return head + `<div class="qcard" data-q="${q.id}"></div>`; }).join('');
+  list.querySelectorAll('.qcard').forEach(c => qCard(c));
+}
+function prClr(P) {
+  const clr = $('#pclr'); if (!clr) return; P = P || prPool();
+  const na = P.filter(q => S.q[q.id]).length; delete clr.dataset.arm; clr.textContent = 'Reset answers'; clr.disabled = !na;
+  armBtn(clr, `Tap again to reset ${na}`, () => { P.forEach(q => delete S.q[q.id]); save(); prDraw(); });
+}
+function qCard(c) {
+  const q = QBYID[c.dataset.q], order = optOrder(q, 'list'), r = S.q[q.id];
+  const picked = r && r.p != null ? r.p : null;
+  c.innerHTML = `<div class="qhead"><span></span>${flagBtn(q)}</div>${qBody(q, order, picked, picked != null, true)}${picked != null ? fb(q, picked) : S.pf.show ? fb(q, null, true) : ''}`;
+  c.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+    const i = +b.dataset.i;
+    if (S.q[q.id] && S.q[q.id].p === i) delete S.q[q.id]; else record(q, i);
+    save(); qCard(c); prClr();
+  });
+}
+function runPractice(pool, title) {
+  const qs = shuffle(pool).sort((a, b) => age(a) - age(b));
+  PR = { qs, i: 0, picks: {}, title, seed: String(Date.now()) };
+  window.scrollTo(0, 0); prShow();
+}
+function prShow() {
+  const p = PR;
+  if (p.i >= p.qs.length) {
+    const right = p.qs.filter(q => p.picks[q.id] === q.ans).length, miss = p.qs.filter(q => p.picks[q.id] !== q.ans);
+    $('#app').innerHTML = `<h1>${esc(p.title)} done</h1><p>${right} / ${p.qs.length} correct</p>
+    <div class="row">${miss.length ? `<button class="btn pri" id="prRetry">Retry the ${miss.length} missed</button>` : ''}<button class="btn" id="prBack">Back to practice</button></div>`;
+    if ($('#prRetry')) $('#prRetry').onclick = () => runPractice(miss, 'Retry');
+    $('#prBack').onclick = () => { PR = null; practiceView(); };
+    return;
+  }
+  const q = p.qs[p.i], order = optOrder(q, p.seed), pk = p.picks[q.id], done = pk !== undefined, last = p.i === p.qs.length - 1;
+  $('#app').innerHTML = `
+  <div class="qhead"><span>${esc(p.title)} · ${p.i + 1} of ${p.qs.length}</span><span>${esc(secName(q.t))} ${flagBtn(q)}</span></div>
+  <div class="bar"><i style="width:${p.i / p.qs.length * 100}%"></i></div>
+  ${qBody(q, order, done ? pk : null, done, false)}
+  <div id="fb">${done ? fb(q, pk) : ''}</div>
+  <div class="row nav2">${p.i > 0 ? '<button class="btn" id="prPrev">Back</button>' : ''}<button class="btn pri" id="prNext" ${done ? '' : 'disabled'}>${last ? 'Finish' : 'Next'}</button><button class="btn link" id="prEnd">End</button></div>`;
+  document.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+    if (p.picks[q.id] !== undefined) return; const i = +b.dataset.i; p.picks[q.id] = i; record(q, i); prShow();
+    const f = $('#fb'); if (f && f.getBoundingClientRect().bottom > window.innerHeight) f.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  });
+  if ($('#prPrev')) $('#prPrev').onclick = () => { p.i--; window.scrollTo(0, 0); prShow(); };
+  $('#prNext').onclick = () => { p.i++; window.scrollTo(0, 0); prShow(); };
+  $('#prEnd').onclick = () => { p.i = p.qs.length; prShow(); };
 }
 
 // ---------- peek panel ----------
