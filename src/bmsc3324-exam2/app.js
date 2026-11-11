@@ -44,6 +44,14 @@ S.set = Object.assign({ len: MOCK_N, timer: true, fb: 'each', m3: true, m4: true
 S.pf = Object.assign({ sec: 'all', missed: false, flag: false, un: false, show: false }, S.pf || {});
 // carry over answers from v1.0 (seen / wrong only)
 if (S.seen && !S.migr) { Object.keys(S.seen).forEach(id => { if (QBYID[id] && !S.q[id]) S.q[id] = { n: S.seen[id], t: 1, c: !S.wrong[id] }; }); S.migr = 1; delete S.cur; save(); }
+// v1.2 removed questions; ids are positional, so move saved answers/flags/mock to the new ids
+if (!S.idv12) {
+  const mv = id => (id in ID_V12 ? ID_V12[id] : id);
+  const q2 = {}; Object.keys(S.q).forEach(id => { const m = mv(id); if (m && !Array.isArray(m)) q2[m] = S.q[id]; }); S.q = q2;
+  const f2 = {}; Object.keys(S.flag).forEach(id => { const m = mv(id); if (m) f2[Array.isArray(m) ? m[0] : m] = 1; }); S.flag = f2;
+  if (S.mock) { S.mock.qs = S.mock.qs.map(r => { const m = mv(r.id); if (!m) return null; return Array.isArray(m) ? { id: m[0], pick: null, lock: false } : Object.assign(r, { id: m }); }).filter(Boolean); if (!S.mock.qs.length) S.mock = null; }
+  S.idv12 = 1; save();
+}
 const Q_MS = 47 * 60000 / MOCK_N; // same pace as the 47-minute, 30-question exam
 function record(q, pick) { const r = S.q[q.id] || { n: 0 }; r.n++; r.t = Date.now(); r.c = pick === q.ans; r.p = pick; S.q[q.id] = r; save(); }
 const age = q => (S.q[q.id] ? S.q[q.id].t : 0);
