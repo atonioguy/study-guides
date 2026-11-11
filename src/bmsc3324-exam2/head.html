@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BMSC 3324 Exam 2 · Modules 3–4</title>
+<style>
+:root{--fg:#1c1c1c;--mut:#666;--line:#ddd;--soft:#f5f5f3;--acc:#1f4b8f;--ok:#1d7a3a;--okbg:#eef7f0;--bad:#b42318;--badbg:#fdf1f0;--bt:#2347a8;--hh:53px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--fg);background:#fff}
+body.noscroll{overflow:hidden}
+header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line)}
+.hin{max-width:760px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-weight:600;font-size:15px;margin-right:auto}
+.mods{font-weight:400;color:var(--mut)}
+nav{display:flex;gap:4px}
+nav button{font:inherit;font-size:15px;background:none;border:0;padding:8px 10px;border-radius:6px;color:var(--mut);cursor:pointer}
+nav button.on{color:var(--fg);background:var(--soft);font-weight:600}
+main{max-width:760px;margin:0 auto;padding:16px 16px 64px}
+h1{font-size:22px;margin:8px 0 6px}
+h2{font-size:18px;margin:28px 0 10px}
+h3{font-size:17px;margin:0 0 10px}
+h4{font-size:15px;margin:16px 0 6px}
+p{margin:8px 0}
+.mut{color:var(--mut)} .sm{font-size:14px}
+a{color:var(--fg);text-decoration:underline;text-underline-offset:2px}
+a.quiet{color:var(--mut)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}
+.btn{font:inherit;font-size:15px;padding:9px 14px;border:1px solid #c8c8c8;border-radius:6px;background:#fff;color:var(--fg);cursor:pointer}
+@media (hover:hover){.btn:hover:not(:disabled){border-color:#999}.opt:hover:not(:disabled){border-color:#888}}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.link{border:0;color:var(--mut);margin-left:auto}
+select{font:inherit;font-size:15px;padding:8px;border:1px solid #c8c8c8;border-radius:6px;background:#fff;max-width:100%}
+.chk{display:flex;gap:6px;align-items:center;font-size:15px}
+.box{border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:12px 0;background:var(--soft)}
+.qhead{display:flex;justify-content:space-between;font-size:14px;color:var(--mut)}
+#timer.late{color:var(--bad)}
+.bar{height:3px;background:#eee;margin:6px 0 14px}.bar i{display:block;height:100%;background:var(--acc)}
+.stem{font-size:17px;margin:12px 0}
+.fig{display:block;max-width:100%;height:auto;margin:10px 0;border:1px solid var(--line);border-radius:4px;cursor:zoom-in}
+.miss .fig{max-height:200px;width:auto}
+.qlsec{margin:22px 0 4px;font-size:16px;color:var(--mut);font-weight:600}
+.qli{border-top:1px solid var(--line);padding:10px 0}
+.qli .stem{font-size:16px;margin:4px 0 8px}
+.qli .fig{max-height:220px;width:auto}
+.qlo{list-style:none;padding:0;margin:0 0 6px}
+.qlo li{padding:4px 8px 4px 28px;position:relative;border-radius:4px;font-size:15px}
+.qlo li.ok{background:var(--okbg);font-weight:600}
+.qlo .ck{position:absolute;left:8px;color:var(--ok)}
+#qlf{margin:6px 0 4px}#qlf select{width:100%}
+#zoom{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.85);overflow:auto;display:flex;align-items:center;justify-content:center}
+#zoom[hidden]{display:none}
+#zoom img{width:auto;max-width:none;min-width:100%;height:auto;background:#fff}
+@media(min-width:900px){#zoom img{min-width:0;width:880px}}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{font:inherit;text-align:left;padding:11px 14px;border:1px solid #c8c8c8;border-radius:6px;background:#fff;color:var(--fg);cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrongpick{border-color:var(--bad);background:var(--badbg)}
+.fb{margin:14px 0;padding:10px 14px;border-left:3px solid;font-size:15px}
+.fb.ok{border-color:var(--ok)} .fb.bad{border-color:var(--bad)}
+.fb p{margin:6px 0}
+.nav2{margin-top:18px}
+table{border-collapse:collapse;width:100%;font-size:15px;margin:10px 0}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-weight:600;background:var(--soft)}
+.res tr.lo td:last-child{color:var(--bad)}
+.miss{border-top:1px solid var(--line);padding:8px 0}
+.miss .stem{font-size:15px}
+.tbm{display:inline-block;font-size:12px;line-height:1;padding:2px 5px;border:1px solid #bbb;border-radius:3px;color:#777;vertical-align:1px;font-weight:400}
+.bt{color:var(--bt)}
+.kbd{display:none}@media (hover:hover){.kbd{display:block}}
+/* flashcards */
+.ctl select{flex:1 1 220px}
+.card{display:flex;flex-direction:column;width:100%;min-height:220px;padding:16px;border:1px solid #c8c8c8;border-radius:8px;background:#fff;font:inherit;color:var(--fg);cursor:pointer;text-align:center;margin-top:8px}
+.card.back{background:var(--soft)}
+.card.empty{cursor:default;justify-content:center;color:var(--mut)}
+.cmeta{font-size:13px;color:var(--mut);text-align:left;display:flex;justify-content:space-between;gap:8px}
+.ctext{margin:auto 0;font-size:20px;padding:12px 0;white-space:pre-line}
+.card.back .ctext{font-size:17px}
+.cfig{position:relative;display:inline-block;margin:4px auto 0;line-height:0}
+.cfig img{display:block;max-width:100%;max-height:240px;width:auto;height:auto;border-radius:4px}
+.cfig svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.cfig .hl-label{fill:#ffe600;fill-opacity:.55;mix-blend-mode:multiply}
+.cfig .hl-label.on-color{mix-blend-mode:normal;fill-opacity:.45;stroke:#f0b400;stroke-width:2.5px}
+.cfig .hi{fill:#ffe600;fill-opacity:.5;stroke:#f0b400;stroke-opacity:.95;stroke-width:3.5px}
+.ctext.bt{font-weight:600}
+.ctl2{margin-top:-2px}
+.ctl3{margin-top:-2px}
+.qz{display:inline-flex;gap:6px;align-items:center;margin-left:auto}
+.qz select{padding:8px 6px}
+.qzp{font-size:19px;font-weight:600;white-space:pre-line}
+.cnav{flex-wrap:nowrap;gap:8px;align-items:stretch}
+.cnav .btn{flex:1 1 0;padding:11px 6px}
+.cnav .btn.on{border-color:#b7791f;background:#fdf6e7}
+.cnav .arr{flex:0 0 52px;font-size:22px;line-height:1;padding:0}
+.tlh{display:flex;align-items:center;gap:6px;width:100%;font:inherit;font-size:16px;font-weight:600;color:var(--fg);background:none;border:0;border-top:1px solid var(--line);padding:14px 2px;margin-top:16px;cursor:pointer;text-align:left}
+.chev{display:inline-block;transition:transform .15s;font-size:18px;line-height:1;margin-top:-6px}
+.chev.up{transform:rotate(180deg);margin-top:4px}
+#terms{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.term{display:grid;grid-template-columns:minmax(120px,1fr) 2fr auto;gap:4px 16px;text-align:left;font:inherit;font-size:15px;color:var(--fg);background:none;border:0;border-bottom:1px solid var(--line);padding:10px 4px;cursor:pointer}
+.term.cur{background:var(--soft)}
+.tt{font-weight:600}
+.td{color:#333;white-space:pre-line}
+.tk{font-size:12px;align-self:start;padding-top:2px;white-space:nowrap}
+.tk.got{color:var(--ok)}.tk.uns{color:#b7791f}
+@media(max-width:520px){.term{grid-template-columns:1fr auto}.td{grid-column:1/2;grid-row:2}.tk{grid-column:2/3;grid-row:1}}
+/* cheat sheet */
+.jump{position:sticky;top:var(--hh);z-index:4;background:#fff;padding:6px 0;box-shadow:0 1px 0 var(--line)}
+.jump select{width:100%}
+h2.mod{border-bottom:2px solid var(--fg);padding-bottom:4px}
+section.sheet{padding:14px 0 6px;border-top:1px solid var(--line);scroll-margin-top:calc(var(--hh) + 56px)}
+h2.mod+section.sheet{border-top:0}
+.sheet dl{margin:8px 0}
+.sheet dt{font-weight:600;margin-top:8px}
+.sheet dd{margin:0 0 0 0}
+.sheet img{display:block;max-width:100%;height:auto;margin:10px 0;border:1px solid var(--line);border-radius:4px}
+.sheet ol,.sheet ul{padding-left:20px;margin:6px 0}
+.sheet li{margin:3px 0}
+.steps{background:var(--soft);padding:8px 10px;border-radius:6px}
+.mix{padding:8px 12px;background:var(--soft);border-radius:6px;font-size:15px}
+.sheet .hl{background:#fff1a8;box-shadow:-6px 0 0 #fff1a8,6px 0 0 #fff1a8;border-radius:2px}
+.sheet tr.hl td{background:#fff1a8}
+.sheet dt.hl{padding-top:2px}
+/* peek */
+#peek{position:fixed;inset:0;z-index:10;background:rgba(0,0,0,.35);overflow:auto}
+.pk{background:#fff;max-width:760px;margin:0 auto;min-height:100%;padding:0 16px 40px}
+.pkh{position:sticky;top:0;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+@media(min-width:521px){.pk{min-height:0;margin:48px auto;border-radius:8px}}
+@media (max-width:520px){
+ .brand{width:100%;font-size:14px;padding:2px 4px 0}
+ .hin{padding:4px 8px;gap:0}
+ nav{width:100%}
+ nav button{flex:1;padding:8px 4px}
+ main{padding:12px 14px 56px}
+ table{font-size:14px}
+}
+.ctx{display:block;margin-top:12px;font-size:14px;line-height:1.4;color:#333;text-align:left}
+</style>
+</head>
+<body>
+<header><div class="hin"><span class="brand">BMSC 3324 · Exam 2 <span class="mods">Modules 3–4</span></span>
+<nav><button data-v="cards">Flashcards</button><button data-v="mock">Mock exam</button><button data-v="sheet">Cheat sheet</button></nav></div></header>
+<main id="app"></main>
+<div id="peek" hidden></div>
+<div id="zoom" hidden></div>
+<script>
