@@ -3,6 +3,9 @@ const MOCK_M = {3:0,4:0}; ORDER.forEach(t => MOCK_M[TOPICS[t].m] += TOPICS[t].qu
 const _n = {};
 BANK.forEach(q => { _n[q.t] = (_n[q.t] || 0) + 1; q.id = q.t + '-' + _n[q.t]; if (q.type === 'mc') q.ans = 0; });
 const QBYID = Object.fromEntries(BANK.map(q => [q.id, q]));
+// v1.4: plain-definition items replaced by a vignette version move to "Recycled" (shown, but not counted)
+BANK.forEach(q => { if (!q.replaces) return; const old = BANK.find(x => x !== q && !x.replaces && x.q.startsWith(q.replaces)); if (old) old.rec = 1; else console.warn('replaces: no match for', q.replaces); });
+const inUse = (q, inc) => inc || !q.rec;
 
 // storage
 const KEY = 'bmsc3324_exam2_v1';
@@ -40,8 +43,8 @@ function optOrder(q, seed) {
 // ---------- shared question state ----------
 // S.q[id] = {n: times answered, t: last answered (ms), c: last answer correct, p: option index picked}
 S.q = S.q || {}; S.flag = S.flag || {}; S.hist = S.hist || [];
-S.set = Object.assign({ len: MOCK_N, timer: true, fb: 'each', m3: true, m4: true }, S.set || {});
-S.pf = Object.assign({ sec: 'all', missed: false, flag: false, un: false, show: false }, S.pf || {});
+S.set = Object.assign({ len: MOCK_N, timer: true, fb: 'each', m3: true, m4: true, rec: false }, S.set || {});
+S.pf = Object.assign({ sec: 'all', missed: false, flag: false, un: false, show: false, rec: false }, S.pf || {});
 // carry over answers from v1.0 (seen / wrong only)
 if (S.seen && !S.migr) { Object.keys(S.seen).forEach(id => { if (QBYID[id] && !S.q[id]) S.q[id] = { n: S.seen[id], t: 1, c: !S.wrong[id] }; }); S.migr = 1; delete S.cur; save(); }
 // v1.2 removed questions; ids are positional, so move saved answers/flags/mock to the new ids
@@ -100,15 +103,16 @@ function stopTimer() { if (timerH) { clearInterval(timerH); timerH = null; } }
 const fmtT = ms => { const s = Math.ceil(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
 function mockView() {
   if (S.mock) return mockQ();
-  const pool = BANK.filter(q => S.set['m' + TOPICS[q.t].m]);
+  const pool = BANK.filter(q => S.set['m' + TOPICS[q.t].m] && inUse(q, S.set.rec)); const nRec = BANK.filter(q => q.rec).length;
   const n = Math.min(+S.set.len, pool.length), un = pool.filter(q => !S.q[q.id]).length;
   const seg = (key, vals) => `<div class="seg" data-key="${key}">${vals.map(([v, l]) => `<button type="button" data-v="${v}" class="${String(S.set[key]) === String(v) ? 'on' : ''}">${l}</button>`).join('')}</div>`;
   $('#app').innerHTML = `
   <h1>Mock exam</h1>
   <p class="mut sm">Same format as the exam: multiple choice and true/false, split across both modules and every section. Questions you haven't answered yet come first. If you leave mid-mock, it picks up where you were and the timer pauses.</p>
   <div class="box">
-    <label class="chk"><input type="checkbox" data-mod="m3" ${S.set.m3 ? 'checked' : ''}> Module 3: Sensation and perception (${BANK.filter(q => q.t.startsWith('m3')).length})</label>
-    <label class="chk"><input type="checkbox" data-mod="m4" ${S.set.m4 ? 'checked' : ''}> Module 4: Learning and memory (${BANK.filter(q => q.t.startsWith('m4')).length})</label>
+    <label class="chk"><input type="checkbox" data-mod="m3" ${S.set.m3 ? 'checked' : ''}> Module 3: Sensation and perception (${BANK.filter(q => q.t.startsWith('m3') && inUse(q, S.set.rec)).length})</label>
+    <label class="chk"><input type="checkbox" data-mod="m4" ${S.set.m4 ? 'checked' : ''}> Module 4: Learning and memory (${BANK.filter(q => q.t.startsWith('m4') && inUse(q, S.set.rec)).length})</label>
+    <label class="chk"><input type="checkbox" data-mod="rec" ${S.set.rec ? 'checked' : ''}> Include recycled definition questions (${nRec})</label>
     <div class="row"><span class="sm lab">Length</span>${seg('len', [[MOCK_N, MOCK_N + ' questions'], [10, '10 questions']])}</div>
     <div class="row"><span class="sm lab">Timer</span>${seg('timer', [[true, 'On'], [false, 'Off']])}<span class="mut sm">${S.set.timer ? Math.round(n * Q_MS / 60000) + ' min' : ''}</span></div>
     <div class="row"><span class="sm lab">Feedback</span>${seg('fb', [['each', 'After each question'], ['end', 'At the end']])}</div>
@@ -118,7 +122,7 @@ function mockView() {
   <h2>Past mocks</h2>
   ${S.hist.length ? `<p class="sm"><button class="btn link sm" id="clrHist" style="margin-left:0;padding-left:0">Clear mock history</button> <span class="mut">Question answers stay.</span></p>
   <table class="res"><tr><th>#</th><th>Date</th><th>Score</th></tr>${S.hist.slice().reverse().map(x => `<tr><td>${x.n}</td><td>${new Date(x.d).toLocaleDateString()}</td><td>${x.s} / ${x.of}</td></tr>`).join('')}</table>` : '<p class="mut sm">None yet.</p>'}
-  <p class="sm mut" style="margin-top:28px"><button class="btn link sm" id="reset" style="margin-left:0;padding-left:0">Reset progress</button> · v1.3.1</p>`;
+  <p class="sm mut" style="margin-top:28px"><button class="btn link sm" id="reset" style="margin-left:0;padding-left:0">Reset progress</button> · v1.4</p>`;
   document.querySelectorAll('[data-mod]').forEach(c => c.onchange = () => { S.set[c.dataset.mod] = c.checked; save(); mockView(); });
   document.querySelectorAll('.seg button').forEach(b => b.onclick = () => { const k = b.parentNode.dataset.key; const v = b.dataset.v; S.set[k] = v === 'true' ? true : v === 'false' ? false : isNaN(+v) ? v : +v; save(); mockView(); });
   $('#startMock').onclick = () => startMock();
@@ -145,8 +149,8 @@ function buildMock(len) {
     const q = raw.map(Math.floor); let left = nm - q.reduce((a, b) => a + b, 0);
     raw.map((x, i) => [x - q[i], i]).sort((a, b) => b[0] - a[0] || Math.random() - .5).forEach(([, i]) => { if (left > 0) { q[i]++; left--; } });
     let got = [];
-    ts.forEach((t, i) => { got = pick(BANK.filter(x => x.t === t), q[i], got); });
-    if (got.length < nm) got = pick(BANK.filter(x => x.t.startsWith('m' + m)), nm - got.length, got);
+    ts.forEach((t, i) => { got = pick(BANK.filter(x => x.t === t && inUse(x, S.set.rec)), q[i], got); });
+    if (got.length < nm) got = pick(BANK.filter(x => x.t.startsWith('m' + m) && inUse(x, S.set.rec)), nm - got.length, got);
     res = res.concat(shuffle(got));
   });
   return res;
@@ -227,7 +231,7 @@ function mockFinish() {
 let PR = null; // one-at-a-time run in progress
 function prPool() {
   const f = S.pf;
-  return BANK.filter(q => inSec(q, f.sec) && (!f.missed || (S.q[q.id] && S.q[q.id].c === false)) && (!f.flag || S.flag[q.id]) && (!f.un || !S.q[q.id]))
+  return BANK.filter(q => inUse(q, f.rec) && inSec(q, f.sec) && (!f.missed || (S.q[q.id] && S.q[q.id].c === false)) && (!f.flag || S.flag[q.id]) && (!f.un || !S.q[q.id]))
     .sort((a, b) => ORDER.indexOf(a.t) - ORDER.indexOf(b.t));
 }
 function practiceView() {
@@ -238,7 +242,7 @@ function practiceView() {
   <p class="mut">Every question the mock exams use, grouped by section. You can change an answer anytime. Tap your answer again to clear it.</p>
   <div class="filters">
     <div class="row">${secSelect('psel', S.pf.sec)}</div>
-    <div class="row">${pill('missed', 'Missed')}${pill('flag', 'Flagged')}${pill('un', 'Unanswered')}${pill('show', 'Show all answers')}</div>
+    <div class="row">${pill('missed', 'Missed')}${pill('flag', 'Flagged')}${pill('un', 'Unanswered')}${pill('show', 'Show all answers')}${pill('rec', 'Include recycled')}</div>
     <div class="row"><button class="btn pri" id="pquiz">Quiz me one at a time</button><span class="mut sm" id="pcnt"></span><button class="btn sm" id="pclr" title="Clears your answers to the questions shown with the current filters. Flags and mock history are kept.">Reset answers</button></div>
   </div>
   <div class="plist" id="plist"></div>`;
@@ -254,6 +258,10 @@ function prDraw() {
   if (!P.length) { list.innerHTML = '<p class="mut">No questions match these filters.</p>'; return; }
   let last = null;
   list.innerHTML = P.map(q => { const head = q.t !== last ? `<h2 class="sechead"><span class="mut sm">M${TOPICS[q.t].m} · ${P.filter(x => x.t === q.t).length}</span><br>${esc(TOPICS[q.t].name)}</h2>` : ''; last = q.t; return head + `<div class="qcard" data-q="${q.id}"></div>`; }).join('');
+  if (!S.pf.rec) {
+    const R = BANK.filter(q => q.rec && inSec(q, S.pf.sec)).sort((a, b) => ORDER.indexOf(a.t) - ORDER.indexOf(b.t));
+    if (R.length) list.insertAdjacentHTML('beforeend', `<details class="recyc"><summary>Recycled: original definition versions (${R.length})</summary><p class="mut sm">Each of these was replaced by a scenario version. They don't count toward the totals or the filters above, and mocks skip them unless you turn them on in the Mock exam tab.</p>${R.map(q => `<div class="qcard" data-q="${q.id}"></div>`).join('')}</details>`);
+  }
   list.querySelectorAll('.qcard').forEach(c => qCard(c));
 }
 function prClr(P) {
