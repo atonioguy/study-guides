@@ -162,6 +162,8 @@ h2.mod+section.sheet{border-top:0}
 .miss .qhead{margin-bottom:-4px}
 nav button{white-space:nowrap}
 @media (max-width:520px){nav button{font-size:14px;padding:8px 2px}}
+.recyc{margin:28px 0 8px;border-top:2px solid var(--line);padding-top:10px}
+.recyc summary{font-weight:600;font-size:17px;cursor:pointer;padding:6px 0}
 </style>
 </head>
 <body>
@@ -1087,6 +1089,41 @@ Q('m3-vest','a','A figure skater spins rapidly and stops without falling over. T
 Q('m3-vest','a','Recording from a rat\'s entorhinal cortex, a researcher finds cells that fire at points spaced in a regular repeating pattern across the floor. These are',
  ['grid cells','place cells','head direction cells','hair cells'],
  'Grid cells, in the entorhinal cortex, map space in a tessellated pattern.');
+
+/* ---- v1.4 vignette versions (each replaces a plain-definition item, which moves to Recycled) ---- */
+Q('m3-sp','a','Light from a sunset strikes the receptors in two friends\' eyes the same way, before either of them thinks anything about it. This first step is',
+ ['sensation','perception','a threshold','psychophysics'],
+ 'Receptors being stimulated, before any interpretation, is sensation. Perception is the interpretation that follows.', {replaces:'The direct effect of a stimulus on receptor cells'});
+Q('m3-sp','a','Looking at the same cloud, one person sees a dragon and another sees a dog. The difference between them lies in',
+ ['perception','sensation','the stimulus','the threshold'],
+ 'The stimulus and receptor response are the same; the interpretation differs. That is perception.', {replaces:'The mental organization and interpretation of sensory'});
+Q('m3-sp','a','A microphone turns sound waves into electrical signals. In the body, every sense receptor plays this same role, which makes each receptor a',
+ ['transducer','stimulus','threshold','sensation'],
+ 'Converting energy from one form to another is what a transducer does; every sense receptor is one.', {replaces:'Any mechanism that converts energy from one form'});
+Q('m3-sp','a','A sound engineer lowers a tone until, below a certain intensity, the listener\'s ear no longer responds to it at all. That minimum intensity is the',
+ ['threshold','difference threshold','stimulus','transducer'],
+ 'The minimal intensity needed to activate the sensory process is the threshold. A difference threshold compares two stimuli.', {replaces:'The minimal intensity a stimulus must reach'});
+Q('m3-touch','a','A patient tells her doctor she can feel that her bladder is full and that she is getting hungry. She is describing',
+ ['interoception','exteroception','proprioception','nociception'],
+ 'Sensing your own body\'s physiological state is interoception. Exteroception senses the outside world.', {replaces:'Sensing the physiological state of your own body'});
+Q('m3-touch','a','Stepping outside, you immediately feel that the air is cold and the breeze is strong. The sense at work is',
+ ['exteroception','interoception','kinesthesis','orthostasis'],
+ 'Sensing the immediate external world is exteroception; interoception is sensing your own body\'s state.', {replaces:'Our sense of the properties of the immediate external'});
+Q('m3-touch','a','A blindfolded person can tell a silk scarf from a wool sweater just by touching them. Which modality is doing this?',
+ ['Cutaneous senses','Proprioception','Kinesthesis','Interoception'],
+ 'Texture is felt through the skin, so this is the cutaneous senses.', {replaces:'The cutaneous senses are the senses of the'});
+Q('m3-touch','a','In a dark room, you can still touch your nose with your fingertip because you know where your hand is. Which modality tells you where your hand is?',
+ ['Proprioception','Cutaneous senses','Exteroception','Nociception'],
+ 'Knowing the position of a body part is proprioception.', {replaces:'Proprioception refers to sensing'});
+Q('m3-touch','a','With your eyes closed, someone slowly bends your elbow, and you can feel your arm moving as it happens. Which modality registers the motion?',
+ ['Kinesthesis','Proprioception','Cutaneous senses','Nociception'],
+ 'Sensing body movement is kinesthesis; proprioception is sensing body position.', {replaces:'Kinesthesis, as one of the four somatosensory'});
+Q('m3-touch','a','A cook touches a hot pan and jerks her hand away as a burning sensation hits. Which modality signaled the danger?',
+ ['Nociception','Proprioception','Kinesthesis','Interoception'],
+ 'Pain and discomfort are the nociception modality.', {replaces:'Nociception refers to sensing'});
+Q('m3-touch','a','A blood-pressure cuff squeezes a patient\'s arm, and within milliseconds receptors in her skin are sending signals up her nerves. The step where the squeeze becomes a nerve signal is',
+ ['transduction','perception','sensitization','nociception'],
+ 'Converting skin stimulation into electrical nerve impulses is transduction.', {replaces:'The process by which skin receptors convert'});
 /* ============ MODULE 4 ============ */
 
 /* ---- m4-types ---- */
@@ -1726,6 +1763,122 @@ TF('m4-forget','t','Procedural memory does not decay with normal aging.', true,
 Q('m4-forget','a','After a stroke reduces blood flow to part of her brain, a woman develops a lasting memory deficit. Which type of organic amnesia does this fit?',
  ['Disease/trauma','Retroactive','Proactive','Motivated'],
  'Strokes, decreased circulation, and Alzheimer\'s fall under the disease/trauma type.');
+
+/* ---- v1.4 vignette versions (each replaces a plain-definition item, which moves to Recycled) ---- */
+Q('m4-oc','a','A toddler who gets a big smile from his dad every time he says "please" starts saying it far more often. The kind of learning at work is',
+ ['operant conditioning','classical conditioning','observational learning','sensitization'],
+ 'A voluntary behavior became more frequent because of what followed it: operant conditioning. Classical conditioning pairs two stimuli before an automatic response.', {replaces:'Operant conditioning changes the rate of a response'});
+Q('m4-oc','a','A teen\'s jokes in class earn laughs, so she jokes more; texting in class gets her phone taken away, so she texts less. Which principle explains both changes?',
+ ['Law of Effect','Spontaneous recovery','Shaping','Acquisition'],
+ 'A positive consequence strengthened joking and a negative one weakened texting: the Law of Effect.', {replaces:'The Law of Effect states that behavior is'});
+Q('m4-oc','a','A dog gets a treat each time it sits on command, and it starts sitting faster and more often. The treat is working as',
+ ['reinforcement','punishment','a conditioned stimulus','an unconditioned response'],
+ 'The treat follows the behavior and increases it, so it is reinforcement. Punishment would decrease the behavior.', {replaces:'Reinforcement is a process that'});
+Q('m4-oc','a','A student who talks during lecture is called out in front of the class and talks during lectures less often afterward. Being called out worked as',
+ ['punishment','negative reinforcement','extinction','a secondary reinforcer'],
+ 'It followed the behavior and decreased it, so it is punishment. Negative reinforcement increases a behavior.', {replaces:'Punishment is a stimulus that'});
+Q('m4-oc','a','A trainer rewards a dolphin first for swimming near a hoop, then for touching it, then for swimming through it, and finally for jumping through it. This is',
+ ['shaping','acquisition','spontaneous recovery','classical conditioning'],
+ 'Reinforcing closer and closer approximations of the target, step by step, is shaping.', {replaces:'Shaping is the process of'});
+Q('m4-oc','a','A thirsty lab rat gets a sip of water after each lever press and starts pressing more. The water is a',
+ ['primary reinforcer','secondary reinforcer','conditioned stimulus','negative reinforcer'],
+ 'Water for a thirsty animal works without any prior learning, so it is a primary reinforcer. Secondary reinforcers work through learned associations.', {replaces:'A primary reinforcer is a stimulus that'});
+Q('m4-oc','a','A child works harder in class to earn gold stars that can be traded in for extra recess. The gold stars are',
+ ['secondary reinforcers','primary reinforcers','unconditioned stimuli','positive punishment'],
+ 'The stars have value only through a learned association, so they are secondary (conditioned) reinforcers.', {replaces:'A secondary reinforcer is a stimulus that'});
+Q('m4-oc','a','A parent waits until bedtime to scold a child for something he did that morning, and the behavior doesn\'t change. Which guideline for effective punishment was broken?',
+ ['Deliver it immediately','Make it fit the crime','Introduce alternatives','Be consistent'],
+ 'A delay between the response and the punishment slows learning; punishment should be immediate.', {replaces:'For punishment to be effective, it should be'});
+Q('m4-oc','a','A teacher punishes a student right away every time he drums on his desk, but never shows him another way to burn off his restless energy. Which guideline is she missing?',
+ ['Introduce alternatives to the punished response','Deliver punishment immediately','Make punishment fit the crime','Be consistent with punishment'],
+ 'She is immediate and consistent, but effective punishment also introduces alternatives to the punished response.', {replaces:'Which is a guideline for making punishment effective?'});
+Q('m4-forget','a','You meet someone at a party, hear their name once, never use it, and by the end of the night you can\'t recall it. The cause of forgetting is',
+ ['decay of memory trace','proactive interference','motivated forgetting','organic factors'],
+ 'A memory fading over time without use is decay. Nothing interfered, there was no wish to forget, and there was no injury.', {replaces:'Decay of the memory trace means that'});
+Q('m4-forget','a','A student glances at a confirmation code, gets distracted, and seconds later it is gone, yet she still knows her childhood address. This fits decay mainly affecting',
+ ['short-term memory','long-term memory','procedural memory','implicit memories'],
+ 'Decay usually costs short-term memory; long-term memory is more permanent.', {replaces:'Decay of the memory trace usually results'});
+Q('m4-forget','a','A student studies psychology, then immediately crams sociology, and on the psychology exam the two subjects blur together. This forgetting comes from',
+ ['interfering material','decay of memory trace','organic factors','motivated forgetting'],
+ 'What we learn before or after something affects how well we remember it: interfering material.', {replaces:'Interfering material means memory is determined'});
+Q('m4-forget','a','A nurse switches hospitals and learns her new unit\'s door codes. Now she can\'t remember her old hospital\'s codes. Which kind of forgetting is this?',
+ ['Retroactive interference','Proactive interference','Retrograde amnesia','Retrieval failure'],
+ 'New learning blocked older memories: retroactive interference. Retrograde amnesia comes from organic damage, not new learning.', {replaces:'Retroactive interference occurs when'});
+Q('m4-forget','a','Every January, a man keeps writing last year\'s date on his checks. Which kind of forgetting is this?',
+ ['Proactive interference','Retroactive interference','Anterograde amnesia','Decay of memory trace'],
+ 'The older habit gets in the way of the newer information: proactive interference (old blocks new).', {replaces:'Proactive interference occurs when'});
+Q('m4-forget','a','On an exam you can\'t recall the term for the bumps on the tongue, but the moment a friend says "it starts with P," it comes right back. Your forgetting was due to',
+ ['retrieval failure','decay of memory trace','interfering material','motivated forgetting'],
+ 'The memory was stored but needed a cue to reach it: retrieval failure.', {replaces:'Retrieval failure means that'});
+Q('m4-forget','a','After a painful breakup, a man deliberately pushes away memories of the relationship until he can barely recall its details. This is',
+ ['motivated forgetting','retrieval failure','retroactive interference','decay of memory trace'],
+ 'Purposely suppressing memories you don\'t want is motivated forgetting.', {replaces:'Motivated forgetting means'});
+Q('m4-forget','a','After a concussion in a car accident, a driver has gaps in her memory. Among the causes of normal forgetting, this falls under',
+ ['organic factors','motivated forgetting','interfering material','decay of memory trace'],
+ 'Memory loss from illness, pathology, or an accident falls under organic factors.', {replaces:'Organic factors in forgetting refer to'});
+Q('m4-forget','a','A football player takes a hard hit and can\'t remember the week before the game, though he remembers everything since. This is',
+ ['retrograde amnesia','anterograde amnesia','proactive interference','motivated forgetting'],
+ 'Losing memories from before the injury is retrograde amnesia. Anterograde would mean trouble forming new memories.', {replaces:'Retrograde amnesia is'});
+Q('m4-forget','a','After a brain injury, a man tells his nurse the same story every hour because he can\'t remember telling it, yet he recalls his childhood clearly. This is',
+ ['anterograde amnesia','retrograde amnesia','retrieval failure','retroactive interference'],
+ 'Old memories are intact but new information isn\'t being processed: anterograde amnesia.', {replaces:'Anterograde amnesia is'});
+Q('m4-mem','a','While figuring out a 20% tip in your head, you hold the bill total and your partial answer in mind at the same time. You are using',
+ ['working memory','semantic memory','episodic memory','procedural memory'],
+ 'Holding information briefly while working with it is working memory.', {replaces:'Working memory is'});
+Q('m4-mem','a','A patient describes the afternoon she got her diagnosis: the room, the doctor\'s words, how she felt. She is drawing on',
+ ['episodic memory','semantic memory','working memory','implicit memories'],
+ 'A salient event from her own life is episodic memory.', {replaces:'Episodic memory is'});
+Q('m4-mem','a','A trivia player answers that place cells are in the hippocampus, with no memory of when she learned it. She is drawing on',
+ ['semantic memory','episodic memory','working memory','procedural memory'],
+ 'General knowledge of facts and concepts is semantic memory; episodic memory is for events from your own life.', {replaces:'Semantic memory is'});
+Q('m4-mem','a','While reading about rods, a student thinks, "These work like night-vision goggles." The memory stage she is in is',
+ ['encoding','storing','retrieving','rehearsal'],
+ 'Perceiving new information and relating it to past knowledge is encoding.', {replaces:'Encoding is'});
+Q('m4-mem','a','A student learns the eye\'s structures in September and can still recall them at finals in December. Which stage of memory kept the information available all that time?',
+ ['Storing','Encoding','Retrieving','Rehearsal'],
+ 'Maintaining information over time is storing.', {replaces:'Storing is'});
+Q('m4-mem','a','A doctor sees a rash and instantly recalls a diagnosis she learned years ago in school. Pulling that knowledge back out is',
+ ['retrieving','encoding','storing','elaboration'],
+ 'Accessing stored information when it is needed is retrieving.', {replaces:'Retrieving is'});
+Q('m4-types','a','People who move next to train tracks stop waking up to the trains after a few weeks. Which type of learning is this?',
+ ['Non-associative learning','Classical conditioning','Operant conditioning','Observational learning'],
+ 'A single repeated stimulus changed behavior with no pairing involved: non-associative learning (here, habituation).', {replaces:'Non-associative learning occurs when'});
+Q('m4-types','a','A new office worker notices the hum of the air conditioner on day one but has stopped noticing it by the end of the week. This is',
+ ['habituation','sensitization','extinction','motivated forgetting'],
+ 'A response that fades with repeated exposure to one stimulus is habituation.', {replaces:'When a response decreases with repeated exposure'});
+Q('m4-types','a','A student whose roommate cracks his knuckles finds the sound more irritating each time she hears it. This is',
+ ['sensitization','habituation','positive punishment','spontaneous recovery'],
+ 'A response that grows with repeated exposure is sensitization.', {replaces:'When a response returns or increases'});
+Q('m4-cc','a','A child gets a shot each time she visits the clinic. Soon she starts crying as soon as she smells the clinic\'s hand sanitizer. This is',
+ ['classical conditioning','operant conditioning','observational learning','sensitization'],
+ 'A neutral smell was paired with the shot until the smell triggered the response on its own: classical conditioning.', {replaces:'In classical conditioning, learning takes place when'});
+Q('m4-cc','a','A researcher pairs a light with a puff of air to a rabbit\'s eye over many trials until the rabbit blinks at the light alone. This phase of the study is called',
+ ['acquisition','extinction','spontaneous recovery','shaping'],
+ 'Learning to associate the CS (light) with the UCS (air puff) is acquisition.', {replaces:'The stage during which an organism learns'});
+Q('m4-cc','a','A researcher presents a tone followed by food to a dog 20 times. Each tone-food pairing is called a',
+ ['trial','reinforcer','conditioned stimulus','conditioned response'],
+ 'Each pairing of the two stimuli is a trial.', {replaces:'In classical conditioning, each pairing of the stimuli'});
+Q('m4-cc','a','A child who learned to cry at the smell of a clinic visits it many times without getting a shot, and gradually stops crying at the smell. This is',
+ ['extinction','acquisition','spontaneous recovery','negative punishment'],
+ 'The CR faded because the CS (smell) kept appearing without the UCS (shot): extinction. Spontaneous recovery would be the CR coming back afterward.', {replaces:'Extinction in classical conditioning is the process'});
+Q('m4-cc','a','Months after a child stopped crying at a clinic\'s smell, she suddenly cries at it again on her next visit, even though there was no shot. This is',
+ ['spontaneous recovery','acquisition','sensitization','extinction'],
+ 'A conditioned response reappearing after extinction is spontaneous recovery.', {replaces:'Spontaneous recovery is'});
+Q('m4-cc','a','A trainer wants to use classical conditioning with a dog. Which goal is it best suited for?',
+ ['Getting the dog to salivate at a bell','Teaching the dog to fetch a ball','Teaching the dog to open a door','Teaching the dog to roll over'],
+ 'Classical conditioning works best on automatic processes like salivation and is less effective for complex learning.', {replaces:'Classical conditioning works best on'});
+Q('m4-strat','a','Before a quiz, a student says "Proactive: old blocks new" out loud over and over. She is using',
+ ['rehearsal','elaboration','mnemonics','teaching'],
+ 'Repeating information aloud is rehearsal.', {replaces:'Rehearsal as a memory strategy means'});
+Q('m4-strat','a','A student learning about place cells thinks about how the GPS in her car works and connects the two. She is using',
+ ['elaboration','associations','visualization','rehearsal'],
+ 'Relating new information to what she already knows (GPS) is elaboration. Associations link the new pieces to each other.', {replaces:'Elaboration as a memory strategy means'});
+Q('m4-strat','a','A student draws a mind map with "Forgetting" in the center and a branch for each cause. She is using',
+ ['visualization','mnemonics','rehearsal','testing yourself'],
+ 'Mind mapping and forming mental images are visualization.', {replaces:'Visualization as a memory strategy means'});
+Q('m4-strat','a','To remember the four somatosensory modalities, a student uses the phrase "Can People Keep Nachos?" She is using',
+ ['mnemonics','visualization','elaboration','associations'],
+ 'A silly sentence built from first letters is a mnemonic.', {replaces:'Mnemonics as a memory strategy means'});
 // v1.1 -> v1.2 question id remap (questions were removed, ids are positional). null = removed; [id,1] = T/F flipped, old answer no longer valid.
 const ID_V12={"m3-sp-15":null,"m3-sp-16":null,"m3-sp-17":"m3-sp-15","m3-sp-18":"m3-sp-16","m3-eye-24":null,"m3-eye-25":null,"m3-eye-26":null,"m3-eye-27":null,"m3-eye-28":null,"m3-eye-29":null,"m3-eye-30":null,"m3-eye-31":null,"m3-eye-32":null,"m3-eye-33":null,"m3-eye-34":null,"m3-eye-35":null,"m3-eye-36":null,"m3-eye-37":["m3-eye-24",1],"m3-eye-38":"m3-eye-25","m3-eye-39":"m3-eye-26","m3-eye-40":null,"m3-color-7":null,"m3-color-8":"m3-color-7","m3-color-9":"m3-color-8","m3-ear-13":null,"m3-ear-14":null,"m3-ear-15":null,"m3-ear-16":null,"m3-ear-17":null,"m3-ear-18":null,"m3-ear-19":null,"m3-ear-20":null,"m3-ear-21":null,"m3-ear-22":"m3-ear-13","m3-ear-23":"m3-ear-14","m3-ear-24":["m3-ear-15",1],"m3-aud-5":null,"m3-aud-6":"m3-aud-5","m3-aud-7":"m3-aud-6","m3-aud-8":"m3-aud-7","m3-aud-9":"m3-aud-8","m3-aud-10":"m3-aud-9","m3-aud-11":null,"m3-aud-12":null,"m3-chem-8":null,"m3-chem-9":"m3-chem-8","m3-chem-10":"m3-chem-9","m3-chem-11":null,"m3-chem-12":null,"m3-chem-13":["m3-chem-10",1],"m3-touch-20":null,"m3-touch-21":"m3-touch-20","m3-touch-22":null,"m3-touch-23":"m3-touch-21","m3-touch-24":"m3-touch-22","m3-touch-25":null,"m3-touch-26":"m3-touch-23","m3-vest-6":null,"m3-vest-7":"m3-vest-6","m3-vest-8":"m3-vest-7","m3-vest-9":"m3-vest-8","m3-vest-10":null,"m3-vest-11":"m3-vest-9","m3-vest-12":null,"m3-vest-13":"m3-vest-10","m3-vest-14":"m3-vest-11","m3-vest-15":"m3-vest-12","m3-vest-16":"m3-vest-13","m3-vest-17":"m3-vest-14","m3-vest-18":"m3-vest-15","m3-vest-19":"m3-vest-16","m3-vest-20":"m3-vest-17","m3-vest-21":null,"m3-vest-22":null,"m3-vest-23":null,"m3-vest-24":"m3-vest-18","m3-vest-25":null,"m3-vest-26":"m3-vest-19","m3-vest-27":["m3-vest-20",1],"m3-sp-19":"m3-sp-17","m3-sp-20":"m3-sp-18","m3-sp-21":null,"m3-eye-41":"m3-eye-27","m3-eye-42":null,"m3-ear-25":"m3-ear-16","m3-ear-26":"m3-ear-17","m3-aud-13":"m3-aud-10","m3-chem-14":"m3-chem-11","m3-chem-15":null,"m3-touch-27":"m3-touch-24","m3-touch-28":"m3-touch-25","m3-touch-29":"m3-touch-26","m3-vest-28":"m3-vest-21","m3-vest-29":"m3-vest-22","m3-vest-30":"m3-vest-23","m3-touch-30":null,"m4-types-15":null,"m4-types-16":"m4-types-15","m4-princ-9":null,"m4-princ-10":"m4-princ-9","m4-mem-18":null,"m4-mem-19":null,"m4-mem-20":"m4-mem-18","m4-mem-21":"m4-mem-19","m4-mem-22":"m4-mem-20","m4-mem-23":"m4-mem-21","m4-mem-24":null,"m4-mem-25":"m4-mem-22","m4-mem-26":null,"m4-mem-27":null,"m4-strat-12":null,"m4-strat-13":"m4-strat-12","m4-strat-14":"m4-strat-13","m4-strat-15":null,"m4-strat-16":"m4-strat-14","m4-strat-17":null,"m4-cc-23":null,"m4-cc-24":"m4-cc-23","m4-oc-36":["m4-oc-36",1],"m4-oc-37":null,"m4-oc-38":"m4-oc-37","m4-oc-39":"m4-oc-38","m4-oc-40":"m4-oc-39","m4-forget-31":null,"m4-forget-32":"m4-forget-31","m4-forget-33":"m4-forget-32","m4-adapt-9":null,"m4-adapt-10":"m4-adapt-9","m4-adapt-11":"m4-adapt-10","m4-adapt-12":null,"m4-types-17":"m4-types-16","m4-types-18":"m4-types-17","m4-types-19":null,"m4-mem-28":"m4-mem-23","m4-mem-29":null,"m4-strat-18":"m4-strat-15","m4-strat-19":"m4-strat-16","m4-strat-20":"m4-strat-17","m4-cc-25":"m4-cc-24","m4-cc-26":"m4-cc-25","m4-cc-27":"m4-cc-26","m4-oc-41":"m4-oc-40","m4-oc-42":"m4-oc-41","m4-oc-43":"m4-oc-42","m4-oc-44":"m4-oc-43","m4-oc-45":"m4-oc-44","m4-oc-46":"m4-oc-45","m4-forget-34":"m4-forget-33","m4-forget-35":"m4-forget-34","m4-forget-36":"m4-forget-35"};
 // Review-link overrides: [question stem prefix, topic to open (null = same), text of the cheat-sheet line to highlight]
@@ -1751,6 +1904,9 @@ const MOCK_M = {3:0,4:0}; ORDER.forEach(t => MOCK_M[TOPICS[t].m] += TOPICS[t].qu
 const _n = {};
 BANK.forEach(q => { _n[q.t] = (_n[q.t] || 0) + 1; q.id = q.t + '-' + _n[q.t]; if (q.type === 'mc') q.ans = 0; });
 const QBYID = Object.fromEntries(BANK.map(q => [q.id, q]));
+// v1.4: plain-definition items replaced by a vignette version move to "Recycled" (shown, but not counted)
+BANK.forEach(q => { if (!q.replaces) return; const old = BANK.find(x => x !== q && !x.replaces && x.q.startsWith(q.replaces)); if (old) old.rec = 1; else console.warn('replaces: no match for', q.replaces); });
+const inUse = (q, inc) => inc || !q.rec;
 
 // storage
 const KEY = 'bmsc3324_exam2_v1';
@@ -1788,8 +1944,8 @@ function optOrder(q, seed) {
 // ---------- shared question state ----------
 // S.q[id] = {n: times answered, t: last answered (ms), c: last answer correct, p: option index picked}
 S.q = S.q || {}; S.flag = S.flag || {}; S.hist = S.hist || [];
-S.set = Object.assign({ len: MOCK_N, timer: true, fb: 'each', m3: true, m4: true }, S.set || {});
-S.pf = Object.assign({ sec: 'all', missed: false, flag: false, un: false, show: false }, S.pf || {});
+S.set = Object.assign({ len: MOCK_N, timer: true, fb: 'each', m3: true, m4: true, rec: false }, S.set || {});
+S.pf = Object.assign({ sec: 'all', missed: false, flag: false, un: false, show: false, rec: false }, S.pf || {});
 // carry over answers from v1.0 (seen / wrong only)
 if (S.seen && !S.migr) { Object.keys(S.seen).forEach(id => { if (QBYID[id] && !S.q[id]) S.q[id] = { n: S.seen[id], t: 1, c: !S.wrong[id] }; }); S.migr = 1; delete S.cur; save(); }
 // v1.2 removed questions; ids are positional, so move saved answers/flags/mock to the new ids
@@ -1848,15 +2004,16 @@ function stopTimer() { if (timerH) { clearInterval(timerH); timerH = null; } }
 const fmtT = ms => { const s = Math.ceil(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
 function mockView() {
   if (S.mock) return mockQ();
-  const pool = BANK.filter(q => S.set['m' + TOPICS[q.t].m]);
+  const pool = BANK.filter(q => S.set['m' + TOPICS[q.t].m] && inUse(q, S.set.rec)); const nRec = BANK.filter(q => q.rec).length;
   const n = Math.min(+S.set.len, pool.length), un = pool.filter(q => !S.q[q.id]).length;
   const seg = (key, vals) => `<div class="seg" data-key="${key}">${vals.map(([v, l]) => `<button type="button" data-v="${v}" class="${String(S.set[key]) === String(v) ? 'on' : ''}">${l}</button>`).join('')}</div>`;
   $('#app').innerHTML = `
   <h1>Mock exam</h1>
   <p class="mut sm">Same format as the exam: multiple choice and true/false, split across both modules and every section. Questions you haven't answered yet come first. If you leave mid-mock, it picks up where you were and the timer pauses.</p>
   <div class="box">
-    <label class="chk"><input type="checkbox" data-mod="m3" ${S.set.m3 ? 'checked' : ''}> Module 3: Sensation and perception (${BANK.filter(q => q.t.startsWith('m3')).length})</label>
-    <label class="chk"><input type="checkbox" data-mod="m4" ${S.set.m4 ? 'checked' : ''}> Module 4: Learning and memory (${BANK.filter(q => q.t.startsWith('m4')).length})</label>
+    <label class="chk"><input type="checkbox" data-mod="m3" ${S.set.m3 ? 'checked' : ''}> Module 3: Sensation and perception (${BANK.filter(q => q.t.startsWith('m3') && inUse(q, S.set.rec)).length})</label>
+    <label class="chk"><input type="checkbox" data-mod="m4" ${S.set.m4 ? 'checked' : ''}> Module 4: Learning and memory (${BANK.filter(q => q.t.startsWith('m4') && inUse(q, S.set.rec)).length})</label>
+    <label class="chk"><input type="checkbox" data-mod="rec" ${S.set.rec ? 'checked' : ''}> Include recycled definition questions (${nRec})</label>
     <div class="row"><span class="sm lab">Length</span>${seg('len', [[MOCK_N, MOCK_N + ' questions'], [10, '10 questions']])}</div>
     <div class="row"><span class="sm lab">Timer</span>${seg('timer', [[true, 'On'], [false, 'Off']])}<span class="mut sm">${S.set.timer ? Math.round(n * Q_MS / 60000) + ' min' : ''}</span></div>
     <div class="row"><span class="sm lab">Feedback</span>${seg('fb', [['each', 'After each question'], ['end', 'At the end']])}</div>
@@ -1866,7 +2023,7 @@ function mockView() {
   <h2>Past mocks</h2>
   ${S.hist.length ? `<p class="sm"><button class="btn link sm" id="clrHist" style="margin-left:0;padding-left:0">Clear mock history</button> <span class="mut">Question answers stay.</span></p>
   <table class="res"><tr><th>#</th><th>Date</th><th>Score</th></tr>${S.hist.slice().reverse().map(x => `<tr><td>${x.n}</td><td>${new Date(x.d).toLocaleDateString()}</td><td>${x.s} / ${x.of}</td></tr>`).join('')}</table>` : '<p class="mut sm">None yet.</p>'}
-  <p class="sm mut" style="margin-top:28px"><button class="btn link sm" id="reset" style="margin-left:0;padding-left:0">Reset progress</button> · v1.3.1</p>`;
+  <p class="sm mut" style="margin-top:28px"><button class="btn link sm" id="reset" style="margin-left:0;padding-left:0">Reset progress</button> · v1.4</p>`;
   document.querySelectorAll('[data-mod]').forEach(c => c.onchange = () => { S.set[c.dataset.mod] = c.checked; save(); mockView(); });
   document.querySelectorAll('.seg button').forEach(b => b.onclick = () => { const k = b.parentNode.dataset.key; const v = b.dataset.v; S.set[k] = v === 'true' ? true : v === 'false' ? false : isNaN(+v) ? v : +v; save(); mockView(); });
   $('#startMock').onclick = () => startMock();
@@ -1893,8 +2050,8 @@ function buildMock(len) {
     const q = raw.map(Math.floor); let left = nm - q.reduce((a, b) => a + b, 0);
     raw.map((x, i) => [x - q[i], i]).sort((a, b) => b[0] - a[0] || Math.random() - .5).forEach(([, i]) => { if (left > 0) { q[i]++; left--; } });
     let got = [];
-    ts.forEach((t, i) => { got = pick(BANK.filter(x => x.t === t), q[i], got); });
-    if (got.length < nm) got = pick(BANK.filter(x => x.t.startsWith('m' + m)), nm - got.length, got);
+    ts.forEach((t, i) => { got = pick(BANK.filter(x => x.t === t && inUse(x, S.set.rec)), q[i], got); });
+    if (got.length < nm) got = pick(BANK.filter(x => x.t.startsWith('m' + m) && inUse(x, S.set.rec)), nm - got.length, got);
     res = res.concat(shuffle(got));
   });
   return res;
@@ -1975,7 +2132,7 @@ function mockFinish() {
 let PR = null; // one-at-a-time run in progress
 function prPool() {
   const f = S.pf;
-  return BANK.filter(q => inSec(q, f.sec) && (!f.missed || (S.q[q.id] && S.q[q.id].c === false)) && (!f.flag || S.flag[q.id]) && (!f.un || !S.q[q.id]))
+  return BANK.filter(q => inUse(q, f.rec) && inSec(q, f.sec) && (!f.missed || (S.q[q.id] && S.q[q.id].c === false)) && (!f.flag || S.flag[q.id]) && (!f.un || !S.q[q.id]))
     .sort((a, b) => ORDER.indexOf(a.t) - ORDER.indexOf(b.t));
 }
 function practiceView() {
@@ -1986,7 +2143,7 @@ function practiceView() {
   <p class="mut">Every question the mock exams use, grouped by section. You can change an answer anytime. Tap your answer again to clear it.</p>
   <div class="filters">
     <div class="row">${secSelect('psel', S.pf.sec)}</div>
-    <div class="row">${pill('missed', 'Missed')}${pill('flag', 'Flagged')}${pill('un', 'Unanswered')}${pill('show', 'Show all answers')}</div>
+    <div class="row">${pill('missed', 'Missed')}${pill('flag', 'Flagged')}${pill('un', 'Unanswered')}${pill('show', 'Show all answers')}${pill('rec', 'Include recycled')}</div>
     <div class="row"><button class="btn pri" id="pquiz">Quiz me one at a time</button><span class="mut sm" id="pcnt"></span><button class="btn sm" id="pclr" title="Clears your answers to the questions shown with the current filters. Flags and mock history are kept.">Reset answers</button></div>
   </div>
   <div class="plist" id="plist"></div>`;
@@ -2002,6 +2159,10 @@ function prDraw() {
   if (!P.length) { list.innerHTML = '<p class="mut">No questions match these filters.</p>'; return; }
   let last = null;
   list.innerHTML = P.map(q => { const head = q.t !== last ? `<h2 class="sechead"><span class="mut sm">M${TOPICS[q.t].m} · ${P.filter(x => x.t === q.t).length}</span><br>${esc(TOPICS[q.t].name)}</h2>` : ''; last = q.t; return head + `<div class="qcard" data-q="${q.id}"></div>`; }).join('');
+  if (!S.pf.rec) {
+    const R = BANK.filter(q => q.rec && inSec(q, S.pf.sec)).sort((a, b) => ORDER.indexOf(a.t) - ORDER.indexOf(b.t));
+    if (R.length) list.insertAdjacentHTML('beforeend', `<details class="recyc"><summary>Recycled: original definition versions (${R.length})</summary><p class="mut sm">Each of these was replaced by a scenario version. They don't count toward the totals or the filters above, and mocks skip them unless you turn them on in the Mock exam tab.</p>${R.map(q => `<div class="qcard" data-q="${q.id}"></div>`).join('')}</details>`);
+  }
   list.querySelectorAll('.qcard').forEach(c => qCard(c));
 }
 function prClr(P) {

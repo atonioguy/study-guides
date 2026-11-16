@@ -421,3 +421,38 @@ Q('m3-vest','a','A figure skater spins rapidly and stops without falling over. T
 Q('m3-vest','a','Recording from a rat\'s entorhinal cortex, a researcher finds cells that fire at points spaced in a regular repeating pattern across the floor. These are',
  ['grid cells','place cells','head direction cells','hair cells'],
  'Grid cells, in the entorhinal cortex, map space in a tessellated pattern.');
+
+/* ---- v1.4 vignette versions (each replaces a plain-definition item, which moves to Recycled) ---- */
+Q('m3-sp','a','Light from a sunset strikes the receptors in two friends\' eyes the same way, before either of them thinks anything about it. This first step is',
+ ['sensation','perception','a threshold','psychophysics'],
+ 'Receptors being stimulated, before any interpretation, is sensation. Perception is the interpretation that follows.', {replaces:'The direct effect of a stimulus on receptor cells'});
+Q('m3-sp','a','Looking at the same cloud, one person sees a dragon and another sees a dog. The difference between them lies in',
+ ['perception','sensation','the stimulus','the threshold'],
+ 'The stimulus and receptor response are the same; the interpretation differs. That is perception.', {replaces:'The mental organization and interpretation of sensory'});
+Q('m3-sp','a','A microphone turns sound waves into electrical signals. In the body, every sense receptor plays this same role, which makes each receptor a',
+ ['transducer','stimulus','threshold','sensation'],
+ 'Converting energy from one form to another is what a transducer does; every sense receptor is one.', {replaces:'Any mechanism that converts energy from one form'});
+Q('m3-sp','a','A sound engineer lowers a tone until, below a certain intensity, the listener\'s ear no longer responds to it at all. That minimum intensity is the',
+ ['threshold','difference threshold','stimulus','transducer'],
+ 'The minimal intensity needed to activate the sensory process is the threshold. A difference threshold compares two stimuli.', {replaces:'The minimal intensity a stimulus must reach'});
+Q('m3-touch','a','A patient tells her doctor she can feel that her bladder is full and that she is getting hungry. She is describing',
+ ['interoception','exteroception','proprioception','nociception'],
+ 'Sensing your own body\'s physiological state is interoception. Exteroception senses the outside world.', {replaces:'Sensing the physiological state of your own body'});
+Q('m3-touch','a','Stepping outside, you immediately feel that the air is cold and the breeze is strong. The sense at work is',
+ ['exteroception','interoception','kinesthesis','orthostasis'],
+ 'Sensing the immediate external world is exteroception; interoception is sensing your own body\'s state.', {replaces:'Our sense of the properties of the immediate external'});
+Q('m3-touch','a','A blindfolded person can tell a silk scarf from a wool sweater just by touching them. Which modality is doing this?',
+ ['Cutaneous senses','Proprioception','Kinesthesis','Interoception'],
+ 'Texture is felt through the skin, so this is the cutaneous senses.', {replaces:'The cutaneous senses are the senses of the'});
+Q('m3-touch','a','In a dark room, you can still touch your nose with your fingertip because you know where your hand is. Which modality tells you where your hand is?',
+ ['Proprioception','Cutaneous senses','Exteroception','Nociception'],
+ 'Knowing the position of a body part is proprioception.', {replaces:'Proprioception refers to sensing'});
+Q('m3-touch','a','With your eyes closed, someone slowly bends your elbow, and you can feel your arm moving as it happens. Which modality registers the motion?',
+ ['Kinesthesis','Proprioception','Cutaneous senses','Nociception'],
+ 'Sensing body movement is kinesthesis; proprioception is sensing body position.', {replaces:'Kinesthesis, as one of the four somatosensory'});
+Q('m3-touch','a','A cook touches a hot pan and jerks her hand away as a burning sensation hits. Which modality signaled the danger?',
+ ['Nociception','Proprioception','Kinesthesis','Interoception'],
+ 'Pain and discomfort are the nociception modality.', {replaces:'Nociception refers to sensing'});
+Q('m3-touch','a','A blood-pressure cuff squeezes a patient\'s arm, and within milliseconds receptors in her skin are sending signals up her nerves. The step where the squeeze becomes a nerve signal is',
+ ['transduction','perception','sensitization','nociception'],
+ 'Converting skin stimulation into electrical nerve impulses is transduction.', {replaces:'The process by which skin receptors convert'});

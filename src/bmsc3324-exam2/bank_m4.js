@@ -637,3 +637,119 @@ TF('m4-forget','t','Procedural memory does not decay with normal aging.', true,
 Q('m4-forget','a','After a stroke reduces blood flow to part of her brain, a woman develops a lasting memory deficit. Which type of organic amnesia does this fit?',
  ['Disease/trauma','Retroactive','Proactive','Motivated'],
  'Strokes, decreased circulation, and Alzheimer\'s fall under the disease/trauma type.');
+
+/* ---- v1.4 vignette versions (each replaces a plain-definition item, which moves to Recycled) ---- */
+Q('m4-oc','a','A toddler who gets a big smile from his dad every time he says "please" starts saying it far more often. The kind of learning at work is',
+ ['operant conditioning','classical conditioning','observational learning','sensitization'],
+ 'A voluntary behavior became more frequent because of what followed it: operant conditioning. Classical conditioning pairs two stimuli before an automatic response.', {replaces:'Operant conditioning changes the rate of a response'});
+Q('m4-oc','a','A teen\'s jokes in class earn laughs, so she jokes more; texting in class gets her phone taken away, so she texts less. Which principle explains both changes?',
+ ['Law of Effect','Spontaneous recovery','Shaping','Acquisition'],
+ 'A positive consequence strengthened joking and a negative one weakened texting: the Law of Effect.', {replaces:'The Law of Effect states that behavior is'});
+Q('m4-oc','a','A dog gets a treat each time it sits on command, and it starts sitting faster and more often. The treat is working as',
+ ['reinforcement','punishment','a conditioned stimulus','an unconditioned response'],
+ 'The treat follows the behavior and increases it, so it is reinforcement. Punishment would decrease the behavior.', {replaces:'Reinforcement is a process that'});
+Q('m4-oc','a','A student who talks during lecture is called out in front of the class and talks during lectures less often afterward. Being called out worked as',
+ ['punishment','negative reinforcement','extinction','a secondary reinforcer'],
+ 'It followed the behavior and decreased it, so it is punishment. Negative reinforcement increases a behavior.', {replaces:'Punishment is a stimulus that'});
+Q('m4-oc','a','A trainer rewards a dolphin first for swimming near a hoop, then for touching it, then for swimming through it, and finally for jumping through it. This is',
+ ['shaping','acquisition','spontaneous recovery','classical conditioning'],
+ 'Reinforcing closer and closer approximations of the target, step by step, is shaping.', {replaces:'Shaping is the process of'});
+Q('m4-oc','a','A thirsty lab rat gets a sip of water after each lever press and starts pressing more. The water is a',
+ ['primary reinforcer','secondary reinforcer','conditioned stimulus','negative reinforcer'],
+ 'Water for a thirsty animal works without any prior learning, so it is a primary reinforcer. Secondary reinforcers work through learned associations.', {replaces:'A primary reinforcer is a stimulus that'});
+Q('m4-oc','a','A child works harder in class to earn gold stars that can be traded in for extra recess. The gold stars are',
+ ['secondary reinforcers','primary reinforcers','unconditioned stimuli','positive punishment'],
+ 'The stars have value only through a learned association, so they are secondary (conditioned) reinforcers.', {replaces:'A secondary reinforcer is a stimulus that'});
+Q('m4-oc','a','A parent waits until bedtime to scold a child for something he did that morning, and the behavior doesn\'t change. Which guideline for effective punishment was broken?',
+ ['Deliver it immediately','Make it fit the crime','Introduce alternatives','Be consistent'],
+ 'A delay between the response and the punishment slows learning; punishment should be immediate.', {replaces:'For punishment to be effective, it should be'});
+Q('m4-oc','a','A teacher punishes a student right away every time he drums on his desk, but never shows him another way to burn off his restless energy. Which guideline is she missing?',
+ ['Introduce alternatives to the punished response','Deliver punishment immediately','Make punishment fit the crime','Be consistent with punishment'],
+ 'She is immediate and consistent, but effective punishment also introduces alternatives to the punished response.', {replaces:'Which is a guideline for making punishment effective?'});
+Q('m4-forget','a','You meet someone at a party, hear their name once, never use it, and by the end of the night you can\'t recall it. The cause of forgetting is',
+ ['decay of memory trace','proactive interference','motivated forgetting','organic factors'],
+ 'A memory fading over time without use is decay. Nothing interfered, there was no wish to forget, and there was no injury.', {replaces:'Decay of the memory trace means that'});
+Q('m4-forget','a','A student glances at a confirmation code, gets distracted, and seconds later it is gone, yet she still knows her childhood address. This fits decay mainly affecting',
+ ['short-term memory','long-term memory','procedural memory','implicit memories'],
+ 'Decay usually costs short-term memory; long-term memory is more permanent.', {replaces:'Decay of the memory trace usually results'});
+Q('m4-forget','a','A student studies psychology, then immediately crams sociology, and on the psychology exam the two subjects blur together. This forgetting comes from',
+ ['interfering material','decay of memory trace','organic factors','motivated forgetting'],
+ 'What we learn before or after something affects how well we remember it: interfering material.', {replaces:'Interfering material means memory is determined'});
+Q('m4-forget','a','A nurse switches hospitals and learns her new unit\'s door codes. Now she can\'t remember her old hospital\'s codes. Which kind of forgetting is this?',
+ ['Retroactive interference','Proactive interference','Retrograde amnesia','Retrieval failure'],
+ 'New learning blocked older memories: retroactive interference. Retrograde amnesia comes from organic damage, not new learning.', {replaces:'Retroactive interference occurs when'});
+Q('m4-forget','a','Every January, a man keeps writing last year\'s date on his checks. Which kind of forgetting is this?',
+ ['Proactive interference','Retroactive interference','Anterograde amnesia','Decay of memory trace'],
+ 'The older habit gets in the way of the newer information: proactive interference (old blocks new).', {replaces:'Proactive interference occurs when'});
+Q('m4-forget','a','On an exam you can\'t recall the term for the bumps on the tongue, but the moment a friend says "it starts with P," it comes right back. Your forgetting was due to',
+ ['retrieval failure','decay of memory trace','interfering material','motivated forgetting'],
+ 'The memory was stored but needed a cue to reach it: retrieval failure.', {replaces:'Retrieval failure means that'});
+Q('m4-forget','a','After a painful breakup, a man deliberately pushes away memories of the relationship until he can barely recall its details. This is',
+ ['motivated forgetting','retrieval failure','retroactive interference','decay of memory trace'],
+ 'Purposely suppressing memories you don\'t want is motivated forgetting.', {replaces:'Motivated forgetting means'});
+Q('m4-forget','a','After a concussion in a car accident, a driver has gaps in her memory. Among the causes of normal forgetting, this falls under',
+ ['organic factors','motivated forgetting','interfering material','decay of memory trace'],
+ 'Memory loss from illness, pathology, or an accident falls under organic factors.', {replaces:'Organic factors in forgetting refer to'});
+Q('m4-forget','a','A football player takes a hard hit and can\'t remember the week before the game, though he remembers everything since. This is',
+ ['retrograde amnesia','anterograde amnesia','proactive interference','motivated forgetting'],
+ 'Losing memories from before the injury is retrograde amnesia. Anterograde would mean trouble forming new memories.', {replaces:'Retrograde amnesia is'});
+Q('m4-forget','a','After a brain injury, a man tells his nurse the same story every hour because he can\'t remember telling it, yet he recalls his childhood clearly. This is',
+ ['anterograde amnesia','retrograde amnesia','retrieval failure','retroactive interference'],
+ 'Old memories are intact but new information isn\'t being processed: anterograde amnesia.', {replaces:'Anterograde amnesia is'});
+Q('m4-mem','a','While figuring out a 20% tip in your head, you hold the bill total and your partial answer in mind at the same time. You are using',
+ ['working memory','semantic memory','episodic memory','procedural memory'],
+ 'Holding information briefly while working with it is working memory.', {replaces:'Working memory is'});
+Q('m4-mem','a','A patient describes the afternoon she got her diagnosis: the room, the doctor\'s words, how she felt. She is drawing on',
+ ['episodic memory','semantic memory','working memory','implicit memories'],
+ 'A salient event from her own life is episodic memory.', {replaces:'Episodic memory is'});
+Q('m4-mem','a','A trivia player answers that place cells are in the hippocampus, with no memory of when she learned it. She is drawing on',
+ ['semantic memory','episodic memory','working memory','procedural memory'],
+ 'General knowledge of facts and concepts is semantic memory; episodic memory is for events from your own life.', {replaces:'Semantic memory is'});
+Q('m4-mem','a','While reading about rods, a student thinks, "These work like night-vision goggles." The memory stage she is in is',
+ ['encoding','storing','retrieving','rehearsal'],
+ 'Perceiving new information and relating it to past knowledge is encoding.', {replaces:'Encoding is'});
+Q('m4-mem','a','A student learns the eye\'s structures in September and can still recall them at finals in December. Which stage of memory kept the information available all that time?',
+ ['Storing','Encoding','Retrieving','Rehearsal'],
+ 'Maintaining information over time is storing.', {replaces:'Storing is'});
+Q('m4-mem','a','A doctor sees a rash and instantly recalls a diagnosis she learned years ago in school. Pulling that knowledge back out is',
+ ['retrieving','encoding','storing','elaboration'],
+ 'Accessing stored information when it is needed is retrieving.', {replaces:'Retrieving is'});
+Q('m4-types','a','People who move next to train tracks stop waking up to the trains after a few weeks. Which type of learning is this?',
+ ['Non-associative learning','Classical conditioning','Operant conditioning','Observational learning'],
+ 'A single repeated stimulus changed behavior with no pairing involved: non-associative learning (here, habituation).', {replaces:'Non-associative learning occurs when'});
+Q('m4-types','a','A new office worker notices the hum of the air conditioner on day one but has stopped noticing it by the end of the week. This is',
+ ['habituation','sensitization','extinction','motivated forgetting'],
+ 'A response that fades with repeated exposure to one stimulus is habituation.', {replaces:'When a response decreases with repeated exposure'});
+Q('m4-types','a','A student whose roommate cracks his knuckles finds the sound more irritating each time she hears it. This is',
+ ['sensitization','habituation','positive punishment','spontaneous recovery'],
+ 'A response that grows with repeated exposure is sensitization.', {replaces:'When a response returns or increases'});
+Q('m4-cc','a','A child gets a shot each time she visits the clinic. Soon she starts crying as soon as she smells the clinic\'s hand sanitizer. This is',
+ ['classical conditioning','operant conditioning','observational learning','sensitization'],
+ 'A neutral smell was paired with the shot until the smell triggered the response on its own: classical conditioning.', {replaces:'In classical conditioning, learning takes place when'});
+Q('m4-cc','a','A researcher pairs a light with a puff of air to a rabbit\'s eye over many trials until the rabbit blinks at the light alone. This phase of the study is called',
+ ['acquisition','extinction','spontaneous recovery','shaping'],
+ 'Learning to associate the CS (light) with the UCS (air puff) is acquisition.', {replaces:'The stage during which an organism learns'});
+Q('m4-cc','a','A researcher presents a tone followed by food to a dog 20 times. Each tone-food pairing is called a',
+ ['trial','reinforcer','conditioned stimulus','conditioned response'],
+ 'Each pairing of the two stimuli is a trial.', {replaces:'In classical conditioning, each pairing of the stimuli'});
+Q('m4-cc','a','A child who learned to cry at the smell of a clinic visits it many times without getting a shot, and gradually stops crying at the smell. This is',
+ ['extinction','acquisition','spontaneous recovery','negative punishment'],
+ 'The CR faded because the CS (smell) kept appearing without the UCS (shot): extinction. Spontaneous recovery would be the CR coming back afterward.', {replaces:'Extinction in classical conditioning is the process'});
+Q('m4-cc','a','Months after a child stopped crying at a clinic\'s smell, she suddenly cries at it again on her next visit, even though there was no shot. This is',
+ ['spontaneous recovery','acquisition','sensitization','extinction'],
+ 'A conditioned response reappearing after extinction is spontaneous recovery.', {replaces:'Spontaneous recovery is'});
+Q('m4-cc','a','A trainer wants to use classical conditioning with a dog. Which goal is it best suited for?',
+ ['Getting the dog to salivate at a bell','Teaching the dog to fetch a ball','Teaching the dog to open a door','Teaching the dog to roll over'],
+ 'Classical conditioning works best on automatic processes like salivation and is less effective for complex learning.', {replaces:'Classical conditioning works best on'});
+Q('m4-strat','a','Before a quiz, a student says "Proactive: old blocks new" out loud over and over. She is using',
+ ['rehearsal','elaboration','mnemonics','teaching'],
+ 'Repeating information aloud is rehearsal.', {replaces:'Rehearsal as a memory strategy means'});
+Q('m4-strat','a','A student learning about place cells thinks about how the GPS in her car works and connects the two. She is using',
+ ['elaboration','associations','visualization','rehearsal'],
+ 'Relating new information to what she already knows (GPS) is elaboration. Associations link the new pieces to each other.', {replaces:'Elaboration as a memory strategy means'});
+Q('m4-strat','a','A student draws a mind map with "Forgetting" in the center and a branch for each cause. She is using',
+ ['visualization','mnemonics','rehearsal','testing yourself'],
+ 'Mind mapping and forming mental images are visualization.', {replaces:'Visualization as a memory strategy means'});
+Q('m4-strat','a','To remember the four somatosensory modalities, a student uses the phrase "Can People Keep Nachos?" She is using',
+ ['mnemonics','visualization','elaboration','associations'],
+ 'A silly sentence built from first letters is a mnemonic.', {replaces:'Mnemonics as a memory strategy means'});
