@@ -103,7 +103,7 @@ Q('m4-mem','r','The Information Processing Model (IPM) explains',
  'The IPM traces information from entry to recall.');
 Q('m4-mem','r','The three processes involved in remembering an episode, in order, are',
  ['encoding, storing, retrieving','storing, encoding, retrieving','encoding, retrieving, storing','retrieving, encoding, storing'],
- 'Encode, then store, then retrieve. Attention, retention, motivation are parts of observational learning.');
+ 'Encode (perceive and link to past knowledge), then store (maintain over time), then retrieve (access when needed).');
 Q('m4-mem','r','Encoding is',
  ['perceiving information and relating it to past knowledge','maintaining information in memory over a period of time','accessing stored information at the moment it is needed','repeating information aloud until it can be recalled'],
  'Encoding is perceiving and linking to what you already know.');
