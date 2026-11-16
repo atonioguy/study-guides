@@ -695,7 +695,7 @@ Q('m3-sp','r','The study of the relationship between the physical attributes of 
  'Psychophysics links physical stimulus properties to experience; it is the field that measures thresholds.');
 Q('m3-sp','r','The minimal intensity a stimulus must reach to activate the sensory process is its',
  ['threshold','difference threshold','stimulus','transducer'],
- 'Below the threshold the sensory process is not activated. The other options are properties of light.');
+ 'Below the threshold the sensory process is not activated. A difference threshold is about telling two stimuli apart, not activating the process at all.');
 Q('m3-sp','r','The absolute threshold is operationally defined as the stimulus intensity a person can detect',
  ['50 percent of the time','100 percent of the time','75 percent of the time','25 percent of the time'],
  'Because there is no absolute measure of sensitivity, the absolute threshold is set at detection 50 percent of the time.');
@@ -1192,7 +1192,7 @@ Q('m4-mem','r','The Information Processing Model (IPM) explains',
  'The IPM traces information from entry to recall.');
 Q('m4-mem','r','The three processes involved in remembering an episode, in order, are',
  ['encoding, storing, retrieving','storing, encoding, retrieving','encoding, retrieving, storing','retrieving, encoding, storing'],
- 'Encode, then store, then retrieve. Attention, retention, motivation are parts of observational learning.');
+ 'Encode (perceive and link to past knowledge), then store (maintain over time), then retrieve (access when needed).');
 Q('m4-mem','r','Encoding is',
  ['perceiving information and relating it to past knowledge','maintaining information in memory over a period of time','accessing stored information at the moment it is needed','repeating information aloud until it can be recalled'],
  'Encoding is perceiving and linking to what you already know.');
@@ -1866,7 +1866,7 @@ function mockView() {
   <h2>Past mocks</h2>
   ${S.hist.length ? `<p class="sm"><button class="btn link sm" id="clrHist" style="margin-left:0;padding-left:0">Clear mock history</button> <span class="mut">Question answers stay.</span></p>
   <table class="res"><tr><th>#</th><th>Date</th><th>Score</th></tr>${S.hist.slice().reverse().map(x => `<tr><td>${x.n}</td><td>${new Date(x.d).toLocaleDateString()}</td><td>${x.s} / ${x.of}</td></tr>`).join('')}</table>` : '<p class="mut sm">None yet.</p>'}
-  <p class="sm mut" style="margin-top:28px"><button class="btn link sm" id="reset" style="margin-left:0;padding-left:0">Reset progress</button> · v1.3</p>`;
+  <p class="sm mut" style="margin-top:28px"><button class="btn link sm" id="reset" style="margin-left:0;padding-left:0">Reset progress</button> · v1.3.1</p>`;
   document.querySelectorAll('[data-mod]').forEach(c => c.onchange = () => { S.set[c.dataset.mod] = c.checked; save(); mockView(); });
   document.querySelectorAll('.seg button').forEach(b => b.onclick = () => { const k = b.parentNode.dataset.key; const v = b.dataset.v; S.set[k] = v === 'true' ? true : v === 'false' ? false : isNaN(+v) ? v : +v; save(); mockView(); });
   $('#startMock').onclick = () => startMock();

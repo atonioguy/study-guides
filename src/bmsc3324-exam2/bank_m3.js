@@ -29,7 +29,7 @@ Q('m3-sp','r','The study of the relationship between the physical attributes of 
  'Psychophysics links physical stimulus properties to experience; it is the field that measures thresholds.');
 Q('m3-sp','r','The minimal intensity a stimulus must reach to activate the sensory process is its',
  ['threshold','difference threshold','stimulus','transducer'],
- 'Below the threshold the sensory process is not activated. The other options are properties of light.');
+ 'Below the threshold the sensory process is not activated. A difference threshold is about telling two stimuli apart, not activating the process at all.');
 Q('m3-sp','r','The absolute threshold is operationally defined as the stimulus intensity a person can detect',
  ['50 percent of the time','100 percent of the time','75 percent of the time','25 percent of the time'],
  'Because there is no absolute measure of sensitivity, the absolute threshold is set at detection 50 percent of the time.');
