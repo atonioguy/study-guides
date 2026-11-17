@@ -1,6 +1,7 @@
 # Extracts an H5P Interactive Book lecture into static data for the lecture window.
-# Run: python3 -I extract_lecture.py path/to/module.h5p m3
-# Writes ../../lectures/biochem-exam1/<mod>.json and ../../lectures/biochem-exam1/img/<mod>/*.webp
+# Run: python3 -I extract_lecture.py path/to/module.h5p m3 [exam-folder]
+# Writes ../../lectures/<exam-folder>/<mod>.json and ../../lectures/<exam-folder>/img/<mod>/*.webp
+# exam-folder defaults to biochem-exam1; Exam 2 uses biochem-exam2.
 # Reads the .h5p straight from the zip (nothing is unpacked to disk). Chapters map to L1, L2, ... in order.
 # Each top-level chapter item becomes one block with id "<mod>L<n>-b<i>"; questions map to blocks by id.
 import sys, os, re, json, io, zipfile, html
@@ -10,7 +11,8 @@ from PIL import Image as PILImage
 
 MAXW = 900
 here = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.normpath(os.path.join(here, "..", "..", "lectures", "biochem-exam1"))
+EXAM = sys.argv[3] if len(sys.argv) > 3 else "biochem-exam1"
+OUT = os.path.normpath(os.path.join(here, "..", "..", "lectures", EXAM))
 
 # ---------- HTML sanitizer (allowlist) ----------
 KEEP = {"p", "br", "b", "strong", "i", "em", "u", "sub", "sup", "ul", "ol", "li", "h2", "h3", "h4", "h5",
@@ -110,8 +112,8 @@ class Ctx:
             im.save(os.path.join(self.imgdir, name), "WEBP", quality=82, method=6)
             self.imgs[src] = (name, im.width, im.height)
         name, w, h = self.imgs[src]
-        return '<img src="lectures/biochem-exam1/img/%s/%s" alt="%s" width="%d" height="%d" loading="lazy"%s>' % (
-            self.mod, name, html.escape(html.unescape(alt or ""), quote=True), w, h, (' class="%s"' % cls) if cls else "")
+        return '<img src="lectures/%s/img/%s/%s" alt="%s" width="%d" height="%d" loading="lazy"%s>' % (
+            EXAM, self.mod, name, html.escape(html.unescape(alt or ""), quote=True), w, h, (' class="%s"' % cls) if cls else "")
 
 
 # ---------- YouTube ----------
@@ -245,6 +247,15 @@ def render(c, ctx):
         return ('<div class="lw-q"><div class="lw-qh">Drag and drop</div><p>%s</p>'
                 '<figure class="lw-fig">%s</figure><p>Labels: %s</p>%s</div>') % (
             DRAGQ.get(ctx.mod, "Place each label on its drop zone."), ctx.img(s.get("background"), "Drag and drop background"), ", ".join(els), answer('<table><tr><th>Step</th><th>Labels</th></tr>%s</table>' % rows))
+    if lib == "H5P.ImageHotspotQuestion":
+        q = p.get("imageHotspotQuestion") or {}
+        hs = q.get("hotspotSettings") or {}
+        # the book marks some right answers "correct": false, so go by the feedback text instead
+        good = [txt(h["userSettings"].get("feedbackText")) for h in hs.get("hotspot", [])]
+        good = [g for g in good if g and not re.match(r"(?i)(try again|keep trying)", g)]
+        return ('<div class="lw-q"><div class="lw-qh">Click the image</div><p>%s</p><figure class="lw-fig">%s</figure>%s</div>') % (
+            txt(hs.get("taskDescription")), ctx.img(q.get("backgroundImageSettings"), "Image for the question"),
+            answer("<ul>%s</ul>" % "".join("<li>%s</li>" % g for g in good)))
     if lib == "H5P.Link":
         w = p.get("linkWidget") or {}
         url = (w.get("protocol") or "https://") + (w.get("url") or "").replace("https://", "").replace("http://", "")
