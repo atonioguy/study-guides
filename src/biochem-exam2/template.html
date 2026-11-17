@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BMSC 3401 Biochemistry: Exam 2</title>
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<style>
+:root{--fg:#1c1c1c;--mut:#666;--line:#ddd;--soft:#f5f5f3;--acc:#1f4b8f;--accbg:#eef2f9;--ok:#1d7a3a;--okbg:#eef7f0;--bad:#b42318;--badbg:#fdf1f0}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--fg);background:#fff}
+header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line)}
+.hin{max-width:780px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap}
+.brand{font-weight:600;font-size:15px;margin-right:auto}
+.brand span{font-weight:400;color:var(--mut)}
+nav{display:flex;gap:2px;flex-wrap:wrap}
+nav button{font:inherit;font-size:15px;background:none;border:0;padding:7px 10px;border-radius:6px;color:var(--mut);cursor:pointer}
+nav button.on{color:var(--fg);background:var(--soft);font-weight:600}
+main{max-width:780px;margin:0 auto;padding:16px 16px 72px}
+h1{font-size:22px;margin:6px 0 6px}
+h2{font-size:18px;margin:28px 0 8px}
+h3{font-size:16px;margin:22px 0 6px}
+h4{font-size:15px;margin:18px 0 6px}
+p{margin:8px 0}
+.mut{color:var(--mut)}.sm{font-size:14px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}
+.btn{font:inherit;font-size:15px;padding:9px 14px;border:1px solid #c8c8c8;border-radius:6px;background:#fff;color:var(--fg);cursor:pointer}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.sm{font-size:14px;padding:6px 10px}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.link{border:0;padding:6px 4px;color:var(--mut);text-decoration:underline;text-underline-offset:2px}
+@media (hover:hover){.btn:hover:not(:disabled){border-color:#888}.opt:hover:not(:disabled){border-color:#888}}
+select{font:inherit;font-size:15px;padding:8px;border:1px solid #c8c8c8;border-radius:6px;background:#fff;max-width:100%;color:var(--fg)}
+label.chk{display:flex;gap:6px;align-items:center;font-size:15px;cursor:pointer}
+.seg{display:inline-flex;border:1px solid #c8c8c8;border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-size:14px;border:0;background:#fff;padding:7px 11px;cursor:pointer;color:var(--fg)}
+.seg button+button{border-left:1px solid #c8c8c8}
+.case.done .seg button{cursor:default}
+.seg button.on{background:var(--acc);color:#fff}
+.box{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:12px 0;background:var(--soft)}
+.card{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:10px 0;background:#fff}
+@media (hover:hover){.card.link:hover{border-color:#999}.outline a:hover{background:#ecece8}}
+.card.link b{display:block}
+.qhead{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:var(--mut)}
+.bar{height:3px;background:#eee;margin:6px 0 14px}.bar i{display:block;height:100%;background:var(--acc)}
+.stem{font-size:17px;margin:12px 0}
+.tag{display:inline-block;font-size:12px;font-weight:500;color:var(--mut);border:1px solid var(--line);border-radius:4px;padding:0 5px;margin-left:4px;vertical-align:1px}
+.fig{margin:10px 0;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.fig svg{display:block;width:100%;height:auto}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{font:inherit;text-align:left;padding:11px 14px;border:1px solid #c8c8c8;border-radius:6px;background:#fff;color:var(--fg);cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.pick{border-color:var(--acc);background:var(--accbg)}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.opt.mine{box-shadow:inset 0 0 0 1px currentColor}.opt.ok.mine{box-shadow:inset 0 0 0 1px var(--ok)}.opt.bad.mine{box-shadow:inset 0 0 0 1px var(--bad)}
+.fb{margin:12px 0;padding:10px 14px;border-left:3px solid var(--line);background:var(--soft)}
+.fb.ok{border-color:var(--ok)}.fb.bad{border-color:var(--bad)}
+.fb b.v{display:block;margin-bottom:2px}
+.fb.ok b.v{color:var(--ok)}.fb.bad b.v{color:var(--bad)}
+details.steps{margin-top:8px}
+details.steps summary{cursor:pointer;color:var(--acc);font-size:15px}
+details.steps ol{margin:6px 0 0;padding-left:22px}
+details.steps li{margin:3px 0}
+table{border-collapse:collapse;width:100%;margin:8px 0;font-size:15px}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-weight:600;background:var(--soft)}
+.tw{overflow-x:auto}
+.conf{border-left:3px solid var(--acc);padding:4px 10px;background:var(--accbg)}
+ul,ol{padding-left:22px}
+li{margin:3px 0}
+.lohd{font-size:14px;color:var(--mut);margin:-2px 0 8px}
+.jump{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
+.jump a{font-size:14px;color:var(--fg);border:1px solid var(--line);border-radius:5px;padding:4px 8px;text-decoration:none}
+.sheet{scroll-margin-top:70px}
+.qli{border-top:1px solid var(--line);padding:12px 0}
+.qli .stem{font-size:16px;margin:4px 0 8px}
+.qli .fig{max-width:460px}
+.stem+.fig{max-width:540px}
+.qlo{list-style:none;padding:0;margin:0 0 6px}
+.qlo li{padding:4px 8px 4px 26px;position:relative;border-radius:4px;font-size:15px;margin:2px 0}
+.qlo li.ok{background:var(--okbg);font-weight:600}
+.qlo li.ok:before{content:"✓";position:absolute;left:8px;color:var(--ok)}
+.qli .ex{font-size:15px;color:#333;margin:6px 0 0}
+details.lo>summary{cursor:pointer;font-weight:600;padding:10px 0;border-top:1px solid var(--line);list-style-position:outside}
+details.mod{margin:8px 0}
+details.mod>summary{cursor:pointer;font-size:17px;font-weight:600;padding:8px 0}
+.res td.n{text-align:right;white-space:nowrap}
+.miss{border-top:1px solid var(--line);padding:12px 0}
+.miss .stem{font-size:16px}
+.ya{color:var(--bad)}.ca{color:var(--ok)}
+#timer.late{color:var(--bad);font-weight:600}
+/* drills */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;min-height:38px}
+.chip{font:inherit;font-size:15px;padding:6px 11px;border:1px solid #c8c8c8;border-radius:16px;background:#fff;cursor:pointer;color:var(--fg)}
+.chip.sel{border-color:var(--acc);background:var(--acc);color:#fff}
+.chip.done{cursor:default;border-color:var(--ok);background:var(--okbg);font-size:14px;padding:3px 9px}
+.chip.rev{border-color:var(--bad);background:var(--badbg)}
+.bins{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.bin{border:1px dashed #bbb;border-radius:8px;padding:8px;min-height:64px;background:#fff}
+.bin.arm{cursor:pointer;border-color:var(--acc);border-style:solid;background:var(--accbg)}
+.bin h5{margin:0 0 6px;font-size:14px}
+.bin .chips{margin:0;min-height:0;gap:4px}
+.msg{min-height:24px;font-size:15px;margin:8px 0}
+.msg.bad{color:var(--bad)}.msg.ok{color:var(--ok)}
+.case{border:1px solid var(--line);border-radius:8px;padding:14px;margin:12px 0}
+.case .t{font-size:17px;font-weight:600;margin-bottom:10px}
+.fld{margin:8px 0}.fld .l{font-size:13px;color:var(--mut);margin-bottom:4px}
+.fld .seg{flex-wrap:wrap}
+.fld .seg button.ok{background:var(--ok);color:#fff}.fld .seg button.bad{background:var(--bad);color:#fff}
+/* hh tool */
+.hh{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:12px 0}
+.tal{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}.tal div{border:1px solid var(--line);border-radius:6px;padding:6px 4px;text-align:center;font-size:13px;color:var(--mut)}.tal b{display:block;font-size:17px;color:var(--fg)}.tal .full{border-color:var(--acc)}.tal .full b{color:var(--acc)}
+.pills{gap:6px;flex-wrap:wrap}
+.rdo{display:grid;grid-template-columns:auto 1fr auto;gap:6px 10px;align-items:center;font-size:14px;margin:8px 0}.rbar{height:10px;background:var(--soft);border-radius:5px;overflow:hidden}.rbar i{display:block;height:100%}
+.hh .sl{display:grid;grid-template-columns:44px 1fr 44px;gap:8px;align-items:center;margin:6px 0}
+.hh input[type=range]{width:100%;accent-color:var(--acc)}
+.hh .out{font-size:15px;margin:8px 0}
+.split{display:flex;height:26px;border-radius:5px;overflow:hidden;border:1px solid var(--line);font-size:13px}
+.split div{display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;transition:width .15s}
+.split .ha{background:#d9dee6}.split .a{background:var(--acc);color:#fff}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.kin .sl{grid-template-columns:104px 1fr 54px}.kin .seg{flex-wrap:wrap;margin:4px 0 6px}.kin .sl input:disabled{opacity:.4}
+.kplots{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kplots .fig{margin:0}
+@media (max-width:640px){.kplots{grid-template-columns:1fr}}
+.pq .fig{max-width:420px}
+footer{max-width:780px;margin:0 auto;padding:0 16px 24px;font-size:13px;color:var(--mut)}
+.hide{display:none!important}
+@media(max-width:560px){.gtop{top:76px!important}.unit{scroll-margin-top:130px}.hin{padding:6px 10px 4px}.brand{width:100%;font-size:14px}nav{width:100%;justify-content:space-between}nav button{font-size:14px;padding:6px 7px}main{padding-top:12px}}
+.frow{display:flex;justify-content:flex-end;margin:-6px 0 6px}
+.flag{font:inherit;font-size:13px;color:var(--mut);background:none;border:1px solid var(--line);border-radius:5px;padding:2px 8px;cursor:pointer}
+.flag.on{color:var(--acc);border-color:var(--acc);background:var(--accbg);font-weight:600}
+.shd{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.qhead .flag{vertical-align:1px}
+
+/* v1.1 layout */
+body{background:#f6f6f3}
+header{background:#fff}
+.hin,main,footer{max-width:760px}
+body[data-tab=sheet] .hin,body[data-tab=sheet] main,body[data-tab=sheet] footer{max-width:1040px}
+.btn{background:#fff}
+.eyebrow{font-size:13px;font-weight:600;color:var(--acc);letter-spacing:.02em}
+.pill{white-space:nowrap;font:inherit;font-size:14px;padding:6px 12px;border:1px solid #c8c8c8;border-radius:999px;background:#fff;color:var(--fg);cursor:pointer}
+.pill.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.filters{background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px 14px;margin:12px 0 8px}
+.filters .row{margin:10px 0}
+h2.lohead{font-size:18px;margin:30px 0 10px;line-height:1.35}
+h2.lohead .eyebrow{display:block;margin-bottom:2px}
+.qcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0}
+.qcard .stem{margin:8px 0 12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+.card.link{cursor:pointer;padding:12px 16px}
+.card h3{font-size:19px;margin:0 0 10px;line-height:1.3}
+.card .fig{border:0;border-radius:8px;margin:6px 0 12px;background:#fff}
+.cb{font-size:17px;line-height:1.65}
+.cb p{margin:0 0 10px}.cb p:last-child{margin-bottom:0}
+.cb table{font-size:15px;margin:4px 0 6px}
+.call{margin:14px 0 0;padding:10px 14px;border-radius:8px;font-size:16px;line-height:1.55}
+.call>b{display:block;font-size:13px;letter-spacing:.02em;margin-bottom:2px}
+.call.key{background:var(--accbg)}.call.key b{color:var(--acc)}
+.call.trap{background:#fdf6e7}.call.trap b{color:#8a5a00}
+.clabel{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0 0 6px}
+.checks{margin:14px 0 22px;padding:0 0 0 14px;border-left:3px solid var(--acc)}
+.checks .qcard{margin:8px 0}
+.card.drill{border-color:#c9d3e4}
+.trio,.duo{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:4px 0 12px}
+.duo{grid-template-columns:repeat(2,1fr)}
+.trio>div,.duo>div{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fafaf8;display:flex;flex-direction:column;gap:3px;font-size:15px;line-height:1.4}
+.trio b,.duo b{font-size:16px}
+.trio i,.duo i{font-style:normal;color:var(--acc);font-size:14px}
+@media(max-width:620px){.trio{grid-template-columns:1fr}}
+.wsteps{counter-reset:s;list-style:none;padding:0;margin:6px 0}
+.wsteps li{counter-increment:s;position:relative;padding:8px 10px 8px 40px;border-radius:8px;background:#fafaf8;margin:6px 0;font-size:16px}
+.wsteps li:before{content:counter(s);position:absolute;left:10px;top:8px;width:21px;height:21px;border-radius:50%;background:var(--acc);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center}
+.wsteps li.last{background:var(--accbg)}
+/* guide grid */
+.gwrap{display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px}
+.gside{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 80px);overflow:auto;padding-top:8px}
+.gtitle{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0 0 8px}
+.outline{margin-top:12px}
+.omod{font-size:13px;font-weight:600;margin:14px 0 4px}
+.outline a{display:grid;grid-template-columns:30px 1fr auto;gap:4px;align-items:baseline;padding:6px 8px;border-radius:6px;color:var(--fg);text-decoration:none;font-size:14px;line-height:1.3}
+
+.outline a.cur{background:#fff;box-shadow:0 0 0 1px var(--line);font-weight:600}
+.outline .ot{color:#444}.outline .oprog{font-size:12px;color:var(--mut)}
+.gtop{display:none}
+.modhead{font-size:14px;font-weight:600;color:var(--mut);margin:10px 0 0}
+.unit{scroll-margin-top:64px;margin:6px 0 40px}
+.uhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:16px 0 4px}
+.uhead h2{font-size:24px;margin:2px 0 4px;line-height:1.25}
+.uprog{font-size:13px;color:var(--mut)}
+@media(max-width:900px){.gwrap{grid-template-columns:minmax(0,1fr)}.gside{display:none}.gtop{display:flex;gap:8px;align-items:center;position:sticky;top:52px;z-index:3;background:#f6f6f3;padding:8px 0}.gjump{flex:1}.uhead h2{font-size:21px}.card{padding:16px}}
+/* figures as html */
+.aag{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px;padding:4px 0}
+.aagc{display:flex;flex-direction:column;gap:4px}
+.aagc b{font-size:12px;color:var(--mut);font-weight:600}
+.aag span,.aagl span{display:inline-block;text-align:center;font-size:14px;padding:3px 0;border-radius:6px;border:1px solid #c8c8c8}
+.aag .pho,.aagl .pho{background:#e9d9a6;border-color:#c9b06a}
+.aag .phi,.aagl .phi{background:#fff}
+.aag .ex,.aagl .ex{border:2px solid var(--bad);font-weight:700}
+.aagl{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 2px}.aagl span{padding:2px 10px;font-size:13px}
+.fbars{padding:4px 0}
+.fbr{display:grid;grid-template-columns:120px 1fr;gap:4px 10px;align-items:center;margin:8px 0}
+.fbr .fn{font-weight:600;font-size:15px}
+.fbg{height:12px;background:#eee;border-radius:6px;overflow:hidden}.fbg i{display:block;height:100%;background:var(--acc);border-radius:6px}
+.fbr .fe{grid-column:2;font-size:13px;color:var(--mut);margin-top:-4px}
+.fnote{font-size:12px;color:var(--mut);text-align:right}
+.phs{padding:6px 0 4px}
+.phrow{display:grid;grid-template-columns:repeat(15,1fr);border-radius:6px;overflow:hidden}
+.phrow span{text-align:center;font-size:13px;padding:7px 0;color:#222}
+.phlab{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-top:4px}
+.phmk{position:relative;height:22px;font-size:12px}
+.phmk span{position:absolute;transform:translateX(-50%);white-space:nowrap;color:var(--fg)}
+.phmk span:before{content:"▲ ";color:var(--acc)}
+
+.flagi{background:none;border:0;padding:3px;margin:-3px 0;cursor:pointer;color:var(--mut);display:inline-flex;vertical-align:middle;border-radius:5px}
+.flagi svg{width:18px;height:18px;display:block}.flagi.on{color:var(--acc)}
+@media (hover:hover){.flagi:hover{background:#ecece8}}
+.so{margin:14px 0 0;padding:6px 0 6px 12px;border-left:3px solid var(--acc);font-size:16px;line-height:1.5;color:#333}
+.call.note{background:#f4f4f1}.call.note>b{color:var(--mut)}
+.limg{margin:4px 0 12px}.limg img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:8px}
+.credit{font-size:13px;color:var(--mut);margin:4px 0 0}
+.fb .rev{display:inline-block;margin:8px 0 0;padding:0;font-size:15px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:flex-start;justify-content:center;padding:20px 10px;overflow:auto;z-index:50}
+.modal>.mbox{background:var(--bg,#fff);border-radius:12px;max-width:760px;width:100%;padding:6px 6px 12px}
+.modal .card{margin:6px 0}
+.mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px 0}
+.outline a.les{display:block;padding:3px 8px 3px 42px;font-size:13px;color:#555}
+.gtop .gjump{flex:1 1 auto;min-width:0;width:0}.gtop .pill{flex:none}
+.card .hl{background:#fff4b8!important;box-shadow:0 0 0 5px #fff4b8;border-radius:3px;animation:hlin 1.1s ease-out .15s both}
+@keyframes hlin{0%{background:transparent;box-shadow:0 0 0 5px transparent}35%{background:#ffe680;box-shadow:0 0 0 7px #ffe680}100%{background:#fff4b8;box-shadow:0 0 0 5px #fff4b8}}
+@media (prefers-reduced-motion:reduce){.card .hl{animation:none}}
+.lhead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}.lhead h3{margin:0 0 10px}
+.chip:not(.done){touch-action:none;cursor:grab}.chip.dragging{opacity:.35}
+.ghost{position:fixed;left:0;top:0;pointer-events:none;z-index:60;cursor:grabbing;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.bin.over{border-color:var(--acc);border-style:solid;background:var(--accbg)}
+details.drills{margin:6px 0 2px}details.drills summary{cursor:pointer;color:var(--acc);font-size:15px;padding:6px 0}
+.dtop{display:flex;justify-content:flex-end;margin:0 0 6px}
+/* lecture window */
+.lecb{font:inherit;font-size:13px;color:var(--acc);background:#fff;border:1px solid #c5d1e5;border-radius:5px;padding:0 6px;margin:-2px 0;cursor:pointer;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;line-height:1.5}
+.lecb svg{flex:none}
+@media (hover:hover){.lecb:hover:not(:disabled){background:var(--accbg)}}
+/* desktop: Practice and Mock sit left of center so the lecture window's default spot (right edge, min(480px,40vw) wide) is free.
+   Fixed layout: nothing moves when the window opens, moves or closes. */
+@media (min-width:1000px){body[data-tab=practice] main,body[data-tab=mock] main,body[data-tab=practice] footer,body[data-tab=mock] footer{
+  max-width:min(760px,calc(100vw - min(480px,40vw) - 40px));margin-left:max(8px,calc((100vw - min(480px,40vw) - 24px - 760px)/2));margin-right:auto}}
+.lotip{position:absolute;z-index:60;max-width:min(300px,calc(100vw - 16px));background:#fff;border:1px solid var(--acc);border-radius:8px;padding:8px 10px;box-shadow:0 6px 20px rgba(0,0,0,.15);font-size:14px;line-height:1.4;color:var(--fg,#222)}
+.lot{text-decoration:underline dotted;text-decoration-thickness:1px;text-underline-offset:3px;cursor:help}
+.lecb:disabled{color:var(--mut);background:#f3f3f3;border-color:var(--line);cursor:default;opacity:.7}
+.lw{position:fixed;z-index:40;background:#fff;border:1px solid #c8c8c8;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.18);display:flex;flex-direction:column;overflow:hidden}
+.lwgrip{display:none}
+.lwhead{display:flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-bottom:1px solid var(--line);background:var(--soft);cursor:move;touch-action:none;user-select:none;-webkit-user-select:none}
+.lwtitle{flex:1;min-width:0;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lwbody{flex:1;min-height:0;overflow:auto;padding:2px 16px 28px;font-size:15px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.lwrz{position:absolute;right:0;bottom:0;width:20px;height:20px;cursor:nwse-resize;touch-action:none}
+.lwrz::after{content:"";position:absolute;right:4px;bottom:4px;width:8px;height:8px;border-right:2px solid #999;border-bottom:2px solid #999}
+.lw.sheet{left:0;right:0;bottom:0;border-radius:12px 12px 0 0;border-bottom:0;box-shadow:0 -4px 20px rgba(0,0,0,.15)}
+.lw.sheet .lwgrip{display:flex;justify-content:center;padding:7px 0 3px;background:var(--soft);cursor:ns-resize;touch-action:none}
+.lwgrip i{width:40px;height:4px;border-radius:2px;background:#bbb}
+.lw.sheet .lwhead{cursor:ns-resize;padding-top:2px}
+.lw.sheet .lwrz{display:none}
+.lw.sheet .lwbody{padding:2px 14px 24px}
+.lwt{font-size:17px;margin:12px 0 4px}
+.lwb img{max-width:100%;height:auto;display:block}
+.lwb figure{margin:10px 0}
+.lwb h4{font-size:15px;margin:16px 0 4px}.lwb h5{font-size:14px;margin:12px 0 4px}
+.lwb ul,.lwb ol{padding-left:22px;margin:6px 0}.lwb li>p{margin:2px 0}
+.lwb table{border-collapse:collapse;font-size:14px;display:block;overflow-x:auto;margin:8px 0}
+.lwb td,.lwb th{border:1px solid var(--line);padding:4px 8px;text-align:left;vertical-align:top}
+.lw-hot>li>b{display:block;margin-top:8px}
+.lw-vid{margin:10px 0}
+.lw-play,.lw-vid iframe{display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;margin:0;border-radius:6px;overflow:hidden;background:#000;position:relative}
+.lw-play{cursor:pointer}
+.lw-play img{width:100%;height:100%;object-fit:cover;opacity:.92}
+.lw-pi{position:absolute;left:50%;top:50%;width:58px;height:40px;margin:-20px 0 0 -29px;border-radius:10px;background:rgba(0,0,0,.72)}
+.lw-pi::after{content:"";position:absolute;left:23px;top:11px;border-left:16px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent}
+.lw-cap{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--mut);margin-top:4px}
+.lw-cap a{color:var(--acc);white-space:nowrap}
+.lw-q{border:1px solid var(--line);border-radius:8px;padding:4px 12px;margin:10px 0;background:#fafaf8}
+.lw-qh{font-size:13px;font-weight:600;color:var(--mut);margin-top:6px}
+.lw-tf{color:var(--mut);font-size:14px}
+.lw-ans{margin:4px 0 6px}.lw-ans summary,.lw-acc summary{cursor:pointer;color:var(--acc)}
+.lw-acc{border-bottom:1px solid var(--line);padding:6px 0}
+.lwnote{margin:2px 0 10px}.lwnote .btn{font-size:14px;padding:0;margin-right:12px}
+mark.lwhl{background:#fff4b8;box-shadow:0 0 0 3px #fff4b8;color:inherit;border-radius:2px}
+.lwb.lwhit{background:#fff4b8;box-shadow:0 0 0 6px #fff4b8;border-radius:3px}
+.tut{position:absolute;z-index:45;width:min(300px,calc(100vw - 16px));background:#fff;border:1px solid var(--acc);border-radius:8px;padding:10px 12px;box-shadow:0 6px 20px rgba(0,0,0,.15);font-size:14px;line-height:1.4;cursor:pointer}
+.tut::before{content:"";position:absolute;top:-7px;left:calc(var(--ax,50%) - 7px);width:12px;height:12px;background:#fff;border-left:1px solid var(--acc);border-top:1px solid var(--acc);transform:rotate(45deg)}
+.tut p{margin:6px 0 4px}.tutmk svg{display:block;width:132px;height:72px}.tutx{color:var(--acc);font-weight:600}
+</style>
+</head>
+<body>
+<header><div class="hin">
+<div class="brand">BMSC 3401 · Exam 2 <span id="modlist"></span></div>
+<nav id="nav">
+<button data-t="mock">Mock exam</button><button data-t="practice">Practice</button><button data-t="sheet">Study guide</button>
+</nav></div></header>
+<main id="main"></main>
+<footer>__VERSION__ · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
+<script>
+const MODS=[];
+</script>
+<script>
+__DATA__
+</script>
+<script>
+(function(){
+"use strict";
+const KEY="bmsc3401-exam2";
+// mock timer pace: 96 s per question, so a 25-question mock is 40 minutes
+const Q_MS=96000;
+let S={q:{},mocks:0,set:{timer:true,fb:"each",len:25},drills:{},flag:{},saved:{},pos:{}};
+try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r));}catch(e){}
+S.flag=S.flag||{};S.saved=S.saved||{};S.pos=S.pos||{};
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+const Q=[],LOS=[],LOBY={},QBY={};
+MODS.forEach(m=>{m.los.forEach(l=>{l.mod=m;LOS.push(l);LOBY[l.id]=l;});m.questions.forEach(q=>{q.mod=m;Q.push(q);QBY[q.id]=q;});});
+const LES={};MODS.forEach(m=>Object.entries(m.guide||{}).forEach(([lo,bs])=>bs.forEach(b=>{if(b.id)LES[b.id]=Object.assign({lo,mod:m},b);})));
+document.getElementById("modlist").textContent="· "+MODS.map(m=>m.short).join(", ");
+
+const $=(s,el)=>(el||document).querySelector(s);
+function h(tag,attrs,...kids){const e=document.createElement(tag);if(attrs)for(const k in attrs){const v=attrs[k];if(k==="class")e.className=v;else if(k==="html")e.innerHTML=v;else if(k.startsWith("on"))e.addEventListener(k.slice(2),v);else if(v!==false&&v!=null)e.setAttribute(k,v===true?"":v);}kids.flat().forEach(c=>{if(c==null||c===false)return;e.append(c.nodeType?c:document.createTextNode(c));});return e;}
+const main=$("#main");
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function seeded(str){let x=0;for(const c of str)x=(x*31+c.charCodeAt(0))|0;return()=>{x=(x*1103515245+12345)|0;return((x>>>8)&0xffff)/65536;};}
+function seededShuffle(a,seed){const r=seeded(seed);a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function fig(k){if(!k||!FIGS[k])return null;return h("div",{class:"fig",html:FIGS[k]});}
+// btn=true turns the M#L# tag into the lecture-window button (never passed during an active mock)
+// full LO wording, verbatim from Canvas (typos included); shown on hover over "LO x.y"
+const LOFULL={"1.1": "Relate the structure and function of biomolecules to their cellular role", "1.2": "Describe how the properties of water facilitate biological interactions", "1.3": "Determine the pH of a solution by direct measurement and calculation", "1.4": "Apply knowledge of the bicarbonate buffer system to predict pathophysiologic effects of acidosis and alkalosis", "2.1": "Summarize the 3-dimentional structure of proteins", "2.2": "Outline six major enzyme classes and their corresponding enzymatic reactions", "2.3": "Classify exergonic and endergonic reactions using Gibbs free energy.", "2.4": "Explain how enzymatic stabilization of transition states promotes endergonic reactions", "2.5": "Interpret KM and Vmax using Michaelis-Menton and Lineweaver-Burk plots", "2.6": "Categorize enzyme inhibitors based on changes in KM and/or Vmax", "2.7": "Investigate the effects of temperature, pH, and enzyme concentration on enzyme kinetics", "2.8": "Apply knowledge of enzyme regulation to drug discovery, design, and/or utilization", "3.1": "Describe the general purpose of metabolism.", "3.2": "Categorize activated carriers by their metabolic role.", "3.3": "Explain three methods by which cells regulate metabolism.", "3.4": "Describe the central role of the citric acid cycle in metabolism.", "3.5": "Diagram the cellular location, rate-limiting steps, products, and regulation of the citric acid cycle and oxidative phosphorylation.", "3.6": "Predict the effects of perturbations in oxidative phosphorylation"};
+function loTag(lo){const t=LOFULL[lo];return t?h("span",{class:"lot",title:"LO "+lo+": "+t,role:"button",tabindex:"0","aria-label":"LO "+lo+": "+t,"data-lo":lo},"LO "+lo):"LO "+lo;}
+// tap/click/Enter on an LO label shows its full wording in a small popover (hover title only works with a mouse).
+// Capture phase so the tap doesn't also trigger a surrounding button. Tap elsewhere, Escape, or the same label closes it.
+let LOTIP=null;
+function loTipClose(){if(LOTIP){LOTIP.el.remove();LOTIP=null;}}
+function loTipOpen(t){const lo=t.dataset.lo;if(LOTIP&&LOTIP.t===t)return loTipClose();loTipClose();
+  const el=h("div",{class:"lotip",role:"tooltip"},h("b",null,"LO "+lo+": "),LOFULL[lo]);document.body.append(el);
+  const r=t.getBoundingClientRect(),vw=document.documentElement.clientWidth,w=el.offsetWidth;
+  el.style.left=Math.round(Math.max(8,Math.min(r.left,vw-w-8))+scrollX)+"px";el.style.top=Math.round(r.bottom+6+scrollY)+"px";LOTIP={el,t};}
+document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest(".lot");
+  if(t){e.preventDefault();e.stopPropagation();loTipOpen(t);}else if(LOTIP&&!e.target.closest(".lotip"))loTipClose();},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")loTipClose();else if((e.key==="Enter"||e.key===" ")&&e.target.classList&&e.target.classList.contains("lot")){e.preventDefault();loTipOpen(e.target);}});
+function loLabel(q,btn){const tag=loTag(q.lo);if(!btn||!q.lec||!q.mod.lecture)return h("span",null,tag," · "+q.mod.short+" "+q.src);return h("span",null,tag," · ",lecBtn(q));}
+const FLAG_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path class="fl" d="M5 4h12l-2.5 4.5L17 13H5"/></svg>';
+const BMK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path class="fl" d="M6 3h12v18l-6-4.5L6 21z"/></svg>';
+function bmkBtn(id){const b=h("button",{class:"flagi",type:"button",html:BMK_SVG});const p=()=>{const on=!!S.saved[id];b.classList.toggle("on",on);b.querySelector(".fl").setAttribute("fill",on?"currentColor":"none");const t=on?"Remove bookmark":"Bookmark this lesson";b.title=t;b.setAttribute("aria-label",t);b.setAttribute("aria-pressed",on?"true":"false");};b.addEventListener("click",e=>{e.stopPropagation();if(S.saved[id])delete S.saved[id];else S.saved[id]=1;save();document.querySelectorAll('[data-bmk="'+id+'"]').forEach(x=>x.dispatchEvent(new Event("bmk")));});b.dataset.bmk=id;b.addEventListener("bmk",p);p();return b;}
+function applyHL(card,txt){if(!txt)return null;for(const e of card.querySelectorAll("p,li,tr,.call")){if(e.textContent.includes(txt)){e.classList.add("hl");return e;}}return null;}
+function flagBtn(q){const b=h("button",{class:"flagi",type:"button",html:FLAG_SVG});const p=()=>{const on=!!S.flag[q.id];b.classList.toggle("on",on);b.querySelector(".fl").setAttribute("fill",on?"currentColor":"none");const t=on?"Remove flag":"Flag for review";b.title=t;b.setAttribute("aria-label",t);b.setAttribute("aria-pressed",on?"true":"false");};b.addEventListener("click",e=>{e.stopPropagation();if(S.flag[q.id])delete S.flag[q.id];else S.flag[q.id]=1;save();p();});p();return b;}
+
+// options: returns [{text,correct}] in display order
+function optsFor(q,shuf){
+  if(q.type==="tf")return [{t:"True",c:q.ans===true},{t:"False",c:q.ans===false}];
+  const o=q.opts.map((t,i)=>({t,c:i===q.ans}));
+  if(q.fixed)return o;
+  return shuf==="seed"?seededShuffle(o,q.id):shuffle(o);
+}
+function record(q,ok,pick){const r=S.q[q.id]||{n:0,t:0,c:null};r.n++;r.t=Date.now();r.c=ok;if(pick!=null)r.pp=pick;else delete r.pp;S.q[q.id]=r;save();}
+
+// ---- question view (shared) ----
+// opts: {onAnswer(ok, idx), reveal:bool, picked:idx}
+function qView(q,order,o){
+  const w=h("div");
+  w.append(h("div",{class:"stem",html:q.stem+(q.tag==="beyond"?' <span class="tag">beyond lecture</span>':"")}));
+  const f=fig(q.fig);if(f)w.append(f);
+  const box=h("div",{class:"opts"});
+  const btns=order.map((op,i)=>{const b=h("button",{class:"opt",html:op.t});b.addEventListener("click",()=>o.onPick(i));box.append(b);return b;});
+  w.append(box);
+  const fbw=h("div");w.append(fbw);
+  function paint(picked,reveal){
+    btns.forEach((b,i)=>{b.className="opt";
+      if(reveal){b.disabled=!o.change;if(order[i].c)b.classList.add("ok");else if(i===picked)b.classList.add("bad");if(o.change&&i===picked)b.classList.add("mine");}
+      else if(i===picked)b.classList.add("pick");});
+    fbw.innerHTML="";
+    if(reveal){const ok=picked!=null&&order[picked].c;fbw.append(explain(q,ok,picked==null,reveal==="show"&&picked==null));}
+  }
+  return {el:w,paint};
+}
+function explain(q,ok,skipped,shown){
+  const d=h("div",{class:"fb "+(shown?"ok":ok?"ok":"bad")});
+  d.append(h("b",{class:"v"},shown?"Answer":skipped?"Not answered":(ok?"Correct":"Incorrect")));
+  d.append(h("div",{html:q.exp}));
+  // expfig: a figure shown only with the explanation (after answering), e.g. one that would give the answer away in the stem
+  if(q.expfig){const f=fig(q.expfig);if(f){f.style.maxWidth="460px";d.append(f);}}
+  if(q.steps){const det=h("details",{class:"steps"},h("summary",null,"Work it through"),h("ol",null,q.steps.map(s=>h("li",{html:s}))));d.append(det);}
+  if(q.ref&&LES[q.ref])d.append(h("div",null,h("button",{class:"btn link rev",type:"button",onclick:()=>openLesson(q.ref,q.hl)},"Review: "+LES[q.ref].h)));
+  return d;
+}
+function openLesson(id,hl){
+  const L=LES[id];if(!L)return;
+  const close=()=>{m.remove();document.removeEventListener("keydown",esc);};
+  const esc=e=>{if(e.key==="Escape")close();};
+  const m=h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":L.h});
+  const box=h("div",{class:"mbox"});m.append(box);
+  box.append(h("div",{class:"mrow"},h("span",{class:"mut sm"},loTag(L.lo)," · study guide"),h("button",{class:"btn sm",type:"button",onclick:close},"Close")));
+  const card=block(L,L.mod);card.removeAttribute("id");box.append(card);const hx=applyHL(card,hl);
+  box.append(h("div",{class:"mrow"},h("button",{class:"btn link",type:"button",onclick:()=>{close();if(tabs.mock.cleanup)tabs.mock.cleanup();S.set.onlySaved=false;go("sheet");const e=document.getElementById(id);if(e){const t=applyHL(e,hl);(t||e).scrollIntoView({block:t?"center":"start"});}}},"Open in study guide (leaves this page)")));
+  m.addEventListener("click",e=>{if(e.target===m)close();});
+  document.addEventListener("keydown",esc);document.body.append(m);box.querySelector("button").focus();if(hx)hx.scrollIntoView({block:"center"});
+}
+
+// ---- lecture window ----
+// q.lec={b,hl} points at a block of lectures/biochem-exam2/<mod>.json (fetched on first open, then cached).
+// Desktop: floating window, drag by the header, resize from the corner, position/size kept in localStorage.
+// Phone: bottom sheet; drag the handle or header to change its height. Clicking another lecture button swaps the
+// lesson (or just re-scrolls if it's the same one). Re-rendering or closing removes the DOM, which stops any video.
+// closeLec is registered in ANIMS, so go() and openDrill() close the window and drop its listeners.
+const BOOK_SVG='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 5.5C5.5 4 8.5 4 12 6c3.5-2 6.5-2 9-.5V19c-2.5-1.5-5.5-1.5-9 .5-3.5-2-6.5-2-9-.5z"/><path d="M12 6v13.5"/></svg>';
+const LECDIR="lectures/biochem-exam2/",LKEY="bmsc3401-lecwin2",LCACHE={};
+const PHONE=matchMedia("(max-width:640px)");
+let LW=null;
+function lecData(mod){if(!LCACHE[mod])LCACHE[mod]=fetch(LECDIR+mod+".json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();}).catch(e=>{delete LCACHE[mod];throw e;});return LCACHE[mod];}
+function lecGeo(){try{return JSON.parse(localStorage.getItem(LKEY))||{};}catch(e){return {};}}
+function lecSaveGeo(g){try{localStorage.setItem(LKEY,JSON.stringify(Object.assign(lecGeo(),g)));}catch(e){}}
+// off: a reason string makes the button greyed out (disabled, reason as its tooltip).
+function lecBtn(q,off){const tag=q.mod.short+" "+q.src;const b=h("button",{class:"lecb",type:"button",disabled:!!off,title:off||"Open the lecture ("+tag+")","aria-label":off?"Lecture: "+off:"Open the lecture, "+tag,html:BOOK_SVG});b.append(h("span",null,tag));
+  if(off)return b;
+  b.addEventListener("click",e=>{e.stopPropagation();tutDismiss();openLec(q);});tutWatch(b);return b;}
+function openLec(q){
+  if(!LW)buildLW();
+  const mod=q.mod.lecture,key=mod+q.src;LW.q=q;
+  if(LW.key===key){if(LW.ready)lecHL(q.lec);return;}
+  LW.key=key;LW.ready=false;LW.title.textContent=q.mod.short+" "+q.src;
+  LW.body.innerHTML="";LW.body.append(h("p",{class:"mut"},"Loading the lecture…"));
+  lecData(mod).then(d=>{
+    if(!LW||LW.key!==key)return;const les=d.lessons[q.src];if(!les)throw new Error("no lesson");
+    LW.title.textContent=q.mod.short+" "+q.src+" · "+les.t;LW.body.innerHTML="";LW.body.scrollTop=0;
+    LW.body.append(h("h3",{class:"lwt"},les.t));
+    const notes=q.mod.lecnotes||{};
+    les.b.forEach(b=>{const e=h("div",{class:"lwb",html:b.h});e.dataset.b=b.id;LW.body.append(e);
+      const n=(notes[b.id]||[]).filter(id=>LES[id]);
+      if(n.length)LW.body.append(h("div",{class:"lwnote"},n.map(id=>h("button",{class:"btn link",type:"button",onclick:()=>openLesson(id)},n.length>1?"Lecture wording: "+LES[id].h:"Lecture wording"))));});
+    LW.ready=true;lecHL(LW.q.lec);
+  }).catch(()=>{
+    if(!LW||LW.key!==key)return;LW.key=null;LW.body.innerHTML="";
+    LW.body.append(h("p",null,"Couldn't load the lecture. Check your connection and try again."),h("button",{class:"btn sm",type:"button",onclick:()=>openLec(LW.q)},"Try again"));
+  });
+}
+function lecWrap(el,re){
+  const tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),nodes=[];let s="";
+  for(let n;(n=tw.nextNode());){nodes.push([n,s.length]);s+=n.data;}
+  const m=re.exec(s);if(!m)return null;const a=m.index,z=a+m[0].length;let first=null;
+  for(const [n,o] of nodes){const e=o+n.data.length;if(e<=a||o>=z)continue;let t=n;const st=Math.max(0,a-o),en=Math.min(n.data.length,z-o);
+    if(en<t.data.length)t.splitText(en);if(st>0)t=t.splitText(st);if(!t.data.trim()&&first)continue;
+    const mk=document.createElement("mark");mk.className="lwhl";t.replaceWith(mk);mk.append(t);if(!first)first=mk;}
+  return first;
+}
+// same segment rule as tests/validate_lec.js: each snippet sits inside one text element of the block.
+// ref.hl is a string or a list of snippets (all marked; the first one found is scrolled to).
+function lecHL(ref){
+  const B=LW.body;B.querySelectorAll("mark.lwhl").forEach(m=>m.replaceWith(...m.childNodes));B.querySelectorAll(".lwhit").forEach(e=>e.classList.remove("lwhit"));B.normalize();
+  const blk=B.querySelector('[data-b="'+ref.b+'"]');if(!blk)return;
+  let tgt=null;
+  for(const hl of [].concat(ref.hl)){
+    const re=new RegExp(hl.trim().replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/\s+/g,"\\s+"));
+    const els=[...blk.querySelectorAll("p,li,td,th,h4,h5,summary,figcaption,caption")].filter(e=>re.test(e.textContent));
+    const vis=els.filter(e=>!e.closest(".lw-ans"));const pool=vis.length?vis:els;
+    const el=pool.find(e=>!pool.some(o=>o!==e&&e.contains(o)));
+    const mk=el?lecWrap(el,re):null;
+    if(mk){for(let d=mk.closest("details");d;d=d.parentElement&&d.parentElement.closest("details"))d.open=true;if(!tgt)tgt=mk;}
+  }
+  if(!tgt){blk.classList.add("lwhit");tgt=blk;}
+  requestAnimationFrame(()=>{if(!LW)return;B.scrollTop+=tgt.getBoundingClientRect().top-B.getBoundingClientRect().top-B.clientHeight*0.3;});
+}
+function buildLW(){
+  const grip=h("div",{class:"lwgrip","aria-hidden":"true"},h("i")),title=h("div",{class:"lwtitle"});
+  const x=h("button",{class:"btn sm",type:"button","aria-label":"Close the lecture"},"Close");
+  const head=h("div",{class:"lwhead"},title,x),body=h("div",{class:"lwbody"}),rz=h("div",{class:"lwrz","aria-hidden":"true"});
+  const w=h("div",{class:"lw",role:"dialog","aria-label":"Lecture"},grip,head,body,rz);document.body.append(w);
+  LW={w,title,body,key:null,ready:false,q:null};
+  x.addEventListener("click",closeLec);
+  body.addEventListener("click",e=>{const p=e.target.closest(".lw-play");if(!p)return;const v=p.parentNode,id=v.dataset.yt,st=+v.dataset.start||0;
+    if(!/^[\w-]{11}$/.test(id))return;
+    p.replaceWith(h("iframe",{src:"https://www.youtube-nocookie.com/embed/"+id+"?autoplay=1&rel=0"+(st?"&start="+st:""),title:(p.getAttribute("aria-label")||"").replace(/^Play video: /,""),allow:"autoplay; encrypted-media; picture-in-picture; fullscreen",allowfullscreen:true,referrerpolicy:"strict-origin-when-cross-origin"}));});
+  // pointer drags: header moves (desktop) or sets height (phone); the corner resizes (desktop)
+  function drag(el,fn){el.addEventListener("pointerdown",e=>{if(e.button!==0||e.target.closest("button"))return;const st=fn(e);if(!st)return;e.preventDefault();el.setPointerCapture(e.pointerId);
+    const mv=ev=>st.move(ev),up=()=>{el.removeEventListener("pointermove",mv);el.removeEventListener("pointerup",up);el.removeEventListener("pointercancel",up);st.end();};
+    el.addEventListener("pointermove",mv);el.addEventListener("pointerup",up);el.addEventListener("pointercancel",up);});}
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const sheetDrag=e=>{const y0=e.clientY,h0=w.offsetHeight;let hh=h0;return {move(ev){hh=clamp(h0+y0-ev.clientY,innerHeight*0.25,innerHeight*0.9);w.style.height=hh+"px";document.body.style.paddingBottom=hh+"px";},end(){lecSaveGeo({sh:Math.round(hh)});}};};
+  drag(head,e=>{if(PHONE.matches)return sheetDrag(e);const x0=e.clientX,y0=e.clientY,l0=w.offsetLeft,t0=w.offsetTop;let X=l0,Y=t0;
+    return {move(ev){X=clamp(l0+ev.clientX-x0,8,innerWidth-w.offsetWidth-8);Y=clamp(t0+ev.clientY-y0,8,innerHeight-w.offsetHeight-8);w.style.left=X+"px";w.style.top=Y+"px";},end(){lecSaveGeo({x:Math.round(X),y:Math.round(Y)});}};});
+  drag(grip,e=>PHONE.matches?sheetDrag(e):null);
+  drag(rz,e=>{if(PHONE.matches)return null;const x0=e.clientX,y0=e.clientY,w0=w.offsetWidth,h0=w.offsetHeight;let W=w0,H=h0;
+    return {move(ev){W=clamp(w0+ev.clientX-x0,300,innerWidth-w.offsetLeft-8);H=clamp(h0+ev.clientY-y0,220,innerHeight-w.offsetTop-8);w.style.width=W+"px";w.style.height=H+"px";},end(){lecSaveGeo({w:Math.round(W),h:Math.round(H)});}};});
+  document.addEventListener("keydown",lecEsc);addEventListener("resize",lecLayout);
+  try{PHONE.addEventListener("change",lecLayout);}catch(e){PHONE.addListener(lecLayout);}
+  ANIMS.add(closeLec);lecLayout();
+}
+function lecLayout(){
+  if(!LW)return;const w=LW.w,g=lecGeo(),vw=document.documentElement.clientWidth,vh=innerHeight;
+  if(PHONE.matches){w.classList.add("sheet");const hh=Math.round(Math.min(vh*0.9,Math.max(vh*0.25,g.sh||vh*0.55)));w.style.cssText="height:"+hh+"px";document.body.style.paddingBottom=hh+"px";return;}
+  w.classList.remove("sheet");document.body.style.paddingBottom="";
+  const W=Math.max(300,Math.min(vw-16,g.w||Math.min(480,Math.round(vw*0.4)))),H=Math.max(220,Math.min(vh-16,g.h||Math.round(vh*0.72)));
+  const X=Math.max(8,Math.min(vw-W-8,g.x!=null?g.x:vw-W-16)),Y=Math.max(8,Math.min(vh-H-8,g.y!=null?g.y:72));
+  w.style.cssText="left:"+X+"px;top:"+Y+"px;width:"+W+"px;height:"+H+"px";
+}
+function lecEsc(e){if(e.key==="Escape"&&!document.querySelector(".modal"))closeLec();}
+function closeLec(){
+  if(!LW)return;LW.w.remove();LW=null;document.body.style.paddingBottom="";
+  document.removeEventListener("keydown",lecEsc);removeEventListener("resize",lecLayout);
+  try{PHONE.removeEventListener("change",lecLayout);}catch(e){PHONE.removeListener(lecLayout);}
+  ANIMS.delete(closeLec);
+}
+// ---- lecture button tutorial: points at the first lecture button that is fully on screen, once per page load ----
+const TUT_SVG='<svg viewBox="0 0 132 72" aria-hidden="true"><rect x="1" y="4" width="76" height="64" rx="4" fill="#fff" stroke="#bbb"/><rect x="7" y="10" width="22" height="7" rx="2" fill="#fff" stroke="#1f4b8f"/><rect x="7" y="23" width="60" height="3" fill="#ccc"/><rect x="7" y="30" width="52" height="3" fill="#ccc"/><rect x="7" y="40" width="60" height="7" rx="2" fill="#fff" stroke="#ddd"/><rect x="7" y="51" width="60" height="7" rx="2" fill="#fff" stroke="#ddd"/><rect x="62" y="14" width="68" height="56" rx="4" fill="#fff" stroke="#1f4b8f"/><rect x="62" y="14" width="68" height="9" rx="2" fill="#1f4b8f"/><rect x="68" y="29" width="54" height="3" fill="#ccc"/><rect x="66" y="36" width="60" height="7" fill="#fff4b8"/><rect x="68" y="38" width="50" height="3" fill="#999"/><rect x="68" y="48" width="56" height="3" fill="#ccc"/><rect x="68" y="55" width="44" height="3" fill="#ccc"/></svg>';
+let tutDone=false,tutEl=null,tutIO=null;
+function tutWatch(b){if(tutDone||tutEl||!("IntersectionObserver" in window))return;
+  if(!tutIO)tutIO=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting&&!tutEl&&!tutDone&&e.target.isConnected){tutShow(e.target);break;}},{threshold:1});
+  tutIO.observe(b);}
+function tutShow(b){
+  if(tutIO){tutIO.disconnect();tutIO=null;}
+  tutEl=h("div",{class:"tut",role:"note"},h("div",{class:"tutmk",html:TUT_SVG}),h("p",null,"Opens the lecture related to this question"),h("span",{class:"tutx"},"Got it"));
+  tutEl.anchor=b;tutEl.addEventListener("click",tutDismiss);document.body.append(tutEl);tutPos();
+  addEventListener("resize",tutPos);ANIMS.add(tutDrop);
+}
+function tutPos(){
+  if(!tutEl)return;const b=tutEl.anchor;if(!b.isConnected){tutDrop();return;}
+  const r=b.getBoundingClientRect(),pw=tutEl.offsetWidth,cw=document.documentElement.clientWidth;
+  const left=Math.max(8,Math.min(r.left+r.width/2-pw/2,cw-pw-8));
+  tutEl.style.left=(left+scrollX)+"px";tutEl.style.top=(r.bottom+scrollY+10)+"px";tutEl.style.setProperty("--ax",(r.left+r.width/2-left)+"px");
+}
+function tutDrop(){if(!tutEl)return;tutEl.remove();tutEl=null;removeEventListener("resize",tutPos);ANIMS.delete(tutDrop);}
+function tutDismiss(){tutDone=true;tutDrop();if(tutIO){tutIO.disconnect();tutIO=null;}}
+
+// ---- tabs ----
+let tab=null;const tabs={};
+document.getElementById("nav").addEventListener("click",e=>{const t=e.target.dataset.t;if(t){go(t);}});
+function go(t,arg){stopAnims();savePos();if(tab&&tab!==t&&tabs[tab]&&tabs[tab].cleanup)tabs[tab].cleanup();tab=t;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(tabs[t].cleanup)tabs[t].cleanup();main.innerHTML="";document.body.dataset.tab=t;tabs[t].render(arg);window.scrollTo(0,(t==="sheet"||t==="practice")?(S.pos[t]||0):0);S.tab=t;save();try{history.replaceState(null,"","#"+t);}catch(e){}}
+function savePos(){if((tab==="sheet"&&main.querySelector(".gwrap"))||(tab==="practice"&&main.querySelector(".plist"))){S.pos[tab]=Math.round(window.scrollY);save();}}
+let st_;window.addEventListener("scroll",()=>{clearTimeout(st_);st_=setTimeout(savePos,250);},{passive:true});
+window.addEventListener("pagehide",savePos);
+
+function loSelect(id,withAll){
+  const s=h("select",{id});
+  if(withAll)s.append(h("option",{value:"all"},"All objectives"));
+  MODS.forEach(m=>{const g=h("optgroup",{label:m.name});g.append(h("option",{value:"mod:"+m.id},m.short+": all"));m.los.forEach(l=>g.append(h("option",{value:l.id},l.id+" "+l.title)));s.append(g);});
+  return s;
+}
+function filterQ(v){if(v==="all")return Q.slice();if(v.startsWith("mod:"))return Q.filter(q=>q.mod.id===v.slice(4));return Q.filter(q=>q.lo===v);}
+
+// ===== PRACTICE (full list) =====
+const PF=Object.assign({lo:"all",ty:"",missed:false,flag:false,un:false,show:false},S.set.pf||{});PF.ty="";
+tabs.practice={render(){
+  main.append(h("h1",null,"Practice"));
+  main.append(h("p",{class:"mut"},"All the questions the mock exams use, grouped by objective. You can change an answer anytime. Tap your answer again to clear it."));
+  const sel=loSelect("psel",true);sel.value=PF.lo;
+    const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);draw();}},l);return b;};
+  const cnt=h("span",{class:"mut sm"});
+  const quiz=h("button",{class:"btn pri",onclick:()=>runPractice(pool(),"Practice")},"Quiz me one at a time");
+  const clr=h("button",{class:"btn sm",type:"button",onclick(){const P=pool().filter(q=>S.q[q.id]);if(!P.length)return;if(!clr.dataset.arm){clr.dataset.arm="1";clr.textContent="Tap again to reset "+P.length;setTimeout(()=>{delete clr.dataset.arm;draw();},3000);return;}delete clr.dataset.arm;P.forEach(q=>delete S.q[q.id]);save();draw();}});
+  main.append(h("div",{class:"filters"},h("div",{class:"row"},sel),h("div",{class:"row"},tg("missed","Missed"),tg("flag","Flagged"),tg("un","Unanswered"),tg("show","Show all answers")),h("div",{class:"row"},quiz,cnt,clr)));
+  const ds=[];MODS.forEach(m=>(m.drills||[]).forEach(d=>ds.push(d)));
+  if(ds.length){const dw=h("details",{class:"drills"},h("summary",null,"Drills ("+ds.length+")"));ds.forEach(d=>{const st=S.drills[d.id];dw.append(h("div",{class:"card link",onclick:()=>openDrill(d)},h("b",null,d.title),h("span",{class:"mut sm"}," LO "+d.lo+(st?" · last: "+st:""))));});main.append(dw);}
+  const list=h("div",{class:"plist"});main.append(list);
+  sel.addEventListener("change",()=>{PF.lo=sel.value;draw();});
+  function pool(){return filterQ(PF.lo).filter(q=>(!PF.ty||q.type===PF.ty)&&(!PF.missed||(S.q[q.id]&&S.q[q.id].c===false))&&(!PF.flag||S.flag[q.id])&&(!PF.un||!S.q[q.id]));}
+  function draw(){
+    S.set.pf=PF;save();list.innerHTML="";const P=pool();cnt.textContent=P.length+" question"+(P.length===1?"":"s");quiz.disabled=!P.length;
+    const na=P.filter(q=>S.q[q.id]).length;if(!clr.dataset.arm){clr.textContent="Reset answers";clr.disabled=!na;clr.title="Clears your answers to the questions shown with the current filters. Flags, bookmarks and mock history are kept.";}
+    if(!P.length){list.append(h("p",{class:"mut"},"No questions match these filters."));return;}
+    LOS.forEach(l=>{const qs=P.filter(q=>q.lo===l.id);if(!qs.length)return;
+      list.append(h("h2",{class:"lohead"},h("span",{class:"eyebrow"},loTag(l.id)," · "+qs.length),l.title));
+      qs.forEach(q=>list.append(qCard(q,PF.show)));});
+  }
+  draw();
+}};
+// one answerable question card (used in Practice list and in the study guide)
+function qCard(q,show,label){
+  const c=h("div",{class:"qcard"});
+  c.append(h("div",{class:"qhead"},h("span",null,label||loLabel(q,true)),flagBtn(q)));
+  const order=optsFor(q,"seed");let done=false;
+  // tap another option to change the answer; tap your current answer again to clear the question
+  let cur=null;
+  const v=qView(q,order,{change:true,onPick(k){
+    if(k===cur){cur=null;delete S.q[q.id];save();v.paint(null,show?"show":false);return;}
+    cur=k;record(q,order[k].c,order[k].t);v.paint(k,true);}});
+  c.append(v.el);const r=S.q[q.id];const pk=r&&r.pp!=null?order.findIndex(o=>o.t===r.pp):-1;
+  if(pk>=0){cur=pk;v.paint(pk,true);}else if(show){v.paint(null,"show");}
+  return c;
+}
+
+function runPractice(pool,title){
+  // unseen first, then oldest
+  const qs=shuffle(pool).sort((a,b)=>((S.q[a.id]||{}).t||0)-((S.q[b.id]||{}).t||0));
+  // ord/picks per question so Back can show an answered question again (locked, with feedback)
+  let i=0,right=0;const missedIds=[],ord=qs.map(q=>optsFor(q)),picks=[];
+  function show(){
+    // each new question (or the summary) closes the lecture window so it can't show the next answer
+    closeLec();main.innerHTML="";
+    if(i>=qs.length){
+      main.append(h("h1",null,title+" done"),h("p",null,right+" / "+qs.length+" correct"));
+      const r=h("div",{class:"row"});
+      if(missedIds.length)r.append(h("button",{class:"btn pri",onclick:()=>runPractice(missedIds.map(id=>QBY[id]),"Retry")},"Retry the "+missedIds.length+" missed"));
+      r.append(h("button",{class:"btn",onclick:()=>go("practice")},"Back"));main.append(r);return;
+    }
+    const q=qs[i];const order=ord[i];
+    main.append(h("div",{class:"qhead"},h("span",null,(i+1)+" / "+qs.length),h("span",null,loLabel(q,true)," ",flagBtn(q))));
+    main.append(h("div",{class:"bar"},h("i",{style:"width:"+(i/qs.length*100)+"%"})));
+    let done=picks[i]!=null;
+    const v=qView(q,order,{onPick(k){if(done)return;done=true;picks[i]=k;const ok=order[k].c;if(ok)right++;else missedIds.push(q.id);record(q,ok,order[k].t);v.paint(k,true);nx.disabled=false;nx.focus();}});
+    main.append(v.el);if(done)v.paint(picks[i],true);
+    const nx=h("button",{class:"btn pri",disabled:!done,onclick:()=>{i++;show();}},i===qs.length-1?"Finish":"Next");
+    main.append(h("div",{class:"row"},i>0?h("button",{class:"btn",onclick:()=>{i--;show();}},"Back"):null,nx,h("button",{class:"btn link",onclick:()=>{i=qs.length;show();}},"End")));
+  }
+  show();
+}
+
+// ===== DRILLS =====
+function openDrill(d){
+  stopAnims();main.innerHTML="";
+  main.append(h("div",{class:"row"},h("button",{class:"btn link",style:"margin-left:0;padding-left:0",onclick:()=>go("practice")},"← Practice")));
+  main.append(h("h1",null,d.title),h("p",{class:"lohd"},loTag(d.lo)," · "+LOBY[d.lo].title),h("p",{class:"mut"},d.intro));
+  const body=h("div");main.append(body);
+  if(d.kind==="sort")sortDrill(d,body,0);
+  else if(d.kind==="case")caseDrill(d,body);
+  else if(d.kind==="plot")plotDrill(d,body);
+  else if(d.kind==="tool")body.append(TOOLS[d.tool]());
+}
+function sortDrill(d,body,ri){
+  body.innerHTML="";
+  body.append(h("div",{class:"dtop"},h("button",{class:"btn sm",type:"button",onclick:()=>sortDrill(d,body,0)},"Restart drill")));
+  const R=d.rounds[ri];
+  if(d.rounds.length>1)body.append(h("h3",{style:"margin-top:4px"},"Round "+(ri+1)+" of "+d.rounds.length+": "+R.name));
+  const items=shuffle(R.items).map(([t,bin,why])=>({t,bins:Array.isArray(bin)?bin:[bin],why,miss:0,done:false}));
+  let sel=null,first=0;
+  const pool=h("div",{class:"chips"});const msg=h("div",{class:"msg"});
+  const binEls={};const bins=h("div",{class:"bins"});
+  R.bins.forEach(b=>{const cs=h("div",{class:"chips"});const el=h("div",{class:"bin","data-bin":b,onclick:()=>place(b)},h("h5",null,b),cs);binEls[b]={el,cs};bins.append(el);});
+  body.append(pool,msg,bins);
+  const chipEl=new Map();
+  items.forEach(it=>{const c=h("button",{class:"chip",type:"button"},it.t);chipEl.set(it,c);pool.append(c);
+    let st=null,gh=null,over=null;
+    c.addEventListener("pointerdown",e=>{if(it.done||e.button>0)return;st={x:e.clientX,y:e.clientY};try{c.setPointerCapture(e.pointerId);}catch(_){}});
+    c.addEventListener("pointermove",e=>{if(!st)return;
+      if(!gh){if(Math.hypot(e.clientX-st.x,e.clientY-st.y)<6)return;sel=it;paint();gh=c.cloneNode(true);gh.className="chip sel ghost";document.body.append(gh);c.classList.add("dragging");}
+      gh.style.transform="translate("+(e.clientX-gh.offsetWidth/2)+"px,"+(e.clientY-gh.offsetHeight/2)+"px)";
+      const t=document.elementFromPoint(e.clientX,e.clientY);const bn=t&&t.closest(".bin");if(over&&over!==bn)over.classList.remove("over");over=bn;if(bn)bn.classList.add("over");e.preventDefault();});
+    const end=()=>{if(!st)return;st=null;if(!gh)return;gh.remove();gh=null;c.classList.remove("dragging");c.dataset.nc="1";setTimeout(()=>{delete c.dataset.nc;},0);
+      const b=over&&over.dataset.bin;if(over)over.classList.remove("over");over=null;if(b)place(b);else{sel=null;paint();}};
+    c.addEventListener("pointerup",end);c.addEventListener("pointercancel",end);
+    c.addEventListener("click",()=>{if(c.dataset.nc||it.done)return;sel=(sel===it?null:it);paint();});
+  });
+  function paint(){items.forEach(it=>{const c=chipEl.get(it);if(!it.done){c.className="chip"+(it===sel?" sel":"")+(it.miss>=2?" rev":"");}});Object.values(binEls).forEach(b=>b.el.classList.toggle("arm",!!sel));}
+  function place(b){
+    if(!sel)return;const it=sel;
+    if(it.bins.includes(b)){
+      it.done=true;if(!it.miss)first++;const c=chipEl.get(it);c.className="chip done";binEls[b].cs.append(c);
+      msg.className="msg ok";msg.textContent=it.why?it.t+": "+it.why:"";
+      sel=null;
+    }else{
+      it.miss++;msg.className="msg bad";
+      msg.textContent=it.miss>=2?it.t+" goes in "+it.bins[0]+"."+(it.why?" "+it.why+".":""):it.t+" isn't "+b+". Try again.";
+    }
+    paint();
+    if(items.every(x=>x.done)){
+      const res=first+" / "+items.length+" on first try";S.drills[d.id]=res;save();
+      const row=h("div",{class:"row"},h("span",null,res));
+      if(ri+1<d.rounds.length)row.append(h("button",{class:"btn pri",onclick:()=>sortDrill(d,body,ri+1)},"Next round"));
+      row.append(h("button",{class:"btn",onclick:()=>sortDrill(d,body,ri)},"Redo round"));
+      body.append(row);
+    }
+  }
+}
+function caseDrill(d,body){
+  body.innerHTML="";
+  const cs=shuffle(d.cases);let i=0,right=0;
+  function show(){
+    body.innerHTML="";
+    body.append(h("div",{class:"dtop"},h("button",{class:"btn sm",type:"button",onclick:()=>caseDrill(d,body)},"Restart")));
+    if(i>=cs.length){const res=right+" / "+cs.length+" fully correct";S.drills[d.id]=res;save();body.append(h("p",null,res),h("div",{class:"row"},h("button",{class:"btn pri",onclick:()=>caseDrill(d,body)},"Again")));return;}
+    const c=cs[i];const pick=[null,null,null];
+    const card=h("div",{class:"case"},h("div",{class:"qhead"},h("span",null,(i+1)+" / "+cs.length),h("span",null,c.beyond?"beyond lecture":"")),h("div",{class:"t"},c.t));
+    const segs=d.fields.map((f,fi)=>{const seg=h("div",{class:"seg"});f.slice(1).forEach((lab,oi)=>seg.append(h("button",{onclick:()=>{if(pick.every(p=>p!=null)&&done)return;pick[fi]=oi;paintSeg();check();}},lab)));card.append(h("div",{class:"fld"},h("div",{class:"l"},f[0]),seg));return seg;});
+    let done=false;const out=h("div");card.append(out);body.append(card);
+    function paintSeg(){segs.forEach((s,fi)=>[...s.children].forEach((b,oi)=>{b.className="";if(done){if(oi===c.a[fi])b.className="ok";else if(oi===pick[fi])b.className="bad";}else if(oi===pick[fi])b.className="on";}));}
+    function check(){if(done||pick.some(p=>p==null))return;done=true;card.classList.add("done");const ok=pick.every((p,k)=>p===c.a[k]);if(ok)right++;paintSeg();
+      out.append(h("div",{class:"fb "+(ok?"ok":"bad")},h("b",{class:"v"},ok?"Correct":"Incorrect"),h("div",{html:c.e})),h("div",{class:"row"},h("button",{class:"btn pri",onclick:()=>{i++;show();}},i===cs.length-1?"Finish":"Next")));}
+  }
+  show();
+}
+
+// ===== KINETICS PLOTS =====
+// mode "mm" (V vs [S]) or "lb" (1/V vs 1/[S]); curves [{km,vm,col,dash,lab}]
+function kinSVG(mode,curves,o){
+  o=o||{};const W=320,H=232,L=34,R=310,T=12,B=200;
+  let g=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="12"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const line=(pts,c)=>`<polyline fill="none" stroke="${c.col}" stroke-width="2.4"${c.dash?` stroke-dasharray="${c.dash}"`:""} points="${pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" ")}"/>`;
+  let leg;
+  if(mode==="mm"){
+    const sx=o.smax||10,vy=o.vmax||Math.max(...curves.map(c=>c.vm))*1.15;
+    const X=v=>L+(R-L)*v/sx,Y=v=>B-(B-T)*v/vy;
+    g+=`<line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="#1c1c1c"/><line x1="${L}" y1="${T}" x2="${L}" y2="${B}" stroke="#1c1c1c"/>`;
+    curves.forEach(c=>{const p=[];for(let k=0;k<=120;k++){const S=sx*k/120;p.push([X(S),Y(c.vm*S/(c.km+S))]);}
+      if(o.vlines)g+=`<line x1="${L}" x2="${R}" y1="${Y(c.vm)}" y2="${Y(c.vm)}" stroke="${c.col}" stroke-width="1" stroke-dasharray="2 3"/>`;
+      g+=line(p,c);
+      if(o.marks&&c.km<=sx)g+=`<line x1="${X(c.km)}" x2="${X(c.km)}" y1="${Y(c.vm/2)}" y2="${B}" stroke="${c.col}" stroke-width="1" stroke-dasharray="3 3"/><circle cx="${X(c.km)}" cy="${Y(c.vm/2)}" r="3.5" fill="${c.col}"/>`;});
+    g+=`<text x="${R}" y="${B+16}" text-anchor="end" fill="#666">[S] →</text><text x="${L+4}" y="${T+10}" fill="#666">V</text>`;
+    leg=[R-6,T+14,"end"];
+  }else{
+    const xmax=o.xmax||2.5,xmin=Math.min(...curves.map(c=>-1/c.km))*1.3;
+    const ymax=Math.max(...curves.map(c=>c.km/c.vm*xmax+1/c.vm))*1.08;
+    const X=v=>L+(R-L)*(v-xmin)/(xmax-xmin),Y=v=>B-(B-T)*v/ymax;
+    g+=`<line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="#1c1c1c"/><line x1="${X(0)}" y1="${T}" x2="${X(0)}" y2="${B}" stroke="#1c1c1c"/>`;
+    curves.forEach(c=>{const x0=-1/c.km;g+=line([[X(x0),Y(0)],[X(xmax),Y(c.km/c.vm*xmax+1/c.vm)]],c);
+      g+=`<circle cx="${X(x0)}" cy="${Y(0)}" r="3.5" fill="${c.col}"/><circle cx="${X(0)}" cy="${Y(1/c.vm)}" r="3.5" fill="${c.col}"/>`;});
+    g+=`<text x="${R}" y="${B+16}" text-anchor="end" fill="#666">1/[S]</text><text x="${X(0)+5}" y="${T+10}" fill="#666">1/V</text>`;
+    leg=[L+4,T+14,"start"];
+  }
+  curves.forEach((c,i)=>{if(!c.lab)return;const y=leg[1]+i*16,x=leg[0];const lx=leg[2]==="end"?x-20:x;
+    g+=`<line x1="${lx}" x2="${lx+16}" y1="${y-4}" y2="${y-4}" stroke="${c.col}" stroke-width="2.4"${c.dash?` stroke-dasharray="${c.dash}"`:""}/><text x="${leg[2]==="end"?x-24:x+20}" y="${y}" text-anchor="${leg[2]}" fill="${c.col}">${c.lab}</text>`;});
+  return g+"</svg>";
+}
+function plotDrill(d,body){
+  const N=10,BK="#1c1c1c",BL="#1f4b8f";
+  const kinds=shuffle(["mmI","mmI","mmI","lbI","lbI","lbI","mmK","mmV","lbK","lbV"]);
+  const rnd=(a,b)=>a+Math.random()*(b-a),pick=a=>a[Math.floor(Math.random()*a.length)];
+  const TY=["Competitive","Noncompetitive","Uncompetitive"];
+  const WHY={mm:["Same plateau, so Vmax is unchanged. The blue curve needs more substrate to reach half of it, so Km went up. Extra substrate outcompetes the inhibitor: competitive.","Lower plateau, but both curves reach half of their own maximum at the same [S]. Vmax down, Km unchanged: noncompetitive.","Lower plateau, and the blue curve reaches half of its own maximum at a lower [S]. Vmax and Km both dropped: uncompetitive."],
+    lb:["The lines meet on the y-axis. Same 1/Vmax means same Vmax. The blue x-intercept moved toward zero, so −1/Km got smaller in size and Km went up: competitive.","The lines meet on the x-axis. Same −1/Km means same Km. The blue y-intercept is higher, so 1/Vmax went up and Vmax went down: noncompetitive.","The lines are parallel, so both intercepts moved. Higher y-intercept means lower Vmax. The x-intercept moved farther left, so Km went down too: uncompetitive."]};
+  const items=kinds.slice(0,N).map(k=>{
+    const mode=k.slice(0,2),q=k.slice(2);
+    if(q==="I"){const t=Math.floor(Math.random()*3),K=rnd(.5,.9),a=pick([2,2.5,3]);let km=K,vm=100;if(t===0)km=K*a;if(t===1)vm=100/a;if(t===2){km=K/a;vm=100/a;}
+      return {mode,cur:[{km:K,vm:100,col:BK,lab:"no inhibitor"},{km,vm,col:BL,lab:"+ inhibitor"}],t:"Black has no inhibitor. Blue has an inhibitor added. Which type of inhibitor is it?",opts:TY,a:t,e:WHY[mode][t]};}
+    const r=pick([1/3,1,3]),K=rnd(.45,.7),V=pick([80,100,120]);
+    let kmA=K,kmB=K,vmA=V,vmB=V;
+    if(q==="K"){kmB=K*r;vmB=pick([V*.6,V,V*1.5]);if(r===1&&vmB===V)vmB=V*1.5;}
+    else{vmB=V*r**.45;kmB=pick([K/2.5,K,K*2.5]);if(r===1&&kmB===K)kmB=K*2.5;}
+    const cur=[{km:kmA,vm:vmA,col:BK,lab:"enzyme A"},{km:kmB,vm:vmB,col:BL,lab:"enzyme B"}];
+    const opts=["Enzyme A (black)","Enzyme B (blue)","About the same"];
+    if(q==="K"){const a=Math.abs(kmA-kmB)<1e-6?2:(kmA<kmB?0:1);
+      const e=mode==="mm"?"Read each curve at half of its own plateau, then drop down to [S]. "+(a===2?"Both reach half of Vmax at the same [S], so the Km values match even though the plateaus differ.":"Enzyme "+(a===0?"A":"B")+" gets there at lower [S], so it has the lower Km."):"The x-intercept is −1/Km. "+(a===2?"Both lines hit the x-axis at the same point, so Km is the same.":"The intercept farther left of zero means a larger 1/Km, so a smaller Km: enzyme "+(a===0?"A":"B")+".");
+      return {mode,cur,t:"Which enzyme has the lower Km for this substrate?",opts,a,e};}
+    const a=Math.abs(vmA-vmB)<1e-6?2:(vmA>vmB?0:1);
+    const e=mode==="mm"?"Vmax is the plateau each curve levels off toward. "+(a===2?"Both level off at the same height.":"Enzyme "+(a===0?"A":"B")+" levels off higher."):"The y-intercept is 1/Vmax, so the lower intercept is the higher Vmax. "+(a===2?"Both lines cross the y-axis at the same point.":"Enzyme "+(a===0?"A":"B")+" has the lower y-intercept.");
+    return {mode,cur,t:"Which enzyme has the higher Vmax?",opts,a,e};
+  });
+  let i=0,right=0;
+  function show(){
+    body.innerHTML="";
+    body.append(h("div",{class:"dtop"},h("button",{class:"btn sm",type:"button",onclick:()=>plotDrill(d,body)},"Restart")));
+    if(i>=N){const res=right+" / "+N+" correct";S.drills[d.id]=res;save();body.append(h("p",null,res),h("div",{class:"row"},h("button",{class:"btn pri",onclick:()=>plotDrill(d,body)},"New set")));return;}
+    const it=items[i];
+    const opt=it.mode==="mm"?{smax:6,vmax:Math.max(...it.cur.map(c=>c.vm))*1.4,vlines:true}:{xmax:2.5};
+    const card=h("div",{class:"case pq"},h("div",{class:"qhead"},h("span",null,(i+1)+" / "+N),h("span",null,it.mode==="mm"?"Michaelis-Menten plot":"Lineweaver-Burk plot")),h("div",{class:"t"},it.t),h("div",{class:"fig",html:kinSVG(it.mode,it.cur,opt)}));
+    const box=h("div",{class:"opts"});const out=h("div");let done=false;
+    const btns=it.opts.map((t,k)=>{const b=h("button",{class:"opt",type:"button",onclick:()=>{if(done)return;done=true;const ok=k===it.a;if(ok)right++;
+      btns.forEach((x,j)=>{x.disabled=true;if(j===it.a)x.classList.add("ok");else if(j===k)x.classList.add("bad");});
+      out.append(h("div",{class:"fb "+(ok?"ok":"bad")},h("b",{class:"v"},ok?"Correct":"Incorrect"),h("div",null,it.e)),h("div",{class:"row"},h("button",{class:"btn pri",onclick:()=>{i++;show();}},i===N-1?"Finish":"Next")));}},t);box.append(b);return b;});
+    card.append(box,out);body.append(card);
+  }
+  show();
+}
+
+// ===== TOOLS =====
+const TOOLMETA={hh:["pH and ratio explorer","Drag pKa and pH, or pick a lecture example."],kin:["Kinetics and inhibitor plotter","Pick an inhibitor type and drag the sliders. The gray dashed curve is the enzyme with no inhibitor at 1× enzyme."]};
+const TOOLS={kin(){
+  const w=h("div",{class:"hh kin"});let inh="none";
+  const sl=(min,max,step,val)=>h("input",{type:"range",min,max,step,value:val});
+  const km=sl(0.5,3,0.1,1),en=sl(0.5,2,0.1,1),ii=sl(0,3,0.1,1.5);const kmv=h("b"),env=h("b"),iiv=h("b");
+  const seg=h("div",{class:"seg"});[["none","None"],["comp","Competitive"],["non","Noncompetitive"],["un","Uncompetitive"]].forEach(([v,l])=>{const b=h("button",{type:"button",onclick:()=>{inh=v;draw();}},l);b.dataset.v=v;seg.append(b);});
+  const out=h("div",{class:"out"}),p1=h("div",{class:"fig"}),p2=h("div",{class:"fig"});
+  const rs=h("button",{class:"btn sm",type:"button",onclick:()=>{inh="none";km.value=1;en.value=1;ii.value=1.5;draw();}},"Reset");
+  w.append(h("div",{class:"dtop"},rs),h("div",{class:"l sm mut"},"Inhibitor"),seg,h("div",{class:"sl"},h("span",{class:"sm"},"Km (mM)"),km,kmv),h("div",{class:"sl"},h("span",{class:"sm"},"Enzyme amount"),en,env),h("div",{class:"sl"},h("span",{class:"sm"},"Inhibitor amount"),ii,iiv),out,h("div",{class:"kplots"},p1,p2));
+  [km,en,ii].forEach(x=>x.addEventListener("input",draw));
+  const WH={none:"No inhibitor. Change the enzyme amount: Vmax scales with it and Km stays put, because Km describes the enzyme–substrate pair, not how much enzyme there is.",
+    comp:"The inhibitor competes with substrate for the active site. Enough substrate still gets the enzyme to Vmax, but it takes more [S] to reach half of it, so the apparent Km rises. LB lines cross on the y-axis.",
+    non:"The inhibitor binds somewhere else and stops catalysis. More substrate can't undo that, so Vmax falls. Substrate binding is unchanged, so Km stays the same. LB lines cross on the x-axis.",
+    un:"The inhibitor binds only the enzyme–substrate complex and traps it. Vmax and the apparent Km drop by the same factor, so the LB slope (Km/Vmax) is unchanged and the lines are parallel."};
+  const arr=(a,b)=>Math.abs(a-b)<1e-6?"same":(a>b?"up":"down");
+  function draw(){
+    [...seg.children].forEach(b=>b.classList.toggle("on",b.dataset.v===inh));
+    const K=+km.value,E=+en.value,a=inh==="none"?1:1+(+ii.value);ii.disabled=inh==="none";
+    let Km=K,Vm=100*E;if(inh==="comp")Km=K*a;if(inh==="non")Vm/=a;if(inh==="un"){Km=K/a;Vm/=a;}
+    kmv.textContent=K.toFixed(1);env.textContent=E.toFixed(1)+"×";iiv.textContent=inh==="none"?"0":(+ii.value).toFixed(1);
+    out.innerHTML=`Km = <b>${Km.toFixed(2)} mM</b> (${arr(Km,K)}) · Vmax = <b>${Vm.toFixed(0)}</b> (${arr(Vm,100)})<br><span class="sm">${WH[inh]}</span>`;
+    const cur={km:Km,vm:Vm,col:"#1f4b8f",lab:"current"},base={km:K,vm:100,col:"#999",dash:"5 4",lab:"baseline"};
+    const cs=(Math.abs(Km-K)<1e-6&&Math.abs(Vm-100)<1e-6)?[cur]:[base,cur];
+    p1.innerHTML=kinSVG("mm",cs,{smax:10,vmax:230,marks:true});p2.innerHTML=kinSVG("lb",cs,{xmax:2.5});
+  }
+  draw();return w;
+},hh(){
+  const w=h("div",{class:"hh"});
+  const P=[["Aspirin, stomach",3.5,1.5,"HA","A⁻"],["Aspirin, small intestine",3.5,3.5,"HA","A⁻"],["Aspirin, blood",3.5,7.4,"HA","A⁻"],["Acetic acid, blood",4.8,7.4,"HA","A⁻"],["Blood, normal",6.1,7.4,"H₂CO₃","HCO₃⁻"],["Blood, pH 7.25",6.1,7.25,"H₂CO₃","HCO₃⁻"]];
+  let names=["HA","A⁻"];
+  const pk=h("input",{type:"range",min:0,max:14,step:0.05,value:4.8}),ph=h("input",{type:"range",min:0,max:14,step:0.05,value:7.4});
+  const pkv=h("b"),phv=h("b");
+  const out=h("div",{class:"out"}),split=h("div",{class:"split"}),plot=h("div",{class:"fig"});
+  const pre=h("div",{class:"presets"},P.map(p=>h("button",{class:"btn sm",onclick:()=>{pk.value=p[1];ph.value=p[2];names=[p[3],p[4]];draw();}},p[0])));
+  const rs=h("button",{class:"btn sm",type:"button",onclick:()=>{pk.value=4.8;ph.value=7.4;names=["HA","A⁻"];draw();}},"Reset");
+  w.append(h("div",{class:"dtop"},rs),pre,h("div",{class:"sl"},h("span",null,"pKa"),pk,pkv),h("div",{class:"sl"},h("span",null,"pH"),ph,phv),out,split,plot);
+  pk.addEventListener("input",()=>{names=["HA","A⁻"];draw();});ph.addEventListener("input",draw);
+  function fmt(r){if(r>=1e4||r<1e-3)return r.toExponential(1).replace("e+","×10^").replace("e","×10^");if(r>=100)return Math.round(r).toLocaleString();if(r>=10)return r.toFixed(1);return r.toPrecision(2);}
+  function draw(){
+    const a=+pk.value,b=+ph.value,d=b-a,r=Math.pow(10,d),f=r/(1+r);
+    pkv.textContent=a.toFixed(2).replace(/0$/,"");phv.textContent=b.toFixed(2).replace(/0$/,"");
+    const who=Math.abs(d)<0.05?"Equal amounts, best buffering":(d>0?"pH above pKa → "+names[1]+" dominates":"pH below pKa → "+names[0]+" dominates");
+    const inb=Math.abs(d)<=1?"inside the buffer range (pKa ± 1)":"outside the buffer range (pKa ± 1)";
+    out.innerHTML=`pH − pKa = ${d.toFixed(2)} → [${names[1]}]/[${names[0]}] = 10<sup>${d.toFixed(2)}</sup> = <b>${fmt(r)} : 1</b><br>${who}; ${inb}.`;
+    split.innerHTML="";const pa=(f*100);
+    split.append(h("div",{class:"ha",style:"width:"+(100-pa)+"%"},(100-pa)>12?names[0]+" "+(100-pa).toFixed(pa>99.9||pa<0.1?2:1)+"%":""),h("div",{class:"a",style:"width:"+pa+"%"},pa>12?names[1]+" "+pa.toFixed(pa>99.9||pa<0.1?2:1)+"%":""));
+    // curve: pH vs fraction deprotonated
+    const W=520,H=230,L=40,Rr=505,T=12,B=200,X=v=>L+(Rr-L)*v,Y=p=>B-(B-T)*p/14;
+    let pts=[];for(let k=1;k<200;k++){const fr=k/200;pts.push(X(fr).toFixed(1)+","+Y(Math.max(0,Math.min(14,a+Math.log10(fr/(1-fr))))).toFixed(1));}
+    const fd=Math.min(0.995,Math.max(0.005,f)),dotY=Y(Math.max(0,Math.min(14,b)));
+    let g=`<svg viewBox="0 0 ${W} ${H+14}" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="12"><rect width="${W}" height="${H+14}" fill="#fff"/>`;
+    g+=`<rect x="${L}" y="${Y(Math.min(14,a+1))}" width="${Rr-L}" height="${Y(Math.max(0,a-1))-Y(Math.min(14,a+1))}" fill="#eef2f9"/>`;
+    for(let p=0;p<=14;p+=2)g+=`<line x1="${L}" x2="${Rr}" y1="${Y(p)}" y2="${Y(p)}" stroke="#eee"/><text x="${L-6}" y="${Y(p)+4}" text-anchor="end" fill="#666">${p}</text>`;
+    g+=`<line x1="${L}" y1="${B}" x2="${Rr}" y2="${B}" stroke="#1c1c1c"/><line x1="${L}" y1="${T}" x2="${L}" y2="${B}" stroke="#1c1c1c"/>`;
+    g+=`<text x="${L+6}" y="${Y(Math.min(14,a+1))-4}" fill="#1f4b8f">buffer range (pKa ± 1)</text>`;
+    g+=`<polyline fill="none" stroke="#1f4b8f" stroke-width="2.5" points="${pts.join(" ")}"/>`;
+    g+=`<circle cx="${X(fd)}" cy="${dotY}" r="6" fill="#1c1c1c"/>`;
+    g+=`<text x="${L}" y="${H+8}" fill="#666">all ${names[0]}</text><text x="${(L+Rr)/2}" y="${H+8}" text-anchor="middle" fill="#666">fraction deprotonated →</text><text x="${Rr}" y="${H+8}" text-anchor="end" fill="#666">all ${names[1]}</text></svg>`;
+    plot.innerHTML=g;
+  }
+  draw();return w;
+}};
+
+// ===== M3 animated tools =====
+// Loops register a stop function in ANIMS; go() and openDrill() call stopAnims(). Loops also stop themselves once their element leaves the page.
+const ANIMS=new Set();
+function stopAnims(){ANIMS.forEach(f=>{try{f();}catch(e){}});ANIMS.clear();}
+const RMQ=window.matchMedia?matchMedia("(prefers-reduced-motion: reduce)"):{matches:false};
+const C3={acc:"#1f4b8f",ok:"#1d7a3a",bad:"#b42318",fg:"#1c1c1c",mut:"#666",gry:"#9aa3ad",soft:"#eef2f9",okbg:"#eef7f0",badbg:"#fdf1f0"};
+const svgT=(x,y,s,a)=>`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}"${a||""}>${s}</text>`;
+TOOLMETA.cac=["Citric acid cycle wheel","Step through one turn and watch the carbons and carriers add up, or switch on regulators and poisons to see where they act."];
+TOOLS.cac=function(){
+  const W=420,H=304,cx=210,cy=160,r=90;
+  const N=[["oxaloacetate",4],["citrate",6],["isocitrate",6],["α-ketoglutarate",5],["succinyl CoA",4],["succinate",4],["fumarate",4],["malate",4]];
+  const ST=[["Citrate synthase","Acetyl CoA (2C) joins oxaloacetate (4C) to make citrate (6C). CoA is released.",{},1,"citrate synthase"],
+    ["Aconitase (name not required)","Citrate is rearranged into isocitrate. Still 6 carbons.",{},0,"citrate → isocitrate"],
+    ["Isocitrate dehydrogenase","Isocitrate (6C) → α-ketoglutarate (5C). The first CO₂ leaves and NAD⁺ → NADH.",{n:1,c:1},1,"isocitrate DH"],
+    ["α-Ketoglutarate dehydrogenase complex","α-Ketoglutarate (5C) → succinyl CoA (4C). The second CO₂ leaves and NAD⁺ → NADH.",{n:1,c:1},1,"α-KG DH complex"],
+    ["Succinyl CoA synthetase (name not required)","Succinyl CoA → succinate. This step makes GTP, which counts as the cycle's 1 ATP.",{a:1},0,"succinyl CoA → succinate"],
+    ["Succinate dehydrogenase (Complex II)","Succinate → fumarate. Two H go to FAD, making FADH₂, which feeds the ETC directly.",{f:1},1,"succinate DH"],
+    ["Fumarase (name not required)","Water is added: fumarate → malate.",{},0,"fumarate → malate"],
+    ["Malate dehydrogenase","Malate → oxaloacetate, and NAD⁺ → NADH. Oxaloacetate is back, ready for the next acetyl CoA.",{n:1},0,"malate DH"]];
+  const REG=[["ca","Ca²⁺"],["nadh","High NADH"],["atp","High ATP"],["adp","High ADP"],["mal","Malonate"],["flu","Fluoroacetate"],["ars","Arsenite"]];
+  const EFF={ca:{2:[1,"Ca²⁺"],3:[1,"Ca²⁺"]},nadh:{e:[-1,"NADH"],2:[-1,"NADH (no free NAD⁺)"],3:[-1,"NADH (no free NAD⁺)"]},atp:{e:[-1,"ATP"],0:[-1,"ATP"]},adp:{2:[1,"ADP"]},
+    mal:{5:["x","malonate (competitive, looks like succinate)"]},flu:{1:["x","fluoroacetate"]},ars:{3:["x","arsenite"]}};
+  const ang=i=>(-22.5+45*i)*Math.PI/180,P=(a,rr)=>[cx+rr*Math.sin(a),cy-rr*Math.cos(a)];
+  let mode="run",k=0,playing=false,anim=null,raf=0,wait=0;const on=new Set();
+  const w=h("div",{class:"hh cac"});
+  const seg=h("div",{class:"seg"});[["run","Run one turn"],["reg","Regulators"]].forEach(([v,l])=>{const b=h("button",{type:"button",onclick:()=>{stop();mode=v;draw();}},l);b.dataset.v=v;seg.append(b);});
+  const pic=h("div",{class:"fig"}),ctl=h("div",{class:"row"}),tal=h("div",{class:"tal"}),out=h("div",{class:"out"});
+  w.append(h("div",{class:"dtop"},seg),pic,ctl,tal,out);
+  function stop(){playing=false;anim=null;if(raf)cancelAnimationFrame(raf);raf=0;ANIMS.delete(stop);}
+  function loop(){if(!raf){raf=requestAnimationFrame(tick);ANIMS.add(stop);}}
+  function tick(ts){raf=0;if(!w.isConnected){stop();return;}
+    if(anim){if(!anim.t0)anim.t0=ts;const t=Math.min(1,(ts-anim.t0)/700);const d=pic.querySelector(".mdot");if(d){const [x,y]=P(ang(anim.i)+0.13+t*(Math.PI/4-0.26),r);d.setAttribute("cx",x.toFixed(1));d.setAttribute("cy",y.toFixed(1));}
+      if(t>=1){anim=null;k++;wait=ts+450;draw();}}
+    else if(playing){if(k>=8){playing=false;draw();}else if(ts>=wait)advance();}
+    if(anim||playing)loop();else ANIMS.delete(stop);}
+  function advance(){if(k>=8||anim)return;if(RMQ.matches){k++;wait=performance.now()+900;draw();}else{anim={i:k};draw();}if(playing||anim)loop();}
+  function eff(){const m={};on.forEach(t=>{for(const [s,v] of Object.entries(EFF[t])){(m[s]=m[s]||[]).push(v);}});return m;}
+  function svg(){
+    const E=mode==="reg"?eff():{};let g=`<svg viewBox="46 0 376 ${H}" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="13"><rect x="46" width="376" height="${H}" fill="#fff"/>`;
+    const blk=i=>(E[i]||[]).some(v=>v[0]==="x"),net=i=>(E[i]||[]).reduce((s,v)=>s+(v[0]==="x"?0:v[0]),0);
+    const colOf=key=>{if(mode!=="reg")return null;const L=E[key]||[];if(!L.length)return null;if(L.some(v=>v[0]==="x"))return C3.bad;const n=net(key);return n>0?C3.ok:n<0?C3.bad:C3.mut;};
+    // entry arrow
+    const ec=colOf("e")||C3.fg;
+    g+=`<line x1="${cx}" y1="14" x2="${cx}" y2="${cy-r-10}" stroke="${ec}" stroke-width="${ec===C3.fg?2:3.5}"/><path d="M${cx-6} ${cy-r-16} L${cx} ${cy-r-6} L${cx+6} ${cy-r-16} z" fill="${ec}"/>`+svgT(cx+10,26,"acetyl CoA (2C)",` fill="${ec}" font-weight="600"`);
+    for(let i=0;i<8;i++){
+      const [x0,y0]=P(ang(i)+0.13,r),[x1,y1]=P(ang(i+1)-0.13,r);let col=C3.gry,sw=ST[i][3]?3:2,dash="";
+      if(mode==="run"){if(i<k||(anim&&anim.i===i))col=C3.acc;}
+      else{const c=colOf(i);if(c){col=c;sw=4;}if(blk(i))dash=` stroke-dasharray="6 4"`;}
+      g+=`<path d="M${x0.toFixed(1)} ${y0.toFixed(1)} A${r} ${r} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}" fill="none" stroke="${col}" stroke-width="${sw}"${dash}/>`;
+      const [ax,ay]=P(ang(i+1)-0.13,r),ta=ang(i+1)-0.13+Math.PI/2,s=6;
+      g+=`<path d="M${(ax-s*Math.sin(ta)-s*0.6*Math.cos(ta)).toFixed(1)} ${(ay+s*Math.cos(ta)-s*0.6*Math.sin(ta)).toFixed(1)} L${ax.toFixed(1)} ${ay.toFixed(1)} L${(ax-s*Math.sin(ta)+s*0.6*Math.cos(ta)).toFixed(1)} ${(ay+s*Math.cos(ta)+s*0.6*Math.sin(ta)).toFixed(1)}" fill="none" stroke="${col}" stroke-width="2"/>`;
+      const [mx,my]=P(ang(i)+Math.PI/8,r);
+      if(mode==="reg"&&blk(i))g+=`<circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="11" fill="#fff" stroke="${C3.bad}" stroke-width="2"/>`+svgT(mx,my+5,"×",` text-anchor="middle" fill="${C3.bad}" font-weight="700" font-size="17"`);
+      else g+=`<circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="10" fill="#fff" stroke="${col}" stroke-width="1.5"/>`+svgT(mx,my+4.5,String(i+1),` text-anchor="middle" fill="${col===C3.gry?C3.mut:col}" font-weight="700" font-size="12"`);
+    }
+    const cur=k%8,sw=new Set();if(mode==="reg")for(let i=0;i<8;i++)if(blk(i))sw.add(i);
+    N.forEach(([n,c],i)=>{const a=ang(i),[x,y]=P(a,r);const big=sw.has(i),hot=mode==="run"&&i===cur&&!anim;
+      g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${big?14:hot?8:5}" fill="${big?C3.badbg:hot?C3.acc:C3.fg}" stroke="${big?C3.bad:"none"}" stroke-width="2"/>`;
+      const s=Math.sin(a),co=Math.cos(a),[lx,ly]=P(a,r+(big?20:16)),anc=s>0.3?"start":s<-0.3?"end":"middle",dy=co<-0.5?10:co>0.5?-14:0;
+      g+=svgT(lx,ly+dy,n,` text-anchor="${anc}" fill="${big?C3.bad:C3.fg}"${big||hot?' font-weight="700"':""}`)+svgT(lx,ly+dy+15,c+"C",` text-anchor="${anc}" fill="${C3.mut}" font-size="12"`);});
+    if(mode==="run"){
+      if(anim){const [x,y]=P(ang(anim.i)+0.13,r);g+=`<circle class="mdot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" fill="${C3.acc}"/>`;}
+      const t1=k===0?"2C + 4C":N[cur][1]+" carbons",t2=k===0?"about to join":N[cur][0];
+      g+=svgT(cx,cy-2,t1,` text-anchor="middle" font-size="20" font-weight="700" fill="${C3.acc}"`)+svgT(cx,cy+18,t2,` text-anchor="middle" fill="${C3.mut}"`);
+    }
+    return g+"</svg>";
+  }
+  function draw(){
+    [...seg.children].forEach(b=>b.classList.toggle("on",b.dataset.v===mode));
+    pic.innerHTML=svg();ctl.innerHTML="";
+    if(mode==="run"){
+      ctl.append(h("button",{class:"btn pri",type:"button",disabled:k>=8||!!anim||playing,onclick:()=>advance()},"Next step"),
+        h("button",{class:"btn",type:"button",disabled:k>=8&&!playing,onclick:()=>{if(playing){playing=false;draw();}else{playing=true;wait=0;advance();loop();draw();}}},playing?"Pause":"Play"),
+        h("button",{class:"btn link",type:"button",onclick:()=>{stop();k=0;draw();}},"Reset"));
+      const sum={n:0,f:0,a:0,c:0};for(let i=0;i<k;i++)for(const [x,v] of Object.entries(ST[i][2]))sum[x]+=v;
+      tal.style.display="";tal.innerHTML="";[["NADH","n",3],["FADH₂","f",1],["ATP (GTP)","a",1],["CO₂","c",2]].forEach(([l,x,m])=>tal.append(h("div",{class:sum[x]===m?"full":""},h("b",null,sum[x]+" / "+m),l)));
+      const s=k===0?null:ST[k-1];
+      out.innerHTML=k===0?"Press <b>Next step</b> or <b>Play</b>. Acetyl CoA (2C) enters at the top and joins oxaloacetate (4C).":
+        `<b>Step ${k}: ${s[0]}</b><br>${s[1]}`+(k===8?`<br><span class="sm">One turn: 2 CO₂, 3 NADH, 1 FADH₂ and 1 ATP (as GTP). The two carbons that left as CO₂ are not the two that entered as acetyl in this turn.</span>`:"");
+    }else{
+      tal.style.display="none";
+      const pills=h("div",{class:"row pills"});REG.forEach(([v,l])=>pills.append(h("button",{class:"pill"+(on.has(v)?" on":""),type:"button","aria-pressed":on.has(v)?"true":"false",onclick:()=>{on.has(v)?on.delete(v):on.add(v);draw();}},l)));
+      ctl.append(pills,h("button",{class:"btn link",type:"button",onclick:()=>{on.clear();draw();}},"Clear"));
+      const E=eff(),lines=[];const nm={e:"Acetyl CoA formation",0:"Citrate synthase",1:"Citrate → isocitrate",2:"Isocitrate DH",3:"α-KG DH complex",5:"Succinate DH"};
+      ["e","0","1","2","3","5"].forEach(s=>{const L=E[s];if(!L)return;lines.push(`<b>${nm[s]}</b>: `+L.map(v=>v[0]==="x"?`blocked by ${v[1]}`:(v[0]>0?"+ ":"− ")+v[1]).join(", "));});
+      const bl=["1","3","5"].filter(s=>(E[s]||[]).some(v=>v[0]==="x"));
+      let vd="";
+      if(!on.size)vd="Nothing switched on. Pick a regulator or a poison to see where it acts. Green = activated, red = inhibited or blocked.";
+      else if(bl.length)vd="<b>Cycle blocked.</b> "+bl.map(s=>`${N[+s][0]} piles up before the ${nm[s]} step`).join("; ")+". Less NADH and FADH₂ reach the ETC, so less ATP is made. Poisons aren't regulation: the cell can't switch them off.";
+      else{let up=0,dn=0;Object.values(E).forEach(L=>L.forEach(v=>{if(v[0]>0)up++;else if(v[0]<0)dn++;}));
+        vd=up&&!dn?"<b>Cycle speeds up.</b> These are demand signals: the cell is spending ATP.":dn&&!up?"<b>Cycle slows.</b> These say the cell already has plenty of energy.":"<b>Mixed signals.</b> Activators and inhibitors are acting at once; the net rate depends on how strong each one is.";}
+      out.innerHTML=vd+(lines.length?"<br>"+lines.join("<br>"):"");
+    }
+  }
+  draw();return w;
+};
+
+TOOLMETA.etc=["Electron transport chain simulator","Block a complex, add an uncoupler or change ADP supply, then compare O₂ use, ATP output, the gradient and heat with normal. Electrons are blue, protons are black."];
+TOOLS.etc=function(){
+  const W=400,H=250;
+  const st={b:[0,0,0,0,0],unc:0,adp:1};
+  // steady-state model (not physics): flux through I and II slows as the gradient rises; H+ return through ATP synthase (needs ADP) and leaks
+  function model(s){const b=s.b,down=b[2]||b[3];const JI0=(b[0]||down)?0:1,JII0=(b[1]||down)?0:0.35;
+    const ks=b[4]?0:(s.adp?14:2.5),kl=0.6+(s.unc?50:0),bp=G=>Math.max(0,1-G*G*G);
+    let lo=0,hi=1;for(let i=0;i<50;i++){const m=(lo+hi)/2;((JI0*11+JII0*7)*bp(m)-(ks+kl)*m>0)?lo=m:hi=m;}
+    const G=lo,JI=JI0*bp(G),JII=JII0*bp(G),S=ks*G,L=kl*G;
+    return {G,JI,JII,O2:JI+JII,S,L,ATP:S/4,heat:L+4*(JI+JII),nadh:down||b[0]?1:Math.max(0.03,1-JI),down,JI0,JII0};}
+  const N0=model({b:[0,0,0,0,0],unc:0,adp:1});
+  let born=false,M=model(st),parts=[],acc={e1:0,e2:0,u1:0,u3:0,u4:0,dv:0,dl:0},rot=0,raf=0,last=0,vis=true,io=null;
+  const cloud=[];for(let i=0;i<34;i++)cloud.push([12+Math.random()*376,24+Math.random()*46,Math.random()*6.28]);
+  const PI=[[50,190],[50,112],[139,110],[185,110],[213,79],[231,79],[258,108],[258,180]],PII=[[110,178],[110,138],[141,116],[185,110],[213,79],[231,79],[258,108],[258,180]];
+  const plen=p=>{let L=0;for(let i=1;i<p.length;i++)L+=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);return L;},LI=plen(PI),LII=plen(PII);
+  function at(p,d){for(let i=1;i<p.length;i++){const l=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);if(d<=l){const t=d/l;return [p[i-1][0]+t*(p[i][0]-p[i-1][0]),p[i-1][1]+t*(p[i][1]-p[i-1][1])];}d-=l;}return p[p.length-1];}
+  const w=h("div",{class:"hh etc"});
+  const pills=h("div",{class:"row pills"}),adp=h("div",{class:"seg"}),pic=h("div",{class:"fig"}),rd=h("div",{class:"rdo"}),out=h("div",{class:"out"});
+  const B=[["Block I",0],["Block II",1],["Block III",2],["Block IV",3],["Block V",4]];
+  B.forEach(([l,i])=>pills.append(h("button",{class:"pill",type:"button",onclick:()=>{st.b[i]=st.b[i]?0:1;upd();}},l)));
+  pills.append(h("button",{class:"pill",type:"button",onclick:()=>{st.unc=st.unc?0:1;upd();}},"Uncoupler (DNP)"));
+  [["1","ADP high"],["0","ADP low"]].forEach(([v,l])=>{const x=h("button",{type:"button",onclick:()=>{st.adp=+v;upd();}},l);x.dataset.v=v;adp.append(x);});
+  const rs=h("button",{class:"btn link",type:"button",onclick:()=>{st.b=[0,0,0,0,0];st.unc=0;st.adp=1;upd();}},"Reset");
+  w.append(pills,h("p",{class:"mut sm",style:"margin:4px 0 8px"},"I: amobarbital, rotenone · II: malonate · IV: cyanide, CO · III: antimycin and V: oligomycin are beyond lecture."),h("div",{class:"row"},adp,rs),pic,rd,out);
+  function base(){
+    const b=st.b,red=C3.bad;let g=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="13"><rect width="${W}" height="${H}" fill="#fff"/>`;
+    g+=`<rect x="0" y="92" width="${W}" height="36" fill="#f4efe1"/><line x1="0" y1="92" x2="${W}" y2="92" stroke="#b8860b"/><line x1="0" y1="128" x2="${W}" y2="128" stroke="#b8860b"/>`;
+    g+=svgT(8,16,"intermembrane space",` fill="${C3.mut}" font-size="11.5"`)+svgT(8,244,"matrix",` fill="${C3.mut}" font-size="11.5"`);
+    const box=(x,y,wd,ht,lab,i)=>`<rect x="${x}" y="${y}" width="${wd}" height="${ht}" rx="7" fill="#fff" stroke="${b[i]?red:C3.fg}" stroke-width="${b[i]?2.5:1.6}"/>`+svgT(x+wd/2,y+ht/2+5,lab,` text-anchor="middle" font-weight="700" fill="${b[i]?red:C3.fg}"`)+(b[i]?svgT(x+wd-2,y+12,"×",` text-anchor="end" fill="${red}" font-weight="700" font-size="16"`):"");
+    g+=box(28,78,44,64,"I",0)+box(92,122,36,30,"II",1)+box(163,78,44,64,"III",2)+box(236,78,44,64,"IV",3);
+    g+=`<circle cx="148" cy="110" r="9" fill="${C3.soft}" stroke="${C3.acc}" stroke-width="1.5"/>`+svgT(148,114.5,"Q",` text-anchor="middle" fill="${C3.acc}" font-size="11" font-weight="700"`);
+    g+=`<circle cx="222" cy="76" r="9" fill="${C3.soft}" stroke="${C3.acc}" stroke-width="1.5"/>`+svgT(222,80.5,"c",` text-anchor="middle" fill="${C3.acc}" font-size="11" font-weight="700"`);
+    if(st.unc)g+=`<rect x="296" y="90" width="14" height="40" rx="3" fill="#fff" stroke="${red}" stroke-width="2"/>`+svgT(303,150,"leak",` text-anchor="middle" fill="${red}" font-size="11.5"`);
+    g+=`<rect x="330" y="74" width="22" height="62" rx="5" fill="#fff" stroke="${b[4]?red:C3.fg}" stroke-width="${b[4]?2.5:1.6}"/>`+svgT(341,98,"V",` text-anchor="middle" font-weight="700" fill="${b[4]?red:C3.fg}"`)+(b[4]?svgT(350,86,"×",` text-anchor="end" fill="${red}" font-weight="700" font-size="16"`):"");
+    g+=`<rect x="337" y="136" width="8" height="14" fill="${C3.fg}"/><circle cx="341" cy="172" r="22" fill="#fff" stroke="${C3.fg}" stroke-width="1.6"/><g class="rot"></g>`;
+    g+=svgT(50,206,"NADH",` text-anchor="middle" fill="${C3.fg}" font-size="12"`)+svgT(110,194,"FADH₂",` text-anchor="middle" fill="${C3.fg}" font-size="12"`)+svgT(258,197,"O₂ → H₂O",` text-anchor="middle" fill="${C3.fg}" font-size="12"`)+svgT(341,210,"ADP → ATP",` text-anchor="middle" fill="${C3.ok}" font-size="12" font-weight="600"`);
+    // backed-up electrons (static)
+    const sd=(x,y)=>`<circle cx="${x}" cy="${y}" r="3.6" fill="${C3.acc}"/>`;
+    if(M.down)g+=sd(144,107)+sd(152,113)+sd(218,73)+sd(226,79)+sd(46,104)+sd(54,118)+sd(106,134);
+    else if(st.b[0])g+=sd(44,186)+sd(52,180)+sd(58,188);
+    if(st.b[1]&&!M.down)g+=sd(104,174)+sd(114,170)+sd(118,180);
+    return g+`<g class="cl"></g><g class="pt"></g></svg>`;
+  }
+  function frame(){
+    const cl=pic.querySelector(".cl"),pt=pic.querySelector(".pt"),ro=pic.querySelector(".rot");if(!cl)return;
+    const n=Math.round(Math.min(1,M.G)*34);let s="";for(let i=0;i<n;i++){const c=cloud[i],j=RMQ.matches?0:Math.sin(c[2]+rot*0.5)*2;s+=`<circle cx="${(c[0]+j).toFixed(1)}" cy="${(c[1]-j).toFixed(1)}" r="3" fill="${C3.fg}" opacity="0.75"/>`;}cl.innerHTML=s;
+    s="";for(const p of parts){if(p.t==="e"){const [x,y]=at(p.p,p.d);s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.6" fill="${C3.acc}"/>`;}else s+=`<circle cx="${p.x}" cy="${p.y.toFixed(1)}" r="3" fill="${p.t==="l"?C3.bad:C3.fg}"/>`;}pt.innerHTML=s;
+    const a=rot;ro.innerHTML=[0,2.094,4.189].map(o=>`<line x1="341" y1="172" x2="${(341+17*Math.cos(a+o)).toFixed(1)}" y2="${(172+17*Math.sin(a+o)).toFixed(1)}" stroke="${C3.ok}" stroke-width="3" stroke-linecap="round"/>`).join("");
+  }
+  function step(dt){
+    const sp=(k,r,f)=>{acc[k]+=r*dt;while(acc[k]>=1){acc[k]--;f();}};
+    sp("e1",M.JI*2.4,()=>parts.push({t:"e",p:PI,L:LI,d:0}));sp("e2",M.JII*2.4,()=>parts.push({t:"e",p:PII,L:LII,d:0}));
+    sp("u1",M.JI*3.2,()=>parts.push({t:"u",x:62,y:172}));sp("u3",(M.JI+M.JII)*3.2,()=>parts.push({t:"u",x:197,y:172}));sp("u4",(M.JI+M.JII)*2.4,()=>parts.push({t:"u",x:270,y:172}));
+    sp("dv",M.S*0.7,()=>parts.push({t:"d",x:347,y:40}));sp("dl",(st.unc?M.L:0)*0.7,()=>parts.push({t:"l",x:303,y:40}));
+    for(const p of parts){if(p.t==="e")p.d+=110*dt;else if(p.t==="u")p.y-=95*dt;else p.y+=95*dt;}
+    parts=parts.filter(p=>p.t==="e"?p.d<p.L:p.t==="u"?p.y>34:p.y<(p.t==="d"?150:176));
+    rot+=M.S*0.45*dt;
+  }
+  function stop(){if(raf)cancelAnimationFrame(raf);raf=0;if(io){io.disconnect();io=null;}ANIMS.delete(stop);}
+  function loop(){if(!raf&&!RMQ.matches){last=0;raf=requestAnimationFrame(tick);ANIMS.add(stop);}}
+  function tick(ts){raf=0;if(!w.isConnected){if(born){stop();return;}raf=requestAnimationFrame(tick);return;}born=true;if(!vis||document.hidden){ANIMS.delete(stop);return;}
+    const dt=last?Math.min(0.05,(ts-last)/1000):0;last=ts;step(dt);frame();raf=requestAnimationFrame(tick);}
+  const pct=(v,r)=>r?Math.round(v/r*100):0;
+  function upd(){
+    M=model(st);parts=[];
+    [...pills.children].forEach((x,i)=>{const o=i<5?st.b[i]:st.unc;x.classList.toggle("on",!!o);x.setAttribute("aria-pressed",o?"true":"false");});
+    [...adp.children].forEach(x=>x.classList.toggle("on",+x.dataset.v===st.adp));
+    pic.innerHTML=base();frame();
+    const rows=[["O₂ use",pct(M.O2,N0.O2)],["ATP made",pct(M.ATP,N0.ATP)],["H⁺ gradient",pct(M.G,N0.G)],["Heat",pct(M.heat,N0.heat)]];
+    rd.innerHTML="";rows.forEach(([l,v])=>{const c=C3.acc;rd.append(h("span",null,l),h("span",{class:"rbar"},h("i",{style:`width:${Math.min(100,v/3)}%;background:${c}`})),h("b",null,v+"%"));});
+    const nr=M.nadh>0.85?"mostly NADH (backed up)":M.nadh<0.15?"mostly NAD⁺ (drained fast)":"balanced";
+    rd.append(h("span",null,"NADH : NAD⁺"),h("span",{class:"rbar"},h("i",{style:`width:${Math.round(M.nadh*100)}%;background:${C3.acc}`})),h("b",{class:"sm"},nr));
+    const t=[];const b=st.b;
+    if(M.down)t.push((b[3]?"Complex IV is blocked (cyanide, CO), so electrons can't reach O₂.":"Complex III is blocked, so electrons can't get from Q to cytochrome c.")+" The chain backs up: Q and cytochrome c stay reduced, NADH builds up, nothing is pumped, the gradient runs down and ATP synthesis stops. There's no detour, since II feeds the same path.");
+    else{
+      if(b[0]&&b[1])t.push("Both entry points are blocked, so no electrons get in.");
+      else if(b[0])t.push("Complex I is blocked (amobarbital, rotenone): NADH can't unload and builds up. Only FADH₂ electrons enter, through II, and they pump 4 + 3 H⁺ per pair instead of 4 + 4 + 3, so ATP output falls steeply.");
+      else if(b[1])t.push("Complex II is blocked (malonate): FADH₂ electrons can't enter. In a real cell succinate DH is also a cycle enzyme, so the cycle stalls and NADH supply falls too. This model only removes the FADH₂ input.");
+      if(b[4])t.push("ATP synthase is blocked (beyond lecture): protons can't flow back, so the gradient climbs until pumping against it stalls. O₂ use falls even though every complex works."+(st.unc?" The uncoupler gives protons another way back, so O₂ use recovers, but still no ATP.":""));
+      if(st.unc&&!b[4])t.push("The uncoupler lets protons leak back without passing through ATP synthase. The gradient drops, the chain runs faster (more O₂ used) and the energy comes out as heat instead of ATP.");
+      if(!st.adp&&!b[4])t.push("Little ADP (beyond lecture): ATP synthase has nothing to phosphorylate, so it slows. The gradient stays high and holds the chain back. This is respiratory control.");
+      if(!t.length)t.push("Coupled and running normally: the chain pumps H⁺ out, ATP synthase lets them back in and makes ATP. Readouts are percent of this state.");
+    }
+    out.innerHTML=t.join("<br>");
+    if(RMQ.matches)stop();else loop();
+  }
+  try{io=new IntersectionObserver(e=>{vis=e[e.length-1].isIntersecting;if(vis)loop();});io.observe(pic);}catch(e){}
+  const onVis=()=>{if(!w.isConnected){document.removeEventListener("visibilitychange",onVis);return;}if(!document.hidden)loop();};document.addEventListener("visibilitychange",onVis);
+  upd();return w;
+};
+
+// ===== MOCK =====
+let timerId=null;
+tabs.mock={cleanup(){if(timerId){clearInterval(timerId);timerId=null;}},render(){
+  if(S.mock){if(resumeMock())return;}
+  main.append(h("h1",null,"Mock exam"));
+  main.append(h("p",{class:"mut sm"},"Same format as the exam: multiple choice and true/false from every objective. Questions you haven't answered yet get picked first. If you leave mid-mock, it picks up where you were and the timer pauses."));
+  const box=h("div",{class:"box"});main.append(box);
+  const modChecks=MODS.map(m=>{const c=h("input",{type:"checkbox",checked:true});c.addEventListener("change",upd);box.append(h("label",{class:"chk",style:"margin:4px 0"},c,m.name+" ("+m.questions.length+")"));return [m,c];});
+  const missing=["M1","M2","M3"].filter(s=>!MODS.some(m=>m.short===s));
+  if(missing.length)box.append(h("p",{class:"mut sm",style:"margin:4px 0 8px"},missing.join(" and ")+" not added yet."));
+  const seg=(vals,key)=>{const s=h("div",{class:"seg"});vals.forEach(([v,l])=>{const b=h("button",{onclick:()=>{S.set[key]=v;save();paint();upd();}},l);b.dataset.v=v;s.append(b);});function paint(){[...s.children].forEach(b=>b.classList.toggle("on",String(S.set[key])===b.dataset.v));}paint();return s;};
+  box.append(h("div",{class:"row"},h("span",{class:"sm",style:"width:76px"},"Length"),seg([[25,"25 questions"],[10,"10 questions"]],"len")));
+  box.append(h("div",{class:"row"},h("span",{class:"sm",style:"width:76px"},"Timer"),seg([[true,"On"],[false,"Off"]],"timer"),h("span",{class:"mut sm",id:"tinfo"})));
+  box.append(h("div",{class:"row"},h("span",{class:"sm",style:"width:76px"},"Feedback"),seg([["each","After each question"],["end","At the end"]],"fb")));
+  const info=h("p",{class:"sm"});box.append(info);
+  const start=h("button",{class:"btn pri",onclick:()=>{const mods=modChecks.filter(x=>x[1].checked).map(x=>x[0]);runMock(buildMock(mods,+S.set.len));}},"Start mock "+(S.mocks+1));
+  box.append(start);
+  function upd(){const mods=modChecks.filter(x=>x[1].checked).map(x=>x[0]);const pool=Q.filter(q=>mods.includes(q.mod));const un=pool.filter(q=>!S.q[q.id]).length;
+    info.textContent=un+" of "+pool.length+" questions unseen."+(pool.length<S.set.len?" Only "+pool.length+" available for now.":"");
+    $("#tinfo").textContent=S.set.timer?Math.round(Math.min(+S.set.len,pool.length)*Q_MS/60000)+" min (1.6 min per question)":"";
+    start.disabled=!pool.length;}
+  upd();
+  main.append(h("h2",null,"Past mocks"));
+  const hist=S.hist||[];
+  if(hist.length){const ch=h("button",{class:"btn link sm",type:"button",onclick(){if(!ch.dataset.arm){ch.dataset.arm="1";ch.textContent="Tap again to clear history";setTimeout(()=>{if(ch.isConnected){delete ch.dataset.arm;ch.textContent="Clear mock history";}},3000);return;}S.hist=[];S.mocks=0;save();go("mock");}},"Clear mock history");main.append(h("p",{class:"sm"},ch,h("span",{class:"mut"}," Question answers stay.")));}
+  main.append(hist.length?h("div",{class:"tw"},h("table",null,h("tr",null,h("th",null,"#"),h("th",null,"Date"),h("th",null,"Score")),hist.slice().reverse().map(x=>h("tr",null,h("td",null,x.n),h("td",null,new Date(x.d).toLocaleDateString()),h("td",null,x.s+" / "+x.of))))):h("p",{class:"mut sm"},"None yet."));
+}};
+function buildMock(mods,len){
+  const age=q=>{const r=S.q[q.id];return r?r.t:0;};
+  // per module quota
+  const n=Math.min(len,Q.filter(q=>mods.includes(q.mod)).length);
+  const quota=new Map(mods.map(m=>[m,0]));let left=n;
+  while(left>0){let moved=false;for(const m of mods){if(left<=0)break;if(quota.get(m)<m.questions.length){quota.set(m,quota.get(m)+1);left--;moved=true;}}if(!moved)break;}
+  let picked=[];
+  mods.forEach(m=>{
+    const byLo=m.los.map(l=>shuffle(m.questions.filter(q=>q.lo===l.id)).sort((a,b)=>age(a)-age(b)));
+    let k=quota.get(m),i=0;
+    // round robin across LOs, rotate start
+    let lo=Math.floor(Math.random()*byLo.length);
+    while(k>0&&byLo.some(a=>a.length)){const a=byLo[lo%byLo.length];if(a.length){picked.push(a.shift());k--;}lo++;if(++i>500)break;}
+  });
+  return shuffle(picked);
+}
+// An in-progress mock lives in S.mock so it survives tab switches and reloads. The timer only runs while the mock is on screen.
+function runMock(qs){
+  S.mocks++;
+  S.mock={num:S.mocks,each:S.set.fb==="each",i:0,left:S.set.timer?qs.length*Q_MS:null,
+    qs:qs.map(q=>({id:q.id,ord:optsFor(q).map(o=>o.t),pick:null,lock:false}))};
+  save();resumeMock();
+}
+function resumeMock(){
+  closeLec();tutDrop();const M=S.mock;
+  const st=M.qs.map(r=>{const q=QBY[r.id];if(!q)return null;const base=optsFor(q,"seed");const order=r.ord.map(t=>base.find(b=>b.t===t));if(order.some(o=>!o))return null;return {q,order,r,get pick(){return r.pick;},set pick(v){r.pick=v;},get locked(){return r.lock;},set locked(v){r.lock=v;}};});
+  if(!st.length||st.some(x=>!x)){S.mock=null;save();return false;}
+  const num=M.num,each=M.each;
+  let i=Math.min(M.i,st.length-1);
+  if(timerId)clearInterval(timerId);timerId=null;
+  if(M.left!=null){let last=Date.now();timerId=setInterval(()=>{const now=Date.now();M.left=Math.max(0,M.left-(now-last));last=now;save();const t=$("#timer");const ms=M.left;if(ms<=0){clearInterval(timerId);timerId=null;finish();return;}if(t){t.textContent=fmtT(ms);t.classList.toggle("late",ms<300000);}},1000);}
+  function fmtT(ms){const s=Math.ceil(ms/1000);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
+  function show(){
+    // a new question closes the lecture window, so it can't stay open while answering the next one
+    closeLec();M.i=i;save();main.innerHTML="";window.scrollTo(0,0);const x=st[i];
+    const answered=st.filter(s=>s.pick!=null).length;
+    // Lecture button: with instant feedback it's greyed out until the question is answered, then clicking it opens the lecture.
+    // Without feedback there's no button during the mock; the results page has working ones.
+    const lecSlot=h("span");
+    function paintLec(){lecSlot.innerHTML="";const has=x.q.lec&&x.q.mod.lecture;
+      if(each)lecSlot.append(loTag(x.q.lo)," · ",has?lecBtn(x.q,x.locked?null:"Answer the question to open the lecture"):x.q.mod.short+" "+x.q.src);
+      else lecSlot.append(answered+" answered");}
+    paintLec();
+    main.append(h("div",{class:"qhead"},h("span",null,"Mock "+num+" · "+(i+1)+" / "+st.length),h("span",{id:"timer"},M.left!=null?fmtT(M.left):""),h("span",null,lecSlot," ",flagBtn(x.q))));
+    main.append(h("div",{class:"bar"},h("i",{style:"width:"+((i+(x.pick!=null?1:0))/st.length*100)+"%"})));
+    const v=qView(x.q,x.order,{onPick(k){if(x.locked)return;x.pick=k;if(each){x.locked=true;record(x.q,x.order[k].c,x.order[k].t);v.paint(k,true);paintLec();}else{save();v.paint(k,false);}nav();}});
+    main.append(v.el);v.paint(x.pick,x.locked);
+    const row=h("div",{class:"row"});main.append(row);
+    function nav(){row.innerHTML="";
+      // Back: with instant feedback, earlier questions come back locked with their feedback
+      if(i>0)row.append(h("button",{class:"btn",onclick:()=>{i--;show();}},"Back"));
+      const last=i===st.length-1;
+      if(!last)row.append(h("button",{class:"btn pri",disabled:each&&!x.locked,onclick:()=>{i++;show();}},"Next"));
+      else row.append(h("button",{class:"btn pri",disabled:each&&!x.locked,onclick:()=>tryFinish(row)},"Finish"));
+      row.append(h("button",{class:"btn link",onclick:()=>tryFinish(row,true)},"End exam"));
+      const q=h("button",{class:"btn link",type:"button",onclick(){if(!q.dataset.arm){q.dataset.arm="1";q.textContent="Tap again to quit (no score saved)";return;}if(timerId){clearInterval(timerId);timerId=null;}S.mock=null;S.mocks=Math.max(0,S.mocks-1);save();go("mock");}},"Quit");row.append(q);
+    }
+    nav();
+  }
+  function tryFinish(row,early){
+    const un=st.filter(s=>s.pick==null).length;
+    if(un&&!row.querySelector(".conf2")){row.append(h("span",{class:"sm conf2",style:"width:100%"},un+" unanswered. ",h("button",{class:"btn sm",onclick:finish},"Finish anyway")));return;}
+    finish();
+  }
+  function finish(){
+    if(timerId){clearInterval(timerId);timerId=null;}S.mock=null;
+    if(!each)st.forEach(s=>record(s.q,s.pick!=null&&s.order[s.pick].c,s.pick!=null?s.order[s.pick].t:null));
+    else st.forEach(s=>{if(!s.locked)record(s.q,false);});
+    const right=st.filter(s=>s.pick!=null&&s.order[s.pick].c).length;
+    S.hist=(S.hist||[]);S.hist.push({n:num,d:Date.now(),s:right,of:st.length});save();
+    main.innerHTML="";window.scrollTo(0,0);
+    main.append(h("h1",null,"Mock "+num),h("p",{style:"font-size:20px;margin:4px 0 12px"},right+" / "+st.length+" ("+Math.round(right/st.length*100)+"%)"));
+    const per={};st.forEach(s=>{const k=s.q.lo;per[k]=per[k]||[0,0];per[k][1]++;if(s.pick!=null&&s.order[s.pick].c)per[k][0]++;});
+    main.append(h("h2",null,"By objective"),h("div",{class:"tw"},h("table",{class:"res"},Object.keys(per).sort((a,b)=>parseFloat(a)-parseFloat(b)||a.localeCompare(b)).map(k=>h("tr",null,h("td",null,k+" "+LOBY[k].title),h("td",{class:"n"},per[k][0]+" / "+per[k][1]))))));
+    const miss=st.filter(s=>!(s.pick!=null&&s.order[s.pick].c));
+    main.append(h("h2",null,miss.length?"Missed ("+miss.length+")":"Missed (0)"));
+    miss.forEach(s=>{
+      const d=h("div",{class:"miss"},h("div",{class:"qhead"},h("span",null,loLabel(s.q,true)),flagBtn(s.q)),h("div",{class:"stem",html:s.q.stem}));
+      const f=fig(s.q.fig);if(f){f.style.maxWidth="460px";d.append(f);}
+      d.append(h("div",{class:"sm"},h("span",{class:"ya"},"Your answer: "),h("span",{html:s.pick==null?"none":s.order[s.pick].t})));
+      d.append(h("div",{class:"sm"},h("span",{class:"ca"},"Correct: "),h("span",{html:s.order.find(o=>o.c).t})));
+      const ex=explain(s.q,false,s.pick==null);ex.firstChild.remove();d.append(ex);main.append(d);
+    });
+    main.append(h("div",{class:"row"},h("button",{class:"btn pri",onclick:()=>go("mock")},"New mock"),miss.length?h("button",{class:"btn",onclick:()=>runPractice(miss.map(s=>s.q),"Missed from mock "+num)},"Practice the missed ones"):null));
+  }
+  show();return true;
+}
+
+// ===== STUDY GUIDE =====
+let io=null;
+tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},render(){
+  const onlySaved=!!S.set.onlySaved;
+  const wrap=h("div",{class:"gwrap"});const side=h("aside",{class:"gside"});const body=h("div",{class:"gbody"});wrap.append(side,body);main.append(wrap);
+  // sidebar / outline
+  const sv=h("button",{class:"pill"+(onlySaved?" on":""),onclick:()=>{S.set.onlySaved=!onlySaved;S.pos.sheet=0;save();go("sheet");}},"Saved only ("+Object.keys(S.saved).filter(k=>LES[k]).length+")");
+  side.append(h("div",{class:"gtitle"},"Contents"),sv);
+  const jumpSel=h("select",{class:"gjump"},h("option",{value:""},"Jump to…"));
+  const outl=h("div",{class:"outline"});side.append(outl);
+  body.append(h("div",{class:"gtop"},jumpSel,sv.cloneNode(true)));
+  body.querySelector(".gtop .pill").addEventListener("click",()=>{S.set.onlySaved=!onlySaved;S.pos.sheet=0;save();go("sheet");});
+  jumpSel.addEventListener("change",()=>{const e=document.getElementById(jumpSel.value);if(e)e.scrollIntoView();jumpSel.value="";});
+  if(onlySaved&&!Object.keys(S.saved).filter(k=>LES[k]).length)body.append(h("p",{class:"mut"},"Nothing saved yet. Tap the bookmark on any lesson."));
+  const links={};
+  MODS.forEach(m=>{
+    const los=m.los.filter(l=>!onlySaved||((m.guide||{})[l.id]||[]).some(b=>b.id&&S.saved[b.id]));if(!los.length)return;
+    outl.append(h("div",{class:"omod"},m.short+": "+m.name.split(": ")[1]));
+    body.append(h("div",{class:"modhead"},m.name));
+    los.forEach(l=>{
+      const id="s"+l.id.replace(".","-");
+      const blocks=((m.guide||{})[l.id]||[]).filter(b=>!onlySaved||(b.id&&S.saved[b.id]));
+      const qids=Q.filter(q=>q.lo===l.id).map(q=>q.id);
+      const prog=()=>qids.filter(x=>S.q[x]).length+" / "+qids.length;
+      const pr=h("span",{class:"oprog"},prog());
+      const a=h("a",{href:"#"+id,onclick:e=>{e.preventDefault();document.getElementById(id).scrollIntoView();}},h("span",null,l.id),h("span",{class:"ot"},l.nick||shortT(l.title)),pr);
+      outl.append(a);links[id]=a;
+      jumpSel.append(h("option",{value:id},l.id+" "+(l.nick||shortT(l.title))));
+      blocks.filter(b=>b.id).forEach(b=>{outl.append(h("a",{class:"les",href:"#"+b.id,onclick:e=>{e.preventDefault();document.getElementById(b.id).scrollIntoView();}},b.h));jumpSel.append(h("option",{value:b.id},"\u00a0\u00a0\u00a0"+b.h));});
+      const sec=h("section",{class:"unit",id});
+      const upr=h("span",{class:"uprog"});const updProg=()=>{const t=prog();pr.textContent=t;upr.textContent=qids.length?t+" practice questions answered":"";};updProg();
+      sec.append(h("div",{class:"uhead"},h("div",null,h("div",{class:"eyebrow"},"Objective "+l.id),h("h2",null,l.title),upr)));
+      blocks.forEach(b=>sec.append(block(b,m)));
+      body.append(sec);
+    });
+  });
+  // highlight current section in outline
+  try{io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){Object.values(links).forEach(a=>a.classList.remove("cur"));const a=links[e.target.id];if(a)a.classList.add("cur");}});},{rootMargin:"-30% 0px -60% 0px"});body.querySelectorAll(".unit").forEach(u=>io.observe(u));}catch(e){}
+}};
+function shortT(t){return t.replace(/^(Relate|Describe|Determine|Apply knowledge of|Summarize|Outline|Classify|Explain|Interpret|Categorize|Investigate|Apply|Diagram|Predict) /,"").replace(/^the /,"").replace(/^./,c=>c.toUpperCase());}
+function block(b,m){
+  if(b.drill){
+    const d=(m.drills||[]).find(x=>x.id===b.drill);const w=h("div",{class:"card drill"});
+    w.append(h("div",{class:"clabel"},"Drill"),h("h3",null,d.title),h("p",{class:"mut sm"},d.intro));
+    const bd=h("div");w.append(bd);
+    if(d.kind==="sort")sortDrill(d,bd,0);else if(d.kind==="case")caseDrill(d,bd);else if(d.kind==="plot")plotDrill(d,bd);
+    return w;
+  }
+  if(b.tool){const tm=TOOLMETA[b.tool];const w=h("div",{class:"card"});w.append(h("div",{class:"clabel"},"Tool"),h("h3",null,tm[0]),h("p",{class:"mut sm"},tm[1]),TOOLS[b.tool]());return w;}
+  if(b.steps){
+    const w=h("div",{class:"card"});w.append(h("div",{class:"clabel"},"Worked example"),h("h3",{html:b.steps}));
+    const ol=h("ol",{class:"wsteps"});w.append(ol);let n=0;
+    const nb=h("button",{class:"btn sm",onclick:()=>{n++;paint();}},"Next step");const all=h("button",{class:"btn link sm",onclick:()=>{n=b.s.length;paint();}},"Show all");
+    w.append(h("div",{class:"row"},nb,all));
+    function paint(){ol.innerHTML="";b.s.slice(0,Math.max(1,n)).forEach((x,i)=>ol.append(h("li",{html:x,class:i===b.s.length-1?"last":""})));nb.disabled=n>=b.s.length;nb.classList.toggle("hide",n>=b.s.length);all.classList.toggle("hide",n>=b.s.length);}
+    n=1;paint();return w;
+  }
+  const w=h("div",{class:"card",id:b.id||null});
+  if(b.h)w.append(h("div",{class:"lhead"},h("h3",{html:b.h+(b.beyond?' <span class="tag">beyond lecture</span>':"")}),b.id?bmkBtn(b.id):null));
+  const bodyEl=h("div",{class:"cb",html:b.b||""});
+  bodyEl.querySelectorAll("table").forEach(t=>{const x=h("div",{class:"tw"});t.replaceWith(x);x.append(t);});
+  const f=b.fig?fig(b.fig):null;
+  if(f&&(b.fig==="phscale"||b.fig==="forces"||b.fig==="classes"||b.fig==="water"||b.fig==="bicarb")){w.append(f,bodyEl);}else{w.append(bodyEl);if(f)w.append(f);}
+  if(b.img){const fi=h("figure",{class:"limg"},h("img",{src:b.img.src,alt:b.img.alt,loading:"lazy"}),h("figcaption",{class:"credit",html:b.img.credit}));w.insertBefore(fi,bodyEl.nextSibling);}
+  if(b.note)w.append(h("div",{class:"call note"},h("b",null,b.nl||"Note"),h("div",{html:b.note})));
+  if(b.so)w.append(h("p",{class:"so",html:b.so}));
+  return w;
+}
+
+document.getElementById("reset").addEventListener("click",function(){
+  if(this.dataset.arm){S={q:{},mocks:0,set:S.set,drills:{},flag:{},saved:S.saved,pos:S.pos,hist:[]};save();this.textContent="Reset progress";delete this.dataset.arm;go(tab);}
+  else{this.dataset.arm="1";this.textContent="Tap again to reset";setTimeout(()=>{this.textContent="Reset progress";delete this.dataset.arm;},3000);}
+});
+const start=(location.hash||"").slice(1)||"mock";tab=null;go(tabs[start]?start:"mock");
+})();
+</script>
+</body>
+</html>
