@@ -186,7 +186,8 @@ def q_reg(sub,prod,inh,act):
             if isinstance(s,int): o.append(_num(x,ly-5,s))
             else: o.append(T(x,ly,s,text_anchor="middle",fill=FG))
     row(inh,70,60,RED,"×"); row(act,180,200,GRN,"+")
-    o.append(T(14,24,"× inhibits",fill=RED, font_size="15",font_weight="600")+T(14,238,"+ activates",fill=GRN, font_size="15",font_weight="600"))
+    if inh: o.append(T(14,24,"× inhibits",fill=RED, font_size="15",font_weight="600"))
+    if act: o.append(T(14,238,"+ activates",fill=GRN, font_size="15",font_weight="600"))
     o.append('</svg>'); return "".join(o)
 def q_pfk(inh=("ATP","citrate",1),act=("AMP",2)):
     """PFK-1 and its regulators."""
@@ -213,12 +214,13 @@ def q_fork(left=(1,"Lactate"),right=("Pyruvate dehydrogenase",2)):
 
 # ---------- pyruvate dehydrogenase, three steps ----------
 def q_pdh(side=(1,("NAD⁺","NADH"),("CoA",)),rows=("Pyruvate","2-carbon molecule","Acetyl group","Acetyl CoA"),names=("Decarboxylation","Oxidation","Transfer")):
-    """Three steps top to bottom. side per step: a number (blank leaving the chain), (in,out) curve, or (in,) joining arrow.
-    A number in names draws a numbered blank for the step name."""
+    """Three steps top to bottom. side per step: a number (blank leaving the chain), (in,out) curve, (in,) joining arrow, or None.
+    A number in names or rows draws a numbered blank instead of the text. Also used for glycogenesis (L4)."""
     o=_q(480,330,16)+[_ah("pd",FG),_ah("ps",MUT)];cx=230;pitch=96
     for i,r in enumerate(rows):
         y=30+i*pitch
-        o.append(T(cx,y,r,text_anchor="middle",fill=FG,font_weight="600"))
+        if isinstance(r,int): o.append(_blank(cx-75,y-18,150,26,"")+_num(cx,y-5,r))
+        else: o.append(T(cx,y,r,text_anchor="middle",fill=FG,font_weight="600"))
         if i==3: break
         y1,y2=y+9,y+pitch-20;ym=(y1+y2)/2
         o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#pd)"/>'%(cx,y1,cx,y2,FG))
@@ -226,7 +228,8 @@ def q_pdh(side=(1,("NAD⁺","NADH"),("CoA",)),rows=("Pyruvate","2-carbon molecul
         if isinstance(n,int): o.append(_num(cx-30,ym,n))
         else: o.append(T(cx-14,ym+5,n,text_anchor="end",fill=ACC,font_size="15"))
         sd=side[i]
-        if isinstance(sd,int):
+        if sd is None: pass
+        elif isinstance(sd,int):
             o.append('<path d="M%s %s Q%s %s %s %s" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#ps)"/>'%(cx+6,ym-4,cx+40,ym-4,cx+62,ym+10,MUT)+_num(cx+80,ym+14,sd))
         elif len(sd)==2:
             o.append('<path d="M%s %s Q%s %s %s %s" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#ps)"/>'%(cx+62,ym-9,cx+8,ym,cx+62,ym+11,MUT))
@@ -251,6 +254,151 @@ def q_nadloop(nad=1):
         o.append(lab(cx-76,ym-8,a)+lab(cx-76,ym+19,b))
     x0=cx-76-30 if isinstance(nad,int) else cx-76-58
     o.append('<path d="M%s 215 H80 V69 H%s" fill="none" stroke="%s" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#na)"/>'%(x0,x0,FG))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L4: glycogen branch ----------
+def q_glybond(lin=1,br=2):
+    """A stretch of glycogen: a linear chain of glucose with one branch. lin/br: label (number = badge, text = name)
+    pointing at a bond in the linear chain and at the branch point."""
+    o=_q(480,250,16); r=13; y=170; xs=[44+i*44 for i in range(10)]
+    bx=[xs[4]+30*(j+1) for j in range(4)]; by=[y-38*(j+1) for j in range(4)]
+    o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2.5"/>'%(xs[0],y,xs[-1],y,FG))
+    o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2.5"/>'%(xs[4],y,bx[-1],by[-1],FG))
+    for x in xs: o.append('<circle cx="%s" cy="%s" r="%s" fill="#f3f5f9" stroke="%s" stroke-width="1.6"/>'%(x,y,r,FG))
+    for x,yy in zip(bx,by): o.append('<circle cx="%s" cy="%s" r="%s" fill="#f3f5f9" stroke="%s" stroke-width="1.6"/>'%(x,yy,r,FG))
+    o.append('<circle cx="%s" cy="%s" r="%s" fill="#f3f5f9" stroke="%s" stroke-width="1.6"/>'%(32,30,r,FG)+T(54,35,"= one glucose",fill=MUT,font_size="15"))
+    def lab(x,y,tx,ty,s):
+        o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="1.5"/>'%(x,y,tx,ty,MUT))
+        o.append(_num(tx,ty,s) if isinstance(s,int) else T(tx,ty+5,s,text_anchor="middle",fill=FG,font_size="15"))
+    lab((xs[1]+xs[2])/2,y+4,(xs[1]+xs[2])/2,y+48,lin)
+    lab(xs[4]+15,y-19,xs[4]-40,y-80,br)
+    o.append(T(xs[-1],y+40,"…",text_anchor="middle",fill=MUT)+T(bx[-1]+20,by[-1],"…",fill=MUT))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L4: hormones and glycogen in liver cells ----------
+def q_horm(hor=("Insulin","Glucagon"),proc=("Glycogenesis","Glycogenolysis")):
+    """Glucose -> glycogen (top arc) under the top hormone, glycogen -> glucose (bottom arc) under the bottom hormone.
+    A number in hor or proc draws a numbered blank."""
+    o=_q(480,310,16)+[_ah("ha",FG),_ah("hg",GRN)]
+    o.append(T(110,160,"Glycogen",text_anchor="middle",fill=FG,font_weight="700",font_size="18")+T(370,160,"Glucose",text_anchor="middle",fill=FG,font_weight="700",font_size="18"))
+    o.append(T(240,160,"Liver cell",text_anchor="middle",fill=MUT,font_size="14"))
+    o.append('<path d="M340 134 Q240 92 140 134" fill="none" stroke="%s" stroke-width="2.2" marker-end="url(#ha)"/>'%FG)
+    o.append('<path d="M140 176 Q240 218 340 176" fill="none" stroke="%s" stroke-width="2.2" marker-end="url(#ha)"/>'%FG)
+    def put(x,y,s,bold=False,box=False):
+        if isinstance(s,int): return _num(x,y-5,s)
+        r=T(x,y,s,text_anchor="middle",fill=FG,font_weight="700" if bold else "400")
+        if box: r='<rect x="%s" y="%s" width="120" height="30" rx="5" fill="#f3f5f9" stroke="%s" stroke-width="1.4"/>'%(x-60,y-21,FG)+r
+        return r
+    o.append(put(240,84,proc[0])+put(240,248,proc[1]))
+    o.append(put(240,30,hor[0],True,True)+put(240,298,hor[1],True,True))
+    for y1,y2,yp in ((40,66,53),(282,256,269)):
+        o.append('<line x1="240" y1="%s" x2="240" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#hg)"/>'%(y1,y2,GRN))
+        o.append(T(258,yp+5,"+",fill=GRN,font_weight="700",font_size="18"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L4/L5: sources of glucose over time (lecture graph, hours then days) ----------
+def q_gsrc(curves=("Ingested glucose","Glycogenolysis","Gluconeogenesis"),states=("Fed","Fasting","Starved")):
+    """Glucose oxidized over time. curves/states: text, or a letter/number badge (str of length 1 or int)."""
+    o=_q(480,320,15); L,R,Tp,B=62,462,18,206; XB=L+0.56*(R-L)
+    def X(h=None,d=None): return L+(XB-L-8)*h/30 if h is not None else XB+8+(R-XB-8)*(d-1)/39
+    Y=lambda v:B-(B-Tp)*v/44
+    o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s"/><line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s"/>'%(L,B,R,B,FG,L,Tp,L,B,FG))
+    o.append('<path d="M%.1f %s l6 -12 M%.1f %s l6 -12" stroke="%s" stroke-width="1.5"/>'%(XB-6,B+6,XB,B+6,FG))
+    for v in (20,40): o.append('<line x1="%s" y1="%.1f" x2="%s" y2="%.1f" stroke="%s"/>'%(L-5,Y(v),L,Y(v),FG)+T(L-9,Y(v)+5,v,text_anchor="end",fill=MUT,font_size="16"))
+    for h in (8,16,24): o.append(T(X(h),B+19,h,text_anchor="middle",fill=MUT,font_size="16"))
+    for d in (8,16,24,32,40): o.append(T(X(d=d),B+19,d,text_anchor="middle",fill=MUT,font_size="16"))
+    o.append(T((L+XB)/2,B+40,"Hours",text_anchor="middle",fill=MUT,font_size="16")+T((XB+R)/2,B+40,"Days",text_anchor="middle",fill=MUT,font_size="16"))
+    o.append('<text x="18" y="%s" text-anchor="middle" fill="%s" font-size="15" transform="rotate(-90 18 %s)">Glucose oxidized (g/hr)</text>'%((Tp+B)/2,MUT,(Tp+B)/2))
+    ing=[(0,40),(1,38),(1.6,20),(2.4,4),(3.2,0)]
+    gly=[(2,0),(4,6),(7,9),(10,8.6),(14,6.4),(18,4),(22,2),(26,0.6),(29,0)]
+    gnh=[(4,0),(30,10)]; gnd=[(1,10),(3,7.5),(8,5.5),(16,5.4),(30,6),(40,6.2)]
+    pl=lambda pts,day=False:" ".join("%.1f,%.1f"%((X(d=a) if day else X(a)),Y(b)) for a,b in pts)
+    o.append('<polyline fill="none" stroke="%s" stroke-width="2.6" stroke-dasharray="3 4" points="%s"/>'%(FG,pl(ing)))
+    o.append('<polyline fill="none" stroke="%s" stroke-width="3" points="%s"/>'%(ACC,pl(gly)))
+    for pts,day in ((gnh,False),(gnd,True)): o.append('<polyline fill="none" stroke="%s" stroke-width="2.6" stroke-dasharray="10 4 2 4" points="%s"/>'%(RED,pl(pts,day)))
+    for s,(x,y),col in zip(curves,((X(1.6)+12,Y(36)),(X(9)+4,Y(9)-14),(X(d=12),Y(5.5)-18)),(FG,ACC,RED)):
+        if isinstance(s,int) or len(s)==1: o.append(_num(x+10,y-4,s,col))
+        else: o.append(T(x,y,s,fill=col,font_weight="600",font_size="16"))
+    # state bands under the axis
+    yb=B+62; spans=((X(0),X(2)),(X(2),XB),(XB,R))
+    for (a,b),s in zip(spans,states):
+        o.append('<path d="M%.1f %s v-8 M%.1f %s v-8 M%.1f %s H%.1f" stroke="%s" stroke-width="1.4"/>'%(a,yb,b,yb,a,yb-4,b,FG))
+        cx=(a+b)/2
+        if isinstance(s,int): o.append(_num(cx if b-a>40 else a+2,yb+22,s))
+        else: o.append(T(cx if b-a>40 else a,yb+22,s,text_anchor="middle" if b-a>40 else "start",fill=FG,font_size="16"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L4: glycogen breakdown in liver vs skeletal muscle ----------
+def q_tissue(e=("Glycogen|phosphorylase","Phosphoglucomutase","Glucose-6-|phosphatase")):
+    """Glycogen -> G1P -> G6P in both columns (liver left, muscle right); the liver's G6P -> glucose -> blood,
+    the muscle's step is crossed out. Enzyme names sit between the columns ("|" breaks the line); a number draws a numbered blank."""
+    o=_q(480,350,16)+[_ah("ta",FG)]; xl,xr=88,392; ys=(56,136,216,296)
+    o.append(T(xl,24,"LIVER",text_anchor="middle",fill=ACC,font_weight="700")+T(xr,24,"SKELETAL MUSCLE",text_anchor="middle",fill=ACC,font_weight="700"))
+    rows=("Glycogen","Glucose 1-P","Glucose 6-P")
+    for x in (xl,xr):
+        for y,r in zip(ys,rows): o.append(T(x,y,r,text_anchor="middle",fill=FG,font_weight="600"))
+        for i in range(2): o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#ta)"/>'%(x,ys[i]+10,x,ys[i+1]-22,FG))
+    o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#ta)"/>'%(xl,ys[2]+10,xl,ys[3]-22,FG))
+    o.append(T(xl,ys[3],"Glucose → blood",text_anchor="middle",fill=FG,font_weight="600"))
+    o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" stroke-dasharray="5 4"/>'%(xr,ys[2]+10,xr,ys[3]-22,MUT))
+    o.append(T(xr,ys[2]+50,"×",text_anchor="middle",fill=RED,font_weight="700",font_size="30"))
+    o.append(T(xr,ys[3],"No glucose released",text_anchor="middle",fill=MUT,font_size="15"))
+    for i,s in enumerate(e):
+        ym=(ys[i]+ys[i+1])/2-4
+        if isinstance(s,int): o.append(_num(240,ym-2,s))
+        else:
+            ws=s.split("|")
+            o.append("".join(T(240,ym-6+18*j,w,text_anchor="middle",fill=ACC,font_size="15") for j,w in enumerate(ws)))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L5: lactate from muscle to liver ----------
+def q_loop(proc=(1,"Glycolysis"),mol=("Glucose","Lactate")):
+    """Liver (left) and muscle (right). Liver: lactate up to glucose by proc[0]. Muscle: glucose down to lactate by proc[1].
+    Glucose crosses to muscle on top, lactate back to the liver below, both through the blood. A number draws a blank."""
+    o=_q(480,290,16)+[_ah("lo",FG)]; xl,xr,yt,yb=110,370,90,230
+    o.append('<rect x="20" y="40" width="190" height="236" rx="10" fill="#f3f5f9" stroke="%s"/>'%LINE+'<rect x="270" y="40" width="190" height="236" rx="10" fill="#f3f5f9" stroke="%s"/>'%LINE)
+    o.append(T(xl,28,"LIVER",text_anchor="middle",fill=ACC,font_weight="700")+T(xr,28,"MUSCLE",text_anchor="middle",fill=ACC,font_weight="700"))
+    for x in (xl,xr):
+        for y,m in ((yt,mol[0]),(yb,mol[1])):
+            o.append(_num(x,y-5,m) if isinstance(m,int) else T(x,y,m,text_anchor="middle",fill=FG,font_weight="600"))
+    o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#lo)"/>'%(xl,yb-20,xl,yt+14,FG))
+    o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#lo)"/>'%(xr,yt+10,xr,yb-24,FG))
+    for (x,anchor,dx),pr in zip(((xl,"start",10),(xr,"start",10)),proc):
+        ym=(yt+yb)/2
+        o.append(_num(x+26,ym-2,pr) if isinstance(pr,int) else T(x+dx,ym+5,pr,text_anchor=anchor,fill=ACC,font_size="15"))
+    o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#lo)"/>'%(xl+52,yt-6,xr-52,yt-6,FG))
+    o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#lo)"/>'%(xr-50,yb-6,xl+50,yb-6,FG))
+    o.append(T(240,yt-14,"blood",text_anchor="middle",fill=MUT,font_size="14")+T(240,yb+14,"blood",text_anchor="middle",fill=MUT,font_size="14"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L5: glycolysis vs gluconeogenesis bypass steps ----------
+def q_bypass(gly=("hexokinase","phosphofructokinase-1","pyruvate kinase"),gng=(1,2,3,4),mid="A"):
+    """Glycolysis goes down on the left (red), gluconeogenesis up on the right (blue) at the three irreversible steps.
+    gng = (G6P->glucose, F1,6BP->F6P, pyruvate->oxaloacetate, oxaloacetate->PEP). mid labels the shared PEP..F1,6BP stretch.
+    A number (or one letter) draws a badge instead of the name."""
+    o=_q(480,470,16)+[_ah("bg",RED),_ah("bn",ACC),_ah("bf",FG)]; cx=230
+    ys={"glc":40,"g6p":110,"f6p":180,"fbp":250,"pep":350,"pyr":450}
+    lab={"glc":"Glucose","g6p":"Glucose 6-phosphate","f6p":"Fructose 6-phosphate","fbp":"Fructose 1,6-bisphosphate","pep":"Phosphoenolpyruvate","pyr":"Pyruvate"}
+    for k,y in ys.items(): o.append(T(cx,y,lab[k],text_anchor="middle",fill=FG,font_weight="600"))
+    o.append(T(14,22,"Glycolysis",fill=RED,font_weight="700",font_size="15")+T(466,22,"Gluconeogenesis",text_anchor="end",fill=ACC,font_weight="700",font_size="15"))
+    def put(x,y,s,col,anchor):
+        if isinstance(s,int) or len(s)==1: return _num(x+(12 if anchor=="start" else -12),y-5,s)
+        return T(x,y,s,text_anchor=anchor,fill=col,font_size="15")
+    def down(a,b,name):
+        y1,y2=ys[a]+10,ys[b]-22; o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#bg)"/>'%(cx-36,y1,cx-36,y2,RED)); o.append(put(cx-46,(y1+y2)/2+5,name,RED,"end"))
+    def up(a,b,name):
+        y1,y2=ys[a]-22,ys[b]+10; o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#bn)"/>'%(cx+36,y1,cx+36,y2,ACC)); o.append(put(cx+46,(y1+y2)/2+5,name,ACC,"start"))
+    down("glc","g6p",gly[0]); up("g6p","glc",gng[0])
+    o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-start="url(#bf)" marker-end="url(#bf)"/>'%(cx,ys["g6p"]+10,cx,ys["f6p"]-22,FG))
+    down("f6p","fbp",gly[1]); up("fbp","f6p",gng[1])
+    o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" stroke-dasharray="4 5" marker-start="url(#bf)" marker-end="url(#bf)"/>'%(cx,ys["fbp"]+10,cx,ys["pep"]-22,FG))
+    o.append(put(cx+12,(ys["fbp"]+ys["pep"])/2+5,mid,FG,"start"))
+    down("pep","pyr",gly[2])
+    ox,oy=390,400
+    o.append(T(ox,oy+5,"Oxaloacetate",text_anchor="middle",fill=FG,font_weight="600"))
+    o.append('<path d="M%s %s Q%s %s %s %s" fill="none" stroke="%s" stroke-width="2" marker-end="url(#bn)"/>'%(cx+44,ys["pyr"]-6,ox-10,ys["pyr"]-6,ox,oy+14,ACC))
+    o.append('<path d="M%s %s Q%s %s %s %s" fill="none" stroke="%s" stroke-width="2" marker-end="url(#bn)"/>'%(ox,oy-16,ox-6,ys["pep"]+12,cx+100,ys["pep"]+8,ACC))
+    o.append(put(ox+28,ys["pyr"]-4,gng[2],ACC,"start")+put(ox+28,ys["pep"]+16,gng[3],ACC,"start"))
     o.append('</svg>'); return "".join(o)
 
 figs={
@@ -282,6 +430,20 @@ figs={
  "q-fork":q_fork(),
  "q-pdh":q_pdh(),
  "q-nadloop":q_nadloop(1),
+ # ---- L4 ----
+ "q-glybond":q_glybond(1,2),
+ "q-horm-p":q_horm(proc=(1,2)),
+ "q-horm-h":q_horm(hor=(1,2)),
+ "q-gsrc-s":q_gsrc(states=(1,2,3)),
+ "q-gsrc-c":q_gsrc(curves=("A","B","C")),
+ # glycogenesis through q_pdh's step layout (rows or the step 3 enzyme blanked)
+ "q-gen-r":q_pdh(side=(None,("UTP",),None),rows=("Glucose 6-phosphate",1,2,"Glycogen"),names=("Phosphoglucomutase","","Glycogen synthase")),
+ "q-gen-e":q_pdh(side=(None,("UTP",),None),rows=("Glucose 6-phosphate","Glucose 1-phosphate","UDP-glucose","Glycogen"),names=("Phosphoglucomutase","",1)),
+ "q-tissue":q_tissue(e=(1,"Phosphoglucomutase",2)),
+ # ---- L5 ----
+ "q-loop":q_loop(),
+ "q-bypass":q_bypass(),
+ "q-pepck":q_reg(("Oxalo-","acetate"),("Phosphoenol-","pyruvate"),(),("Glucagon",)),
 }
 here=os.path.dirname(os.path.abspath(__file__))
 open(os.path.join(here,"figs.js"),"w",encoding="utf-8").write("const FIGS="+json.dumps(figs,ensure_ascii=False)+";\n")
