@@ -566,8 +566,8 @@ BETA_N=(("Oxidation","acyl-CoA dehydrogenase"),("Hydration","enoyl-CoA hydratase
 BETA_S=(("FAD","FADH₂"),("H₂O",),("NAD⁺","NADH"),("CoA","Acetyl CoA"))
 BETA_R=("Fatty acyl CoA","Double bond formed","Hydroxyl group added","Carbonyl group formed","Acyl CoA, 2 carbons shorter")
 def q_beta(names=BETA_N,side=BETA_S,rows=BETA_R):
-    """One round, top to bottom. names: (step, enzyme), enzyme as a number draws a badge. side per step: (in,out) curve or (in,)
-    joining arrow; a number draws a badge. The dashed line back to the top is the next round."""
+    """One round, top to bottom. names: (step, enzyme), enzyme as a number draws a badge. side per step: (in,out) curve, (in,)
+    joining arrow or None; a number draws a badge. The dashed line back to the top is the next round. L3 elongation reuses it."""
     o=_q(480,384,16)+[_ah("bo",FG),_ah("bs",MUT)]; cx=262; p=84
     for i,r in enumerate(rows):
         y=30+i*p; o.append(T(cx,y,r,text_anchor="middle",fill=FG,font_weight="600"))
@@ -578,6 +578,7 @@ def q_beta(names=BETA_N,side=BETA_S,rows=BETA_R):
         o.append(_num(cx-30,ym+14,en) if isinstance(en,int) else T(cx-14,ym+15,en,text_anchor="end",fill=FG,font_size="14"))
         sd=side[i]
         lab=lambda x,y,s:_num(x+12,y-5,s) if isinstance(s,int) else T(x,y,s,fill=MUT,font_size="14")
+        if sd is None: continue
         if len(sd)==2:
             o.append('<path d="M%s %s Q%s %s %s %s" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#bs)"/>'%(cx+62,ym-9,cx+8,ym,cx+62,ym+11,MUT))
             o.append(lab(cx+68,ym-5,sd[0])+lab(cx+68,ym+16,sd[1]))
@@ -598,6 +599,84 @@ def q_keto(hdr=("Liver","Blood","Other tissues"),ac="Acetone"):
     o.append(t(xs[1],242,"Ketone bodies")+_arr(xs[1],226,xs[1],178)+(_num(xs[1],160,ac) if isinstance(ac,int) else t(xs[1],164,ac))+_arr(xs[1],146,xs[1],98)+t(xs[1],80,"Lungs, urine"))
     o.append(_arr(xs[0]+62,237,xs[1]-62,237)+_arr(xs[1]+62,237,xs[2]-62,237))
     o.append(t(xs[2],242,"Ketone bodies")+_arr(xs[2],226,xs[2],178)+t(xs[2],164,"Acetyl CoA")+_arr(xs[2],146,xs[2],98)+t(xs[2],80,"Citric acid cycle"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L3: citrate-malate shuttle ----------
+def q_cit(cit=1,enz=2,nadph=3):
+    """Mitochondrion (left) and cytosol (right). Citrate crosses out, ATP-citrate lyase splits it, oxaloacetate goes to malate
+    (NADPH) and back in (dashed). cit, enz, nadph: a number draws a badge (cit blanks both citrates)."""
+    o=_q(480,300,15)+[_ah("m5a",FG),_ah("m5s",MUT)]; xm,xc=100,300
+    o.append(T(xm,24,"MITOCHONDRION",text_anchor="middle",fill=ACC,font_weight="700",font_size="14")+T(xc+40,24,"CYTOSOL",text_anchor="middle",fill=ACC,font_weight="700",font_size="14"))
+    o.append('<rect x="174" y="36" width="30" height="256" fill="#f3f5f9"/><line x1="174" y1="36" x2="174" y2="292" stroke="%s"/><line x1="204" y1="36" x2="204" y2="292" stroke="%s"/>'%(LINE,LINE))
+    t=lambda x,y,s:T(x,y,s,text_anchor="middle",fill=FG,font_weight="600")
+    c=lambda x,y:(_blank(x-44,y-18,88,26,"")+_num(x,y-5,cit)) if isinstance(cit,int) else t(x,y,cit)
+    o.append(c(xm,78)+c(xc,78)+_arr(xm+48,73,xc-50,73))
+    o.append(t(xm,252,"Oxaloacetate")+_arr(xm,234,xm,94))
+    o.append('<path d="M%s 172 Q%s 166 %s 152" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#m5s)"/>'%(xm-60,xm-22,xm-4,MUT)+T(8,186,"Acetyl CoA",fill=MUT,font_size="14"))
+    o.append(_arr(xc,92,xc,148))
+    o.append('<path d="M%s 112 Q%s 112 %s 124" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#m5s)"/>'%(xc-46,xc-16,xc-4,MUT)+T(xc-50,117,"ATP",text_anchor="end",fill=MUT,font_size="14"))
+    o.append(_num(xc+30,120,enz) if isinstance(enz,int) else "".join(T(xc+14,116+17*j,w,fill=ACC,font_size="14") for j,w in enumerate(enz.split("|"))))
+    o.append(t(xc,168,"Oxaloacetate")+T(xc+56,168,"+ acetyl CoA",fill=FG,font_size="14"))
+    o.append(_arr(xc,176,xc,232)+t(xc,252,"Malate"))
+    o.append('<path d="M%s 196 Q%s 210 %s 220" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#m5s)"/>'%(xc+4,xc+30,xc+60,MUT))
+    o.append(_num(xc+76,222,nadph) if isinstance(nadph,int) else T(xc+66,226,nadph,fill=MUT,font_size="14"))
+    o.append(_arr(xc-30,247,xm+52,247,dash=True))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L3: acetyl CoA to malonyl CoA ----------
+def q_acc(enz=1,bic="HCO₃⁻"):
+    """Acetyl CoA -> malonyl CoA with ATP and bicarbonate in, ADP + Pi out, enzyme in a box under the arrow. Numbers draw badges."""
+    o=_q(480,190,15)+[_ah("m5a",FG),_ah("m5s",MUT)]; y=96
+    o.append(T(66,y+5,"Acetyl CoA",text_anchor="middle",fill=FG,font_weight="600")+T(414,y+5,"Malonyl CoA",text_anchor="middle",fill=FG,font_weight="600"))
+    o.append(_arr(124,y,350,y))
+    o.append('<path d="M170 52 Q186 %s 212 %s" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#m5s)"/>'%(y,y-4,MUT))
+    o.append(T(150,44,"ATP",fill=MUT,font_size="14")+T(186,44,"+",fill=MUT,font_size="14")+(_num(218,39,bic) if isinstance(bic,int) else T(204,44,bic,fill=MUT,font_size="14")))
+    o.append('<path d="M262 %s Q292 %s 306 52" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#m5s)"/>'%(y-4,y,MUT)+T(292,44,"ADP + Pᵢ",fill=MUT,font_size="14"))
+    o.append('<rect x="160" y="114" width="160" height="50" rx="6" fill="#eaf3ec" stroke="%s" stroke-width="1.4"/>'%FG)
+    o.append(_num(240,139,enz) if isinstance(enz,int) else T(240,135,"Acetyl-CoA",text_anchor="middle",fill=FG,font_size="14")+T(240,153,"carboxylase 1",text_anchor="middle",fill=FG,font_size="14"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L3: degradation and synthesis side by side ----------
+VS_R=("Location","Crosses the|mitochondrial|membrane as","Electron|carriers","Key regulatory|enzyme")
+VS_D=("Mitochondria","Acyl carnitine","FAD, NAD⁺|reduced","Carnitine acyl-|transferase I")
+VS_S=("Cytosol","Citrate","NADPH|used","Acetyl-CoA|carboxylase 1")
+def q_vs(deg=VS_D,syn=VS_S):
+    """Grid: row labels, degradation column, synthesis column. "|" breaks a line; a number draws a badge."""
+    rh=66; o=_q(480,44+rh*len(VS_R),14); xs=(70,226,384)
+    o.append(T(xs[1],26,"DEGRADATION",text_anchor="middle",fill=ACC,font_weight="700")+T(xs[2],26,"SYNTHESIS",text_anchor="middle",fill=ACC,font_weight="700"))
+    for i,lab in enumerate(VS_R):
+        y0=38+i*rh; o.append('<line x1="0" y1="%s" x2="480" y2="%s" stroke="%s"/>'%(y0,y0,LINE))
+        for x,s,col,b in ((xs[0],lab,MUT,False),(xs[1],deg[i],FG,True),(xs[2],syn[i],FG,True)):
+            if isinstance(s,int): o.append(_blank(x-60,y0+rh/2-14,120,28,"")+_num(x,y0+rh/2,s)); continue
+            ls=s.split("|"); yy=y0+rh/2+5-8.5*(len(ls)-1)
+            o.append("".join(T(x,yy+17*j,w,text_anchor="middle",fill=col,font_weight="600" if b else "400",font_size="14") for j,w in enumerate(ls)))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L4: phosphatidate and where it branches ----------
+def q_pab(gk="glycerol kinase",pa="Phosphatidate",pap="phosphatidic acid phosphatase",tag="Triacylglycerol",card="Cardiolipin,|phosphatidylinositol"):
+    """Glycerol -> G3P -> phosphatidate; phosphatidate activated directly (right) or to diacylglycerol by PAP (down), then
+    triacylglycerol or phosphatidylcholine. Any argument as a number draws a badge (molecules get a dashed box)."""
+    o=_q(480,352,15)+[_ah("m5a",FG),_ah("m5s",MUT)]; x=150
+    t=lambda x,y,s:T(x,y,s,text_anchor="middle",fill=FG,font_weight="600")
+    mol=lambda x,y,s,w=124:(_blank(x-w/2,y-18,w,26,"")+_num(x,y-5,s)) if isinstance(s,int) else "".join(t(x,y+17*j-8.5*(len(s.split("|"))-1),w_) for j,w_ in enumerate(s.split("|")))
+    enz=lambda y,s:_num(x+28,y-6,s) if isinstance(s,int) else T(x+14,y,s,fill=ACC,font_size="14")
+    join=lambda y,s:'<path d="M96 %s Q130 %s %s %s" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#m5s)"/>'%(y,y,x-4,y+14,MUT)+T(92,y+5,s,text_anchor="end",fill=MUT,font_size="14")
+    o.append(t(x,30,"Glycerol")+_arr(x,40,x,88)+enz(70,gk)+join(56,"ATP"))
+    o.append(t(x,110,"Glycerol-3-phosphate")+_arr(x,120,x,168)+enz(150,"acyl transferase ×2")+join(136,"2 acyl CoA"))
+    o.append(mol(x,190,pa)+_arr(x,202,x,248)+enz(230,pap))
+    o.append(_arr(x+66,185,316,185)+T(266,177,"activated",text_anchor="middle",fill=MUT,font_size="13")+mol(392,190,card,140))
+    o.append(t(x,270,"Diacylglycerol"))
+    o.append(_arr(x-24,280,x-54,316)+T(10,300,"+ acyl CoA",fill=MUT,font_size="14")+mol(80,338,tag))
+    o.append(_arr(x+24,280,290,316)+T(244,290,"+ activated alcohol",fill=MUT,font_size="14")+t(354,338,"Phosphatidylcholine"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L4: ceramide and the sphingolipids made from it ----------
+def q_cer(cer="Ceramide",sm="Sphingomyelin",gsl="Glycosphingolipids"):
+    o=_q(480,222,15)+[_ah("m5a",FG)]; x=240
+    t=lambda x,y,s:(_blank(x-64,y-18,128,26,"")+_num(x,y-5,s)) if isinstance(s,int) else T(x,y,s,text_anchor="middle",fill=FG,font_weight="600")
+    o.append(t(x,34,"Palmitoyl CoA + serine")+_arr(x,44,x,90)+t(x,112,cer))
+    o.append(_arr(x-30,124,130,176)+T(150,140,"+ phosphorylcholine",text_anchor="end",fill=MUT,font_size="14")+t(110,200,sm))
+    o.append(_arr(x+30,124,350,176)+T(322,146,"+ sugar",fill=MUT,font_size="14")+t(370,200,gsl))
     o.append('</svg>'); return "".join(o)
 
 figs={
@@ -660,6 +739,18 @@ figs={
  "q-beta-s":q_beta(side=(("FAD",1),("H₂O",),("NAD⁺",2),("CoA","Acetyl CoA"))),
  "q-keto":q_keto(hdr=(1,"Blood","Other tissues")),
  "q-keto-a":q_keto(ac=1),
+ # ================= M5 L3 =================
+ "q-cit":q_cit(),
+ "q-acc":q_acc(),
+ # synthesis in three stages through q_pdh's step layout, stages numbered
+ "q-syn":q_pdh(side=(("ATP",),("ATP + HCO₃⁻",),("NADPH",)),rows=("Acetyl CoA, mitochondria","Acetyl CoA, cytosol","Malonyl CoA","Palmitate"),names=(1,2,3)),
+ # elongation through q_beta's round layout, reactions numbered
+ "q-elong":q_beta(names=(("",1),("",2),("",3),("",4)),side=(("Malonyl CoA",),None,None,None),rows=("Acetyl CoA","","","","Chain 2 carbons longer")),
+ "q-vs":q_vs(deg=("Mitochondria","Acyl carnitine",2,"Carnitine acyl-|transferase I"),syn=("Cytosol","Citrate","NADPH|used",1)),
+ # ================= M5 L4 =================
+ "q-pa-e":q_pab(gk=1,pap=2),
+ "q-pa-m":q_pab(pa=1,tag=2,card=3),
+ "q-cer":q_cer(cer=1,sm=2),
 }
 here=os.path.dirname(os.path.abspath(__file__))
 open(os.path.join(here,"figs.js"),"w",encoding="utf-8").write("const FIGS="+json.dumps(figs,ensure_ascii=False)+";\n")
