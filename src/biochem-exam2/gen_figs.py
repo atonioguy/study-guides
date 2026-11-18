@@ -22,7 +22,7 @@ ROWS=["Glucose","Glucose 6-phosphate","Fructose 6-phosphate","Fructose 1,6-bisph
       "(2) 3-Phosphoglycerate","(2) 2-Phosphoglycerate","(2) Phosphoenolpyruvate","(2) Pyruvate"]
 ENZ={1:"hexokinase",2:"phosphoglucose isomerase",3:"phosphofructokinase-1",4:"aldolase",5:"triose phosphate isomerase",
      6:"G3P dehydrogenase",7:"phosphoglycerate kinase",8:"phosphoglycerate mutase",9:"enolase",10:"pyruvate kinase"}
-SIDE={1:("ATP","ADP"),3:("ATP","ADP"),6:("2 NAD⁺","2 NADH"),7:("2 ADP","2 ATP"),10:("2 ADP","2 ATP")}
+SIDE={1:("ATP","ADP"),3:("ATP","ADP"),6:("2 NAD⁺","2 NADH"),7:("2 ADP","2 ATP"),9:("","2 H₂O"),10:("2 ADP","2 ATP")}
 def ladder(first=1,last=10,enz=True,side=True,nums=True,marks=None,blank_enz=(),blank_row=(),pitch=58):
     """Steps first..last of glycolysis, top to bottom.
     enz/side/nums: show enzyme names, the ATP/NAD side arrows, the step numbers.
@@ -46,6 +46,101 @@ def ladder(first=1,last=10,enz=True,side=True,nums=True,marks=None,blank_enz=(),
         elif nums: o.append(_num(x,ym,s,ACC)); x+=22
         if s in blank_enz: o.append(_blank(x,ym-14,150,28))
         elif enz: o.append(T(x,ym+5,ENZ[s],fill=ACC,font_size="15"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- glycolysis phase summary ----------
+def q_phases(rows=("Glucose (6 carbons)","2 trioses (3 carbons each)","2 Pyruvate"),atp=("2 ATP used","4 ATP produced"),phase=("Phase I","Phase II")):
+    """Glycolysis as two phase boxes. A number in rows, atp or phase draws a numbered blank instead of the text."""
+    o=_q(480,300,16)+[_ah("ga",FG)]; cx=190
+    for i,r in enumerate(rows):
+        y=26+i*124
+        if isinstance(r,int): o.append(_num(cx,y-5,r))
+        else: o.append(T(cx,y,r,text_anchor="middle",fill=FG,font_weight="600"))
+        if i==2: break
+        o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#ga)"/>'%(cx,y+10,cx,y+28,FG))
+        o.append('<rect x="%s" y="%s" width="180" height="50" rx="6" fill="#f3f5f9" stroke="%s" stroke-width="1.5"/>'%(cx-90,y+32,FG))
+        o.append(T(cx,y+63,"Steps %s"%("1 to 5" if i==0 else "6 to 10"),text_anchor="middle",fill=FG))
+        o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#ga)"/>'%(cx,y+84,cx,y+106,FG))
+        o.append('<path d="M%s %s h26" stroke="%s" stroke-width="1.5"/>'%(cx+92,y+57,MUT))
+        a=atp[i]
+        if isinstance(a,int): o.append(_num(cx+132,y+57,a))
+        else: o.append(T(cx+124,y+62,a,fill=FG))
+        p=phase[i]
+        if isinstance(p,int): o.append(_num(cx-118,y+57,p))
+        else: o.append(T(cx-104,y+62,p,text_anchor="end",fill=ACC,font_weight="700"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- monosaccharide chains (Fischer style, like the lecture's linear structures) ----------
+SUG={"glucose":["CHO",("H","OH"),("HO","H"),("H","OH"),("H","OH"),"CH2OH"],
+     "galactose":["CHO",("H","OH"),("HO","H"),("HO","H"),("H","OH"),"CH2OH"],
+     "fructose":["CH2OH","CO",("HO","H"),("H","OH"),("H","OH"),"CH2OH"],
+     "ribose":["CHO",("H","OH"),("H","OH"),("H","OH"),"CH2OH"],
+     "glyceraldehyde":["CHO",("H","OH"),"CH2OH"],
+     "dihydroxyacetone":["CH2OH","CO","CH2OH"]}
+def fischer(spec,cx,y0,step=38,mirror=False):
+    """One sugar chain, top carbon at y0. Rows: "CHO" aldehyde carbon, "CO" ketone carbon, "CH2OH", or (left,right).
+    mirror=True swaps every left and right group (the mirror image). Returns (svg, y of the last row)."""
+    o=[];m=-1 if mirror else 1;y=y0
+    ln=lambda x1,y1,x2,y2:'<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="1.6"/>'%(x1,y1,x2,y2,FG)
+    side=lambda x,y,t,d:T(x,y,t,text_anchor="end" if d<0 else "start",fill=FG)
+    for i,r in enumerate(spec):
+        y=y0+i*step
+        if i: o.append(ln(cx,y-step+6,cx,y-17))
+        if r=="CH2OH": o.append(T(cx,y,"CH₂OH",text_anchor="middle",fill=FG)); continue
+        o.append(T(cx,y,"C",text_anchor="middle",fill=FG))
+        if r=="CHO":
+            o.append(ln(cx-m*9,y-5,cx-m*24,y-5)+side(cx-m*28,y,"H",-m))
+            for d in (-2.5,2.5): o.append(ln(cx+m*(7+d),y-13+d,cx+m*(19+d),y-25+d))
+            o.append(side(cx+m*20,y-26,"O",m))
+        elif r=="CO":
+            for d in (-2.5,2.5): o.append(ln(cx+m*9,y-5+d,cx+m*24,y-5+d))
+            o.append(side(cx+m*28,y,"O",m))
+        else:
+            a,b=(r[1],r[0]) if mirror else r
+            a={"OH":"HO"}.get(a,a);b={"HO":"OH"}.get(b,b)
+            o.append(ln(cx-9,y-5,cx-24,y-5)+side(cx-28,y,a,-1)+ln(cx+9,y-5,cx+24,y-5)+side(cx+28,y,b,1))
+    return "".join(o),y
+def q_sugars(names,labels,w=480,mirror=()):
+    """Sugars side by side, bottoms aligned, each with a badge (number or letter) underneath."""
+    n=len(names);rows=max(len(SUG[k]) for k in names);step=38;top=50;H=top+rows*step+36
+    o=_q(w,H,16)
+    for i,k in enumerate(names):
+        cx=w*(2*i+1)/(2*n);y0=top+(rows-len(SUG[k]))*step
+        svg,yb=fischer(SUG[k],cx,y0,step,mirror=i in mirror);o.append(svg)
+        o.append(_num(cx,top+(rows-1)*step+34,labels[i]))
+    if mirror: o.append('<line x1="%s" y1="18" x2="%s" y2="%s" stroke="%s" stroke-width="1.5" stroke-dasharray="6 5"/>'%(w/2,w/2,H-50,MUT))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- disaccharides ----------
+def q_disacc(rows=(("Glucose",1,"Sucrose"),("Glucose",2,"Lactose"))):
+    """Monosaccharide + monosaccharide -> disaccharide. A number draws a numbered dashed box."""
+    o=_q(480,len(rows)*90+14,16)+[_ah("da",FG)]
+    for i,(a,b,c) in enumerate(rows):
+        y=30+i*90
+        for x,t in ((24,a),(196,b)):
+            if isinstance(t,int): o.append('<rect x="%s" y="%s" width="140" height="44" rx="8" fill="#fff" stroke="%s" stroke-width="1.6" stroke-dasharray="5 4"/>'%(x,y,FG)+_num(x+70,y+22,t))
+            else: o.append('<rect x="%s" y="%s" width="140" height="44" rx="8" fill="#f3f5f9" stroke="%s" stroke-width="1.5"/>'%(x,y,FG)+T(x+70,y+27,t,text_anchor="middle",fill=FG,font_weight="600"))
+        o.append(T(180,y+29,"+",text_anchor="middle",fill=FG,font_size="22",font_weight="700"))
+        o.append('<line x1="346" y1="%s" x2="380" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#da)"/>'%(y+22,y+22,FG))
+        o.append(T(390,y+27,c,fill=FG,font_weight="700"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- lactose in the gut ----------
+def q_lact(enz=1):
+    o=_q(480,330,15)+[_ah("lc",FG)]
+    box=lambda x,y,w,lines,fill="#f3f5f9":'<rect x="%s" y="%s" width="%s" height="%s" rx="7" fill="%s" stroke="%s" stroke-width="1.5"/>'%(x,y,w,14+20*len(lines),fill,FG)+"".join(T(x+w/2,y+24+20*j,t,text_anchor="middle",fill=FG) for j,t in enumerate(lines))
+    arr=lambda x1,y1,x2,y2:'<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#lc)"/>'%(x1,y1,x2,y2,FG)
+    o.append(box(150,12,180,["Lactose","(small intestine)"]))
+    o.append(arr(200,68,120,128)+arr(280,68,360,128))
+    if isinstance(enz,int): o.append(_num(146,92,enz))
+    else: o.append(T(150,98,enz,text_anchor="end",fill=ACC,font_weight="600"))
+    o.append(T(338,96,"too little",text_anchor="start",fill=MUT,font_size="14"))
+    o.append(box(20,132,200,["Glucose + galactose","absorbed"]))
+    o.append(box(260,132,200,["Lactose not absorbed,","reaches large intestine"]))
+    o.append(arr(360,188,360,218))
+    o.append(box(260,222,200,["Bacteria metabolize it"]))
+    o.append(arr(360,258,360,280))
+    o.append(box(260,284,200,["Gas, abdominal pain"],"#fff"))
     o.append('</svg>'); return "".join(o)
 
 # ---------- cellular respiration boxes ----------
@@ -76,10 +171,11 @@ def q_hkgk():
     o.append('</svg>'); return "".join(o)
 
 # ---------- PFK-1 regulators ----------
-def q_pfk(inh=("ATP","citrate",1),act=("AMP",2)):
-    """PFK-1 reaction with its regulators. A number in inh/act draws a numbered blank instead of the name."""
+def q_reg(sub,prod,inh,act):
+    """One reaction with its allosteric regulators. sub/prod: two-line labels.
+    A number in inh/act draws a numbered blank instead of the name."""
     o=_q(480,250,16)+[_ah("pa",FG)]
-    for x,a,b in ((70,"Fructose","6-phosphate"),(410,"Fructose 1,6-","bisphosphate")):
+    for x,(a,b) in ((70,sub),(410,prod)):
         o.append(T(x,120,a,text_anchor="middle",fill=FG,font_weight="600")+T(x,139,b,text_anchor="middle",fill=FG,font_weight="600"))
     o.append('<line x1="130" y1="125" x2="342" y2="125" stroke="%s" stroke-width="2.5" marker-end="url(#pa)"/>'%FG)
     def row(items,y,ly,col,sym):
@@ -92,15 +188,100 @@ def q_pfk(inh=("ATP","citrate",1),act=("AMP",2)):
     row(inh,70,60,RED,"×"); row(act,180,200,GRN,"+")
     o.append(T(14,24,"× inhibits",fill=RED, font_size="15",font_weight="600")+T(14,238,"+ activates",fill=GRN, font_size="15",font_weight="600"))
     o.append('</svg>'); return "".join(o)
+def q_pfk(inh=("ATP","citrate",1),act=("AMP",2)):
+    """PFK-1 and its regulators."""
+    return q_reg(("Fructose","6-phosphate"),("Fructose 1,6-","bisphosphate"),inh,act)
+def q_pk(inh=("ATP","citrate","alanine"),act=("F1,6BP","PEP")):
+    """Pyruvate kinase and its regulators."""
+    return q_reg(("Phosphoenol-","pyruvate"),("Pyruvate",""),inh,act)
+
+# ---------- fate of pyruvate ----------
+def q_fork(left=(1,"Lactate"),right=("Pyruvate dehydrogenase",2)):
+    """Pyruvate splits: no oxygen (left) or oxygen (right). Each side is (enzyme, product); a number draws a blank."""
+    o=_q(480,250,16)+[_ah("fa",FG)]
+    o.append('<rect x="180" y="14" width="120" height="38" rx="7" fill="#f3f5f9" stroke="%s" stroke-width="1.5"/>'%FG+T(240,39,"Pyruvate",text_anchor="middle",fill=FG,font_weight="600"))
+    for cx,head,(e,pr) in ((120,"No oxygen",left),(360,"Oxygen",right)):
+        o.append('<path d="M240 52 V72 H%s V98" fill="none" stroke="%s" stroke-width="2" marker-end="url(#fa)"/>'%(cx,FG))
+        o.append(T(cx,90 if False else 120,head,text_anchor="middle",fill=MUT,font_size="15"))
+        if isinstance(e,int): o.append(_num(cx,150,e))
+        else:
+            ws=e.split(" ");o.append("".join(T(cx,148+18*j,w,text_anchor="middle",fill=ACC,font_size="15") for j,w in enumerate(ws)))
+        o.append('<line x1="%s" y1="182" x2="%s" y2="200" stroke="%s" stroke-width="2" marker-end="url(#fa)"/>'%(cx,cx,FG))
+        if isinstance(pr,int): o.append('<rect x="%s" y="204" width="140" height="38" rx="7" fill="#fff" stroke="%s" stroke-width="1.6" stroke-dasharray="5 4"/>'%(cx-70,FG)+_num(cx,223,pr))
+        else: o.append('<rect x="%s" y="204" width="140" height="38" rx="7" fill="#f3f5f9" stroke="%s" stroke-width="1.5"/>'%(cx-70,FG)+T(cx,229,pr,text_anchor="middle",fill=FG,font_weight="600"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- pyruvate dehydrogenase, three steps ----------
+def q_pdh(side=(1,("NAD⁺","NADH"),("CoA",)),rows=("Pyruvate","2-carbon molecule","Acetyl group","Acetyl CoA"),names=("Decarboxylation","Oxidation","Transfer")):
+    """Three steps top to bottom. side per step: a number (blank leaving the chain), (in,out) curve, or (in,) joining arrow.
+    A number in names draws a numbered blank for the step name."""
+    o=_q(480,330,16)+[_ah("pd",FG),_ah("ps",MUT)];cx=230;pitch=96
+    for i,r in enumerate(rows):
+        y=30+i*pitch
+        o.append(T(cx,y,r,text_anchor="middle",fill=FG,font_weight="600"))
+        if i==3: break
+        y1,y2=y+9,y+pitch-20;ym=(y1+y2)/2
+        o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#pd)"/>'%(cx,y1,cx,y2,FG))
+        n=names[i]
+        if isinstance(n,int): o.append(_num(cx-30,ym,n))
+        else: o.append(T(cx-14,ym+5,n,text_anchor="end",fill=ACC,font_size="15"))
+        sd=side[i]
+        if isinstance(sd,int):
+            o.append('<path d="M%s %s Q%s %s %s %s" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#ps)"/>'%(cx+6,ym-4,cx+40,ym-4,cx+62,ym+10,MUT)+_num(cx+80,ym+14,sd))
+        elif len(sd)==2:
+            o.append('<path d="M%s %s Q%s %s %s %s" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#ps)"/>'%(cx+62,ym-9,cx+8,ym,cx+62,ym+11,MUT))
+            o.append(T(cx+68,ym-5,sd[0],fill=MUT,font_size="14")+T(cx+68,ym+16,sd[1],fill=MUT,font_size="14"))
+        else:
+            o.append('<path d="M%s %s Q%s %s %s %s" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#ps)"/>'%(cx+62,ym-6,cx+30,ym-6,cx+8,ym+6,MUT)+T(cx+68,ym-1,sd[0],fill=MUT,font_size="14"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- anaerobic NAD+ loop ----------
+def q_nadloop(nad=1):
+    """Glucose -> glycolysis -> 2 pyruvate -> lactate dehydrogenase -> 2 lactate, with NAD+ looped back to glycolysis.
+    nad as a number draws that numbered blank at both NAD+ positions."""
+    o=_q(480,300,16)+[_ah("na",FG),_ah("nm",MUT)];cx=270
+    lab=lambda x,y,t:(_num(x-12,y-5,t) if isinstance(t,int) else T(x,y,t,text_anchor="end",fill=MUT,font_size="14"))
+    for y,t in ((26,"Glucose"),(146,"2 Pyruvate"),(266,"2 Lactate")):
+        o.append(T(cx,y,t,text_anchor="middle",fill=FG,font_weight="600"))
+    for y1,name,a,b in ((36,"Glycolysis",nad,"2 NADH"),(156,"Lactate dehydrogenase","2 NADH",nad)):
+        y2=y1+92;ym=(y1+y2)/2
+        o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#na)"/>'%(cx,y1,cx,y2-18,FG))
+        o.append(T(cx+14,ym+5,name,fill=ACC,font_size="15"))
+        o.append('<path d="M%s %s Q%s %s %s %s" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#nm)"/>'%(cx-70,ym-12,cx-8,ym,cx-70,ym+14,MUT))
+        o.append(lab(cx-76,ym-8,a)+lab(cx-76,ym+19,b))
+    x0=cx-76-30 if isinstance(nad,int) else cx-76-58
+    o.append('<path d="M%s 215 H80 V69 H%s" fill="none" stroke="%s" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#na)"/>'%(x0,x0,FG))
+    o.append('</svg>'); return "".join(o)
 
 figs={
+ # ---- L1 ----
+ "q-fis3":q_sugars(["glucose","glyceraldehyde","ribose"],[1,2,3]),
+ "q-sugars3":q_sugars(["galactose","fructose","glucose"],[1,2,3]),
+ "q-triose":q_sugars(["glyceraldehyde","dihydroxyacetone"],["A","B"]),
+ "q-dl":q_sugars(["glucose","glucose"],["A","B"],mirror=(1,)),
+ "q-disacc":q_disacc(),
+ "q-lact":q_lact(),
+ # ---- L2 ----
  # all ten steps, no enzyme names or cofactors, five lettered steps (1, 3, 4, 7, 10)
  "q-gly10":ladder(1,10,enz=False,side=False,nums=False,marks={1:"A",3:"B",4:"C",7:"D",10:"E"},pitch=50),
  # Phase I with one enzyme blanked
  "q-ph1-e3":ladder(1,5,blank_enz=(3,)),
+ # Phase I with the step 1 product blanked
+ "q-ph1-r1":ladder(1,5,blank_row=(1,)),
+ # phase summary with the phases numbered instead of named
+ "q-phases":q_phases(phase=(1,2)),
  "q-resp":q_resp(),
  "q-hkgk":q_hkgk(),
  "q-pfk":q_pfk(),
+ # ---- L3 ----
+ "q-ph2-r1":ladder(6,10,blank_row=(6,),pitch=68),
+ "q-ph2-e10":ladder(6,10,blank_enz=(10,),pitch=68),
+ "q-ph2-atp":ladder(6,10,enz=False,side=False,nums=False,marks={6:"A",7:"B",9:"C",10:"D"},pitch=62),
+ "q-pk-a":q_pk(act=(1,"PEP")),
+ "q-pk-i":q_pk(inh=("ATP","citrate",1)),
+ "q-fork":q_fork(),
+ "q-pdh":q_pdh(),
+ "q-nadloop":q_nadloop(1),
 }
 here=os.path.dirname(os.path.abspath(__file__))
 open(os.path.join(here,"figs.js"),"w",encoding="utf-8").write("const FIGS="+json.dumps(figs,ensure_ascii=False)+";\n")
