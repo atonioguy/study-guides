@@ -17,7 +17,7 @@ The site must read like something the course's professor made. Nothing on the pa
 - Wording corrections go in a short note that reads like a professor's footnote, only where a student would otherwise be confused. Don't flag every typo.
 - Don't over-apply any one instruction. If a rule is making the text sound like it is following a rule, back off.
 
-## State (Nov 16): stages 0 and 1 done, nothing committed
+## State (Nov 18): stages 0 and 1 done and committed; M4 Lesson 2 reference set committed (see below)
 - `src/biochem-exam1/extract_lecture.py` now takes an optional third argument (lecture folder, default `biochem-exam1`) and renders H5P.ImageHotspotQuestion. Exam 1 output is unchanged by default.
 - `lectures/biochem-exam2/m4.json`, `m5.json` and `img/` extracted (M4: L1 47, L2 47, L3 44, L4 31, L5 18 blocks, 55 images. M5: 28, 29, 28, 28, 25 blocks, 31 images). Re-run only if the .h5p changes: `python3 -I src/biochem-exam1/extract_lecture.py <file.h5p> m4 biochem-exam2`.
 - `src/biochem-exam2/template.html`: copy of Exam 1's with title, storage keys (`bmsc3401-exam2`, `bmsc3401-lecwin2`) and lecture folder changed. Nothing else touched yet.
@@ -25,6 +25,16 @@ The site must read like something the course's professor made. Nothing on the pa
 - `inventory.js`: 45 lessons, 178 core items, 24 side items. Each lesson has its takeaway (`a`), core facts with lecture block refs, and side content. **The facts are complete enough to write lessons and questions from; you should not need to re-read the lectures**, only open a block when you need the exact sentence for a highlight snippet.
 - `tests/validate_inv.js`: passes. Once `m4.js`/`m5.js` exist it fails on any core item with no question, any question with no item, or a question with no `kind`.
 - `notes/plan.md`: the original (larger) plan. Where it disagrees with this file, this file wins.
+
+## Reference set (Nov 17): M4 Lesson 2 is the pattern to match
+`m4.js` now holds the six L2 lessons (`m4-map` to `m4-reg1`) and 16 L2 questions (`m4b01` to `m4b16`: 6 fig, 7 ex, 3 why). Write every other lesson and question the same way, then add to the same file. Nothing else in M4 or M5 is written.
+- Lessons: id and heading from `inventory.js`, lecture image through `img` (credit "Lecture figure, Lesson N."), the lecture's own wording for facts, a table or list only where the lecture compares things, one footnote-style note where the lecture contradicts itself, a one-line `so`. Tables stay at three columns or fewer and step lists are `<ol>`, because wider tables clip at 390 px.
+- Questions: id is `m4` + lecture letter (a = L1 ... e = L5) + number. Each has `kind`, `inv`, an `HL` snippet from its lesson and a `LEC` block + verbatim lecture snippet. Stems ask for the lecture's fact directly. Explanations are one or two sentences. Three T/F in the set, one true.
+- Figures: `gen_figs.py` writes `figs.js`. `ladder()` draws any run of glycolysis steps with enzymes, cofactors, numbers, lettered steps or "?" blanks switched by arguments, so L3 figures are new calls, not new code. `q_pfk()` takes the regulator lists the same way (a number makes a blank). Reuse a figure for more than one question (`q-gly10` carries two).
+- L2 is not finished: these items still have no question: `m4-phases.c1, c3, c4`, `m4-ph1.c1, c2, c5`, `m4-hkgk.c1`, `m4-reg1.c3, c5`. `q-pfk` blank 1 (PEP) and `q-ph1-e3` style blanks are ready for them.
+- LO titles in `los` are plain placeholders. Swap in the course's wording for 4.1, 4.2 and 4.4 when Antonio pastes it.
+- `tests/validate_hl.js` and `tests/validate_lec.js` are copied over and pass. `validate_inv.js` fails by design until every core item in M4 has a question. The browser test (`test_site.py`) is still stage 7; a manual pass at 1280 and 390 was clean.
+- Template leftover for stage 7: the mock setup line reads "M1 and M2 and M3 not added yet."
 
 ## Decisions Antonio made
 - Size: trim. Every core item gets one question (178). The number in each inventory item marks how hard the lecture leans on it; only give an item a second question when the second is a different kind (a figure version of a text question, or the reverse). Land near 200 total, not 257.
