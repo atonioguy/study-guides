@@ -58,7 +58,7 @@ with sync_playwright() as p:
         check(not over, "practice: no card overflows %s" % over[:2])
         # screenshot requested question cards by stem match on id (cards carry no id; find via QBY stems)
         for s in SHOTS:
-            if not s.startswith("m4") or "-" in s: continue
+            if not s.startswith(("m4","m5")) or "-" in s: continue
             stem = pg.evaluate("(()=>{for(const M of MODS)for(const q of M.questions)if(q.id==='%s')return q.stem;})()" % s)
             if not stem: continue
             h = pg.evaluate_handle("(t)=>[...document.querySelectorAll('.plist .qcard')].find(c=>c.innerText.includes(t.slice(0,60)))", stem)

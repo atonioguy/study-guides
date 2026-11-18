@@ -48,6 +48,18 @@ The site must read like something the course's professor made. Nothing on the pa
   - 5.4: Investigate the role of lipids in microbial infections or immunological response.
   - 5.5: Collaborate as a team to address the case scenario, create learning objectives, and complete the PBOD learning objectives summary. (Team activity, no lecture content: no lessons or questions; leave it out of `los` unless the inventory maps something to it.)
 - The full browser test (`test_site.py`) is still stage 7.
+
+## State (Nov 18, later): Module 5 started
+- `m5.js` exists (same shape as `m4.js`; `los` 5.1 to 5.4 with the LO titles above, 5.5 left out). `build.py` already listed it, no wiring needed. `quick_check.py` now screenshots `m5` question ids too.
+- L1: lessons `m5-fatag`, `m5-roles` (no lecture image fits, so none), `m5-sat`, `m5-complex`, `m5-steroid` under `guide["5.1"]`; 27 questions `m5a01` to `m5a27` (10 fig, 12 ex, 5 why; 3 T/F, 1 true). Every L1 core item covered, none thin.
+- L1 figures (new helpers in `gen_figs.py`, M5 section): `_chain()` zigzag carbon chain with cis (kinked) / trans (straight) double bonds by bond number, `_acid()` carboxyl head, `q_fa()` (rows of 18-carbon fatty acids, badges), `q_tg()` (triglyceride, backbone and ester bond labels), `q_cplx()` (the lecture's block schematic of glycerophospholipid / sphingophospholipid / glycolipid; headers or the sugar can be badges), `_rings()`/`q_ster()` (steroid core), `q_mem()` (bilayer with a phospholipid, cholesterol and a glycolipid badged). Figures: `q-fa4` (A trans, B saturated, C omega-3, D cis mono; carries 4 questions), `q-tg`, `q-cplx`, `q-cplx-s`, `q-ster`, `q-mem`. Regenerating leaves every M4 figure byte-identical.
+- `m5-complex` table: third column kept short ("Sphingomyelin" can't wrap at 390).
+- lecnotes: L1 b11 -> `m5-sat` (trans melting point), b16 -> `m5-complex` (glycolipid "membrane protein").
+- Antonio: `m5-roles` stays without an image.
+- L2: lessons `m5-lipolysis`, `m5-carnitine`, `m5-betaox`, `m5-odd`, `m5-ketone` under `guide["5.2"]` (`m5-betaox` and `m5-odd` have no lecture image; that part of the lecture is videos and text). 30 questions `m5b01` to `m5b30` (12 fig, 13 ex, 5 why; 3 T/F, 1 true). One thin item: `m5-ketone.c1` 1/2.
+- L2 figures: `q-stage` (three stages through `q_pdh`, stages numbered), `q_lipo()` -> `q-lipo` (where glycerol and fatty acids go; liver badged), `q_shut()` -> `q-shut` (carnitine shuttle, enzymes/translocase badged), `q_beta()` (one round of beta oxidation: rows, step names, enzymes, FAD/H₂O/NAD⁺/CoA side arrows, dashed return; numbers draw badges; defaults in `BETA_N`, `BETA_S`, `BETA_R`) -> `q-beta-e` (enzymes 1 to 4, carries 4 questions) and `q-beta-s` (FADH₂/NADH blanked), `q_keto()` -> `q-keto` (liver badged), `q-keto-a` (acetone badged). Helpers `_put()` and `_arr()` (marker id `m5a`; add `_ah("m5a",FG)` to a figure that uses it).
+- lecnotes: L2 b8 -> `m5-carnitine` (voltage dependent ion channels), b17 -> `m5-betaox` (FAD+/FADH, enol-coA, thiloase, "adds a new acyl-CoA").
+- M5 so far: 57 questions (22 fig, 25 ex, 10 why). `validate_inv` fails only on M5 L3 to L5 items (expected until written). Next: L3 (`m5c..`, lessons from `m5-shuttle`).
 - Template leftover for stage 7: the mock setup line reads "M1 and M2 and M3 not added yet."
 
 ## Decisions Antonio made

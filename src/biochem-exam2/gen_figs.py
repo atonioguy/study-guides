@@ -401,6 +401,205 @@ def q_bypass(gly=("hexokinase","phosphofructokinase-1","pyruvate kinase"),gng=(1
     o.append(put(ox+28,ys["pyr"]-4,gng[2],ACC,"start")+put(ox+28,ys["pep"]+16,gng[3],ACC,"start"))
     o.append('</svg>'); return "".join(o)
 
+# ================= Module 5 =================
+import math
+def _chain(x0,y0,n,dbl=None,seg=20,bend=32):
+    """Zigzag carbon chain of n carbons from C1 at (x0,y0), heading right. dbl {bond: "c"|"t"}, bond k joins C_k and C_k+1.
+    A cis bond kinks the chain by `bend` degrees (alternating up/down so several stay in the row); a trans bond keeps it straight."""
+    dbl=dbl or {}; o=[]; x,y=x0,y0; axis=0; kink=-1
+    for k in range(1,n):
+        a=math.radians(axis+(30 if k%2 else -30)); x2,y2=x+seg*math.cos(a),y+seg*math.sin(a)
+        o.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="1.8" stroke-linecap="round"/>'%(x,y,x2,y2,FG))
+        if k in dbl:
+            s=-1 if k%2 else 1; px,py=-math.sin(a)*4*s,math.cos(a)*4*s; dx,dy=(x2-x)*0.18,(y2-y)*0.18
+            o.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="1.8"/>'%(x+dx+px,y+dy+py,x2-dx+px,y2-dy+py,FG))
+            if dbl[k]=="c": axis+=kink*bend; kink=-kink
+        x,y=x2,y2
+    return "".join(o)
+def _acid(x,y):
+    """Carboxyl head at C1 (x,y): C=O up, HO to the left."""
+    return ('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="1.8"/>'%(x-3,y,x-3,y-18,FG)+
+            '<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="1.8"/>'%(x+3,y,x+3,y-18,FG)+T(x,y-22,"O",text_anchor="middle",fill=FG,font_size="15")+
+            '<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="1.8"/>'%(x,y,x-17,y+10,FG)+T(x-19,y+16,"HO",text_anchor="end",fill=FG,font_size="15"))
+
+# ---------- L1: fatty acid chains ----------
+def q_fa(rows=(("A",{9:"t"}),("B",{}),("C",{9:"c",12:"c",15:"c"}),("D",{9:"c"}))):
+    """18-carbon fatty acids, one per row, each with a badge (letter or number) and its double bonds (see _chain)."""
+    o=_q(480,len(rows)*84+16,15)
+    for i,(lab,d) in enumerate(rows):
+        y=58+i*84
+        o.append(_num(22,y,lab,FG,FG,"#fff") if isinstance(lab,str) and len(lab)==1 else _num(22,y,lab))
+        o.append(_acid(104,y)+_chain(104,y,18,d))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L1: triglyceride ----------
+def q_tg(bb=1,es=2):
+    """Glycerol (left column) with three fatty acids attached through O. bb labels the glycerol backbone, es the ester bond
+    of the bottom chain (number = badge, text = name)."""
+    o=_q(480,262,15); ys=(52,122,192)
+    for i,y in enumerate(ys):
+        o.append(T(70,y+5,"HC" if i==1 else "H₂C",text_anchor="middle",fill=FG,font_size="15"))
+        if i<2: o.append('<line x1="70" y1="%s" x2="70" y2="%s" stroke="%s" stroke-width="1.8"/>'%(y+10,ys[i+1]-12,FG))
+        o.append('<line x1="88" y1="%s" x2="102" y2="%s" stroke="%s" stroke-width="1.8"/>'%(y,y,FG)+T(111,y+5,"O",text_anchor="middle",fill=FG,font_size="15"))
+        o.append('<line x1="120" y1="%s" x2="136" y2="%s" stroke="%s" stroke-width="1.8"/>'%(y,y,FG))
+        o.append('<line x1="137" y1="%s" x2="137" y2="%s" stroke="%s" stroke-width="1.8"/><line x1="143" y1="%s" x2="143" y2="%s" stroke="%s" stroke-width="1.8"/>'%(y,y-17,FG,y,y-17,FG)+T(140,y-21,"O",text_anchor="middle",fill=FG,font_size="15"))
+        o.append(_chain(140,y,16,{9:"c"} if i==1 else None))
+    o.append('<path d="M46 40 h-8 v164 h8" fill="none" stroke="%s" stroke-width="1.5"/>'%MUT)
+    o.append(_num(20,122,bb) if isinstance(bb,int) else T(30,127,bb,text_anchor="end",fill=FG))
+    o.append('<line x1="111" y1="202" x2="111" y2="226" stroke="%s" stroke-width="1.5"/>'%MUT)
+    o.append(_num(111,240,es) if isinstance(es,int) else T(111,246,es,text_anchor="middle",fill=FG))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L1: complex lipids (the lecture's block schematic) ----------
+def q_cplx(heads=(1,2,3),sugar="Sugar"):
+    """Glycerophospholipid, sphingophospholipid, glycolipid side by side. heads: column titles ("|" breaks a line;
+    a number draws a badge). sugar: the glycolipid's extra group (a number draws a dashed numbered blank)."""
+    o=_q(480,300,15)
+    rect=lambda x,y,w,h,f:'<rect x="%s" y="%s" width="%s" height="%s" rx="3" fill="%s" stroke="%s" stroke-width="1.4"/>'%(x,y,w,h,f,FG)
+    vt=lambda x,y,s:'<text x="%s" y="%s" text-anchor="middle" fill="%s" font-size="14" transform="rotate(-90 %s %s)">%s</text>'%(x,y,FG,x,y,s)
+    ln=lambda x,y1,y2:'<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="1.8"/>'%(x,y1,x,y2,FG)
+    for i,cx in enumerate((84,240,396)):
+        hd=heads[i]
+        if isinstance(hd,int): o.append(_num(cx,24,hd))
+        else: o.append("".join(T(cx,22+17*j,w,text_anchor="middle",fill=ACC,font_weight="700",font_size="14") for j,w in enumerate(hd.split("|"))))
+        if i<2:
+            o.append(rect(cx-32,52,64,24,"#fff")+T(cx,69,"Alcohol",text_anchor="middle",fill=FG,font_size="14")+ln(cx,76,84))
+            o.append('<circle cx="%s" cy="100" r="16" fill="#fdecea" stroke="%s" stroke-width="1.4"/>'%(cx,FG)+T(cx,105,"PO₄",text_anchor="middle",fill=FG,font_size="13"))
+        elif isinstance(sugar,int):
+            o.append('<path d="M%s 72 l26 28 l-26 28 l-26 -28 z" fill="#fff" stroke="%s" stroke-width="1.6" stroke-dasharray="5 4"/>'%(cx,FG)+_num(cx,100,sugar))
+        else:
+            o.append('<path d="M%s 72 l26 28 l-26 28 l-26 -28 z" fill="#f3f5f9" stroke="%s" stroke-width="1.4"/>'%(cx,FG)+T(cx,105,sugar,text_anchor="middle",fill=FG,font_size="13"))
+        o.append(ln(cx,116 if i<2 else 128,132))
+        if i==0:
+            o.append(rect(cx-42,132,84,24,"#f3f5f9")+T(cx,149,"Glycerol",text_anchor="middle",fill=FG,font_size="14"))
+            for fx in (cx-34,cx+8): o.append(rect(fx,156,26,128,"#fff")+vt(fx+13,220,"Fatty acid"))
+        else:
+            o.append(rect(cx-28,132,62,24,"#eaf3ec")+rect(cx+8,132,26,152,"#eaf3ec")+'<rect x="%s" y="133.5" width="23" height="21" fill="#eaf3ec"/>'%(cx+9.5))
+            o.append(vt(cx+21,214,"Sphingosine")+rect(cx-24,156,26,128,"#fff")+vt(cx-11,220,"Fatty acid"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L1: steroid rings ----------
+def _rings(r):
+    """Steroid core (three six-carbon rings and one five-carbon ring) centered near the origin, as polygon point lists."""
+    hexa=lambda cx,cy:[(cx+r*math.cos(math.radians(-90+60*k)),cy+r*math.sin(math.radians(-90+60*k))) for k in range(6)]
+    s3=math.sqrt(3)*r; A=hexa(-s3,0); B=hexa(0,0); C=hexa(s3/2,-1.5*r)
+    p1,p2=C[1],C[2]  # right edge of C (top-right, bottom-right)
+    ex,ey=p2[0]-p1[0],p2[1]-p1[1]; P=[p1,p2]
+    for k in range(3):
+        a=math.radians(-72); ex,ey=ex*math.cos(a)-ey*math.sin(a),ex*math.sin(a)+ey*math.cos(a); P.append((P[-1][0]+ex,P[-1][1]+ey))
+    return [A,B,C,P]
+def _poly(pts,fill,dx=0,dy=0,sw=1.8):
+    return '<polygon points="%s" fill="%s" stroke="%s" stroke-width="%s" stroke-linejoin="round"/>'%(" ".join("%.1f,%.1f"%(x+dx,y+dy) for x,y in pts),fill,FG,sw)
+def q_ster():
+    o=_q(480,200,15)
+    for pts in _rings(36): o.append(_poly(pts,"#f3f5f9",226,124))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L1: membrane with its three common lipids ----------
+def q_mem(lab=(1,2,3)):
+    """Bilayer. lab = badges for a phospholipid, cholesterol and a glycolipid (with its sugar chain) in the outer leaflet."""
+    o=_q(480,300,15); xs=[24+36*i for i in range(13)]; ht,hb=118,240
+    o.append(T(12,24,"Outside the cell",fill=MUT,font_size="14")+T(12,290,"Inside the cell",fill=MUT,font_size="14"))
+    tail=lambda x,y1,y2:'<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2"/>'%(x,y1,x,y2,MUT)
+    for i,x in enumerate(xs):
+        o.append(tail(x-4,hb-9,hb-58)+tail(x+4,hb-9,hb-58)+'<circle cx="%s" cy="%s" r="9" fill="#f3f5f9" stroke="%s" stroke-width="1.4"/>'%(x,hb,FG))
+        if i==4:
+            g=[[(-yy,xx) for xx,yy in pts] for pts in _rings(8)]; top=ht-6  # rotated so the rings run down from the polar end
+            X=[p[0] for q in g for p in q]; Y=[p[1] for q in g for p in q]; dx=x-(min(X)+max(X))/2; dy=top+6-min(Y)
+            o.append('<circle cx="%s" cy="%s" r="4" fill="#fdecea" stroke="%s" stroke-width="1.2"/>'%(x,top,FG))
+            for pts in g: o.append(_poly(pts,"#dfe7f3",dx,dy,1.3))
+            o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2"/>'%(x,max(Y)+dy,x,ht+56,MUT))
+            continue
+        o.append(tail(x-4,ht+9,ht+58)+tail(x+4,ht+9,ht+58)+'<circle cx="%s" cy="%s" r="9" fill="#f3f5f9" stroke="%s" stroke-width="1.4"/>'%(x,ht,FG))
+        if i==9:
+            for j in range(3):
+                cy=ht-27-19*j; o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="1.6"/>'%(x,cy+10,x,cy+18 if j else ht-9,FG))
+                o.append(_poly([(x+9*math.cos(math.radians(30+60*k)),cy+9*math.sin(math.radians(30+60*k))) for k in range(6)],"#fff",sw=1.4))
+    for x,y,n,ty in ((xs[1],ht-12,lab[0],60),(xs[4],ht-12,lab[1],60),(xs[9]+12,ht-60,lab[2],None)):
+        if ty is None: o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="1.5"/>'%(x,y,x+22,y-6,MUT)+_num(x+34,y-10,n))
+        else: o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="1.5"/>'%(x,y,x,ty+12,MUT)+_num(x,ty,n))
+    o.append('</svg>'); return "".join(o)
+
+def _put(x,y,s,anchor="middle",col=FG,bold=True,fs="15"):
+    """Text, or a numbered badge when s is an int."""
+    return _num(x,y-5,s) if isinstance(s,int) else T(x,y,s,text_anchor=anchor,fill=col,font_weight="600" if bold else "400",font_size=fs)
+def _arr(x1,y1,x2,y2,m="m5a",col=FG,dash=False):
+    return '<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2"%s marker-end="url(#%s)"/>'%(x1,y1,x2,y2,col,' stroke-dasharray="6 4"' if dash else "",m)
+
+# ---------- L2: where glycerol and fatty acids go after lipolysis ----------
+def q_lipo(proc="Lipolysis",liver=1):
+    o=_q(480,250,15)+[_ah("m5a",FG)]; box=lambda x,y,w,h:'<rect x="%s" y="%s" width="%s" height="%s" rx="8" fill="#f3f5f9" stroke="%s" stroke-width="1.4"/>'%(x,y,w,h,FG)
+    o.append(T(80,28,"FAT CELL",text_anchor="middle",fill=ACC,font_weight="700",font_size="14")+box(14,40,132,44)+T(80,67,"Triglyceride",text_anchor="middle",fill=FG,font_weight="600"))
+    o.append(_arr(80,86,80,124)+_put(92,110,proc,"start",ACC,False,"14"))
+    o.append(T(80,146,"Glycerol",text_anchor="middle",fill=FG,font_weight="600")+T(80,206,"Fatty acids",text_anchor="middle",fill=FG,font_weight="600"))
+    o.append(T(80,180,"+",text_anchor="middle",fill=FG,font_weight="700",font_size="18"))
+    o.append(_arr(124,141,262,76)+_arr(130,201,262,201))
+    o.append(box(270,24,196,96)+(_num(368,48,liver) if isinstance(liver,int) else T(368,52,liver,text_anchor="middle",fill=ACC,font_weight="700",font_size="14")))
+    o.append(T(368,82,"Phosphorylated, then",text_anchor="middle",fill=FG,font_size="14")+T(368,102,"pyruvate or glucose",text_anchor="middle",fill=FG,font_size="14"))
+    o.append(box(270,164,196,72)+T(368,190,"OTHER TISSUES",text_anchor="middle",fill=ACC,font_weight="700",font_size="14")+T(368,216,"Acetyl CoA",text_anchor="middle",fill=FG,font_size="14"))
+    o.append(T(196,224,"on albumin",text_anchor="middle",fill=MUT,font_size="14"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L2: carnitine shuttle ----------
+def q_shut(e=(1,2,3)):
+    """Outer side (top): acyl CoA + carnitine -> acyl carnitine + CoA by e[0]. Translocase e[1] in the inner membrane.
+    Matrix (bottom): acyl carnitine + CoA -> acyl CoA + carnitine by e[2]; carnitine returns (dashed). Numbers draw badges."""
+    o=_q(480,330,15)+[_ah("m5a",FG)]; xl,xr,yt,yb=104,360,58,272
+    o.append(T(12,22,"Intermembrane space",fill=MUT,font_size="14")+T(12,322,"Matrix",fill=MUT,font_size="14"))
+    o.append('<rect x="0" y="140" width="480" height="50" fill="#f3f5f9"/><line x1="0" y1="140" x2="480" y2="140" stroke="%s"/><line x1="0" y1="190" x2="480" y2="190" stroke="%s"/>'%(LINE,LINE))
+    o.append(T(124,170,"Inner membrane",fill=MUT,font_size="13"))
+    for y,a,b in ((yt,("Acyl CoA","+ carnitine"),("Acyl carnitine","+ CoA")),(yb,("Acyl CoA","+ carnitine"),("Acyl carnitine","+ CoA"))):
+        for x,(l1,l2) in ((xl,a),(xr,b)):
+            o.append(T(x,y,l1,text_anchor="middle",fill=FG,font_weight="600")+T(x,y+19,l2,text_anchor="middle",fill=MUT,font_size="14"))
+    o.append(_arr(xl+62,yt-5,xr-68,yt-5)+_arr(xr-68,yb-5,xl+62,yb-5))
+    for (y,s) in ((yt+20,e[0]),(yb-30,e[2])):
+        if isinstance(s,int): o.append(_num(232,y,s))
+        else: o.append("".join(T(232,y-4+17*j,w,text_anchor="middle",fill=ACC,font_size="14") for j,w in enumerate(s.split("|"))))
+    o.append('<rect x="%s" y="132" width="96" height="66" rx="12" fill="#fff" stroke="%s" stroke-width="1.6"/>'%(xr-48,FG))
+    o.append(_num(xr,165,e[1]) if isinstance(e[1],int) else T(xr,170,e[1],text_anchor="middle",fill=ACC,font_size="14"))
+    o.append(_arr(xr,yt+26,xr,130)+_arr(xr,200,xr,yb-20))
+    o.append(_arr(xl,yb-22,xl,yt+30,dash=True)+T(xl+10,226,"carnitine",fill=MUT,font_size="14"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L2: beta oxidation, four steps ----------
+BETA_N=(("Oxidation","acyl-CoA dehydrogenase"),("Hydration","enoyl-CoA hydratase"),("Oxidation","hydroxyacyl-CoA dehydrogenase"),("Thiolysis","thiolase"))
+BETA_S=(("FAD","FADH₂"),("H₂O",),("NAD⁺","NADH"),("CoA","Acetyl CoA"))
+BETA_R=("Fatty acyl CoA","Double bond formed","Hydroxyl group added","Carbonyl group formed","Acyl CoA, 2 carbons shorter")
+def q_beta(names=BETA_N,side=BETA_S,rows=BETA_R):
+    """One round, top to bottom. names: (step, enzyme), enzyme as a number draws a badge. side per step: (in,out) curve or (in,)
+    joining arrow; a number draws a badge. The dashed line back to the top is the next round."""
+    o=_q(480,384,16)+[_ah("bo",FG),_ah("bs",MUT)]; cx=262; p=84
+    for i,r in enumerate(rows):
+        y=30+i*p; o.append(T(cx,y,r,text_anchor="middle",fill=FG,font_weight="600"))
+        if i==4: break
+        y1,y2=y+9,y+p-20; ym=(y1+y2)/2
+        o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#bo)"/>'%(cx,y1,cx,y2,FG))
+        st,en=names[i]; o.append(T(cx-14,ym-3,st,text_anchor="end",fill=ACC,font_weight="700",font_size="15"))
+        o.append(_num(cx-30,ym+14,en) if isinstance(en,int) else T(cx-14,ym+15,en,text_anchor="end",fill=FG,font_size="14"))
+        sd=side[i]
+        lab=lambda x,y,s:_num(x+12,y-5,s) if isinstance(s,int) else T(x,y,s,fill=MUT,font_size="14")
+        if len(sd)==2:
+            o.append('<path d="M%s %s Q%s %s %s %s" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#bs)"/>'%(cx+62,ym-9,cx+8,ym,cx+62,ym+11,MUT))
+            o.append(lab(cx+68,ym-5,sd[0])+lab(cx+68,ym+16,sd[1]))
+        else:
+            o.append('<path d="M%s %s Q%s %s %s %s" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#bs)"/>'%(cx+62,ym-6,cx+30,ym-6,cx+8,ym+6,MUT)+lab(cx+68,ym-1,sd[0]))
+    yl=30+4*p
+    o.append('<path d="M%s %s H468 V25 H%s" fill="none" stroke="%s" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#bo)"/>'%(cx+104,yl-5,cx+68,MUT))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L2: ketone bodies, liver to blood to other tissues ----------
+def q_keto(hdr=("Liver","Blood","Other tissues"),ac="Acetone"):
+    o=_q(480,320,15)+[_ah("m5a",FG)]; xs=(82,240,398)
+    for i,x in enumerate(xs):
+        o.append('<rect x="%s" y="40" width="152" height="270" rx="8" fill="#f3f5f9" stroke="%s"/>'%(x-76,LINE))
+        h=hdr[i]; o.append(_num(x,24,h) if isinstance(h,int) else T(x,28,h.upper(),text_anchor="middle",fill=ACC,font_weight="700",font_size="14"))
+    t=lambda x,y,s:T(x,y,s,text_anchor="middle",fill=FG,font_weight="600")
+    o.append(t(xs[0],80,"Fatty acids")+_arr(xs[0],88,xs[0],140)+t(xs[0],160,"Acetyl CoA")+_arr(xs[0],168,xs[0],222)+t(xs[0],242,"Ketone bodies"))
+    o.append(t(xs[1],242,"Ketone bodies")+_arr(xs[1],226,xs[1],178)+(_num(xs[1],160,ac) if isinstance(ac,int) else t(xs[1],164,ac))+_arr(xs[1],146,xs[1],98)+t(xs[1],80,"Lungs, urine"))
+    o.append(_arr(xs[0]+62,237,xs[1]-62,237)+_arr(xs[1]+62,237,xs[2]-62,237))
+    o.append(t(xs[2],242,"Ketone bodies")+_arr(xs[2],226,xs[2],178)+t(xs[2],164,"Acetyl CoA")+_arr(xs[2],146,xs[2],98)+t(xs[2],80,"Citric acid cycle"))
+    o.append('</svg>'); return "".join(o)
+
 figs={
  # ---- L1 ----
  "q-fis3":q_sugars(["glucose","glyceraldehyde","ribose"],[1,2,3]),
@@ -444,6 +643,23 @@ figs={
  "q-loop":q_loop(),
  "q-bypass":q_bypass(),
  "q-pepck":q_reg(("Oxalo-","acetate"),("Phosphoenol-","pyruvate"),(),("Glucagon",)),
+ # ================= M5 L1 =================
+ # A trans, B saturated, C omega-3 (cis at 9, 12, 15), D cis monounsaturated
+ "q-fa4":q_fa(),
+ "q-tg":q_tg(),
+ "q-cplx":q_cplx(),
+ "q-cplx-s":q_cplx(heads=("Glycero-|phospholipid","Sphingo-|phospholipid","Glycolipid"),sugar=1),
+ "q-ster":q_ster(),
+ "q-mem":q_mem(),
+ # ================= M5 L2 =================
+ # three stages through q_pdh's step layout, stages numbered
+ "q-stage":q_pdh(side=(("","Glycerol"),("ATP","AMP + PPᵢ"),None),rows=("Triglyceride","Free fatty acids","Acyl CoA","Acetyl CoA"),names=(1,2,3)),
+ "q-lipo":q_lipo(),
+ "q-shut":q_shut(),
+ "q-beta-e":q_beta(names=tuple((s,i+1) for i,(s,_) in enumerate(BETA_N))),
+ "q-beta-s":q_beta(side=(("FAD",1),("H₂O",),("NAD⁺",2),("CoA","Acetyl CoA"))),
+ "q-keto":q_keto(hdr=(1,"Blood","Other tissues")),
+ "q-keto-a":q_keto(ac=1),
 }
 here=os.path.dirname(os.path.abspath(__file__))
 open(os.path.join(here,"figs.js"),"w",encoding="utf-8").write("const FIGS="+json.dumps(figs,ensure_ascii=False)+";\n")
