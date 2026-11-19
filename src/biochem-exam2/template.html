@@ -117,6 +117,10 @@ details.mod>summary{cursor:pointer;font-size:17px;font-weight:600;padding:8px 0}
 .hh .sl{display:grid;grid-template-columns:44px 1fr 44px;gap:8px;align-items:center;margin:6px 0}
 .hh input[type=range]{width:100%;accent-color:var(--acc)}
 .hh .out{font-size:15px;margin:8px 0}
+.gs .gsrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0}.gs .gsrow>b{min-width:132px}
+.bp .seg{display:flex;gap:6px;flex-wrap:wrap}.bp .row{gap:8px}
+.gs .src{display:flex;flex-wrap:wrap;gap:6px}.gs .src span{border:1px solid var(--line);border-radius:12px;padding:2px 9px;font-size:13px;color:var(--mut)}.gs .src span.on{color:#fff}
+.gs .gauge{flex:1;min-width:120px;max-width:260px;height:10px;border:1px solid var(--line);border-radius:5px;overflow:hidden}.gs .gauge i{display:block;height:100%;background:var(--acc)}
 .split{display:flex;height:26px;border-radius:5px;overflow:hidden;border:1px solid var(--line);font-size:13px}
 .split div{display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;transition:width .15s}
 .split .ha{background:#d9dee6}.split .a{background:var(--acc);color:#fff}
@@ -221,7 +225,7 @@ h2.lohead .eyebrow{display:block;margin-bottom:2px}
 .call.note{background:#f4f4f1}.call.note>b{color:var(--mut)}
 .limg{margin:4px 0 12px}.limg img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:8px}
 .credit{font-size:13px;color:var(--mut);margin:4px 0 0}
-.fb .rev{display:inline-block;margin:8px 0 0;padding:0;font-size:15px}
+.fb .rev,.fb .prac{display:inline-block;margin:8px 0 0;padding:0;font-size:15px}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:flex-start;justify-content:center;padding:20px 10px;overflow:auto;z-index:50}
 .modal>.mbox{background:var(--bg,#fff);border-radius:12px;max-width:760px;width:100%;padding:6px 6px 12px}
 .modal .card{margin:6px 0}
@@ -318,6 +322,8 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 const Q=[],LOS=[],LOBY={},QBY={};
 MODS.forEach(m=>{m.los.forEach(l=>{l.mod=m;LOS.push(l);LOBY[l.id]=l;});m.questions.forEach(q=>{q.mod=m;Q.push(q);QBY[q.id]=q;});});
 const LES={};MODS.forEach(m=>Object.entries(m.guide||{}).forEach(([lo,bs])=>bs.forEach(b=>{if(b.id)LES[b.id]=Object.assign({lo,mod:m},b);})));
+// lesson id -> its drill (drill.les), for the "Practice:" link under a missed question
+const DRBY={};MODS.forEach(m=>(m.drills||[]).forEach(d=>{d.mod=m;(d.les||[]).forEach(id=>{DRBY[id]=d;});}));
 document.getElementById("modlist").textContent="· "+MODS.map(m=>m.short).join(", ");
 
 const $=(s,el)=>(el||document).querySelector(s);
@@ -328,8 +334,8 @@ function seeded(str){let x=0;for(const c of str)x=(x*31+c.charCodeAt(0))|0;retur
 function seededShuffle(a,seed){const r=seeded(seed);a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function fig(k){if(!k||!FIGS[k])return null;return h("div",{class:"fig",html:FIGS[k]});}
 // btn=true turns the M#L# tag into the lecture-window button (never passed during an active mock)
-// full LO wording, verbatim from Canvas (typos included); shown on hover over "LO x.y"
-const LOFULL={"1.1": "Relate the structure and function of biomolecules to their cellular role", "1.2": "Describe how the properties of water facilitate biological interactions", "1.3": "Determine the pH of a solution by direct measurement and calculation", "1.4": "Apply knowledge of the bicarbonate buffer system to predict pathophysiologic effects of acidosis and alkalosis", "2.1": "Summarize the 3-dimentional structure of proteins", "2.2": "Outline six major enzyme classes and their corresponding enzymatic reactions", "2.3": "Classify exergonic and endergonic reactions using Gibbs free energy.", "2.4": "Explain how enzymatic stabilization of transition states promotes endergonic reactions", "2.5": "Interpret KM and Vmax using Michaelis-Menton and Lineweaver-Burk plots", "2.6": "Categorize enzyme inhibitors based on changes in KM and/or Vmax", "2.7": "Investigate the effects of temperature, pH, and enzyme concentration on enzyme kinetics", "2.8": "Apply knowledge of enzyme regulation to drug discovery, design, and/or utilization", "3.1": "Describe the general purpose of metabolism.", "3.2": "Categorize activated carriers by their metabolic role.", "3.3": "Explain three methods by which cells regulate metabolism.", "3.4": "Describe the central role of the citric acid cycle in metabolism.", "3.5": "Diagram the cellular location, rate-limiting steps, products, and regulation of the citric acid cycle and oxidative phosphorylation.", "3.6": "Predict the effects of perturbations in oxidative phosphorylation"};
+// full LO wording (each module's los titles, the course's own wording); shown on hover over "LO x.y"
+const LOFULL=Object.fromEntries(LOS.map(l=>[l.id,l.title]));
 function loTag(lo){const t=LOFULL[lo];return t?h("span",{class:"lot",title:"LO "+lo+": "+t,role:"button",tabindex:"0","aria-label":"LO "+lo+": "+t,"data-lo":lo},"LO "+lo):"LO "+lo;}
 // tap/click/Enter on an LO label shows its full wording in a small popover (hover title only works with a mouse).
 // Capture phase so the tap doesn't also trigger a surrounding button. Tap elsewhere, Escape, or the same label closes it.
@@ -385,7 +391,21 @@ function explain(q,ok,skipped,shown){
   if(q.expfig){const f=fig(q.expfig);if(f){f.style.maxWidth="460px";d.append(f);}}
   if(q.steps){const det=h("details",{class:"steps"},h("summary",null,"Work it through"),h("ol",null,q.steps.map(s=>h("li",{html:s}))));d.append(det);}
   if(q.ref&&LES[q.ref])d.append(h("div",null,h("button",{class:"btn link rev",type:"button",onclick:()=>openLesson(q.ref,q.hl)},"Review: "+LES[q.ref].h)));
+  // a missed question whose lesson has a drill offers it (not during a mock: the timer would keep running behind it)
+  const dr=!ok&&!shown&&!S.mock&&DRBY[q.ref];
+  if(dr)d.append(h("div",null,h("button",{class:"btn link prac",type:"button",onclick:()=>openDrillModal(dr)},"Practice: "+dr.title)));
   return d;
+}
+// drill in a pop-up (from a missed question), so a practice run or the results page stays where it was
+function openDrillModal(d){
+  const close=()=>{m.remove();document.removeEventListener("keydown",esc);};
+  const esc=e=>{if(e.key==="Escape")close();};
+  const m=h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":d.title});
+  const box=h("div",{class:"mbox"});m.append(box);
+  box.append(h("div",{class:"mrow"},h("span",{class:"mut sm"},loTag(d.lo)),h("button",{class:"btn sm",type:"button",onclick:close},"Close")));
+  box.append(block({drill:d.id},d.mod));
+  m.addEventListener("click",e=>{if(e.target===m)close();});
+  document.addEventListener("keydown",esc);document.body.append(m);box.querySelector("button").focus();
 }
 function openLesson(id,hl){
   const L=LES[id];if(!L)return;
@@ -616,7 +636,7 @@ function openDrill(d){
   if(d.kind==="sort")sortDrill(d,body,0);
   else if(d.kind==="case")caseDrill(d,body);
   else if(d.kind==="plot")plotDrill(d,body);
-  else if(d.kind==="tool")body.append(TOOLS[d.tool]());
+  else if(d.kind==="tool")body.append(TOOLS[d.tool](d));
 }
 function sortDrill(d,body,ri){
   body.innerHTML="";
@@ -1005,6 +1025,122 @@ TOOLS.etc=function(){
   upd();return w;
 };
 
+// ===== M4/M5 drill tools =====
+// A tool takes its drill entry d. Every line of text it shows comes from d with an inv ref (tests/validate_inv.js checks them).
+// gsrc: the lecture's glucose-source graph (same drawing as q_gsrc in gen_figs.py) with a time cursor.
+// d.curves=[{t,inv}] x3, d.phases=[{to,state,t,inv}] (to in hours, last null), d.gauge={t,inv} (full to 2 h, empty at 24 h).
+// Starved begins at 24 h here, the lecture's "after a whole day" (the question figure draws the band from the axis break).
+TOOLS.gsrc=function(d){
+  const L=62,R=462,Tp=18,B=206,XB=L+0.56*(R-L),XH=XB-8,XD=XB+8,Y=v=>B-(B-Tp)*v/44;
+  const xh=hr=>L+(XH-L)*hr/30,xd=dd=>XD+(R-XD)*(dd-1)/39,D0=1.5;
+  const ING=[[0,40],[1,38],[1.6,20],[2.4,4],[3.2,0]],GLY=[[2,0],[4,6],[7,9],[10,8.6],[14,6.4],[18,4],[22,2],[26,0.6],[29,0]],GNH=[[4,0],[30,10]],GND=[[1,10],[3,7.5],[8,5.5],[16,5.4],[30,6],[40,6.2]];
+  const at=(P,t)=>{if(t<P[0][0])return 0;for(let i=1;i<P.length;i++)if(t<=P[i][0]){const [a,u]=P[i-1],[b,v]=P[i];return u+(v-u)*(t-a)/(b-a);}return P[P.length-1][1];};
+  const COL=[C3.fg,C3.acc,C3.bad],tot=(XH-L)+(R-xd(D0));
+  const xOf=p=>{const s=p*tot;return s<=XH-L?L+s:xd(D0)+(s-(XH-L));};
+  const tOf=p=>{const x=xOf(p);if(x<=XH)return {x,hr:(x-L)/(XH-L)*30};const day=1+(x-XD)/(R-XD)*39;return {x,day,hr:day*24};};
+  const pl=(P,f)=>P.map(([a,b])=>f(a).toFixed(1)+","+Y(b).toFixed(1)).join(" ");
+  const bands=[[xh(0),xh(2)],[xh(2),xh(24)],[xh(24),R]],bandOf=hr=>hr<2?0:hr<24?1:2;
+  const BN=[0,1,2].map(i=>d.phases.find(f=>bandOf(f.to==null?99:f.to-0.01)===i).state);
+  let g=`<svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="15"><rect width="480" height="300" fill="#fff"/>`;
+  g+=`<line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="${C3.fg}"/><line x1="${L}" y1="${Tp}" x2="${L}" y2="${B}" stroke="${C3.fg}"/>`;
+  g+=`<path d="M${(XB-6).toFixed(1)} ${B+6} l6 -12 M${XB.toFixed(1)} ${B+6} l6 -12" stroke="${C3.fg}" stroke-width="1.5"/>`;
+  [20,40].forEach(v=>{g+=`<line x1="${L-5}" y1="${Y(v)}" x2="${L}" y2="${Y(v)}" stroke="${C3.fg}"/>`+svgT(L-9,Y(v)+5,v,` text-anchor="end" fill="${C3.mut}"`);});
+  [8,16,24].forEach(v=>{g+=svgT(xh(v),B+19,v,` text-anchor="middle" fill="${C3.mut}"`);});[8,16,24,32,40].forEach(v=>{g+=svgT(xd(v),B+19,v,` text-anchor="middle" fill="${C3.mut}"`);});
+  g+=svgT((L+XB)/2,B+38,"Hours",` text-anchor="middle" fill="${C3.mut}"`)+svgT((XB+R)/2,B+38,"Days",` text-anchor="middle" fill="${C3.mut}"`);
+  g+=`<text x="18" y="${(Tp+B)/2}" text-anchor="middle" fill="${C3.mut}" font-size="14" transform="rotate(-90 18 ${(Tp+B)/2})">Glucose oxidized (g/hr)</text>`;
+  g+=`<polyline fill="none" stroke="${COL[0]}" stroke-width="2.6" stroke-dasharray="3 4" points="${pl(ING,xh)}"/><polyline fill="none" stroke="${COL[1]}" stroke-width="3" points="${pl(GLY,xh)}"/>`;
+  g+=`<polyline fill="none" stroke="${COL[2]}" stroke-width="2.6" stroke-dasharray="10 4 2 4" points="${pl(GNH,xh)}"/><polyline fill="none" stroke="${COL[2]}" stroke-width="2.6" stroke-dasharray="10 4 2 4" points="${pl(GND,xd)}"/>`;
+  g+=`<g class="cur"></g></svg>`;
+  const w=h("div",{class:"hh gs"}),pic=h("div",{class:"fig",html:g}),cur=pic.querySelector(".cur");
+  const sl=h("input",{type:"range",min:"0",max:"1000",step:"1",value:"0","aria-label":"Time after a meal"});
+  const play=h("button",{class:"btn pri",type:"button"},"Play");
+  const when=h("b"),src=h("div",{class:"src"}),gau=h("i"),out=h("div",{class:"out"});
+  const pills=d.curves.map((c,i)=>{const s=h("span",null,c.t);s.dataset.c=i;src.append(s);return s;});
+  w.append(pic,h("div",{class:"row"},play,h("div",{style:"flex:1;min-width:0"},sl)),h("div",{class:"gsrow"},when,src),
+    h("div",{class:"gsrow"},h("span",{class:"sm mut"},d.gauge.t),h("div",{class:"gauge"},gau)),out);
+  function paint(){
+    const p=sl.value/1000,T=tOf(p),x=T.x,hr=T.hr;
+    const v=T.day==null?[at(ING,hr),at(GLY,hr),at(GNH,hr)]:[0,0,at(GND,T.day)];
+    const bi=bandOf(hr),ph=d.phases.find(f=>f.to==null||hr<f.to);
+    let c=`<line x1="${x.toFixed(1)}" y1="${Tp}" x2="${x.toFixed(1)}" y2="${B}" stroke="${C3.acc}" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+    v.forEach((y,i)=>{if(y>0.05)c+=`<circle cx="${x.toFixed(1)}" cy="${Y(y).toFixed(1)}" r="6" fill="${COL[i]}" stroke="#fff" stroke-width="2"/>`;});
+    bands.forEach(([a,b],i)=>{const on=i===bi,col=on?C3.acc:C3.fg,yb=B+62;c+=`<path d="M${a.toFixed(1)} ${yb} v-8 M${b.toFixed(1)} ${yb} v-8 M${a.toFixed(1)} ${yb-4} H${b.toFixed(1)}" stroke="${col}" stroke-width="${on?2.4:1.4}"/>`;
+      const cx=(a+b)/2;c+=svgT(b-a>40?cx:a,yb+22,BN[i],` text-anchor="${b-a>40?"middle":"start"}" fill="${col}"${on?' font-weight="700"':""}`);});
+    cur.innerHTML=c;
+    when.textContent=T.day==null?(hr<1?Math.round(hr*60)+" min after a meal":Math.round(hr)+" h after a meal"):"Day "+Math.round(T.day);
+    pills.forEach((s,i)=>{const on=v[i]>0.3;s.classList.toggle("on",on);s.style.background=on?COL[i]:"";s.style.borderColor=on?COL[i]:"";});
+    gau.style.width=Math.round(100*Math.max(0,Math.min(1,hr<=2?1:(24-hr)/22)))+"%";
+    out.innerHTML="<b>"+ph.state+".</b> "+ph.t;
+  }
+  // Play sweeps the whole timeline in about 9 s; with reduced motion it steps every 0.7 s instead
+  let raf=0,tmr=0,last=0;
+  function stop(){if(raf)cancelAnimationFrame(raf);if(tmr)clearTimeout(tmr);raf=tmr=0;play.textContent="Play";ANIMS.delete(stop);}
+  function tick(ts){raf=0;if(!w.isConnected){stop();return;}
+    let p;if(RMQ.matches)p=+sl.value+1000/12;else{p=+sl.value+(last?ts-last:0)/9;last=ts;}
+    if(p>=1000){sl.value=1000;paint();stop();return;}sl.value=Math.round(p);paint();
+    if(RMQ.matches)tmr=setTimeout(()=>{tmr=0;raf=requestAnimationFrame(tick);},700);else raf=requestAnimationFrame(tick);}
+  play.addEventListener("click",()=>{if(raf||tmr){stop();return;}if(+sl.value>=1000)sl.value=0;play.textContent="Pause";last=0;ANIMS.add(stop);raf=requestAnimationFrame(tick);});
+  sl.addEventListener("input",()=>{stop();paint();});
+  // tap or drag on the graph moves the cursor there
+  const svgEl=pic.querySelector("svg");
+  const seek=e=>{const r=svgEl.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*480;let s;if(x<=XH)s=Math.max(0,x-L);else if(x<xd(D0))s=XH-L;else s=(XH-L)+Math.min(R,x)-xd(D0);sl.value=Math.round(Math.max(0,Math.min(1,s/tot))*1000);stop();paint();};
+  svgEl.addEventListener("pointerdown",e=>{seek(e);try{svgEl.setPointerCapture(e.pointerId);}catch(_){}const mv=ev=>seek(ev),up=()=>{svgEl.removeEventListener("pointermove",mv);svgEl.removeEventListener("pointerup",up);};svgEl.addEventListener("pointermove",mv);svgEl.addEventListener("pointerup",up);});
+  svgEl.style.touchAction="pan-y";
+  paint();return w;
+};
+
+// bypass: q_bypass's ladder. Two directions; Play moves a dot along the pathway and stops at each step that has a line.
+// d.dir={down:{title,start:{t,inv},steps:[{t,inv}] x3, end},up:{... steps x5 ...}}; up step 3 is the shared PEP..F1,6BP stretch.
+TOOLS.bypass=function(d){
+  const cx=230,ox=390,oy=400,Y={glc:40,g6p:110,f6p:180,fbp:250,pep:350,pyr:450},RD=C3.bad,BL=C3.acc;
+  const LAB={glc:"Glucose",g6p:"Glucose 6-phosphate",f6p:"Fructose 6-phosphate",fbp:"Fructose 1,6-bisphosphate",pep:"Phosphoenolpyruvate",pyr:"Pyruvate"};
+  const t=(x,y,s,a)=>svgT(x,y,s,a);
+  let g=`<svg viewBox="0 0 480 470" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="16"><rect width="480" height="470" fill="#fff"/>`;
+  g+=`<defs>${["r:"+RD,"b:"+BL,"f:"+C3.fg].map(k=>{const [id,c]=k.split(":");return `<marker id="bp${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${c}"/></marker>`;}).join("")}</defs>`;
+  Object.entries(Y).forEach(([k,y])=>{g+=t(cx,y,LAB[k],` text-anchor="middle" font-weight="600" fill="${C3.fg}"`);});
+  g+=t(14,22,"Glycolysis",` fill="${RD}" font-weight="700" font-size="15"`)+t(466,22,"Gluconeogenesis",` text-anchor="end" fill="${BL}" font-weight="700" font-size="15"`);
+  g+=`<text x="${ox}" y="${oy+5}" text-anchor="middle" font-weight="600" fill="${C3.fg}">Oxaloacetate</text>`;
+  const line=(x1,y1,x2,y2,c,mk,ex="")=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="2" ${mk}${ex}/>`;
+  g+=line(cx,Y.g6p+10,cx,Y.f6p-22,C3.fg,'marker-start="url(#bpf)" marker-end="url(#bpf)"');
+  g+=line(cx,Y.fbp+10,cx,Y.pep-22,C3.fg,'marker-start="url(#bpf)" marker-end="url(#bpf)"',' stroke-dasharray="4 5"');
+  // glycolysis (left, red) and gluconeogenesis (right, blue), each in its own group so the other direction can fade
+  const dn=[["glc","g6p"],["f6p","fbp"],["pep","pyr"]],DN=["hexokinase","phosphofructokinase-1","pyruvate kinase"];
+  let gd=`<g class="bp-down">`;dn.forEach(([a,b],i)=>{const y1=Y[a]+10,y2=Y[b]-22;gd+=line(cx-36,y1,cx-36,y2,RD,'marker-end="url(#bpr)"')+t(cx-46,(y1+y2)/2+5,DN[i],` class="bpl" data-s="${i}" text-anchor="end" fill="${RD}" font-size="15"`);});gd+=`</g>`;
+  const UP=["glucose-6-phosphatase","fructose-1,6-bisphosphatase","pyruvate carboxylase","PEP carboxykinase"];
+  let gu=`<g class="bp-up">`;[["g6p","glc",4],["fbp","f6p",3]].forEach(([a,b,s],i)=>{const y1=Y[a]-22,y2=Y[b]+10;gu+=line(cx+36,y1,cx+36,y2,BL,'marker-end="url(#bpb)"')+t(cx+46,(y1+y2)/2+5,UP[i],` class="bpl" data-s="${s}" fill="${BL}" font-size="15"`);});
+  gu+=`<path d="M${cx+44} ${Y.pyr-6} Q${ox-10} ${Y.pyr-6} ${ox} ${oy+14}" fill="none" stroke="${BL}" stroke-width="2" marker-end="url(#bpb)"/><path d="M${ox} ${oy-16} Q${ox-6} ${Y.pep+12} ${cx+100} ${Y.pep+8}" fill="none" stroke="${BL}" stroke-width="2" marker-end="url(#bpb)"/>`;
+  gu+=t(474,466,UP[2],` class="bpl" data-s="0" fill="${BL}" font-size="15" text-anchor="end"`)+t(474,330,UP[3],` class="bpl" data-s="1" fill="${BL}" font-size="15" text-anchor="end"`);
+  gu+=t(cx+12,(Y.fbp+Y.pep)/2+5,"",` class="bpl" data-s="2"`)+`</g>`;
+  g+=gd+gu+`<circle class="bpdot" r="8" stroke="#fff" stroke-width="2.5" style="display:none"/></svg>`;
+  // dot routes: each stop = [points to travel through, step index or -1]
+  // the dot rests at arrow tips, never on a compound name
+  const R={down:[[[[cx-36,Y.glc+12]],-1],[[[cx-36,Y.g6p-24]],0],[[[cx,Y.g6p+14],[cx,Y.f6p-26],[cx-36,Y.f6p+12]],-1],[[[cx-36,Y.fbp-24]],1],[[[cx,Y.fbp+14],[cx,Y.pep-26],[cx-36,Y.pep+12]],-1],[[[cx-36,Y.pyr-24]],2]],
+    up:[[[[cx+44,Y.pyr-6]],-1],[[[ox-30,Y.pyr-14],[ox,oy+16]],0],[[[ox,oy-16],[ox-30,Y.pep+12],[cx+100,Y.pep+8]],1],[[[cx,Y.pep-26],[cx,Y.fbp+16]],2],[[[cx+36,Y.fbp-22],[cx+36,Y.f6p+18]],3],[[[cx,Y.f6p-26],[cx,Y.g6p+14],[cx+36,Y.g6p-22]],-1],[[[cx+36,Y.glc+18]],4]]};
+  const w=h("div",{class:"hh bp"}),pic=h("div",{class:"fig",html:g}),svg=pic.querySelector("svg"),dot=svg.querySelector(".bpdot");
+  const out=h("div",{class:"out"}),play=h("button",{class:"btn pri",type:"button"},"Play");
+  let dir="down",run=0;
+  const seg=h("div",{class:"seg",role:"group"});
+  const dbtn=["down","up"].map(k=>{const b=h("button",{class:"btn",type:"button","aria-pressed":"false",onclick:()=>{dir=k;reset();}},d.dir[k].title);seg.append(b);return b;});
+  w.append(pic,h("div",{class:"row"},seg,play),out);
+  const say=o=>{out.textContent=o.t;};
+  function mark(i){svg.querySelectorAll(".bpl").forEach(e=>{const on=e.closest("g").classList.contains(dir==="down"?"bp-down":"bp-up")&&+e.dataset.s===i;e.setAttribute("font-weight",on?"700":"400");});}
+  function reset(){stop();dbtn.forEach((b,i)=>{const on=["down","up"][i]===dir;b.classList.toggle("pri",on);b.setAttribute("aria-pressed",on);});
+    svg.querySelector(".bp-down").style.opacity=dir==="down"?1:.18;svg.querySelector(".bp-up").style.opacity=dir==="up"?1:.18;
+    const p0=R[dir][0][0][0];dot.setAttribute("cx",p0[0]);dot.setAttribute("cy",p0[1]);dot.setAttribute("fill",dir==="down"?RD:BL);dot.style.display="";mark(-1);say(d.dir[dir].start);play.textContent="Play";}
+  function stop(){run++;ANIMS.delete(stop);play.textContent="Play";}
+  const wait=ms=>new Promise(r=>setTimeout(r,ms));
+  async function go(){const my=++run;ANIMS.add(stop);play.textContent="Stop";const D=d.dir[dir],rt=R[dir];
+    let at=[+dot.getAttribute("cx"),+dot.getAttribute("cy")];const p0=rt[0][0][0];at=p0;dot.setAttribute("cx",at[0]);dot.setAttribute("cy",at[1]);mark(-1);say(D.start);
+    for(let k=1;k<rt.length;k++){const [pts,si]=rt[k];
+      for(const q of pts){const from=at,dist=Math.hypot(q[0]-from[0],q[1]-from[1]),ms=RMQ.matches?0:dist*4;const t0=performance.now();
+        if(ms)await new Promise(res=>{const f=now=>{if(my!==run||!w.isConnected)return res();const u=Math.min(1,(now-t0)/ms);dot.setAttribute("cx",from[0]+(q[0]-from[0])*u);dot.setAttribute("cy",from[1]+(q[1]-from[1])*u);u<1?requestAnimationFrame(f):res();};requestAnimationFrame(f);});
+        if(my!==run||!w.isConnected)return;at=q;dot.setAttribute("cx",q[0]);dot.setAttribute("cy",q[1]);}
+      if(si>=0){mark(si);say(D.steps[si]);await wait(RMQ.matches?1600:2200);if(my!==run||!w.isConnected)return;}}
+    mark(-1);say(D.end);stop();}
+  play.addEventListener("click",()=>{if(play.textContent==="Stop"){stop();return;}go();});
+  reset();return w;
+};
+
 // ===== MOCK =====
 let timerId=null;
 tabs.mock={cleanup(){if(timerId){clearInterval(timerId);timerId=null;}},render(){
@@ -1013,8 +1149,6 @@ tabs.mock={cleanup(){if(timerId){clearInterval(timerId);timerId=null;}},render()
   main.append(h("p",{class:"mut sm"},"Same format as the exam: multiple choice and true/false from every objective. Questions you haven't answered yet get picked first. If you leave mid-mock, it picks up where you were and the timer pauses."));
   const box=h("div",{class:"box"});main.append(box);
   const modChecks=MODS.map(m=>{const c=h("input",{type:"checkbox",checked:true});c.addEventListener("change",upd);box.append(h("label",{class:"chk",style:"margin:4px 0"},c,m.name+" ("+m.questions.length+")"));return [m,c];});
-  const missing=["M1","M2","M3"].filter(s=>!MODS.some(m=>m.short===s));
-  if(missing.length)box.append(h("p",{class:"mut sm",style:"margin:4px 0 8px"},missing.join(" and ")+" not added yet."));
   const seg=(vals,key)=>{const s=h("div",{class:"seg"});vals.forEach(([v,l])=>{const b=h("button",{onclick:()=>{S.set[key]=v;save();paint();upd();}},l);b.dataset.v=v;s.append(b);});function paint(){[...s.children].forEach(b=>b.classList.toggle("on",String(S.set[key])===b.dataset.v));}paint();return s;};
   box.append(h("div",{class:"row"},h("span",{class:"sm",style:"width:76px"},"Length"),seg([[25,"25 questions"],[10,"10 questions"]],"len")));
   box.append(h("div",{class:"row"},h("span",{class:"sm",style:"width:76px"},"Timer"),seg([[true,"On"],[false,"Off"]],"timer"),h("span",{class:"mut sm",id:"tinfo"})));
@@ -1032,20 +1166,39 @@ tabs.mock={cleanup(){if(timerId){clearInterval(timerId);timerId=null;}},render()
   if(hist.length){const ch=h("button",{class:"btn link sm",type:"button",onclick(){if(!ch.dataset.arm){ch.dataset.arm="1";ch.textContent="Tap again to clear history";setTimeout(()=>{if(ch.isConnected){delete ch.dataset.arm;ch.textContent="Clear mock history";}},3000);return;}S.hist=[];S.mocks=0;save();go("mock");}},"Clear mock history");main.append(h("p",{class:"sm"},ch,h("span",{class:"mut"}," Question answers stay.")));}
   main.append(hist.length?h("div",{class:"tw"},h("table",null,h("tr",null,h("th",null,"#"),h("th",null,"Date"),h("th",null,"Score")),hist.slice().reverse().map(x=>h("tr",null,h("td",null,x.n),h("td",null,new Date(x.d).toLocaleDateString()),h("td",null,x.s+" / "+x.of))))):h("p",{class:"mut sm"},"None yet."));
 }};
+// Mix per mock: 40% figure, 40% example/application, 20% why (25 -> 10/10/5, 10 -> 4/4/2), each kind split evenly
+// across the chosen modules. Within a module and kind: unseen first (spread across LOs), then oldest answered.
+// Short pools spill to the other module, then to the other kinds.
+const KINDS=["fig","ex","why"];
 function buildMock(mods,len){
   const age=q=>{const r=S.q[q.id];return r?r.t:0;};
-  // per module quota
-  const n=Math.min(len,Q.filter(q=>mods.includes(q.mod)).length);
-  const quota=new Map(mods.map(m=>[m,0]));let left=n;
-  while(left>0){let moved=false;for(const m of mods){if(left<=0)break;if(quota.get(m)<m.questions.length){quota.set(m,quota.get(m)+1);left--;moved=true;}}if(!moved)break;}
-  let picked=[];
-  mods.forEach(m=>{
-    const byLo=m.los.map(l=>shuffle(m.questions.filter(q=>q.lo===l.id)).sort((a,b)=>age(a)-age(b)));
-    let k=quota.get(m),i=0;
-    // round robin across LOs, rotate start
-    let lo=Math.floor(Math.random()*byLo.length);
-    while(k>0&&byLo.some(a=>a.length)){const a=byLo[lo%byLo.length];if(a.length){picked.push(a.shift());k--;}lo++;if(++i>500)break;}
+  const all=Q.filter(q=>mods.includes(q.mod));const n=Math.min(len,all.length);
+  function ordered(list){
+    const un=list.filter(q=>!S.q[q.id]),seen=shuffle(list.filter(q=>S.q[q.id])).sort((a,b)=>age(a)-age(b));
+    const byLo=shuffle([...new Set(un.map(q=>q.lo))]).map(lo=>shuffle(un.filter(q=>q.lo===lo)));const out=[];
+    while(byLo.some(a=>a.length))byLo.forEach(a=>{if(a.length)out.push(a.shift());});
+    return out.concat(seen);
+  }
+  const pool=new Map(mods.map(m=>[m,Object.fromEntries(KINDS.map(k=>[k,ordered(m.questions.filter(q=>q.kind===k))]))]));
+  const fig=Math.round(n*0.4),ex=Math.round(n*0.4),want={fig,ex,why:n-fig-ex};
+  // module targets: even split, the odd one to a random module
+  const target=new Map(),order=shuffle(mods);order.forEach((m,i)=>target.set(m,Math.floor(n/mods.length)+(i<n%mods.length?1:0)));
+  const got=new Map(mods.map(m=>[m,0])),picked=[];
+  const take=(m,k)=>{const a=pool.get(m)[k];if(!a.length)return false;picked.push(a.shift());got.set(m,got.get(m)+1);return true;};
+  const need=m=>target.get(m)-got.get(m);
+  // per kind: an even share for each module, the remainder to the modules with the most room left in their target
+  const plan=new Map(mods.map(m=>[m,0]));
+  KINDS.forEach(k=>{
+    const share=new Map(mods.map(m=>[m,Math.floor(want[k]/mods.length)]));
+    shuffle(mods).sort((a,b)=>(target.get(b)-plan.get(b)-share.get(b))-(target.get(a)-plan.get(a)-share.get(a))).slice(0,want[k]%mods.length).forEach(m=>share.set(m,share.get(m)+1));
+    mods.forEach(m=>{plan.set(m,plan.get(m)+share.get(m));for(let i=0;i<share.get(m);i++)if(!take(m,k))break;});
   });
+  // anything still short: other kinds, unseen before seen, modules below target first
+  while(picked.length<n){
+    const c=[];mods.forEach(m=>KINDS.forEach(k=>{const a=pool.get(m)[k];if(a.length)c.push([m,k,S.q[a[0].id]?1:0]);}));
+    if(!c.length)break;
+    const best=shuffle(c).sort((a,b)=>a[2]-b[2]||need(b[0])-need(a[0]))[0];take(best[0],best[1]);
+  }
   return shuffle(picked);
 }
 // An in-progress mock lives in S.mock so it survives tab switches and reloads. The timer only runs while the mock is on screen.
@@ -1165,7 +1318,7 @@ function block(b,m){
     const d=(m.drills||[]).find(x=>x.id===b.drill);const w=h("div",{class:"card drill"});
     w.append(h("div",{class:"clabel"},"Drill"),h("h3",null,d.title),h("p",{class:"mut sm"},d.intro));
     const bd=h("div");w.append(bd);
-    if(d.kind==="sort")sortDrill(d,bd,0);else if(d.kind==="case")caseDrill(d,bd);else if(d.kind==="plot")plotDrill(d,bd);
+    if(d.kind==="sort")sortDrill(d,bd,0);else if(d.kind==="case")caseDrill(d,bd);else if(d.kind==="plot")plotDrill(d,bd);else if(d.kind==="tool")bd.append(TOOLS[d.tool](d));
     return w;
   }
   if(b.tool){const tm=TOOLMETA[b.tool];const w=h("div",{class:"card"});w.append(h("div",{class:"clabel"},"Tool"),h("h3",null,tm[0]),h("p",{class:"mut sm"},tm[1]),TOOLS[b.tool]());return w;}

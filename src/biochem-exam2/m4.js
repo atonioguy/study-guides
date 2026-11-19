@@ -302,7 +302,8 @@ b:`<p>A few reactions of glycolysis are irreversible: the enzyme cannot catalyze
 <li><b>F1,6BP to F6P.</b> The PEP is converted to fructose-1,6-bisphosphate by the glycolytic enzymes acting in reverse: enolase, phosphoglycerate mutase, phosphoglycerate kinase, glyceraldehyde-3-phosphate dehydrogenase, triose phosphate isomerase and aldolase. Fructose-1,6-bisphosphatase then removes one phosphate to give fructose-6-phosphate.</li>
 <li><b>G6P to glucose.</b> Phosphohexose isomerase, in reverse, converts F6P to G6P. Glucose-6-phosphatase catalyzes the final step, G6P to glucose. The new glucose can leave the cell and enter the bloodstream to be used by other tissues.</li></ol>
 <p>Glucose-6-phosphatase is not found in skeletal muscle.</p>`,
-so:"Pyruvate carboxylase and PEP carboxykinase replace pyruvate kinase. Fructose-1,6-bisphosphatase replaces PFK-1. Glucose-6-phosphatase replaces hexokinase."}
+so:"Pyruvate carboxylase and PEP carboxykinase replace pyruvate kinase. Fructose-1,6-bisphosphatase replaces PFK-1. Glucose-6-phosphatase replaces hexokinase."},
+{drill:"m4d2"}
 
 ],
 "4.4":[
@@ -315,7 +316,8 @@ b:`<p>After about 24 hours without food, all the glycogen stores in the liver ar
 <p>At that point it becomes really important to obtain food. When the body runs low on substrates for gluconeogenesis, blood sugar can drop (hypoglycemia). Glucose is the major fuel for cells throughout the body, so a significant decrease in blood glucose for an extended period of time can be fatal.</p>
 <p>Some cells rely on glucose for almost all of their energy needs: neurons, red blood cells and, during exercise, skeletal muscle cells.</p>
 <p>During the fed and fasting states, the brain uses only glucose for energy, and it uses around 70% of the body's glucose at any time. Only when the lack of glucose becomes severe, during starvation, does the brain begin using other molecules to make ATP, namely ketones.</p>`,
-so:"Liver glycogen lasts about a day. After that, gluconeogenesis alone keeps blood sugar up, and the brain turns to ketones only in starvation."}
+so:"Liver glycogen lasts about a day. After that, gluconeogenesis alone keeps blood sugar up, and the brain turns to ketones only in starvation."},
+{drill:"m4d1"}
 ]
 },
 
@@ -764,7 +766,37 @@ exp:"Gluconeogenesis uses four enzymes not involved in glycolysis to bypass the 
 
 ],
 
-drills:[]
+// Drills: les = lessons whose missed questions link to the drill; every text a tool shows carries inv (build-time only).
+drills:[
+{id:"m4d1",lo:"4.4",kind:"tool",tool:"gsrc",title:"Where blood glucose comes from",les:["m4-states","m4-timeline"],
+intro:"Drag along the graph or press Play.",
+curves:[{t:"Ingested glucose",inv:"m4-states.c4"},{t:"Glycogenolysis",inv:"m4-states.c4"},{t:"Gluconeogenesis",inv:"m4-states.c4"}],
+gauge:{t:"Liver glycogen",inv:"m4-states.c2"},
+phases:[
+{to:2,state:"Fed",t:"Blood sugar rises, the pancreas releases insulin, and cells take up glucose to use or store it.",inv:"m4-states.c1"},
+{to:12,state:"Fasting",t:"Begins about 2 hours after a meal. Insulin falls, glucagon rises, and liver glycogen is broken down and released to the blood as glucose.",inv:"m4-states.c2"},
+{to:18,state:"Fasting",t:"About 12 to 18 hours after the last meal, glycogenolysis and gluconeogenesis contribute nearly equally to maintaining blood sugar.",inv:"m4-timeline.c1"},
+{to:24,state:"Fasting",t:"Liver glycogen is running out. All of it is depleted after about 24 hours.",inv:"m4-states.c2"},
+{to:null,state:"Starved",t:"After a whole day without food, gluconeogenesis is the only way to maintain blood glucose. Cells use fuels other than glucose, and the brain begins using ketones.",inv:["m4-states.c3","m4-timeline.c1","m4-timeline.c3"]}
+]},
+{id:"m4d2",lo:"4.2",kind:"tool",tool:"bypass",title:"The bypass steps",les:["m4-bypass","m4-gng"],
+intro:"Pick a direction and press Play.",
+dir:{
+down:{title:"Glycolysis",start:{t:"Glycolysis runs from glucose down to pyruvate.",inv:"m4-gng.c2"},
+steps:[{t:"Hexokinase: one of the three irreversible steps of glycolysis.",inv:"m4-bypass.c1"},
+{t:"Phosphofructokinase-1: one of the three irreversible steps of glycolysis.",inv:"m4-bypass.c1"},
+{t:"Pyruvate kinase: one of the three irreversible steps of glycolysis.",inv:"m4-bypass.c1"}],
+end:{t:"Gluconeogenesis can't simply run these three steps backward. Switch to Gluconeogenesis to see how it gets around them.",inv:"m4-bypass.c1"}},
+up:{title:"Gluconeogenesis",start:{t:"Gluconeogenesis is essentially the reverse of glycolysis: pyruvate back up to glucose.",inv:"m4-gng.c2"},
+steps:[{t:"Pyruvate carboxylase turns pyruvate into oxaloacetate.",inv:"m4-bypass.c2"},
+{t:"PEP carboxykinase turns oxaloacetate into PEP. With pyruvate carboxylase, it bypasses pyruvate kinase. It is the most important point of regulation, regulated primarily by glucagon.",inv:["m4-bypass.c2","m4-gng.c4"]},
+{t:"From PEP up to fructose 1,6-bisphosphate, gluconeogenesis shares enzymes with glycolysis.",inv:"m4-gng.c2"},
+{t:"Fructose-1,6-bisphosphatase removes a phosphate from fructose 1,6-bisphosphate to give fructose 6-phosphate, bypassing phosphofructokinase-1.",inv:"m4-bypass.c3"},
+{t:"Glucose-6-phosphatase turns glucose 6-phosphate into glucose, bypassing hexokinase. The glucose can then leave the cell. It is not found in skeletal muscle.",inv:"m4-bypass.c4"}],
+end:{t:"Four enzymes not used in glycolysis bypass its three irreversible steps. 2 pyruvate make 1 glucose.",inv:"m4-bypass.c1"}}
+}}
+
+]
 });
 
 // Study-guide highlight: must appear verbatim (tags stripped) inside one p, li or tr of the question's ref lesson.
