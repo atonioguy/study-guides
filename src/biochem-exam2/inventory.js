@@ -167,7 +167,7 @@ core:[
 ["c3","Muscle uses hexokinase instead of glucokinase, and lacks glucose-6-phosphatase, so it cannot release glucose from the cell.","b27",2]],
 side:[]},
 // ---------------- M4 L5 Gluconeogenesis and Blood Sugar Regulation ----------------
-{id:"m4-gng",mod:"m4",lec:"L5",lo:"4.2",h:"Gluconeogenesis: what, where, when",
+{id:"m4-gng",mod:"m4",lec:"L5",lo:"4.2",h:"Gluconeogenesis",
 a:"Gluconeogenesis makes new glucose from non-carbohydrate molecules when glucagon says blood sugar is low, and it is controlled at PEP carboxykinase.",
 core:[
 ["c1","Glucose is created from amino acids, lactate and glycerol.","b3,b12",2],
@@ -311,7 +311,7 @@ core:[
 ["c1","Degradation: mitochondria, carnitine carries the chain in, FAD and NAD+ accept electrons, makes acetyl CoA, controlled at carnitine acyltransferase I. Synthesis: cytosol, citrate carries acetyl CoA out, NADPH donates electrons, uses malonyl CoA, controlled at acetyl-CoA carboxylase.","L2 b8,b10,b17; L3 b6,b14,b19",2]],
 side:[]},
 // ---------------- M5 L4 Storage and Membrane Lipids ----------------
-{id:"m5-pa",mod:"m5",lec:"L4",lo:"5.3",h:"Phosphatidate, the shared starting point",
+{id:"m5-pa",mod:"m5",lec:"L4",lo:"5.3",h:"Phosphatidate",
 a:"Triglycerides and phospholipids begin the same way: activated glycerol plus two activated fatty acids gives phosphatidate.",
 core:[
 ["c1","Triglycerides and phospholipids start out the same, by joining fatty acids to glycerol to form phosphatidate. After that the paths diverge.","b2,b8",1],

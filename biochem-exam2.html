@@ -150,6 +150,10 @@ body[data-tab=sheet] .hin,body[data-tab=sheet] main,body[data-tab=sheet] footer{
 .pill.on{background:var(--acc);border-color:var(--acc);color:#fff}
 .filters{background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px 14px;margin:12px 0 8px}
 .filters .row{margin:10px 0}
+.lof>summary{cursor:pointer;color:var(--acc);font-size:15px;padding:10px 0 4px}.lof[open]>summary{padding-bottom:0}
+.shufbar{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;margin:10px 0}.shufbar .btn.link{padding:4px 0;margin:0}
+.lof .row{margin:8px 0}.lof .pill{white-space:normal;text-align:left}.filters .chk.rep{margin:-2px 0 12px}
+.qhead .again{margin-left:8px;font-size:12px;font-weight:600;color:var(--acc);border:1px solid var(--acc);border-radius:999px;padding:1px 7px}
 h2.lohead{font-size:18px;margin:30px 0 10px;line-height:1.35}
 h2.lohead .eyebrow{display:block;margin-bottom:2px}
 .qcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0}
@@ -302,7 +306,7 @@ mark.lwhl{background:#fff4b8;box-shadow:0 0 0 3px #fff4b8;color:inherit;border-r
 <button data-t="mock">Mock exam</button><button data-t="practice">Practice</button><button data-t="sheet">Study guide</button>
 </nav></div></header>
 <main id="main"></main>
-<footer>v1.1 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
+<footer>v1.2 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
 <script>
 const MODS=[];
 </script>
@@ -392,7 +396,7 @@ b:`<p>Every cell in the body can use glucose to make ATP. The lecture sorts the 
 <li>Oxidative phosphorylation, at the inner mitochondrial membrane</li></ol>
 <p>The last box in the figure (CO₂ and H₂O) shows the products. It is not a fifth step.</p>
 <p>Glycolysis itself can run either way. With oxygen it is called aerobic glycolysis, and without oxygen it is anaerobic glycolysis. Aerobic glycolysis is preferred because it produces significantly more ATP. Without oxygen the cell gets only 2 ATP per glucose.</p>`,
-nl:"Lecture numbers",note:`The aerobic total is given as 32 ATP per glucose in this lesson and 36 in the next. Both are far above the 2 ATP made without oxygen, and that comparison is the point.`,
+nl:"Lecture numbers",note:`The aerobic total is given as 32 ATP per glucose in this lesson and 36 in the next. Either way it is far above the 2 ATP made without oxygen.`,
 so:"Catabolism makes ATP. Anabolism and storage require it."},
 
 {id:"m4-slp",h:"Substrate-level phosphorylation",
@@ -430,7 +434,7 @@ b:`<p>Phase I is steps 1 to 5. The lecture calls each step by its enzyme. You ar
 <li><b>Triose phosphate isomerase</b>. Converts DHAP into G3P.</li></ol>
 <p>DHAP and G3P are isomers, but only G3P can serve as the substrate for the next step. That is the reason for step 5, and it is why the phase ends with two G3P.</p>
 <p>In summary, 2 ATP are used to form a 6-carbon sugar with two phosphates, and that sugar is split into two 3-carbon isomers.</p>`,
-nl:"Lecture wording",note:`The figure labels the step 2 enzyme phosphohexose isomerase. The text and the knowledge check call it phosphoglucose isomerase. It is one enzyme with two names. The step 3 product is written both F1,6P and F1,6BP in the lecture.`,
+nl:"Lecture wording",note:`The figure labels the step 2 enzyme phosphohexose isomerase. The text and the knowledge check call it phosphoglucose isomerase. It is one enzyme with two names.`,
 so:"ATP is used at steps 1 and 3. The split is at step 4."},
 
 {id:"m4-hkgk",h:"Hexokinase and glucokinase",
@@ -502,13 +506,13 @@ b:`<p>Pyruvate from glycolysis has two possible paths. If oxygen is available, i
 <li><b>Oxidation.</b> The remaining 2-carbon molecule is oxidized. The electrons released are picked up by NAD⁺, which is reduced to NADH.</li>
 <li><b>Transfer.</b> The acetyl group is transferred onto a sulfur within coenzyme A, producing acetyl CoA.</li></ol>
 <p>One glucose makes two pyruvates, so for every glucose that enters glycolysis, this pathway runs twice.</p>`,
-nl:"Lecture wording",note:`The decarboxylation hotspot also says an oxygen molecule from the environment is consumed in this step. Questions here only ask what the step removes and releases: a carboxyl group, as CO₂.`,
+nl:"Lecture wording",note:`The decarboxylation hotspot also says an oxygen molecule from the environment is consumed in this step. No oxygen is used in this step. It removes a carboxyl group and releases it as CO₂.`,
 so:"Pyruvate dehydrogenase: CO₂ off, NAD⁺ to NADH, acetyl onto CoA. Twice per glucose."},
 
 {id:"m4-anaer",h:"Without oxygen: lactate",
 img:{src:"lectures/biochem-exam2/img/m4/file-6331ffc963dcd.webp",alt:"Glucose through glycolysis turns 2 NAD+ into 2 NADH and makes net 2 ATP and 2 pyruvate; lactic acid fermentation turns the 2 NADH back into 2 NAD+ and makes 2 lactic acid, with an arrow returning the NAD+ to glycolysis",credit:"Lecture figure, Lesson 3."},
-b:`<p>When oxygen is not present, pyruvate goes down the other road: anaerobic glycolysis, also called lactic acid fermentation, or fermentation. ATP is only generated through glycolysis, so only 2 ATP are made, which is much less efficient.</p>
-<p>The reactions of glycolysis do not require oxygen, so why a different process? NAD. Glycolysis consumes NAD⁺ and creates NADH. In aerobic respiration the NADH is converted back to NAD⁺ and used again. When aerobic respiration cannot proceed, NADH is not recycled, and without NAD⁺ glycolysis cannot proceed.</p>
+b:`<p>When oxygen is not present, pyruvate is metabolized by anaerobic glycolysis, also called lactic acid fermentation, or fermentation. ATP is only generated through glycolysis, so only 2 ATP are made, which is much less efficient.</p>
+<p>The reactions of glycolysis do not require oxygen, but they do require NAD⁺. Glycolysis consumes NAD⁺ and creates NADH. In aerobic respiration the NADH is converted back to NAD⁺ and used again. When aerobic respiration cannot proceed, NADH is not recycled, and without NAD⁺ glycolysis cannot proceed.</p>
 <p><b>Lactate dehydrogenase</b> converts pyruvate to lactate, using NADH and thereby regenerating NAD⁺. It is highly regulated, because when oxygen is available we don't want to turn all our pyruvate into lactate.</p>
 <p>Most cells can't metabolize lactate into a usable substrate. Cells that produce it release it into the blood to travel to the liver, where it can be used.</p>
 <ul><li><b>Red blood cells</b> do not contain mitochondria, so they don't use the oxygen they carry. Anaerobic glycolysis is the only way they get energy.</li>
@@ -517,7 +521,7 @@ b:`<p>When oxygen is not present, pyruvate goes down the other road: anaerobic g
 <tr><td>Oxygen</td><td>Occurs without oxygen</td><td>Uses oxygen</td></tr>
 <tr><td>Pyruvate</td><td>Forms lactate, only recycles NAD⁺</td><td>Pyruvate oxidation</td></tr>
 <tr><td>Energy</td><td>Less efficient</td><td>More efficient</td></tr></table>`,
-nl:"Lecture wording",note:`Anaerobic glycolysis is compared with 36 ATP for aerobic metabolism here and 32 in Lesson 2. The 2 ATP for anaerobic is the safe number. The regulation line says pyruvate or ADP increase "the activity of lactate"; it means lactate dehydrogenase.`,
+nl:"Lecture wording",note:`Aerobic metabolism is given as 36 ATP here and 32 in Lesson 2. The regulation line says pyruvate or ADP increase "the activity of lactate." It means lactate dehydrogenase.`,
 so:"No oxygen: lactate dehydrogenase turns pyruvate into lactate to get NAD⁺ back. Only 2 ATP."},
 // ---------------- L4 Glycogen Metabolism ----------------
 {id:"m4-glystr",h:"Glycogen structure",
@@ -591,7 +595,7 @@ b:`<p>Glycogenolysis is the reverse of glycogenesis. As blood glucose falls, the
 nl:"Lecture wording",note:`The muscle section says skeletal muscle lacks glucose-6-phosphatase, "so it is not able to convert G1P back into G6P." Glucose-6-phosphatase converts G6P to glucose (Lesson 5). Without it, muscle cannot release glucose from the cell.`,
 so:"Glycogen phosphorylase frees G1P and is rate-limiting. Muscle uses hexokinase and has no glucose-6-phosphatase."},
 // ---------------- L5 Gluconeogenesis and Blood Sugar Regulation ----------------
-{id:"m4-gng",h:"Gluconeogenesis: what, where, when",
+{id:"m4-gng",h:"Gluconeogenesis",
 img:{src:"lectures/biochem-exam2/img/m4/file-63320dcb552d5.webp",alt:"Liver and muscle. In muscle, glucose goes through glycolysis to lactate. The lactate travels to the liver, where gluconeogenesis turns it back into glucose that returns to the muscle. Fatty acids broken down in the liver supply the ATP for gluconeogenesis, and each tissue also stores glucose as glycogen.",credit:"Lecture figure, Lesson 4."},
 b:`<p>Glycogenolysis can maintain blood glucose for only about a day. After that, cells still need a source of ATP, and the body keeps ATP production going by making glucose or by using other metabolic intermediates.</p>
 <p>In <b>gluconeogenesis</b>, glucose is created from other molecules such as amino acids, lactate and glycerol. These molecules come from other metabolic pathways, specifically β-oxidation and protein catabolism.</p>
@@ -601,7 +605,7 @@ b:`<p>Glycogenolysis can maintain blood glucose for only about a day. After that
 <li>It is energy expensive, so it is highly regulated. Gluconeogenesis and glycolysis do not occur at the same time.</li></ul>
 <p>The most important point of regulation is the reaction catalyzed by <b>PEP carboxykinase</b>, which converts oxaloacetate to PEP. The enzyme is regulated primarily by glucagon. Glucagon is released by the pancreas when blood glucose is low, so it makes sense that glucagon stimulates gluconeogenesis to increase the blood glucose concentration.</p>
 <p>The figure shows one of the starting molecules: lactate made by glycolysis in muscle travels to the liver, where gluconeogenesis turns it back into glucose.</p>`,
-nl:"Lecture wording",note:`The lecture also lists skeletal muscle, with the kidneys, as able to make new glucose. Skeletal muscle lacks glucose-6-phosphatase, the final enzyme of the pathway (next lesson), so the liver is the tissue to know.`,
+nl:"Lecture wording",note:`The lecture also lists skeletal muscle, with the kidneys, as able to make new glucose. Skeletal muscle lacks glucose-6-phosphatase, the final enzyme of the pathway (next lesson), so it cannot release new glucose.`,
 so:"New glucose from amino acids, lactate and glycerol, mainly in the liver, switched on by glucagon at PEP carboxykinase."},
 {id:"m4-bypass",h:"The bypass steps",
 img:{src:"lectures/biochem-exam2/img/m4/file-633b86a5289c8.webp",alt:"Glycolysis in red running down and gluconeogenesis in blue running up through the same intermediates, with the three gluconeogenesis bypass steps boxed: glucose 6-phosphatase, fructose 1,6-bisphosphatase, and pyruvate carboxylase with PEP carboxykinase through oxaloacetate",credit:"Lecture figure, Lesson 5."},
@@ -1410,7 +1414,7 @@ b:`<p>Fatty acids are sorted by their double bonds, and the bonds decide how tig
 <p>Trans fats also hide under another name, <b>partially hydrogenated oil</b>. It is used to increase the shelf life of products, but it converts the cis bonds to trans bonds.</p>
 <p><b>Omega-3 fatty acids</b> are unsaturated fatty acids in which the double bonding starts on the third carbon from the end of the chain. They are great for brain and nervous system power. Several are essential, meaning we must obtain them in our diet because we do not produce them ourselves. Fish and nuts are great sources.</p>
 <p>From the lecture's check: a fatty acid full of single bonds is a saturated fatty acid, a man-made unsaturated FA is a trans fat, and partially hydrogenated oil is another name for a trans fat.</p>`,
-nl:"Lecture wording",note:`The trans fat paragraph says trans fats end up with an even higher melting point than saturated fats. The points to know are that trans fats are man-made, harder to break down and likely to stay solid, while natural cis fats are liquid at room temperature.`,
+nl:"Lecture wording",note:`The trans fat paragraph says trans fats end up with an even higher melting point than saturated fats. The rest of the lecture describes trans fats only as likely to stay solid.`,
 so:"Saturated: single bonds, solid, animal. Cis: double bonds, liquid, plant. Trans: man-made, stays solid. Omega-3: double bonds start at the third carbon from the end."},
 {drill:"m5d1"},
 
@@ -1477,7 +1481,7 @@ b:`<p>Beta oxidation is the breakdown stage and the bulk of fatty acid degradati
 <li><b>Thiolysis</b> by <b>thiolase</b>. The end of the chain now looks a lot like an acetyl CoA, so it is cut off to release an acetyl CoA. The shortened fatty acid is ready for another round.</li></ol>
 <p>One round of beta oxidation gives one FADH₂, one NADH, and one acetyl CoA that can go into the citric acid cycle.</p>
 <p><b>Palmitate</b>, a 16 carbon fatty acid, takes 7 rounds of oxidation: 7 FADH₂, 7 NADH and 8 acetyl CoA. There is one more acetyl CoA than rounds because the last split turns a four carbon molecule into two acetyl CoA. After two ATP are used to activate the palmitate, 108 ATP are generated, for a net of 106 ATP. This is why fats are so much more efficient at providing energy than carbohydrates.</p>`,
-nl:"Lecture wording",note:`The lecture writes FAD+ and FADH for FAD and FADH₂, "enol-coA hydratase" for enoyl-CoA hydratase and "thiloase" for thiolase. Its thiolysis step also says a new acyl-CoA is added to the end of the fatty acid. What remains after the acetyl CoA is cut off is an acyl CoA two carbons shorter, ready for the next round.`,
+nl:"Lecture wording",note:`The lecture writes FAD+ and FADH for FAD and FADH₂. Its thiolysis step also says a new acyl-CoA is added to the end of the fatty acid. What remains after the acetyl CoA is cut off is an acyl CoA two carbons shorter, ready for the next round.`,
 so:"Oxidation, hydration, oxidation, thiolysis. Each round gives one FADH₂, one NADH and one acetyl CoA."},
 
 {id:"m5-odd",h:"Fatty acids that need extra handling",
@@ -1549,7 +1553,7 @@ b:`<p><b>Elongation</b> is where carbons are added to the fatty acid. It starts 
 <li>14 NADPH, two per round of elongation. Some is generated when malate returns to the mitochondria, and the rest comes from the pentose phosphate pathway.</li></ul>
 <p><b>Modification.</b> Fatty acid synthesis always results in a free palmitate. Fatty acids with more or fewer carbons, or unsaturated ones, come from modifications later on as needed. Further elongation can be stimulated, as can partial degradation of the chain, and additional enzymes can introduce double bonds.</p>
 <p>Mammals lack the enzymes to introduce double bonds at carbon atoms beyond C-9 of the fatty acid chain. Mammals require several such fatty acids, including linoleate and linolenate, which is why they are among the essential fatty acids.</p>`,
-nl:"Lecture wording",note:`The modification paragraph gives prostaglandins as an example of an enzyme that introduces double bonds. Lesson 1 describes prostaglandins as a type of fat that acts as a hormone. What matters here is that double bonds are added after palmitate is made, and that mammals cannot add them beyond C-9.`,
+nl:"Lecture wording",note:`The modification paragraph gives prostaglandins as an example of an enzyme that introduces double bonds. Lesson 1 describes prostaglandins as a type of fat that acts as a hormone.`,
 so:"Condensation, reduction, dehydration, reduction, all on fatty acid synthase. One palmitate takes 8 acetyl CoA, 7 ATP and 14 NADPH."},
 
 {id:"m5-vs",h:"Degradation and synthesis side by side",
@@ -1566,7 +1570,7 @@ so:"Degradation runs in the mitochondria on FAD and NAD⁺ and is controlled at 
 ],
 "5.3":[
 // ---------------- L4 Storage and Membrane Lipids ----------------
-{id:"m5-pa",h:"Phosphatidate, the shared starting point",
+{id:"m5-pa",h:"Phosphatidate",
 img:{src:"lectures/biochem-exam2/img/m5/file-62af86d734e36.webp",alt:"Glucose goes to DHAP and then glycerol 3-phosphate. In adipose tissue or diet, triacylglycerol breaks down into glycerol and free fatty acids. Glycerol 3-phosphate and fatty acids form phosphatidate in the endoplasmic reticulum, which becomes triacylglycerol in the liver or phospholipid with an activated alcohol.",credit:"Lecture figure, Lesson 4."},
 b:`<p>Storage lipids (triglycerides) and membrane lipids (phospholipids and sphingolipids) have something in common: they are fatty acids combined to an alcohol. This means the processes to create them are almost the same.</p>
 <p>Triglycerides and phospholipids start out exactly the same, because both involve the addition of the alcohol glycerol. Fatty acids and glycerol are joined to form <b>phosphatidate</b>. The parts come from pathways already covered: fatty acids from fatty acid synthesis, and glycerol from releasing fatty acids from a triglyceride. Phosphatidate is a diglyceride, meaning two fatty acids added to a glycerol molecule.</p>
@@ -1633,7 +1637,7 @@ b:`<p>The rate of cholesterol synthesis responds to feedback at the cellular lev
 <p>Hormones push HMG-CoA reductase activity up or down:</p>
 <ul><li><b>Increase</b> HMG-CoA reductase activity, and therefore cholesterol production: insulin and thyroid hormone.</li>
 <li><b>Decrease</b> HMG-CoA reductase activity: glucagon and glucocorticoids.</li></ul>`,
-nl:"Lecture wording",note:`The lecture says SREBP is inhibited by insulin and increased by glucagon and glucocorticoids, which runs opposite to the effect it gives for the enzyme. The effect on HMG-CoA reductase and cholesterol production is the part to know: insulin and thyroid hormone raise it, glucagon and glucocorticoids lower it.`,
+nl:"Lecture wording",note:`The lecture says SREBP is inhibited by insulin and increased by glucagon and glucocorticoids, which runs opposite to the hormone effects on HMG-CoA reductase listed below.`,
 so:"HMG-CoA reductase is controlled at transcription through SREBP. Insulin and thyroid hormone raise cholesterol production. Glucagon and glucocorticoids lower it."},
 
 {id:"m5-lipoprot",h:"Lipoproteins",
@@ -2741,34 +2745,56 @@ function savePos(){if((tab==="sheet"&&main.querySelector(".gwrap"))||(tab==="pra
 let st_;window.addEventListener("scroll",()=>{clearTimeout(st_);st_=setTimeout(savePos,250);},{passive:true});
 window.addEventListener("pagehide",savePos);
 
-function loSelect(id,withAll){
-  const s=h("select",{id});
-  if(withAll)s.append(h("option",{value:"all"},"All objectives"));
-  MODS.forEach(m=>{const g=h("optgroup",{label:m.name});g.append(h("option",{value:"mod:"+m.id},m.short+": all"));m.los.forEach(l=>g.append(h("option",{value:l.id},l.id+" "+l.title)));s.append(g);});
-  return s;
+// multi-select objective filter: PF.lo is an array of LO ids, empty means all
+function filterQ(los){if(!los||!los.length)return Q.slice();const k=new Set(los);return Q.filter(q=>k.has(q.lo));}
+function loPick(F,changed){
+  const sm=h("summary"),w=h("details",{class:"lof",open:matchMedia("(min-width:640px)").matches},sm),ps=[];
+  const pill=(label,title,on,click)=>{const b=h("button",{class:"pill",type:"button",title,onclick:click},label);b._on=on;ps.push(b);return b;};
+  const set=a=>{const ids=LOS.map(l=>l.id);a=ids.filter(id=>a.includes(id));F.lo=a.length===ids.length?[]:a;paint();changed();};
+  w.append(h("div",{class:"row pills"},pill("All objectives",null,()=>!F.lo.length,()=>set([]))));
+  MODS.forEach(m=>{const ids=m.los.map(l=>l.id),has=id=>F.lo.includes(id),full=()=>F.lo.length>0&&ids.every(has);
+    const r=h("div",{class:"row pills"},pill(m.short+": all",m.name,full,()=>set(full()?F.lo.filter(id=>!ids.includes(id)):F.lo.concat(ids))));
+    m.los.forEach(l=>r.append(pill(l.id+" "+l.nick,"LO "+l.id+": "+l.title,()=>has(l.id),()=>set(has(l.id)?F.lo.filter(x=>x!==l.id):F.lo.concat(l.id)))));
+    w.append(r);});
+  function paint(){ps.forEach(b=>{const on=!!b._on();b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false");});
+    const full=MODS.filter(m=>m.los.every(l=>F.lo.includes(l.id))),rest=F.lo.filter(id=>!full.some(m=>m.los.some(l=>l.id===id)));
+    sm.textContent="Objectives: "+(F.lo.length?full.map(m=>m.short).concat(rest).join(", "):"All");}
+  paint();return w;
 }
-function filterQ(v){if(v==="all")return Q.slice();if(v.startsWith("mod:"))return Q.filter(q=>q.mod.id===v.slice(4));return Q.filter(q=>q.lo===v);}
+// old saved filter was one string: "all", "mod:m4" or an LO id
+function loMigrate(v){const ids=LOS.map(l=>l.id);if(Array.isArray(v))return v.filter(x=>ids.includes(x));if(typeof v!=="string"||v==="all")return [];
+  if(v.startsWith("mod:")){const m=MODS.find(m=>m.id===v.slice(4));return m?m.los.map(l=>l.id):[];}return ids.includes(v)?[v]:[];}
 
 // ===== PRACTICE (full list) =====
-const PF=Object.assign({lo:"all",ty:"",missed:false,flag:false,un:false,show:false},S.set.pf||{});PF.ty="";
+const PF=Object.assign({lo:[],ty:"",missed:false,flag:false,un:false,show:false,shuf:false,rep:false},S.set.pf||{});PF.ty="";PF.lo=loMigrate(PF.lo);
+// shuffled full-list order is saved (S.set.pfOrd) and kept, reloads included, until Shuffle is toggled, Reshuffle is tapped or a filter changes
 tabs.practice={render(){
   main.append(h("h1",null,"Practice"));
-  main.append(h("p",{class:"mut"},"All the questions the mock exams use, grouped by objective. You can change an answer anytime. Tap your answer again to clear it."));
-  const sel=loSelect("psel",true);sel.value=PF.lo;
-    const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);draw();}},l);return b;};
-  const cnt=h("span",{class:"mut sm"});
-  const quiz=h("button",{class:"btn pri",onclick:()=>runPractice(pool(),"Practice")},"Quiz me one at a time");
+  main.append(h("p",{class:"mut"},"All the questions the mock exams use. You can change an answer anytime. Tap your answer again to clear it."));
+  const lof=loPick(PF,()=>draw());
+    const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),type:"button","aria-pressed":PF[k]?"true":"false",onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);b.setAttribute("aria-pressed",PF[k]?"true":"false");if(k==="shuf")delete S.set.pfOrd;draw();}},l);return b;};
+  const cnt=h("span",{class:"mut sm"}),shufB=tg("shuf","Shuffle");
+  const quiz=h("button",{class:"btn pri",onclick:()=>runPractice(pool(),"Practice",{rep:PF.rep})},"Quiz me one at a time");
+  const rc=h("input",{type:"checkbox",checked:!!PF.rep});rc.addEventListener("change",()=>{PF.rep=rc.checked;S.set.pf=PF;save();});
+  const rep=h("label",{class:"chk rep"},rc,"Repeat missed until right");
   const clr=h("button",{class:"btn sm",type:"button",onclick(){const P=pool().filter(q=>S.q[q.id]);if(!P.length)return;if(!clr.dataset.arm){clr.dataset.arm="1";clr.textContent="Tap again to reset "+P.length;setTimeout(()=>{delete clr.dataset.arm;draw();},3000);return;}delete clr.dataset.arm;P.forEach(q=>delete S.q[q.id]);save();draw();}});
-  main.append(h("div",{class:"filters"},h("div",{class:"row"},sel),h("div",{class:"row"},tg("missed","Missed"),tg("flag","Flagged"),tg("un","Unanswered"),tg("show","Show all answers")),h("div",{class:"row"},quiz,cnt,clr)));
+  main.append(h("div",{class:"filters"},lof,h("div",{class:"row"},tg("missed","Missed"),tg("flag","Flagged"),tg("un","Unanswered"),tg("show","Show all answers"),shufB),h("div",{class:"row"},quiz,cnt,clr),rep));
   const ds=[];MODS.forEach(m=>(m.drills||[]).forEach(d=>ds.push(d)));
   if(ds.length){const dw=h("details",{class:"drills"},h("summary",null,"Drills ("+ds.length+")"));ds.forEach(d=>{const st=S.drills[d.id];dw.append(h("div",{class:"card link",onclick:()=>openDrill(d)},h("b",null,d.title),h("span",{class:"mut sm"}," LO "+d.lo+(st?" · last: "+st:""))));});main.append(dw);}
   const list=h("div",{class:"plist"});main.append(list);
-  sel.addEventListener("change",()=>{PF.lo=sel.value;draw();});
   function pool(){return filterQ(PF.lo).filter(q=>(!PF.ty||q.type===PF.ty)&&(!PF.missed||(S.q[q.id]&&S.q[q.id].c===false))&&(!PF.flag||S.flag[q.id])&&(!PF.un||!S.q[q.id]));}
   function draw(){
     S.set.pf=PF;save();list.innerHTML="";const P=pool();cnt.textContent=P.length+" question"+(P.length===1?"":"s");quiz.disabled=!P.length;
     const na=P.filter(q=>S.q[q.id]).length;if(!clr.dataset.arm){clr.textContent="Reset answers";clr.disabled=!na;clr.title="Clears your answers to the questions shown with the current filters. Flags, bookmarks and mock history are kept.";}
     if(!P.length){list.append(h("p",{class:"mut"},"No questions match these filters."));return;}
+    if(PF.shuf){const key=JSON.stringify([PF.lo,PF.missed,PF.flag,PF.un]),so=S.set.pfOrd;
+      if(!so||so.k!==key){S.set.pfOrd={k:key,ids:shuffle(P).map(q=>q.id)};save();}
+      const r=new Map(S.set.pfOrd.ids.map((id,i)=>[id,i])),rank=q=>r.has(q.id)?r.get(q.id):1e9;
+      list.append(h("p",{class:"shufbar mut sm"},"Shuffled order",
+        h("button",{class:"btn link sm",type:"button",onclick:()=>{delete S.set.pfOrd;draw();}},"Reshuffle"),
+        h("button",{class:"btn link sm",type:"button",onclick:()=>shufB.click()},"Back to normal order")));
+      P.slice().sort((a,b)=>rank(a)-rank(b)).forEach(q=>list.append(qCard(q,PF.show)));return;}
+    delete S.set.pfOrd;
     LOS.forEach(l=>{const qs=P.filter(q=>q.lo===l.id);if(!qs.length)return;
       list.append(h("h2",{class:"lohead"},h("span",{class:"eyebrow"},loTag(l.id)," · "+qs.length),l.title));
       qs.forEach(q=>list.append(qCard(q,PF.show)));});
@@ -2790,28 +2816,36 @@ function qCard(q,show,label){
   return c;
 }
 
-function runPractice(pool,title){
+const REP_GAP=3; // a missed question comes back this many questions later
+function runPractice(pool,title,opt){
+  opt=opt||{};
   // unseen first, then oldest
   const qs=shuffle(pool).sort((a,b)=>((S.q[a.id]||{}).t||0)-((S.q[b.id]||{}).t||0));
-  // ord/picks per question so Back can show an answered question again (locked, with feedback)
-  let i=0,right=0;const missedIds=[],ord=qs.map(q=>optsFor(q)),picks=[];
+  // one entry per showing; with opt.rep a miss adds another showing of the same question
+  // ord/pick per entry so Back can show an answered question again (locked, with feedback)
+  const E=qs.map(q=>({q,ord:optsFor(q),pick:null,again:false}));
+  let i=0,right=0;const missedIds=[];
   function show(){
     // each new question (or the summary) closes the lecture window so it can't show the next answer
     closeLec();main.innerHTML="";
-    if(i>=qs.length){
-      main.append(h("h1",null,title+" done"),h("p",null,right+" / "+qs.length+" correct"));
+    if(i>=E.length){
+      main.append(h("h1",null,title+" done"),h("p",null,right+" / "+qs.length+" correct"+(opt.rep&&missedIds.length?" on the first try":"")));
       const r=h("div",{class:"row"});
-      if(missedIds.length)r.append(h("button",{class:"btn pri",onclick:()=>runPractice(missedIds.map(id=>QBY[id]),"Retry")},"Retry the "+missedIds.length+" missed"));
+      if(missedIds.length)r.append(h("button",{class:"btn pri",onclick:()=>runPractice(missedIds.map(id=>QBY[id]),"Retry",opt)},"Retry the "+missedIds.length+" missed"));
       r.append(h("button",{class:"btn",onclick:()=>go("practice")},"Back"));main.append(r);return;
     }
-    const q=qs[i];const order=ord[i];
-    main.append(h("div",{class:"qhead"},h("span",null,(i+1)+" / "+qs.length),h("span",null,loLabel(q,true)," ",flagBtn(q))));
-    main.append(h("div",{class:"bar"},h("i",{style:"width:"+(i/qs.length*100)+"%"})));
-    let done=picks[i]!=null;
-    const v=qView(q,order,{onPick(k){if(done)return;done=true;picks[i]=k;const ok=order[k].c;if(ok)right++;else missedIds.push(q.id);record(q,ok,order[k].t);v.paint(k,true);nx.disabled=false;nx.focus();}});
-    main.append(v.el);if(done)v.paint(picks[i],true);
-    const nx=h("button",{class:"btn pri",disabled:!done,onclick:()=>{i++;show();}},i===qs.length-1?"Finish":"Next");
-    main.append(h("div",{class:"row"},i>0?h("button",{class:"btn",onclick:()=>{i--;show();}},"Back"):null,nx,h("button",{class:"btn link",onclick:()=>{i=qs.length;show();}},"End")));
+    const e=E[i],q=e.q,order=e.ord;
+    const ctr=h("span",null,(i+1)+" / "+E.length);
+    main.append(h("div",{class:"qhead"},h("span",null,ctr,e.again?h("span",{class:"again"},"Again"):null),h("span",null,loLabel(q,true)," ",flagBtn(q))));
+    main.append(h("div",{class:"bar"},h("i",{style:"width:"+(i/E.length*100)+"%"})));
+    let done=e.pick!=null;
+    const v=qView(q,order,{onPick(k){if(done)return;done=true;e.pick=k;const ok=order[k].c;
+      if(!e.again){if(ok)right++;else missedIds.push(q.id);}
+      if(!ok&&opt.rep){E.splice(Math.min(i+1+REP_GAP,E.length),0,{q,ord:optsFor(q),pick:null,again:true});ctr.textContent=(i+1)+" / "+E.length;}
+      record(q,ok,order[k].t);v.paint(k,true);nx.disabled=false;nx.textContent=i===E.length-1?"Finish":"Next";nx.focus();}});
+    main.append(v.el);if(done)v.paint(e.pick,true);
+    const nx=h("button",{class:"btn pri",disabled:!done,onclick:()=>{i++;show();}},i===E.length-1?"Finish":"Next");
+    main.append(h("div",{class:"row"},i>0?h("button",{class:"btn",onclick:()=>{i--;show();}},"Back"):null,nx,h("button",{class:"btn link",onclick:()=>{i=E.length;show();}},"End")));
   }
   show();
 }

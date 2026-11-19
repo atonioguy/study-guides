@@ -81,7 +81,7 @@ b:`<p>Every cell in the body can use glucose to make ATP. The lecture sorts the 
 <li>Oxidative phosphorylation, at the inner mitochondrial membrane</li></ol>
 <p>The last box in the figure (CO₂ and H₂O) shows the products. It is not a fifth step.</p>
 <p>Glycolysis itself can run either way. With oxygen it is called aerobic glycolysis, and without oxygen it is anaerobic glycolysis. Aerobic glycolysis is preferred because it produces significantly more ATP. Without oxygen the cell gets only 2 ATP per glucose.</p>`,
-nl:"Lecture numbers",note:`The aerobic total is given as 32 ATP per glucose in this lesson and 36 in the next. Both are far above the 2 ATP made without oxygen, and that comparison is the point.`,
+nl:"Lecture numbers",note:`The aerobic total is given as 32 ATP per glucose in this lesson and 36 in the next. Either way it is far above the 2 ATP made without oxygen.`,
 so:"Catabolism makes ATP. Anabolism and storage require it."},
 
 {id:"m4-slp",h:"Substrate-level phosphorylation",
@@ -119,7 +119,7 @@ b:`<p>Phase I is steps 1 to 5. The lecture calls each step by its enzyme. You ar
 <li><b>Triose phosphate isomerase</b>. Converts DHAP into G3P.</li></ol>
 <p>DHAP and G3P are isomers, but only G3P can serve as the substrate for the next step. That is the reason for step 5, and it is why the phase ends with two G3P.</p>
 <p>In summary, 2 ATP are used to form a 6-carbon sugar with two phosphates, and that sugar is split into two 3-carbon isomers.</p>`,
-nl:"Lecture wording",note:`The figure labels the step 2 enzyme phosphohexose isomerase. The text and the knowledge check call it phosphoglucose isomerase. It is one enzyme with two names. The step 3 product is written both F1,6P and F1,6BP in the lecture.`,
+nl:"Lecture wording",note:`The figure labels the step 2 enzyme phosphohexose isomerase. The text and the knowledge check call it phosphoglucose isomerase. It is one enzyme with two names.`,
 so:"ATP is used at steps 1 and 3. The split is at step 4."},
 
 {id:"m4-hkgk",h:"Hexokinase and glucokinase",
@@ -191,13 +191,13 @@ b:`<p>Pyruvate from glycolysis has two possible paths. If oxygen is available, i
 <li><b>Oxidation.</b> The remaining 2-carbon molecule is oxidized. The electrons released are picked up by NAD⁺, which is reduced to NADH.</li>
 <li><b>Transfer.</b> The acetyl group is transferred onto a sulfur within coenzyme A, producing acetyl CoA.</li></ol>
 <p>One glucose makes two pyruvates, so for every glucose that enters glycolysis, this pathway runs twice.</p>`,
-nl:"Lecture wording",note:`The decarboxylation hotspot also says an oxygen molecule from the environment is consumed in this step. Questions here only ask what the step removes and releases: a carboxyl group, as CO₂.`,
+nl:"Lecture wording",note:`The decarboxylation hotspot also says an oxygen molecule from the environment is consumed in this step. No oxygen is used in this step. It removes a carboxyl group and releases it as CO₂.`,
 so:"Pyruvate dehydrogenase: CO₂ off, NAD⁺ to NADH, acetyl onto CoA. Twice per glucose."},
 
 {id:"m4-anaer",h:"Without oxygen: lactate",
 img:{src:"lectures/biochem-exam2/img/m4/file-6331ffc963dcd.webp",alt:"Glucose through glycolysis turns 2 NAD+ into 2 NADH and makes net 2 ATP and 2 pyruvate; lactic acid fermentation turns the 2 NADH back into 2 NAD+ and makes 2 lactic acid, with an arrow returning the NAD+ to glycolysis",credit:"Lecture figure, Lesson 3."},
-b:`<p>When oxygen is not present, pyruvate goes down the other road: anaerobic glycolysis, also called lactic acid fermentation, or fermentation. ATP is only generated through glycolysis, so only 2 ATP are made, which is much less efficient.</p>
-<p>The reactions of glycolysis do not require oxygen, so why a different process? NAD. Glycolysis consumes NAD⁺ and creates NADH. In aerobic respiration the NADH is converted back to NAD⁺ and used again. When aerobic respiration cannot proceed, NADH is not recycled, and without NAD⁺ glycolysis cannot proceed.</p>
+b:`<p>When oxygen is not present, pyruvate is metabolized by anaerobic glycolysis, also called lactic acid fermentation, or fermentation. ATP is only generated through glycolysis, so only 2 ATP are made, which is much less efficient.</p>
+<p>The reactions of glycolysis do not require oxygen, but they do require NAD⁺. Glycolysis consumes NAD⁺ and creates NADH. In aerobic respiration the NADH is converted back to NAD⁺ and used again. When aerobic respiration cannot proceed, NADH is not recycled, and without NAD⁺ glycolysis cannot proceed.</p>
 <p><b>Lactate dehydrogenase</b> converts pyruvate to lactate, using NADH and thereby regenerating NAD⁺. It is highly regulated, because when oxygen is available we don't want to turn all our pyruvate into lactate.</p>
 <p>Most cells can't metabolize lactate into a usable substrate. Cells that produce it release it into the blood to travel to the liver, where it can be used.</p>
 <ul><li><b>Red blood cells</b> do not contain mitochondria, so they don't use the oxygen they carry. Anaerobic glycolysis is the only way they get energy.</li>
@@ -206,7 +206,7 @@ b:`<p>When oxygen is not present, pyruvate goes down the other road: anaerobic g
 <tr><td>Oxygen</td><td>Occurs without oxygen</td><td>Uses oxygen</td></tr>
 <tr><td>Pyruvate</td><td>Forms lactate, only recycles NAD⁺</td><td>Pyruvate oxidation</td></tr>
 <tr><td>Energy</td><td>Less efficient</td><td>More efficient</td></tr></table>`,
-nl:"Lecture wording",note:`Anaerobic glycolysis is compared with 36 ATP for aerobic metabolism here and 32 in Lesson 2. The 2 ATP for anaerobic is the safe number. The regulation line says pyruvate or ADP increase "the activity of lactate"; it means lactate dehydrogenase.`,
+nl:"Lecture wording",note:`Aerobic metabolism is given as 36 ATP here and 32 in Lesson 2. The regulation line says pyruvate or ADP increase "the activity of lactate." It means lactate dehydrogenase.`,
 so:"No oxygen: lactate dehydrogenase turns pyruvate into lactate to get NAD⁺ back. Only 2 ATP."},
 // ---------------- L4 Glycogen Metabolism ----------------
 {id:"m4-glystr",h:"Glycogen structure",
@@ -280,7 +280,7 @@ b:`<p>Glycogenolysis is the reverse of glycogenesis. As blood glucose falls, the
 nl:"Lecture wording",note:`The muscle section says skeletal muscle lacks glucose-6-phosphatase, "so it is not able to convert G1P back into G6P." Glucose-6-phosphatase converts G6P to glucose (Lesson 5). Without it, muscle cannot release glucose from the cell.`,
 so:"Glycogen phosphorylase frees G1P and is rate-limiting. Muscle uses hexokinase and has no glucose-6-phosphatase."},
 // ---------------- L5 Gluconeogenesis and Blood Sugar Regulation ----------------
-{id:"m4-gng",h:"Gluconeogenesis: what, where, when",
+{id:"m4-gng",h:"Gluconeogenesis",
 img:{src:"lectures/biochem-exam2/img/m4/file-63320dcb552d5.webp",alt:"Liver and muscle. In muscle, glucose goes through glycolysis to lactate. The lactate travels to the liver, where gluconeogenesis turns it back into glucose that returns to the muscle. Fatty acids broken down in the liver supply the ATP for gluconeogenesis, and each tissue also stores glucose as glycogen.",credit:"Lecture figure, Lesson 4."},
 b:`<p>Glycogenolysis can maintain blood glucose for only about a day. After that, cells still need a source of ATP, and the body keeps ATP production going by making glucose or by using other metabolic intermediates.</p>
 <p>In <b>gluconeogenesis</b>, glucose is created from other molecules such as amino acids, lactate and glycerol. These molecules come from other metabolic pathways, specifically β-oxidation and protein catabolism.</p>
@@ -290,7 +290,7 @@ b:`<p>Glycogenolysis can maintain blood glucose for only about a day. After that
 <li>It is energy expensive, so it is highly regulated. Gluconeogenesis and glycolysis do not occur at the same time.</li></ul>
 <p>The most important point of regulation is the reaction catalyzed by <b>PEP carboxykinase</b>, which converts oxaloacetate to PEP. The enzyme is regulated primarily by glucagon. Glucagon is released by the pancreas when blood glucose is low, so it makes sense that glucagon stimulates gluconeogenesis to increase the blood glucose concentration.</p>
 <p>The figure shows one of the starting molecules: lactate made by glycolysis in muscle travels to the liver, where gluconeogenesis turns it back into glucose.</p>`,
-nl:"Lecture wording",note:`The lecture also lists skeletal muscle, with the kidneys, as able to make new glucose. Skeletal muscle lacks glucose-6-phosphatase, the final enzyme of the pathway (next lesson), so the liver is the tissue to know.`,
+nl:"Lecture wording",note:`The lecture also lists skeletal muscle, with the kidneys, as able to make new glucose. Skeletal muscle lacks glucose-6-phosphatase, the final enzyme of the pathway (next lesson), so it cannot release new glucose.`,
 so:"New glucose from amino acids, lactate and glycerol, mainly in the liver, switched on by glucagon at PEP carboxykinase."},
 {id:"m4-bypass",h:"The bypass steps",
 img:{src:"lectures/biochem-exam2/img/m4/file-633b86a5289c8.webp",alt:"Glycolysis in red running down and gluconeogenesis in blue running up through the same intermediates, with the three gluconeogenesis bypass steps boxed: glucose 6-phosphatase, fructose 1,6-bisphosphatase, and pyruvate carboxylase with PEP carboxykinase through oxaloacetate",credit:"Lecture figure, Lesson 5."},
