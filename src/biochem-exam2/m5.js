@@ -546,7 +546,7 @@ opts:["Oxaloacetate cannot penetrate the mitochondrial membrane","Malate is need
 exp:"Oxaloacetate cannot penetrate the mitochondrial membrane any more than acetyl CoA could. Back in the matrix, malate converts back into oxaloacetate."},
 {id:"m5c05",lo:"5.2",src:"L3",ref:"m5-shuttle",type:"mc",kind:"fig",inv:["m5-shuttle.c4"],fig:"q-cit",
 stem:"The figure shows how acetyl CoA gets from the mitochondria to the cytosol. Which molecule is generated at 3 and used later to synthesize the fatty acid?",
-opts:["NADPH","NADH","FADH₂","NAD⁺"],ans:0,
+opts:["NADPH","NADP⁺","FADH₂","NAD⁺"],ans:0,
 exp:"The shuttle generates an NADPH. Its energy helps synthesize the fatty acid during elongation."},
 {id:"m5c06",lo:"5.2",src:"L3",ref:"m5-shuttle",type:"tf",kind:"ex",inv:["m5-shuttle.c4"],
 stem:"The preparation phase that moves acetyl CoA into the cytosol is stimulated by glucagon.",ans:false,
