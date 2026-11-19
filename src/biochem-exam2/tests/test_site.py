@@ -112,6 +112,38 @@ def mock_mix(page):
     page.reload(); page.wait_for_selector("text=Start mock")
 
 
+def new_tools(page):
+    """Drills m4d3, m5d1, m5d2, m5d3: each control changes the picture and the readout; each fits its card."""
+    nav(page, "sheet"); page.wait_for_selector(".card.drill .rg")
+    J = lambda sel, js: page.eval_on_selector(sel, "c=>{" + js + "}")
+    btn = "const b=(t)=>[...c.querySelectorAll('button')].find(x=>x.textContent===t);"
+    # regulators: PEP inhibits PFK-1 and activates pyruvate kinase; alanine leaves PFK-1 grey
+    r = J(".card.drill .rg", btn + "b('PEP').click();const e=[...c.querySelectorAll('.rg-e')].map(x=>x.getAttribute('stroke'));return [e,c.querySelector('.out').textContent];")
+    check(r[0] == ["#b42318", "#1d7a3a"] and r[1].startswith("PEP."), "regulators: PEP red on PFK-1, green on pyruvate kinase %s" % r[0])
+    r = J(".card.drill .rg", btn + "b('Alanine').click();return [...c.querySelectorAll('.rg-e')].map(x=>x.getAttribute('stroke'));")
+    check(r == ["#9aa3ad", "#b42318"], "regulators: alanine only on pyruvate kinase %s" % r)
+    # fat types: straight chains fill the box with more molecules than kinked ones
+    r = J(".card.drill .fa", btn + "const n=()=>c.querySelectorAll('svg g[transform]').length;const a=n();b('Cis').click();const k=n();b('Trans').click();return [a,k,n(),c.querySelector('.out').textContent];")
+    check(r[0] > 2 * r[1] and r[2] == r[0] and r[3].startswith("Trans."), "fat types: saturated %d, cis %d, trans %d chains" % tuple(r[:3]))
+    # cholesterol: the fourth arrow is step 2 in the cytosol, 3 ATP and CO2; Back and Start over work
+    r = J(".card.drill .chl", btn + "for(let i=0;i<4;i++)b('Next').click();return [c.querySelector('.sm').textContent,[...c.querySelectorAll('.tal .full b')].map(x=>x.textContent)];")
+    check(r[0].startswith("2. ") and "Cytosol" in r[0] and r[1] == ["3 ATP", "CO₂"], "cholesterol: step 2 in the cytosol, %s" % r[1])
+    r = J(".card.drill .chl", btn + "b('Back').click();const a=[...c.querySelectorAll('.tal .full b')].map(x=>x.textContent);for(let i=0;i<4;i++)b('Next').click();return [a,c.querySelector('.sm').textContent,!!b('Start over')];")
+    check(r[0] == ["NADPH"] and r[1].startswith("5. ") and "ER membrane" in r[1] and r[2], "cholesterol: Back to the reductase, end on the ER membrane")
+    # lipoproteins: Step, then Play moves on by itself and the route draws in
+    r = J(".card.drill .lp", btn + "b('Step').click();return c.querySelector('.out').textContent;")
+    check(r.startswith("Chylomicrons."), "lipoproteins: first step is chylomicrons")
+    J(".card.drill .lp", btn + "b('Play').click();")
+    page.wait_for_timeout(1500)
+    r = J(".card.drill .lp", "const l=c.querySelector('.lp-g[data-k=vldl] .lp-l');return [c.querySelector('.out').textContent,getComputedStyle(l).strokeDashoffset,l.getAttribute('stroke')];")
+    check(r[0].startswith("VLDL.") and r[1] in ("0", "0px") and r[2] == "#1f4b8f", "lipoproteins: Play moves to VLDL and draws its route %s" % r[1:])
+    J(".card.drill .lp", btn + "b('Pause').click();")
+    for cls in ("rg", "fa", "chl", "lp"):
+        sw = page.eval_on_selector(".card.drill ." + cls, "c=>{const k=c.closest('.card');return [k.scrollWidth,k.clientWidth];}")
+        check(sw[0] <= sw[1] + 1, "%s drill fits its card (%d/%d)" % (cls, sw[0], sw[1]))
+    no_hscroll(page, "guide after the drills")
+
+
 def drill_link(page, vw):
     """A missed question whose lesson has a drill offers "Practice: ..." in a pop-up; a right answer doesn't."""
     nav(page, "practice")
@@ -372,6 +404,7 @@ def run(p, name, vw, vh):
     page.click("text=After each question")
 
     drill_link(page, vw)
+    new_tools(page)
     mock_mix(page)
 
     # end a mock early: results page figures and lecture buttons

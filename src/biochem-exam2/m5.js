@@ -48,6 +48,7 @@ b:`<p>Fatty acids are sorted by their double bonds, and the bonds decide how tig
 <p>From the lecture's check: a fatty acid full of single bonds is a saturated fatty acid, a man-made unsaturated FA is a trans fat, and partially hydrogenated oil is another name for a trans fat.</p>`,
 nl:"Lecture wording",note:`The trans fat paragraph says trans fats end up with an even higher melting point than saturated fats. The points to know are that trans fats are man-made, harder to break down and likely to stay solid, while natural cis fats are liquid at room temperature.`,
 so:"Saturated: single bonds, solid, animal. Cis: double bonds, liquid, plant. Trans: man-made, stays solid. Omega-3: double bonds start at the third carbon from the end."},
+{drill:"m5d1"},
 
 {id:"m5-complex",h:"Phospholipids and glycolipids",
 img:{src:"lectures/biochem-exam2/img/m5/file-62a11ed5728bd.webp",alt:"Block diagrams and structures of a glycerophospholipid (alcohol, phosphate, glycerol and two fatty acids) and two sphingolipids: sphingomyelin (alcohol, phosphate, sphingosine and one fatty acid) and a glycosphingolipid (sugar, sphingosine and one fatty acid)",credit:"Lecture figure, Lesson 1."},
@@ -260,6 +261,7 @@ b:`<p>Cholesterol is vital for the stability of our membranes, for the formation
 <p>The reduction of HMG-CoA to mevalonate, the last part of step 1, is the commitment step for cholesterol synthesis. It is irreversible and commits acetyl CoA to forming cholesterol. It is also the rate-limiting step, so it is the point used to control the rate of cholesterol synthesis.</p>
 <p>Cholesterol is vital to our survival. Mice without HMG-CoA reductase, and therefore without the ability to synthesize cholesterol, die.</p>`,
 so:"Mevalonate and isopentenyl diphosphate in the cytosol, squalene and lanosterol in the ER lumen, cholesterol on the ER membrane. HMG-CoA reductase is the committed, rate-limiting step."},
+{drill:"m5d2"},
 
 {id:"m5-cholreg",h:"Regulation of cholesterol synthesis",
 b:`<p>The rate of cholesterol synthesis responds to feedback at the cellular level through control of the HMG-CoA reductase enzyme, the rate-limiting step.</p>
@@ -284,7 +286,8 @@ b:`<p>Cholesterol is made in the liver but used throughout the body. It is a lip
 <p><b>Cholesterol and heart disease.</b> High cholesterol levels promote atherosclerosis, the leading cause of death in industrialized societies. <b>Familial hypercholesterolemia</b> is a genetic disorder that leads to susceptibility to atherosclerosis. It is characterized by high concentrations of LDL in the blood, 3 to 4 times the desired amount.</p>
 <p>HDL can protect against atherosclerosis by removing cholesterol from cells. Once in the liver, the cholesterol can be excreted from the body via the bile or feces. The higher a person's level of HDL, the more readily that person undergoes reverse cholesterol transport.</p>
 <p>From the lecture's check: VLDL carries triglycerides and cholesterol in excess of the liver's needs into the blood, LDL is the primary cholesterol transport, HDL is reverse cholesterol transport, and chylomicrons transport dietary fats.</p>`,
-so:"Chylomicrons carry dietary fat. VLDL carries the liver's excess out and becomes IDL, then LDL, which delivers cholesterol to the tissues. HDL brings cholesterol back to the liver and protects against atherosclerosis."}
+so:"Chylomicrons carry dietary fat. VLDL carries the liver's excess out and becomes IDL, then LDL, which delivers cholesterol to the tissues. HDL brings cholesterol back to the liver and protects against atherosclerosis."},
+{drill:"m5d3"}
 ],
 "5.4":[
 {id:"m5-disease",h:"Membrane lipids in disease",
@@ -813,7 +816,46 @@ opts:["It removes cholesterol from cells and returns it to the liver","It carrie
 exp:"HDL protects against atherosclerosis by removing cholesterol from cells. Once in the liver, the cholesterol can be excreted via the bile or feces."}
 ],
 
-drills:[]
+// Drills: les = lessons whose missed questions link to the drill; every text a tool shows carries inv (build-time only).
+drills:[
+{id:"m5d1",lo:"5.1",kind:"tool",tool:"fats",title:"Fatty acid shapes",les:["m5-sat"],
+intro:"Pick a fatty acid.",
+types:[
+{n:"Saturated",dbl:{},pack:{t:"Tightly packed",inv:"m5-sat.c1"},t:"No double bonds, all single bonds, full of hydrogens. Higher melting temperature, solid at room temperature. Typically animal fats.",inv:"m5-sat.c1"},
+{n:"Cis",dbl:{9:"c"},pack:{t:"Loosely packed",inv:"m5-sat.c2"},t:"Unsaturated, with the double bond in the cis formation. Natural unsaturated fats are almost always cis. Lower melting temperature, liquid at room temperature. Typically plant fats.",inv:"m5-sat.c2"},
+{n:"Trans",dbl:{9:"t"},pack:{t:"Likely to stay solid",inv:"m5-sat.c3"},t:"Man-made during food processing: partially hydrogenated oil converts cis bonds to trans. Harder to break down, and likely to stay solid, clogging arteries. Found in shortening and margarine.",inv:"m5-sat.c3"},
+{n:"Omega-3",dbl:{9:"c",12:"c",15:"c"},end:true,pack:{t:"Loosely packed",inv:"m5-sat.c2"},t:"Polyunsaturated, with the double bonds starting on the third carbon from the end of the chain. Several are essential, so they must come from the diet. Fish and nuts are sources.",inv:["m5-sat.c4","m5-sat.c2"]}
+]},
+{id:"m5d2",lo:"5.3",kind:"tool",tool:"chol",title:"Building cholesterol",les:["m5-chol","m5-cholreg"],
+intro:"Step through with Next.",
+rows:[{n:"2 Acetyl CoA"},{n:"Acetoacetyl CoA"},{n:"HMG-CoA"},{n:"Mevalonate"},{n:"Isopentenyl diphosphate",c:"5 C"},{n:"Squalene",c:"30 C"},{n:"Lanosterol"},{n:"Cholesterol",c:"27 C"}],
+enz:{2:"HMG-CoA reductase",5:"squalene epoxidase"},
+comp:[{n:"Cytosol",a:0,b:3},{n:"ER lumen",a:4,b:5},{n:"ER membrane",a:6,b:6}],
+stages:[{n:"Biosynthesis of mevalonate",a:0,b:2},{n:"Formation of isopentenyl diphosphate",a:3,b:3},{n:"Formation of squalene",a:4,b:4},{n:"Formation of lanosterol",a:5,b:5},{n:"Formation of cholesterol",a:6,b:6}],
+tally:[{k:"atp",n:"ATP used"},{k:"co2",n:"CO₂ released"},{k:"nadph",n:"NADPH used"}],
+start:{t:"Cholesterol has 27 carbons, all derived from acetyl CoA. It is synthesized mainly in the liver.",inv:["m5-chol.c2","m5-chol.c1"]},
+steps:[
+{t:"Two acetyl CoA combine to form acetoacetyl CoA.",inv:"m5-chol.c3"},
+{t:"Acetoacetyl CoA combines with another acetyl CoA to form HMG-CoA.",inv:"m5-chol.c3"},
+{t:"HMG-CoA reductase reduces HMG-CoA to mevalonate. This is the committed, irreversible, rate-limiting step, where cholesterol synthesis is controlled. Insulin and thyroid hormone increase its activity; glucagon and glucocorticoids decrease it.",inv:["m5-chol.c3","m5-chol.c4","m5-cholreg.c2"],use:{nadph:"NADPH"}},
+{t:"Three phosphorylations by three kinases cost 3 ATP, then a decarboxylation releases CO₂. Isopentenyl diphosphate has five carbons and two phosphate groups.",inv:"m5-chol.c5",use:{atp:"3 ATP",co2:"CO₂"}},
+{t:"In the lumen of the ER, six isopentenyl diphosphates condense, C5 to C10 to C15 to C30, to form squalene. The final step is a reduction by NADPH.",inv:"m5-chol.c6",use:{nadph:"NADPH"}},
+{t:"Still in the ER lumen, squalene folds toward a steroid nucleus through squalene epoxidase, forming lanosterol. This needs oxygen and NADPH.",inv:"m5-chol.c7",use:{nadph:"NADPH"}},
+{t:"On the ER membrane, three carbons are removed and the rings close, forming cholesterol.",inv:"m5-chol.c7"}
+]},
+{id:"m5d3",lo:"5.3",kind:"tool",tool:"lpc",title:"The lipoprotein circuit",les:["m5-lipoprot"],
+intro:"Press Step or Play.",
+lab:{int:"INTESTINE",fat:"dietary fat",adi:["Adipose, heart,","muscle"],liv:"LIVER",per:["Peripheral","tissues"],fa:"fatty acids",lpl:"lipoprotein lipase",bile:"bile"},
+start:{t:"Lipoproteins carry lipids through the blood, hydrophobic inside and hydrophilic outside. More lipid and less protein means less dense.",inv:"m5-lipoprot.c1"},
+steps:[
+{seg:"chylo",n:"Chylomicrons",t:"The lowest density. They transport dietary fat from the intestine and are cleared from the blood rapidly, delivering fatty acids to adipose tissue, heart, muscle and liver.",inv:"m5-lipoprot.c2"},
+{seg:"vldl",n:"VLDL",t:"The liver exports triglycerides and cholesterol in excess of its own needs as VLDL. Lipoprotein lipase on the capillaries hydrolyzes its triglycerides, and the fatty acids go into the cells.",inv:"m5-lipoprot.c3"},
+{seg:"idl",n:"IDL",t:"What is left is IDL, rich in cholesterol. The liver takes it up for processing, or it is processed further into LDL.",inv:"m5-lipoprot.c3"},
+{seg:"ldl",n:"LDL",t:"The major carrier of cholesterol to the peripheral tissues. High LDL in the blood sets the conditions for a heart attack.",inv:"m5-lipoprot.c4"},
+{seg:"hdl",n:"HDL",t:"Picks up cholesterol from the tissues and returns it to the liver, reverse cholesterol transport. The \"good\" cholesterol, it protects against atherosclerosis.",inv:"m5-lipoprot.c5"},
+{seg:"bile",n:"Bile",t:"From the liver, the cholesterol can be excreted via the bile or feces.",inv:"m5-lipoprot.c5"}
+]}
+]
 });
 
 // Study-guide highlight: must appear verbatim (tags stripped) inside one p, li or tr of the question's ref lesson.

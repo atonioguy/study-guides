@@ -119,6 +119,7 @@ details.mod>summary{cursor:pointer;font-size:17px;font-weight:600;padding:8px 0}
 .hh .out{font-size:15px;margin:8px 0}
 .gs .gsrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0}.gs .gsrow>b{min-width:132px}
 .bp .seg{display:flex;gap:6px;flex-wrap:wrap}.bp .row{gap:8px}
+.rg .pills,.fa .pills{margin:6px 0}.rg .pills .btn{min-width:64px}.rg .out{min-height:44px}.fa .out{min-height:66px}.chl .tal{grid-template-columns:repeat(3,1fr)}.chl .out{min-height:66px}.chl .row{margin:6px 0}.lp .row{margin:6px 0}.lp .out{min-height:66px}
 .gs .src{display:flex;flex-wrap:wrap;gap:6px}.gs .src span{border:1px solid var(--line);border-radius:12px;padding:2px 9px;font-size:13px;color:var(--mut)}.gs .src span.on{color:#fff}
 .gs .gauge{flex:1;min-width:120px;max-width:260px;height:10px;border:1px solid var(--line);border-radius:5px;overflow:hidden}.gs .gauge i{display:block;height:100%;background:var(--acc)}
 .split{display:flex;height:26px;border-radius:5px;overflow:hidden;border:1px solid var(--line);font-size:13px}
@@ -301,7 +302,7 @@ mark.lwhl{background:#fff4b8;box-shadow:0 0 0 3px #fff4b8;color:inherit;border-r
 <button data-t="mock">Mock exam</button><button data-t="practice">Practice</button><button data-t="sheet">Study guide</button>
 </nav></div></header>
 <main id="main"></main>
-<footer>v1.0 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
+<footer>v1.1 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
 <script>
 const MODS=[];
 </script>
@@ -490,6 +491,7 @@ b:`<p>The conversion of PEP to pyruvate by pyruvate kinase is irreversible and h
 <li>All reactions in glycolysis are irreversible: false.</li></ul>`,
 nl:"Lecture wording",note:`The citrate line says citrate is produced inside the mitochondria "where pyruvate kinase is located". Pyruvate kinase is a glycolysis enzyme, and glycolysis occurs in the cytoplasm. What to know about citrate: high levels mean the citric acid cycle is producing plenty of energy.`,
 so:"F1,6BP and PEP speed pyruvate kinase up (feedforward). ATP, citrate and alanine slow it."},
+{drill:"m4d3"},
 
 {id:"m4-pdh",h:"Pyruvate oxidation",
 img:{src:"lectures/biochem-exam2/img/m4/image-6331f9705df37.webp",alt:"Oxidation of pyruvate in three numbered steps: a carboxyl group leaves as carbon dioxide, NAD+ is reduced to NADH, and the acetyl group is transferred to coenzyme A",credit:"Lecture figure, Lesson 3."},
@@ -1104,7 +1106,19 @@ steps:[{t:"Pyruvate carboxylase turns pyruvate into oxaloacetate.",inv:"m4-bypas
 {t:"Fructose-1,6-bisphosphatase removes a phosphate from fructose 1,6-bisphosphate to give fructose 6-phosphate, bypassing phosphofructokinase-1.",inv:"m4-bypass.c3"},
 {t:"Glucose-6-phosphatase turns glucose 6-phosphate into glucose, bypassing hexokinase. The glucose can then leave the cell. It is not found in skeletal muscle.",inv:"m4-bypass.c4"}],
 end:{t:"Four enzymes not used in glycolysis bypass its three irreversible steps. 2 pyruvate make 1 glucose.",inv:"m4-bypass.c1"}}
-}}
+}},
+{id:"m4d3",lo:"4.2",kind:"tool",tool:"regs",title:"Regulators of PFK-1 and pyruvate kinase",les:["m4-reg1","m4-reg2"],
+intro:"Tap a signal.",
+cmp:["Fructose 6-phosphate","Fructose 1,6-bisphosphate","Phosphoenolpyruvate","Pyruvate"],enz:["PFK-1","Pyruvate kinase"],leg:["× inhibits","+ activates"],
+sig:[
+{n:"ATP",pfk:-1,pk:-1,t:"ATP inhibits PFK-1 and pyruvate kinase. High levels mean the cell has ample energy.",inv:["m4-reg1.c3","m4-reg2.c2"]},
+{n:"AMP",pfk:1,pk:0,t:"AMP activates PFK-1. AMP is normally very low, so when it builds up, too much ATP has been spent. It is a more sensitive regulator than ATP.",inv:"m4-reg1.c4"},
+{n:"Citrate",pfk:-1,pk:-1,t:"Citrate inhibits PFK-1 and pyruvate kinase. High citrate means the citric acid cycle is producing plenty of energy.",inv:["m4-reg1.c3","m4-reg2.c2"]},
+{n:"F2,6BP",pfk:1,pk:0,t:"Fructose-2,6-bisphosphate activates PFK-1. PFK-2 makes it from F6P in a parallel pathway, so a high F6P concentration tells PFK-1 to speed up.",inv:["m4-reg1.c4","m4-reg1.c5"]},
+{n:"F1,6BP",at:1,pfk:0,pk:1,t:"Fructose-1,6-bisphosphate is made earlier in the pathway and activates pyruvate kinase, a later enzyme: feedforward stimulation.",inv:"m4-reg2.c1"},
+{n:"PEP",at:2,pfk:-1,pk:1,t:"Phosphoenolpyruvate inhibits PFK-1 and activates pyruvate kinase.",inv:["m4-reg1.c3","m4-reg2.c1"]},
+{n:"Alanine",pfk:0,pk:-1,t:"Alanine inhibits pyruvate kinase. In some cells it signals that the cell must make glucose, not break it down.",inv:"m4-reg2.c2"}
+]}
 
 ]
 });
@@ -1398,6 +1412,7 @@ b:`<p>Fatty acids are sorted by their double bonds, and the bonds decide how tig
 <p>From the lecture's check: a fatty acid full of single bonds is a saturated fatty acid, a man-made unsaturated FA is a trans fat, and partially hydrogenated oil is another name for a trans fat.</p>`,
 nl:"Lecture wording",note:`The trans fat paragraph says trans fats end up with an even higher melting point than saturated fats. The points to know are that trans fats are man-made, harder to break down and likely to stay solid, while natural cis fats are liquid at room temperature.`,
 so:"Saturated: single bonds, solid, animal. Cis: double bonds, liquid, plant. Trans: man-made, stays solid. Omega-3: double bonds start at the third carbon from the end."},
+{drill:"m5d1"},
 
 {id:"m5-complex",h:"Phospholipids and glycolipids",
 img:{src:"lectures/biochem-exam2/img/m5/file-62a11ed5728bd.webp",alt:"Block diagrams and structures of a glycerophospholipid (alcohol, phosphate, glycerol and two fatty acids) and two sphingolipids: sphingomyelin (alcohol, phosphate, sphingosine and one fatty acid) and a glycosphingolipid (sugar, sphingosine and one fatty acid)",credit:"Lecture figure, Lesson 1."},
@@ -1610,6 +1625,7 @@ b:`<p>Cholesterol is vital for the stability of our membranes, for the formation
 <p>The reduction of HMG-CoA to mevalonate, the last part of step 1, is the commitment step for cholesterol synthesis. It is irreversible and commits acetyl CoA to forming cholesterol. It is also the rate-limiting step, so it is the point used to control the rate of cholesterol synthesis.</p>
 <p>Cholesterol is vital to our survival. Mice without HMG-CoA reductase, and therefore without the ability to synthesize cholesterol, die.</p>`,
 so:"Mevalonate and isopentenyl diphosphate in the cytosol, squalene and lanosterol in the ER lumen, cholesterol on the ER membrane. HMG-CoA reductase is the committed, rate-limiting step."},
+{drill:"m5d2"},
 
 {id:"m5-cholreg",h:"Regulation of cholesterol synthesis",
 b:`<p>The rate of cholesterol synthesis responds to feedback at the cellular level through control of the HMG-CoA reductase enzyme, the rate-limiting step.</p>
@@ -1634,7 +1650,8 @@ b:`<p>Cholesterol is made in the liver but used throughout the body. It is a lip
 <p><b>Cholesterol and heart disease.</b> High cholesterol levels promote atherosclerosis, the leading cause of death in industrialized societies. <b>Familial hypercholesterolemia</b> is a genetic disorder that leads to susceptibility to atherosclerosis. It is characterized by high concentrations of LDL in the blood, 3 to 4 times the desired amount.</p>
 <p>HDL can protect against atherosclerosis by removing cholesterol from cells. Once in the liver, the cholesterol can be excreted from the body via the bile or feces. The higher a person's level of HDL, the more readily that person undergoes reverse cholesterol transport.</p>
 <p>From the lecture's check: VLDL carries triglycerides and cholesterol in excess of the liver's needs into the blood, LDL is the primary cholesterol transport, HDL is reverse cholesterol transport, and chylomicrons transport dietary fats.</p>`,
-so:"Chylomicrons carry dietary fat. VLDL carries the liver's excess out and becomes IDL, then LDL, which delivers cholesterol to the tissues. HDL brings cholesterol back to the liver and protects against atherosclerosis."}
+so:"Chylomicrons carry dietary fat. VLDL carries the liver's excess out and becomes IDL, then LDL, which delivers cholesterol to the tissues. HDL brings cholesterol back to the liver and protects against atherosclerosis."},
+{drill:"m5d3"}
 ],
 "5.4":[
 {id:"m5-disease",h:"Membrane lipids in disease",
@@ -2163,7 +2180,46 @@ opts:["It removes cholesterol from cells and returns it to the liver","It carrie
 exp:"HDL protects against atherosclerosis by removing cholesterol from cells. Once in the liver, the cholesterol can be excreted via the bile or feces."}
 ],
 
-drills:[]
+// Drills: les = lessons whose missed questions link to the drill; every text a tool shows carries inv (build-time only).
+drills:[
+{id:"m5d1",lo:"5.1",kind:"tool",tool:"fats",title:"Fatty acid shapes",les:["m5-sat"],
+intro:"Pick a fatty acid.",
+types:[
+{n:"Saturated",dbl:{},pack:{t:"Tightly packed",inv:"m5-sat.c1"},t:"No double bonds, all single bonds, full of hydrogens. Higher melting temperature, solid at room temperature. Typically animal fats.",inv:"m5-sat.c1"},
+{n:"Cis",dbl:{9:"c"},pack:{t:"Loosely packed",inv:"m5-sat.c2"},t:"Unsaturated, with the double bond in the cis formation. Natural unsaturated fats are almost always cis. Lower melting temperature, liquid at room temperature. Typically plant fats.",inv:"m5-sat.c2"},
+{n:"Trans",dbl:{9:"t"},pack:{t:"Likely to stay solid",inv:"m5-sat.c3"},t:"Man-made during food processing: partially hydrogenated oil converts cis bonds to trans. Harder to break down, and likely to stay solid, clogging arteries. Found in shortening and margarine.",inv:"m5-sat.c3"},
+{n:"Omega-3",dbl:{9:"c",12:"c",15:"c"},end:true,pack:{t:"Loosely packed",inv:"m5-sat.c2"},t:"Polyunsaturated, with the double bonds starting on the third carbon from the end of the chain. Several are essential, so they must come from the diet. Fish and nuts are sources.",inv:["m5-sat.c4","m5-sat.c2"]}
+]},
+{id:"m5d2",lo:"5.3",kind:"tool",tool:"chol",title:"Building cholesterol",les:["m5-chol","m5-cholreg"],
+intro:"Step through with Next.",
+rows:[{n:"2 Acetyl CoA"},{n:"Acetoacetyl CoA"},{n:"HMG-CoA"},{n:"Mevalonate"},{n:"Isopentenyl diphosphate",c:"5 C"},{n:"Squalene",c:"30 C"},{n:"Lanosterol"},{n:"Cholesterol",c:"27 C"}],
+enz:{2:"HMG-CoA reductase",5:"squalene epoxidase"},
+comp:[{n:"Cytosol",a:0,b:3},{n:"ER lumen",a:4,b:5},{n:"ER membrane",a:6,b:6}],
+stages:[{n:"Biosynthesis of mevalonate",a:0,b:2},{n:"Formation of isopentenyl diphosphate",a:3,b:3},{n:"Formation of squalene",a:4,b:4},{n:"Formation of lanosterol",a:5,b:5},{n:"Formation of cholesterol",a:6,b:6}],
+tally:[{k:"atp",n:"ATP used"},{k:"co2",n:"CO₂ released"},{k:"nadph",n:"NADPH used"}],
+start:{t:"Cholesterol has 27 carbons, all derived from acetyl CoA. It is synthesized mainly in the liver.",inv:["m5-chol.c2","m5-chol.c1"]},
+steps:[
+{t:"Two acetyl CoA combine to form acetoacetyl CoA.",inv:"m5-chol.c3"},
+{t:"Acetoacetyl CoA combines with another acetyl CoA to form HMG-CoA.",inv:"m5-chol.c3"},
+{t:"HMG-CoA reductase reduces HMG-CoA to mevalonate. This is the committed, irreversible, rate-limiting step, where cholesterol synthesis is controlled. Insulin and thyroid hormone increase its activity; glucagon and glucocorticoids decrease it.",inv:["m5-chol.c3","m5-chol.c4","m5-cholreg.c2"],use:{nadph:"NADPH"}},
+{t:"Three phosphorylations by three kinases cost 3 ATP, then a decarboxylation releases CO₂. Isopentenyl diphosphate has five carbons and two phosphate groups.",inv:"m5-chol.c5",use:{atp:"3 ATP",co2:"CO₂"}},
+{t:"In the lumen of the ER, six isopentenyl diphosphates condense, C5 to C10 to C15 to C30, to form squalene. The final step is a reduction by NADPH.",inv:"m5-chol.c6",use:{nadph:"NADPH"}},
+{t:"Still in the ER lumen, squalene folds toward a steroid nucleus through squalene epoxidase, forming lanosterol. This needs oxygen and NADPH.",inv:"m5-chol.c7",use:{nadph:"NADPH"}},
+{t:"On the ER membrane, three carbons are removed and the rings close, forming cholesterol.",inv:"m5-chol.c7"}
+]},
+{id:"m5d3",lo:"5.3",kind:"tool",tool:"lpc",title:"The lipoprotein circuit",les:["m5-lipoprot"],
+intro:"Press Step or Play.",
+lab:{int:"INTESTINE",fat:"dietary fat",adi:["Adipose, heart,","muscle"],liv:"LIVER",per:["Peripheral","tissues"],fa:"fatty acids",lpl:"lipoprotein lipase",bile:"bile"},
+start:{t:"Lipoproteins carry lipids through the blood, hydrophobic inside and hydrophilic outside. More lipid and less protein means less dense.",inv:"m5-lipoprot.c1"},
+steps:[
+{seg:"chylo",n:"Chylomicrons",t:"The lowest density. They transport dietary fat from the intestine and are cleared from the blood rapidly, delivering fatty acids to adipose tissue, heart, muscle and liver.",inv:"m5-lipoprot.c2"},
+{seg:"vldl",n:"VLDL",t:"The liver exports triglycerides and cholesterol in excess of its own needs as VLDL. Lipoprotein lipase on the capillaries hydrolyzes its triglycerides, and the fatty acids go into the cells.",inv:"m5-lipoprot.c3"},
+{seg:"idl",n:"IDL",t:"What is left is IDL, rich in cholesterol. The liver takes it up for processing, or it is processed further into LDL.",inv:"m5-lipoprot.c3"},
+{seg:"ldl",n:"LDL",t:"The major carrier of cholesterol to the peripheral tissues. High LDL in the blood sets the conditions for a heart attack.",inv:"m5-lipoprot.c4"},
+{seg:"hdl",n:"HDL",t:"Picks up cholesterol from the tissues and returns it to the liver, reverse cholesterol transport. The \"good\" cholesterol, it protects against atherosclerosis.",inv:"m5-lipoprot.c5"},
+{seg:"bile",n:"Bile",t:"From the liver, the cholesterol can be excreted via the bile or feces.",inv:"m5-lipoprot.c5"}
+]}
+]
 });
 
 // Study-guide highlight: must appear verbatim (tags stripped) inside one p, li or tr of the question's ref lesson.
@@ -3272,6 +3328,171 @@ TOOLS.bypass=function(d){
     mark(-1);say(D.end);stop();}
   play.addEventListener("click",()=>{if(play.textContent==="Stop"){stop();return;}go();});
   reset();return w;
+};
+
+// regs: F6P -> PFK-1 -> F1,6BP ... PEP -> pyruvate kinase -> pyruvate. Tapping a signal lights each enzyme green (+) or red (×).
+// d.cmp x4, d.enz x2, d.leg x2, d.sig=[{n,pfk,pk,at?,t,inv}]: pfk/pk 1 activates, -1 inhibits, 0 not a regulator;
+// at = index into d.cmp when the signal is a pathway intermediate (its line starts at the compound, not a side chip).
+TOOLS.regs=function(d){
+  const cx=150,YC=[40,160,260,380],YE=[100,320],CX=262,G=C3.ok,RD=C3.bad;
+  let g=`<svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="16"><rect width="480" height="400" fill="#fff"/>`;
+  g+=`<defs><marker id="rgf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="${C3.fg}"/></marker></defs>`;
+  g+=svgT(470,24,d.leg[0],` text-anchor="end" fill="${RD}" font-weight="600" font-size="15"`)+svgT(470,44,d.leg[1],` text-anchor="end" fill="${G}" font-weight="600" font-size="15"`);
+  g+=`<g class="rg-hi"></g>`;
+  d.cmp.forEach((c,i)=>{g+=svgT(cx,YC[i]+5,c,` class="rg-c" text-anchor="middle" font-weight="600" fill="${C3.fg}"`);});
+  const ln=(y1,y2,ex="")=>`<line x1="${cx}" y1="${y1}" x2="${cx}" y2="${y2}" stroke="${C3.fg}" stroke-width="2" marker-end="url(#rgf)"${ex}/>`;
+  g+=ln(YC[0]+12,YE[0]-17)+ln(YE[0]+16,YC[1]-15)+ln(YC[1]+12,YC[2]-15,' stroke-dasharray="4 5"')+ln(YC[2]+12,YE[1]-17)+ln(YE[1]+16,YC[3]-15);
+  d.enz.forEach((e,i)=>{g+=`<rect class="rg-e" x="${cx-75}" y="${YE[i]-16}" width="150" height="32" rx="7" fill="#fff" stroke="${C3.gry}" stroke-width="1.6"/>`+svgT(cx,YE[i]+5,e,` class="rg-et" text-anchor="middle" font-weight="700" fill="${C3.fg}"`);});
+  g+=`<g class="rg-ln"></g></svg>`;
+  const w=h("div",{class:"hh rg"}),pic=h("div",{class:"fig",html:g}),svg=pic.querySelector("svg");
+  const out=h("div",{class:"out"}),seg=h("div",{class:"row pills",role:"group"});
+  const btn=d.sig.map((s,i)=>{const b=h("button",{class:"btn sm",type:"button","aria-pressed":"false",onclick:()=>pick(i)},s.n);seg.append(b);return b;});
+  w.append(pic,seg,out);
+  // a signal's line: from the side chip (or from its own compound) to a symbol beside the enzyme box
+  function pick(i){
+    const s=d.sig[i],fx=[s.pfk,s.pk];btn.forEach((b,j)=>{b.classList.toggle("pri",j===i);b.setAttribute("aria-pressed",j===i);});
+    const ex=svg.querySelectorAll(".rg-e"),et=svg.querySelectorAll(".rg-et"),ct=svg.querySelectorAll(".rg-c");
+    fx.forEach((f,k)=>{const col=f>0?G:f<0?RD:C3.gry;ex[k].setAttribute("stroke",col);ex[k].setAttribute("stroke-width",f?2.4:1.6);
+      ex[k].setAttribute("fill",f>0?C3.okbg:f<0?C3.badbg:"#fff");et[k].setAttribute("fill",f?col:C3.mut);});
+    ct.forEach((c,k)=>{c.setAttribute("fill",k===s.at?C3.acc:C3.fg);});
+    let hi="",L="";
+    if(s.at==null){hi=`<rect x="352" y="193" width="112" height="34" rx="17" fill="${C3.soft}" stroke="${C3.acc}" stroke-width="1.6"/>`+svgT(408,215,s.n,` text-anchor="middle" font-weight="700" fill="${C3.acc}"`);}
+    else{const bb=ct[s.at].getBBox();hi=`<rect x="${(bb.x-6).toFixed(1)}" y="${(bb.y-3).toFixed(1)}" width="${(bb.width+12).toFixed(1)}" height="${(bb.height+6).toFixed(1)}" rx="6" fill="${C3.soft}"/>`;}
+    fx.forEach((f,k)=>{if(!f)return;const col=f>0?G:RD,y=YE[k];let p;
+      if(s.at==null)p=`M352 210 C300 210 ${CX+50} ${y} ${CX+11} ${y}`;
+      else{const bb=ct[s.at].getBBox(),x0=bb.x+bb.width+6,y0=YC[s.at],bend=Math.max(x0,CX)+60+Math.abs(y-y0)/6;p=`M${x0.toFixed(1)} ${y0} C${bend.toFixed(1)} ${y0} ${bend.toFixed(1)} ${y} ${CX+11} ${y}`;}
+      L+=`<path d="${p}" fill="none" stroke="${col}" stroke-width="1.8" stroke-dasharray="5 4"/><line x1="${cx+75}" y1="${y}" x2="${CX-11}" y2="${y}" stroke="${col}" stroke-width="1.8"/>`;
+      L+=`<circle cx="${CX}" cy="${y}" r="11" fill="#fff" stroke="${col}" stroke-width="2"/>`+svgT(CX,y+6,f>0?"+":"×",` text-anchor="middle" fill="${col}" font-weight="700" font-size="17"`);});
+    svg.querySelector(".rg-hi").innerHTML=hi;svg.querySelector(".rg-ln").innerHTML=L;
+    out.innerHTML="";out.append(h("b",null,s.n+". "),s.t);
+  }
+  return w;
+};
+
+// fats: one 18-carbon fatty acid (same zigzag as _chain/_acid in gen_figs.py) and a box packed with as many as fit.
+// d.types=[{n,dbl:{bond:"c"|"t"},end?,pack:{t,inv},t,inv}]; bond k joins C_k and C_k+1, a cis bond bends the chain.
+// end:true numbers the last three carbons from the end of the chain.
+TOOLS.fats=function(d){
+  const pts=(dbl,seg)=>{const P=[[0,0]],B=[];let x=0,y=0,ax=0,kink=-1;
+    for(let k=1;k<18;k++){const a=(ax+(k%2?30:-30))*Math.PI/180,x2=x+seg*Math.cos(a),y2=y+seg*Math.sin(a);B.push([x,y,x2,y2,a,k]);P.push([x2,y2]);
+      if(dbl[k]==="c"){ax+=kink*32;kink=-kink;}x=x2;y=y2;}return {P,B};};
+  const draw=(dbl,x0,y0,seg,sw,col,dcol,off)=>{const {B}=pts(dbl,seg);let s="";
+    B.forEach(([x,y,x2,y2,a,k])=>{s+=`<line x1="${(x0+x).toFixed(1)}" y1="${(y0+y).toFixed(1)}" x2="${(x0+x2).toFixed(1)}" y2="${(y0+y2).toFixed(1)}" stroke="${dbl[k]?dcol:col}" stroke-width="${sw}" stroke-linecap="round"/>`;
+      if(dbl[k]){const sg=k%2?-1:1,px=-Math.sin(a)*off*sg,py=Math.cos(a)*off*sg,dx=(x2-x)*.18,dy=(y2-y)*.18;
+        s+=`<line x1="${(x0+x+dx+px).toFixed(1)}" y1="${(y0+y+dy+py).toFixed(1)}" x2="${(x0+x2-dx+px).toFixed(1)}" y2="${(y0+y2-dy+py).toFixed(1)}" stroke="${dcol}" stroke-width="${sw}"/>`;}});return s;};
+  const BX=20,BY=166,BW=440,BH=170,f=C3.fg;
+  const w=h("div",{class:"hh fa"}),pic=h("div",{class:"fig"}),out=h("div",{class:"out"}),seg=h("div",{class:"row pills",role:"group"});
+  const btn=d.types.map((t,i)=>{const b=h("button",{class:"btn sm",type:"button","aria-pressed":"false",onclick:()=>pick(i)},t.n);seg.append(b);return b;});
+  w.append(pic,seg,out);
+  function pick(i){
+    const t=d.types[i];btn.forEach((b,j)=>{b.classList.toggle("pri",j===i);b.setAttribute("aria-pressed",j===i);});
+    let g=`<svg viewBox="0 0 480 ${BY+BH+12}" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="15"><rect width="480" height="${BY+BH+12}" fill="#fff"/>`;
+    // the single chain, carboxyl head at C1 (as _acid draws it)
+    const x0=104,y0=114;
+    g+=`<line x1="${x0-3}" y1="${y0}" x2="${x0-3}" y2="${y0-18}" stroke="${f}" stroke-width="1.8"/><line x1="${x0+3}" y1="${y0}" x2="${x0+3}" y2="${y0-18}" stroke="${f}" stroke-width="1.8"/>`;
+    g+=svgT(x0,y0-22,"O",` text-anchor="middle" fill="${f}"`)+`<line x1="${x0}" y1="${y0}" x2="${x0-17}" y2="${y0+10}" stroke="${f}" stroke-width="1.8"/>`+svgT(x0-19,y0+16,"HO",` text-anchor="end" fill="${f}"`);
+    g+=draw(t.dbl,x0,y0,20,1.8,f,C3.acc,4);
+    if(t.end){const P=pts(t.dbl,20).P,side=c=>{const m=(P[c-1][1]+P[c+1][1])/2;return P[c][1]<m?-1:1;},sd=[-side(16),side(16),side(15)];
+      [17,16,15].forEach((c,j)=>{const [x,y]=P[c],yy=y0+y+sd[j]*16,on=j===2;
+      g+=`<circle cx="${(x0+x).toFixed(1)}" cy="${yy.toFixed(1)}" r="8" fill="${on?C3.acc:"#fff"}" stroke="${on?C3.acc:C3.mut}" stroke-width="1.3"/>`+svgT(x0+x,yy+4,j+1,` text-anchor="middle" fill="${on?"#fff":C3.mut}" font-size="11" font-weight="700"`);});}
+    // the packing box: the same space, chains dropped in at mixed positions and orientations, each settling where it first fits
+    g+=svgT(BX,BY-10,t.pack.t,` fill="${C3.acc}" font-weight="700"`)+`<rect x="${BX}" y="${BY}" width="${BW}" height="${BH}" rx="6" fill="${C3.soft}" stroke="${C3.gry}" stroke-width="1.4"/>`;
+    const s2=10,{P:Q}=pts(t.dbl,s2),per=2*s2*Math.cos(Math.PI/6),len=Q[17][0],env=new Float32Array(BW+1).fill(BY+4);
+    let rs=7+i*31;const rnd=()=>{rs=(rs*16807)%2147483647;return rs/2147483647;};
+    const prof=(fl,x0)=>{const o=[];for(let k=0;k<17;k++){const a=Q[k],b=Q[k+1];for(let x=Math.ceil(x0+a[0]);x<=x0+b[0];x++){const u=(x-x0-a[0])/(b[0]-a[0]||1);o.push([x-BX,fl*(a[1]+(b[1]-a[1])*u)]);}}return o;};
+    const kinked=Object.values(t.dbl).includes("c"),ch=(x0,y,fl)=>`<g transform="translate(${x0.toFixed(1)} ${y.toFixed(1)}) scale(1 ${fl})"><circle r="2.6" fill="${C3.mut}"/>`+draw(t.dbl,0,0,s2,1.3,C3.mut,C3.mut,2.2)+`</g>`;
+    // straight chains line up side by side; kinked ones can't
+    if(!kinked)for(const x0 of [BX+18,BX+BW/2+10])for(let y=BY+12;y<=BY+BH-10;y+=8.5)g+=ch(x0,y,1);
+    for(let n=0;kinked&&n<160;n++){
+      const fl=rnd()<.5?1:-1,x0=BX+14+Math.floor(rnd()*Math.floor((BW-28-len)/per+1))*per;
+      const pr=prof(fl,x0);let y=-1e9;pr.forEach(([x,v])=>{y=Math.max(y,env[x]-v+7);});
+      if(pr.some(([x,v])=>y+v>BY+BH-5))continue;
+      pr.forEach(([x,v])=>{env[x]=Math.max(env[x],y+v);});
+      g+=ch(x0,y,fl);}
+    g+=`</svg>`;pic.innerHTML=g;out.innerHTML="";out.append(h("b",null,t.n+". "),t.t);
+  }
+  pick(0);return w;
+};
+
+// chol: q_chol's ladder (2 acetyl CoA to cholesterol). Next/Back move one arrow at a time; the compartment bracket, the
+// lecture's step bracket and the ATP / CO2 / NADPH cells follow the current arrow. Carbon counts appear only where d gives one.
+// d.rows=[{n,c?}] x8, d.enz={arrow:name}, d.comp/d.stages=[{n,a,b}] (first/last arrow), d.tally=[{k,n}],
+// d.start={t,inv}, d.steps=[{t,inv,use?:{k:label}}] x7.
+TOOLS.chol=function(d){
+  const p=56,cx=250,n=d.rows.length-1,H=30+n*p+26,A=C3.acc,F=C3.fg,M=C3.mut;
+  let g=`<svg viewBox="0 0 480 ${H}" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="16"><rect width="480" height="${H}" fill="#fff"/>`;
+  g+=`<defs>${[["f",F,7],["a",A,4.4]].map(([i,c,z])=>`<marker id="chm${i}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="${z}" markerHeight="${z}" orient="auto"><path d="M0 0L10 5L0 10z" fill="${c}"/></marker>`).join("")}</defs>`;
+  d.rows.forEach((r,i)=>{const y=30+i*p;g+=`<g class="chr" data-i="${i}">`+svgT(cx,y,r.n,` text-anchor="middle" font-weight="600" fill="${F}"`);
+    if(r.c)g+=`<g class="chc" style="display:none"><rect x="${cx+(r.n.length>12?100:52)}" y="${y-15}" width="44" height="21" rx="10" fill="${C3.soft}" stroke="${A}"/>`+svgT(cx+(r.n.length>12?122:74),y,r.c,` text-anchor="middle" fill="${A}" font-size="13" font-weight="700"`)+`</g>`;
+    g+=`</g>`;
+    if(i<n){const y1=y+9,y2=y+p-20;g+=`<g class="cha" data-i="${i}"><line x1="${cx}" y1="${y1}" x2="${cx}" y2="${y2}" stroke="${F}" stroke-width="2" marker-end="url(#chmf)"/>`;
+      if(d.enz[i])g+=svgT(cx+16,(y1+y2)/2+5,d.enz[i],` fill="${A}" font-size="15"`);g+=`</g>`;}});
+  const br=(a,b,x,dir,cls,lab,anc)=>{const y1=30+a*p+6,y2=30+b*p+p-17,ym=(y1+y2)/2;
+    return `<g class="${cls}"><path d="M${x+8*dir} ${y1} H${x} V${y2} H${x+8*dir}" fill="none" stroke="${M}" stroke-width="1.5"/>`+svgT(x-8*dir,ym+5,lab,` text-anchor="${anc}" fill="${M}" font-weight="700" font-size="14"`)+`</g>`;};
+  d.comp.forEach(c=>{g+=br(c.a,c.b,128,1,"chk",c.n,"end");});
+  d.stages.forEach((s,i)=>{g+=br(s.a,s.b,446,-1,"chs",String(i+1),"start");});
+  g+=`</svg>`;
+  const w=h("div",{class:"hh chl"}),pic=h("div",{class:"fig",html:g}),svg=pic.querySelector("svg");
+  const head=h("div",{class:"sm"}),out=h("div",{class:"out"}),tal=h("div",{class:"tal"});
+  const cells=d.tally.map(t=>{const v=h("b",null,"–"),c=h("div",null,v,t.n);tal.append(c);return [t.k,c,v];});
+  const back=h("button",{class:"btn",type:"button",onclick:()=>show(k-1)},"Back"),next=h("button",{class:"btn pri",type:"button",onclick:()=>show(k<n?k+1:0)},"Next");
+  w.append(pic,h("div",{class:"row"},back,next),head,tal,out);
+  let k=0;
+  const inR=(o,i)=>i>=o.a&&i<=o.b;
+  function show(j){k=j;const a=k-1,st=a>=0?d.steps[a]:null,use=st&&st.use||{};
+    svg.querySelectorAll(".chr").forEach(e=>{const i=+e.dataset.i;e.style.opacity=i<=k?1:.25;const t=e.querySelector("text");t.setAttribute("fill",i===k&&k>0?A:F);
+      const c=e.querySelector(".chc");if(c)c.style.display=i<=k?"":"none";});
+    svg.querySelectorAll(".cha").forEach(e=>{const i=+e.dataset.i,on=i===a,l=e.querySelector("line");e.style.opacity=i<k?1:.25;
+      l.setAttribute("stroke",on?A:F);l.setAttribute("stroke-width",on?3.2:2);l.setAttribute("marker-end",`url(#chm${on?"a":"f"})`);});
+    const ci=a<0?0:d.comp.findIndex(c=>inR(c,a)),si=a<0?-1:d.stages.findIndex(s=>inR(s,a));
+    const hi=(sel,idx)=>svg.querySelectorAll(sel).forEach((e,i)=>{const on=i===idx;e.querySelector("path").setAttribute("stroke",on?A:C3.gry);e.querySelector("path").setAttribute("stroke-width",on?2.6:1.5);e.querySelector("text").setAttribute("fill",on?A:C3.gry);});
+    hi(".chk",ci);hi(".chs",si);
+    head.innerHTML="";if(si>=0)head.append(h("b",null,(si+1)+". "+d.stages[si].n),h("span",{class:"mut"}," · "+d.comp[ci].n));else head.append(h("b",null,d.comp[0].n));
+    cells.forEach(([key,c,v])=>{const on=key in use;c.classList.toggle("full",on);v.textContent=on?use[key]:"–";});
+    out.textContent=st?st.t:d.start.t;back.disabled=k===0;next.textContent=k<n?"Next":"Start over";}
+  show(0);return w;
+};
+
+// lpc: q_lpc's circuit (intestine, liver, tissues). Step lights one lipoprotein's route and draws it in; Play steps on its own.
+// d.lab = the box and side labels, d.start={t,inv}, d.steps=[{seg,n,t,inv}], seg one of chylo vldl idl ldl hdl bile.
+TOOLS.lpc=function(d){
+  const F=C3.fg,M=C3.mut,A=C3.acc,L=d.lab;
+  const ln=(x1,y1,x2,y2)=>`<path class="lp-l" pathLength="1" d="M${x1} ${y1} L${x2} ${y2}" fill="none" stroke="${F}" stroke-width="2" marker-end="url(#lpmf)"/>`;
+  const pa=dd=>`<path class="lp-l" pathLength="1" d="${dd}" fill="none" stroke="${F}" stroke-width="2" marker-end="url(#lpmf)"/>`;
+  const tx=(x,y,s,a)=>svgT(x,y,s,a);
+  const nm=s=>(d.steps.find(x=>x.seg===s)||{}).n;
+  const SEG={
+    chylo:ln(136,49,182,49)+ln(298,49,352,49)+tx(322,38,L.fa,` class="lp-s" text-anchor="middle" fill="${M}" font-size="13"`)+tx(240,54,nm("chylo"),` class="lp-n" text-anchor="middle" font-weight="600" fill="${F}"`),
+    vldl:ln(112,235,142,235)+ln(194,235,232,235)+tx(213,215,L.lpl,` class="lp-s" text-anchor="middle" fill="${A}" font-size="13"`)+tx(168,240,nm("vldl"),` class="lp-n" text-anchor="middle" font-weight="600" fill="${F}"`),
+    idl:pa("M256 250 V280 H90 V267")+tx(256,240,nm("idl"),` class="lp-n" text-anchor="middle" font-weight="600" fill="${F}"`),
+    ldl:ln(280,235,316,235)+ln(362,235,382,235)+tx(340,240,nm("ldl"),` class="lp-n" text-anchor="middle" font-weight="600" fill="${F}"`),
+    hdl:pa("M428 266 V306 H50 V267")+`<rect x="216" y="294" width="48" height="22" fill="#fff"/>`+tx(240,311,nm("hdl"),` class="lp-n" text-anchor="middle" font-weight="600" fill="${F}"`),
+    bile:ln(62,204,62,80)+tx(72,146,L.bile,` class="lp-n" fill="${M}" font-size="14"`)};
+  const box=(x,y,w,hh)=>`<rect x="${x}" y="${y}" width="${w}" height="${hh}" rx="8" fill="#f3f5f9" stroke="${F}" stroke-width="1.4"/>`;
+  const hd=(x,y,s)=>tx(x,y,s,` text-anchor="middle" fill="${A}" font-weight="700" font-size="14"`),sm=(x,y,s,c=F,fs=14)=>tx(x,y,s,` text-anchor="middle" fill="${c}" font-size="${fs}"`);
+  let g=`<svg viewBox="0 0 480 326" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="15"><rect width="480" height="326" fill="#fff"/>`;
+  g+=`<defs>${[["f",F],["a",A]].map(([i,c])=>`<marker id="lpm${i}" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto"><path d="M0 0L10 5L0 10z" fill="${c}"/></marker>`).join("")}</defs>`;
+  g+=box(14,22,120,54)+hd(74,45,L.int)+sm(74,64,L.fat,M,13)+box(356,18,112,62)+sm(412,44,L.adi[0])+sm(412,63,L.adi[1]);
+  g+=box(14,206,96,58)+hd(62,240,L.liv)+box(384,206,88,58)+sm(428,231,L.per[0])+sm(428,250,L.per[1]);
+  // HDL's return line runs under the other routes, so it is drawn first
+  ["hdl","idl","chylo","vldl","ldl","bile"].forEach(k=>{g+=`<g class="lp-g" data-k="${k}">${SEG[k]}</g>`;});
+  g+=`</svg>`;
+  const w=h("div",{class:"hh lp"}),pic=h("div",{class:"fig",html:g}),svg=pic.querySelector("svg"),out=h("div",{class:"out"});
+  const step=h("button",{class:"btn",type:"button",onclick:()=>{stop();show(k<d.steps.length?k+1:0);}},"Step"),play=h("button",{class:"btn pri",type:"button"},"Play");
+  w.append(pic,h("div",{class:"row"},step,play),out);
+  let k=0,tmr=0;
+  function show(j){k=j;const cur=k?d.steps[k-1].seg:null,done=new Set(d.steps.slice(0,Math.max(0,k-1)).map(s=>s.seg));
+    svg.querySelectorAll(".lp-g").forEach(gr=>{const s=gr.dataset.k,on=s===cur;gr.style.opacity=on||done.has(s)||!k?1:.22;
+      gr.querySelectorAll(".lp-l").forEach(l=>{l.setAttribute("stroke",on?A:F);l.setAttribute("stroke-width",on?3:2);l.setAttribute("marker-end",`url(#lpm${on?"a":"f"})`);
+        l.style.transition="none";l.style.strokeDasharray="";l.style.strokeDashoffset="";
+        if(on&&!RMQ.matches){l.style.strokeDasharray="1";l.style.strokeDashoffset="1";l.getBoundingClientRect();l.style.transition="stroke-dashoffset 1.1s ease-in-out";l.style.strokeDashoffset="0";}});
+      gr.querySelectorAll(".lp-n").forEach(t=>{t.setAttribute("fill",on?A:s==="bile"?M:F);t.setAttribute("font-weight",on?"700":s==="bile"?"400":"600");});});
+    out.innerHTML="";if(k){const st=d.steps[k-1];out.append(h("b",null,st.n+". "),st.t);}else out.textContent=d.start.t;
+    step.textContent=k<d.steps.length?"Step":"Start over";}
+  function stop(){if(tmr)clearTimeout(tmr);tmr=0;play.textContent="Play";ANIMS.delete(stop);}
+  function tick(){tmr=0;if(!w.isConnected){stop();return;}if(k>=d.steps.length){stop();return;}show(k+1);if(k>=d.steps.length){stop();return;}tmr=setTimeout(tick,3600);}
+  play.addEventListener("click",()=>{if(tmr){stop();return;}if(k>=d.steps.length)show(0);play.textContent="Pause";ANIMS.add(stop);tick();});
+  show(0);return w;
 };
 
 // ===== MOCK =====

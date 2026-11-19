@@ -180,6 +180,7 @@ b:`<p>The conversion of PEP to pyruvate by pyruvate kinase is irreversible and h
 <li>All reactions in glycolysis are irreversible: false.</li></ul>`,
 nl:"Lecture wording",note:`The citrate line says citrate is produced inside the mitochondria "where pyruvate kinase is located". Pyruvate kinase is a glycolysis enzyme, and glycolysis occurs in the cytoplasm. What to know about citrate: high levels mean the citric acid cycle is producing plenty of energy.`,
 so:"F1,6BP and PEP speed pyruvate kinase up (feedforward). ATP, citrate and alanine slow it."},
+{drill:"m4d3"},
 
 {id:"m4-pdh",h:"Pyruvate oxidation",
 img:{src:"lectures/biochem-exam2/img/m4/image-6331f9705df37.webp",alt:"Oxidation of pyruvate in three numbered steps: a carboxyl group leaves as carbon dioxide, NAD+ is reduced to NADH, and the acetyl group is transferred to coenzyme A",credit:"Lecture figure, Lesson 3."},
@@ -794,7 +795,19 @@ steps:[{t:"Pyruvate carboxylase turns pyruvate into oxaloacetate.",inv:"m4-bypas
 {t:"Fructose-1,6-bisphosphatase removes a phosphate from fructose 1,6-bisphosphate to give fructose 6-phosphate, bypassing phosphofructokinase-1.",inv:"m4-bypass.c3"},
 {t:"Glucose-6-phosphatase turns glucose 6-phosphate into glucose, bypassing hexokinase. The glucose can then leave the cell. It is not found in skeletal muscle.",inv:"m4-bypass.c4"}],
 end:{t:"Four enzymes not used in glycolysis bypass its three irreversible steps. 2 pyruvate make 1 glucose.",inv:"m4-bypass.c1"}}
-}}
+}},
+{id:"m4d3",lo:"4.2",kind:"tool",tool:"regs",title:"Regulators of PFK-1 and pyruvate kinase",les:["m4-reg1","m4-reg2"],
+intro:"Tap a signal.",
+cmp:["Fructose 6-phosphate","Fructose 1,6-bisphosphate","Phosphoenolpyruvate","Pyruvate"],enz:["PFK-1","Pyruvate kinase"],leg:["× inhibits","+ activates"],
+sig:[
+{n:"ATP",pfk:-1,pk:-1,t:"ATP inhibits PFK-1 and pyruvate kinase. High levels mean the cell has ample energy.",inv:["m4-reg1.c3","m4-reg2.c2"]},
+{n:"AMP",pfk:1,pk:0,t:"AMP activates PFK-1. AMP is normally very low, so when it builds up, too much ATP has been spent. It is a more sensitive regulator than ATP.",inv:"m4-reg1.c4"},
+{n:"Citrate",pfk:-1,pk:-1,t:"Citrate inhibits PFK-1 and pyruvate kinase. High citrate means the citric acid cycle is producing plenty of energy.",inv:["m4-reg1.c3","m4-reg2.c2"]},
+{n:"F2,6BP",pfk:1,pk:0,t:"Fructose-2,6-bisphosphate activates PFK-1. PFK-2 makes it from F6P in a parallel pathway, so a high F6P concentration tells PFK-1 to speed up.",inv:["m4-reg1.c4","m4-reg1.c5"]},
+{n:"F1,6BP",at:1,pfk:0,pk:1,t:"Fructose-1,6-bisphosphate is made earlier in the pathway and activates pyruvate kinase, a later enzyme: feedforward stimulation.",inv:"m4-reg2.c1"},
+{n:"PEP",at:2,pfk:-1,pk:1,t:"Phosphoenolpyruvate inhibits PFK-1 and activates pyruvate kinase.",inv:["m4-reg1.c3","m4-reg2.c1"]},
+{n:"Alanine",pfk:0,pk:-1,t:"Alanine inhibits pyruvate kinase. In some cells it signals that the cell must make glucose, not break it down.",inv:"m4-reg2.c2"}
+]}
 
 ]
 });
