@@ -66,8 +66,27 @@ The site must read like something the course's professor made. Nothing on the pa
 - L4: lessons `m5-pa`, `m5-tag`, `m5-pl` (lecture image b22, the PAP split), `m5-sphingo` (no lecture image) under new `guide["5.3"]`; `m5-disease` (lecture image b25, the sphingolipidoses table) under new `guide["5.4"]`. 23 questions `m5d01` to `m5d23` (8 fig, 10 ex, 5 why; 3 T/F, 1 true). Every L4 core item covered, none thin. `m5-pl`'s activation comparison is a two-item list: a three-column table was 348/324 at 390 (phospholipid names can't wrap).
 - L4 figures: `q_pab()` (glycerol -> G3P -> phosphatidate, branching to cardiolipin/phosphatidylinositol or through PAP to diacylglycerol, then triacylglycerol or phosphatidylcholine; any argument as a number makes a badge) -> `q-pa-e` (glycerol kinase 1, PAP 2) and `q-pa-m` (phosphatidate 1, triacylglycerol 2, cardiolipin/PI 3); `q_cer()` -> `q-cer` (ceramide 1, sphingomyelin 2). `q-cplx` (L1) reused for the ganglioside question (m5d19). Earlier figures byte-identical.
 - lecnotes: L4 b15 -> `m5-pl` ("phospholipids (AKA phosphoglycolipids)").
-- M5 so far: 106 questions. Site total 219 (84 fig, 94 ex, 41 why). `validate_inv` fails only on the 14 L5 items. Next: L5 (`m5e..`, lessons `m5-chol`, `m5-cholreg`, `m5-lipoprot` under `guide["5.3"]`; mind the SREBP wording note).
+- M5 after L4: 106 questions (L5 below).
 - Template leftover for stage 7: the mock setup line reads "M1 and M2 and M3 not added yet."
+- L5: lessons `m5-chol` (lecture image b5, HMG-CoA reductase), `m5-cholreg` (no image; SREBP wording note), `m5-lipoprot` (lecture image b20, the circuit; two-column table, fits at 390) appended to `guide["5.3"]`. 24 questions `m5e01` to `m5e24` (10 fig, 10 ex, 4 why; 3 T/F, 1 true). Every L5 core item covered, none thin. Stem wording asks only the direction for the hormones (no SREBP direction question).
+- L5 figures: `q_chol()` (2 acetyl CoA to cholesterol, eight rows; `side` per arrow is (enzyme, note); `comp` draws the cytosol / ER lumen / ER membrane brackets; `marks` letters arrows; defaults `CHOL_R/CHOL_S/CHOL_C`) -> `q-chol-m` (mevalonate 1, squalene 2), `q-chol-l` (no side labels, A to D on the arrows into HMG-CoA, mevalonate, IPP, squalene; carries 2 questions), `q-chol-c` (compartments 1 to 3). `q_lpc()` (lipoprotein circuit: intestine, liver, peripheral tissues, bile, IDL back to the liver, HDL back to the liver) -> `q-lpc` (chylomicrons 1, VLDL 2, LDL 3, HDL 4, IDL printed; carries 4 questions). `q_reg()` gained `gap=` and `leg=` (defaults unchanged) -> `q-hmgr` (glucagon 1; legend "decreases/increases"). All 53 earlier figures byte-identical.
+- lecnotes: L5 b17 -> `m5-cholreg`.
+- **Module 5 done.** M5: 130 questions. Site total 243 (94 fig 38.7%, 104 ex, 45 why 18.5%). `validate_inv` passes with no missing items (13 thin, all from earlier lessons). quick_check passes at 1280 and 390 (only the known m4-map 3 px warning).
+
+## What's left for stage 7
+1. Mock builder: 25 questions, 40 min, 10 fig / 10 ex / 5 why across M4 and M5, unseen first. Fix the setup line ("M1 and M2 and M3 not added yet").
+2. Drills (`drills:[]` is empty in both modules): pick lessons that suit the sort and case engines (PFK-1 regulators, cholesterol steps in order, lipoprotein matching are natural sorts), and add the "Practice: ..." link under explanations of missed questions.
+3. Port `test_site.py` from Exam 1 (file names, lecture folder) and run the full pass at 1280 and 390; the three validators already exist here.
+4. Bump `VERSION` in build.py, rebuild, final read of every lesson for voice.
+5. Optional (Antonio asked Nov 18, template work, separate chat): practice-mode changes, see below.
+
+## Practice-mode request (Nov 18, not started; template only, so it was kept out of the L5 chat)
+Current behavior in `template.html`: "Quiz me one at a time" (`runPractice`) already shuffles (unseen first, then oldest, random within ties) and offers "Retry the N missed" at the end. The full list is grouped by LO in fixed order. The LO filter (`loSelect`, `PF.lo`) is a single-choice dropdown.
+Asked for:
+- A toggle in one-at-a-time: "Repeat missed until right". A missed question goes back into the queue (a few questions later) and the run ends only when every question has been answered right once. Score should still count first tries. Re-answering it right updates `S.q`, so it drops out of the Missed filter; that's accepted (flags are the way to keep a question).
+- A shuffle toggle for the full list (ungrouped, random order, stable until toggled or filters change).
+- Multi-select LO filter instead of the dropdown (checkbox list or pills: M4, M5, each LO). `PF.lo` becomes an array; `filterQ`, the mock setup and anything else calling `loSelect` need the same change; migrate an old string in `S.set.pf`.
+All three are moderate, self-contained template changes. Exam 1's template is a separate copy and won't get them unless ported.
 
 ## Decisions Antonio made
 - Size: trim. Every core item gets one question (178). The number in each inventory item marks how hard the lecture leans on it; only give an item a second question when the second is a different kind (a figure version of a text question, or the reverse). Land near 200 total, not 257.

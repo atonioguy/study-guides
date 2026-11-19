@@ -171,23 +171,24 @@ def q_hkgk():
     o.append('</svg>'); return "".join(o)
 
 # ---------- PFK-1 regulators ----------
-def q_reg(sub,prod,inh,act):
+def q_reg(sub,prod,inh,act,gap=84,leg=("× inhibits","+ activates")):
     """One reaction with its allosteric regulators. sub/prod: two-line labels.
-    A number in inh/act draws a numbered blank instead of the name."""
+    A number in inh/act draws a numbered blank instead of the name. gap: spacing of the names (wider for long names);
+    leg: the two legend lines (M5 L5 uses decreases/increases for hormones)."""
     o=_q(480,250,16)+[_ah("pa",FG)]
     for x,(a,b) in ((70,sub),(410,prod)):
         o.append(T(x,120,a,text_anchor="middle",fill=FG,font_weight="600")+T(x,139,b,text_anchor="middle",fill=FG,font_weight="600"))
     o.append('<line x1="130" y1="125" x2="342" y2="125" stroke="%s" stroke-width="2.5" marker-end="url(#pa)"/>'%FG)
     def row(items,y,ly,col,sym):
-        xs=[236+ (i-(len(items)-1)/2)*84 for i in range(len(items))]
+        xs=[236+ (i-(len(items)-1)/2)*gap for i in range(len(items))]
         for x,s in zip(xs,items):
             o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="1.5" stroke-dasharray="4 4"/>'%(x,y,x,125+(-13 if y<125 else 13),col))
             o.append('<circle cx="%s" cy="%s" r="10" fill="#fff" stroke="%s" stroke-width="2"/>'%(x,125+(-22 if y<125 else 22),col)+T(x,125+(-22 if y<125 else 22)+5.5,sym,text_anchor="middle",fill=col,font_weight="700",font_size="16"))
             if isinstance(s,int): o.append(_num(x,ly-5,s))
             else: o.append(T(x,ly,s,text_anchor="middle",fill=FG))
     row(inh,70,60,RED,"×"); row(act,180,200,GRN,"+")
-    if inh: o.append(T(14,24,"× inhibits",fill=RED, font_size="15",font_weight="600"))
-    if act: o.append(T(14,238,"+ activates",fill=GRN, font_size="15",font_weight="600"))
+    if inh: o.append(T(14,24,leg[0],fill=RED, font_size="15",font_weight="600"))
+    if act: o.append(T(14,238,leg[1],fill=GRN, font_size="15",font_weight="600"))
     o.append('</svg>'); return "".join(o)
 def q_pfk(inh=("ATP","citrate",1),act=("AMP",2)):
     """PFK-1 and its regulators."""
@@ -679,6 +680,57 @@ def q_cer(cer="Ceramide",sm="Sphingomyelin",gsl="Glycosphingolipids"):
     o.append(_arr(x+30,124,350,176)+T(322,146,"+ sugar",fill=MUT,font_size="14")+t(370,200,gsl))
     o.append('</svg>'); return "".join(o)
 
+# ---------- L5: cholesterol synthesis, with where each part takes place ----------
+CHOL_R=("2 Acetyl CoA","Acetoacetyl CoA","HMG-CoA","Mevalonate","Isopentenyl diphosphate","Squalene","Lanosterol","Cholesterol")
+CHOL_S=((None,None),(None,"+ acetyl CoA"),("HMG-CoA reductase",None),(None,"3 ATP, then CO₂ released"),(None,"six condense, then NADPH"),("squalene epoxidase","O₂ + NADPH"),(None,"3 carbons removed"))
+CHOL_C=(("Cytosol",0,3),("ER lumen",4,5),("ER membrane",6,6))
+def q_chol(rows=CHOL_R,side=CHOL_S,comp=CHOL_C,marks=None):
+    """Acetyl CoA to cholesterol, top to bottom. side per arrow: (enzyme, note), either None; comp: (label, first arrow,
+    last arrow) drawn as a bracket on the left; marks {arrow: letter} badges an arrow. A number in rows, side or comp draws a badge."""
+    marks=marks or {}; p=60; cx=250; n=len(rows)-1
+    o=_q(480,30+n*p+26,16)+[_ah("ch",FG)]
+    for i,r in enumerate(rows):
+        y=30+i*p
+        if isinstance(r,int): o.append(_blank(cx-70,y-18,140,26,"")+_num(cx,y-5,r))
+        else: o.append(T(cx,y,r,text_anchor="middle",fill=FG,font_weight="600"))
+        if i==n: break
+        y1,y2=y+9,y+p-20; ym=(y1+y2)/2
+        o.append('<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="%s" stroke-width="2" marker-end="url(#ch)"/>'%(cx,y1,cx,y2,FG))
+        if i in marks: o.append(_num(cx-28,ym,marks[i],FG,FG,"#fff"))
+        e,t=side[i]; ls=[(s,c) for s,c in ((e,ACC),(t,MUT)) if s is not None]
+        for j,(s,c) in enumerate(ls):
+            yy=ym+5 if len(ls)==1 else ym-1+17*j
+            o.append(_num(cx+30,yy-5,s) if isinstance(s,int) else T(cx+16,yy,s,fill=c,font_size="15" if c==ACC else "14"))
+    for lab,a,b in comp:
+        y1,y2=30+a*p+6,30+b*p+p-17; bx=128
+        o.append('<path d="M%s %s H%s V%s H%s" fill="none" stroke="%s" stroke-width="1.5"/>'%(bx+8,y1,bx,y2,bx+8,MUT))
+        ym=(y1+y2)/2
+        o.append(_num(bx-22,ym,lab) if isinstance(lab,int) else T(bx-8,ym+5,lab,text_anchor="end",fill=ACC,font_weight="700",font_size="14"))
+    o.append('</svg>'); return "".join(o)
+
+# ---------- L5: lipoprotein circuit ----------
+def q_lpc(names=("Chylomicrons","VLDL","IDL","LDL","HDL")):
+    """Intestine -> chylomicrons -> adipose, heart, muscle. Liver -> VLDL -> IDL -> LDL -> peripheral tissues; IDL back to the
+    liver; HDL from peripheral tissues back to the liver; bile from liver to intestine. A number in names draws a badge."""
+    o=_q(480,326,15)+[_ah("m5a",FG)]
+    box=lambda x,y,w,h:'<rect x="%s" y="%s" width="%s" height="%s" rx="8" fill="#f3f5f9" stroke="%s" stroke-width="1.4"/>'%(x,y,w,h,FG)
+    hd=lambda x,y,s:T(x,y,s,text_anchor="middle",fill=ACC,font_weight="700",font_size="14")
+    sm=lambda x,y,s,col=FG,fs="14":T(x,y,s,text_anchor="middle",fill=col,font_size=fs)
+    o.append(box(14,22,120,54)+hd(74,45,"INTESTINE")+sm(74,64,"dietary fat",MUT,"13"))
+    g=18 if isinstance(names[0],int) else 58
+    o.append(_arr(136,49,240-g,49)+_put(240,54,names[0])+_arr(240+g,49,352,49)+sm(300+g/2,38,"fatty acids",MUT,"13"))
+    o.append(box(356,18,112,62)+sm(412,44,"Adipose, heart,")+sm(412,63,"muscle"))
+    y=240
+    o.append(box(14,206,96,58)+hd(62,240,"LIVER"))
+    o.append(_arr(112,y-5,142,y-5)+_put(168,y,names[1])+_arr(194,y-5,232,y-5)+_put(256,y,names[2])+_arr(280,y-5,316,y-5)+_put(340,y,names[3])+_arr(362,y-5,382,y-5))
+    o.append(sm(213,215,"lipoprotein lipase",ACC,"13"))
+    o.append(box(384,206,88,58)+sm(428,231,"Peripheral")+sm(428,250,"tissues"))
+    o.append('<path d="M256 250 V280 H90 V267" fill="none" stroke="%s" stroke-width="1.6" marker-end="url(#m5a)"/>'%FG)
+    o.append('<path d="M428 266 V306 H50 V267" fill="none" stroke="%s" stroke-width="1.8" marker-end="url(#m5a)"/>'%FG)
+    o.append(_num(240,306,names[4]) if isinstance(names[4],int) else '<rect x="216" y="294" width="48" height="22" fill="#fff"/>'+T(240,311,names[4],text_anchor="middle",fill=FG,font_weight="600"))
+    o.append(_arr(62,204,62,80)+T(72,146,"bile",fill=MUT,font_size="14"))
+    o.append('</svg>'); return "".join(o)
+
 figs={
  # ---- L1 ----
  "q-fis3":q_sugars(["glucose","glyceraldehyde","ribose"],[1,2,3]),
@@ -751,6 +803,16 @@ figs={
  "q-pa-e":q_pab(gk=1,pap=2),
  "q-pa-m":q_pab(pa=1,tag=2,card=3),
  "q-cer":q_cer(cer=1,sm=2),
+ # ================= M5 L5 =================
+ # mevalonate 1, squalene 2 (enzymes, notes and compartments shown)
+ "q-chol-m":q_chol(rows=tuple(1 if i==3 else 2 if i==5 else r for i,r in enumerate(CHOL_R))),
+ # no enzymes or notes; arrows into HMG-CoA, mevalonate, isopentenyl diphosphate, squalene lettered A to D
+ "q-chol-l":q_chol(side=((None,None),)*7,marks={1:"A",2:"B",3:"C",4:"D"}),
+ # the three compartments numbered
+ "q-chol-c":q_chol(comp=((1,0,3),(2,4,5),(3,6,6))),
+ "q-hmgr":q_reg(("HMG-CoA",""),("Mevalonate",""),(1,"Glucocorticoids"),("Insulin","Thyroid hormone"),gap=150,leg=("× decreases","+ increases")),
+ # chylomicrons 1, VLDL 2, LDL 3, HDL 4; IDL printed
+ "q-lpc":q_lpc(names=(1,2,"IDL",3,4)),
 }
 here=os.path.dirname(os.path.abspath(__file__))
 open(os.path.join(here,"figs.js"),"w",encoding="utf-8").write("const FIGS="+json.dumps(figs,ensure_ascii=False)+";\n")

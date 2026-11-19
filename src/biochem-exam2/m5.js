@@ -245,7 +245,46 @@ b:`<p>A sphingolipid starts with a sphingosine instead of a glycerol, which is w
 <p>Just as phospholipids vary, ceramide is modified as needed to form a variety of sphingolipids:</p>
 <ul><li>Combined with phosphorylcholine, it makes <b>sphingomyelin</b>.</li>
 <li>With sugar added, it makes <b>glycosphingolipids</b>.</li></ul>`,
-so:"Palmitoyl CoA and serine make ceramide in the ER. Phosphorylcholine turns it into sphingomyelin, and sugar into glycosphingolipids."}
+so:"Palmitoyl CoA and serine make ceramide in the ER. Phosphorylcholine turns it into sphingomyelin, and sugar into glycosphingolipids."},
+// ---------------- L5 Cholesterol Synthesis ----------------
+{id:"m5-chol",h:"Cholesterol synthesis",
+img:{src:"lectures/biochem-exam2/img/m5/file-62b0f5482572d.webp",alt:"3-Hydroxy-3-methylglutaryl CoA is reduced to mevalonate by HMG CoA reductase, using 2 NADPH and 2 H⁺ and releasing 2 NADP⁺ and CoA",credit:"Lecture figure, Lesson 5."},
+b:`<p>Cholesterol is vital for the stability of our membranes, for the formation of vitamin D and steroids, and for fat digestion through bile salts. We can obtain it from the diet or synthesize it. The primary site of synthesis is the liver, where it is used to create bile salts for fat digestion, although it can also be made in the intestines.</p>
+<p>Cholesterol is made from 27 carbons, all derived from acetyl CoA. The pathway is long, so the lecture asks only for the major steps.</p>
+<ol><li><b>Biosynthesis of mevalonate.</b> A three step process. Two acetyl CoA combine to form acetoacetyl CoA, which combines with another acetyl CoA to form HMG-CoA (3-hydroxy-3-methylglutaryl CoA). HMG-CoA is then reduced to mevalonate by the enzyme <b>HMG-CoA reductase</b>.</li>
+<li><b>Formation of isopentenyl diphosphate</b> (the isoprenoid units). In three sequential phosphorylation steps, mevalonate is converted to isopentenyl diphosphate, also known as isopentenyl pyrophosphate, which contains five carbons and two phosphate groups. This costs three ATP, one per phosphorylation, and requires three kinases. A final decarboxylation releases carbon dioxide and a phosphate group.</li>
+<li><b>Formation of squalene.</b> Next we move from the cytoplasm to the lumen of the endoplasmic reticulum. Six isopentenyl diphosphates come together through a series of condensation reactions to form squalene, a 30 carbon molecule: C5 to C10 to C15 to C30. One isopentenyl diphosphate isomerizes into dimethylallyl pyrophosphate so the two isomers can bind, which begins the condensation. The final step is a reduction by NADPH.</li>
+<li><b>Formation of lanosterol.</b> Still in the lumen of the ER, squalene begins to fold. It forms lanosterol, a structure close to a steroid nucleus, via a mixed function oxidase, <b>squalene epoxidase</b>. This requires oxygen and NADPH.</li>
+<li><b>Formation of cholesterol.</b> On the membrane of the ER, bonds and elements within lanosterol are moved around to remove three carbons and close the rings, forming cholesterol.</li></ol>
+<p>Steps 4 and 5 are the cyclization. From the lecture's check: the first two steps, acetyl CoA to isopentenyl diphosphate, happen in the cytosol.</p>
+<p>The reduction of HMG-CoA to mevalonate, the last part of step 1, is the commitment step for cholesterol synthesis. It is irreversible and commits acetyl CoA to forming cholesterol. It is also the rate-limiting step, so it is the point used to control the rate of cholesterol synthesis.</p>
+<p>Cholesterol is vital to our survival. Mice without HMG-CoA reductase, and therefore without the ability to synthesize cholesterol, die.</p>`,
+so:"Mevalonate and isopentenyl diphosphate in the cytosol, squalene and lanosterol in the ER lumen, cholesterol on the ER membrane. HMG-CoA reductase is the committed, rate-limiting step."},
+
+{id:"m5-cholreg",h:"Regulation of cholesterol synthesis",
+b:`<p>The rate of cholesterol synthesis responds to feedback at the cellular level through control of the HMG-CoA reductase enzyme, the rate-limiting step.</p>
+<p>The most common control mechanism is at the molecular level, through a <b>sterol regulatory element-binding protein (SREBP)</b> that controls the transcription of the enzyme.</p>
+<p>Hormones push HMG-CoA reductase activity up or down:</p>
+<ul><li><b>Increase</b> HMG-CoA reductase activity, and therefore cholesterol production: insulin and thyroid hormone.</li>
+<li><b>Decrease</b> HMG-CoA reductase activity: glucagon and glucocorticoids.</li></ul>`,
+nl:"Lecture wording",note:`The lecture says SREBP is inhibited by insulin and increased by glucagon and glucocorticoids, which runs opposite to the effect it gives for the enzyme. The effect on HMG-CoA reductase and cholesterol production is the part to know: insulin and thyroid hormone raise it, glucagon and glucocorticoids lower it.`,
+so:"HMG-CoA reductase is controlled at transcription through SREBP. Insulin and thyroid hormone raise cholesterol production. Glucagon and glucocorticoids lower it."},
+
+{id:"m5-lipoprot",h:"Lipoproteins",
+img:{src:"lectures/biochem-exam2/img/m5/image-62b1dc302a5e4.webp",alt:"Dietary fat and cholesterol leave the intestine as chylomicrons, which release free fatty acids to adipose tissue and peripheral tissues and leave chylomicron remnants for the liver. The liver sends out VLDL, which becomes IDL and then LDL for peripheral tissues with LDL receptors. HDL carries cholesterol from peripheral tissues back to the liver, and bile acids pass between the liver and the intestine.",credit:"Lecture figure, Lesson 5."},
+b:`<p>Cholesterol is made in the liver but used throughout the body. It is a lipid, so it is insoluble in water. To carry it through the blood to the tissues in need, we need carrier molecules called <b>lipoproteins</b>.</p>
+<p>Lipoproteins are packages of lipids and proteins combined together with hydrophobic and hydrophilic regions. They are designed a lot like micelles, with hydrophobic tails on the inside and hydrophilic heads on the outside.</p>
+<p>Larger lipoproteins with more lipids and less protein are less dense, and smaller, more protein-rich lipoproteins are more dense. The proteins determine the function of the lipoprotein, because they act as markers or receptors.</p>
+<table><tr><th>Lipoprotein</th><th>What it does</th></tr>
+<tr><td>Chylo&shy;microns</td><td>The lowest density. Primarily transport dietary fats and are cleared from the blood rapidly as part of food digestion. Their digestion transports fatty acids to the adipose tissue, heart, muscle and liver.</td></tr>
+<tr><td>VLDL (very low density)</td><td>Triglycerides and cholesterol in excess of the liver's own needs are exported into the blood as VLDL. Lipoprotein lipases on capillary surfaces hydrolyze its triglycerides, and the freed fatty acids are taken into the cells.</td></tr>
+<tr><td>IDL (intermediate density)</td><td>The cholesterol-rich remnant left once the fatty acids are removed from VLDL. Taken up by the liver for processing or further processed into LDL.</td></tr>
+<tr><td>LDL (low density)</td><td>The major carrier of freshly synthesized cholesterol in the blood. Transports cholesterol to the peripheral tissues and regulates de novo cholesterol synthesis there. High concentrations of LDL in the blood play a role in setting the conditions for a heart attack.</td></tr>
+<tr><td>HDL (high density)</td><td>Returns cholesterol to the liver in reverse cholesterol transport. Picks up cholesterol released into the plasma from dying cells and from membranes undergoing turnover, and returns it to the liver for breakdown and excretion. Considered the "good" cholesterol, not associated with heart disease.</td></tr></table>
+<p><b>Cholesterol and heart disease.</b> High cholesterol levels promote atherosclerosis, the leading cause of death in industrialized societies. <b>Familial hypercholesterolemia</b> is a genetic disorder that leads to susceptibility to atherosclerosis. It is characterized by high concentrations of LDL in the blood, 3 to 4 times the desired amount.</p>
+<p>HDL can protect against atherosclerosis by removing cholesterol from cells. Once in the liver, the cholesterol can be excreted from the body via the bile or feces. The higher a person's level of HDL, the more readily that person undergoes reverse cholesterol transport.</p>
+<p>From the lecture's check: VLDL carries triglycerides and cholesterol in excess of the liver's needs into the blood, LDL is the primary cholesterol transport, HDL is reverse cholesterol transport, and chylomicrons transport dietary fats.</p>`,
+so:"Chylomicrons carry dietary fat. VLDL carries the liver's excess out and becomes IDL, then LDL, which delivers cholesterol to the tissues. HDL brings cholesterol back to the liver and protects against atherosclerosis."}
 ],
 "5.4":[
 {id:"m5-disease",h:"Membrane lipids in disease",
@@ -677,6 +716,101 @@ exp:"Dipalmitoyl-phosphatidylcholine in the lung alveoli reduces surface tension
 stem:"Which is a demyelinating disease with loss of phospholipids and sphingolipids?",
 opts:["Multiple sclerosis","Tay-Sachs disease","Infant respiratory distress syndrome","Cholera"],ans:0,
 exp:"Multiple sclerosis is a demyelinating disease with loss of phospholipids and sphingolipids."}
+,
+// ---------------- L5 ----------------
+{id:"m5e01",lo:"5.3",src:"L5",ref:"m5-chol",type:"mc",kind:"ex",inv:["m5-chol.c1"],
+stem:"What is the primary site of cholesterol synthesis, and what is the cholesterol made there used to create?",
+opts:["The liver; bile salts for fat digestion","The intestines; chylomicrons for dietary fat","Adipose tissue; triglycerides for storage","Nervous tissue; the myelin sheath"],ans:0,
+exp:"The primary site of synthesis is the liver, where cholesterol is used to create bile salts for fat digestion. It can also be made in the intestines."},
+{id:"m5e02",lo:"5.3",src:"L5",ref:"m5-chol",type:"tf",kind:"ex",inv:["m5-chol.c2"],
+stem:"All 27 carbons of cholesterol are derived from acetyl CoA.",ans:true,
+exp:"Cholesterol is made from 27 carbons, all of which are derived from acetyl CoA."},
+{id:"m5e03",lo:"5.3",src:"L5",ref:"m5-chol",type:"mc",kind:"fig",inv:["m5-chol.c3"],fig:"q-chol-m",
+stem:"The figure shows cholesterol synthesis. Which molecule is 1?",
+opts:["Mevalonate","Malonyl CoA","Citrate","Palmitate"],ans:0,
+exp:"HMG-CoA reductase reduces HMG-CoA to mevalonate. This ends step 1, the biosynthesis of mevalonate."},
+{id:"m5e04",lo:"5.3",src:"L5",ref:"m5-chol",type:"mc",kind:"fig",inv:["m5-chol.c4"],fig:"q-chol-l",fixed:true,
+stem:"The figure shows cholesterol synthesis with four arrows lettered. Which is the committed, rate-limiting step?",
+opts:["A","B","C","D"],ans:1,
+exp:"B is the reduction of HMG-CoA to mevalonate by HMG-CoA reductase. It is irreversible, commits acetyl CoA to forming cholesterol, and is the rate-limiting step."},
+{id:"m5e05",lo:"5.3",src:"L5",ref:"m5-chol",type:"mc",kind:"why",inv:["m5-chol.c4"],
+stem:"Why is the reduction of HMG-CoA to mevalonate the point used to control the rate of cholesterol synthesis?",
+opts:["It is the rate-limiting step","It is the only step that uses ATP","It is the last step before cholesterol forms","It takes place on the ER membrane"],ans:0,
+exp:"The step is irreversible and rate-limiting, so it is the point used to control the rate of cholesterol synthesis."},
+{id:"m5e06",lo:"5.3",src:"L5",ref:"m5-chol",type:"mc",kind:"fig",inv:["m5-chol.c5"],fig:"q-chol-l",fixed:true,
+stem:"The figure shows cholesterol synthesis with four arrows lettered. At which step are three ATP spent by three kinases, followed by a decarboxylation?",
+opts:["A","B","C","D"],ans:2,
+exp:"C is the formation of isopentenyl diphosphate from mevalonate: three phosphorylations, one ATP each, by three kinases, then a decarboxylation that releases carbon dioxide."},
+{id:"m5e07",lo:"5.3",src:"L5",ref:"m5-chol",type:"mc",kind:"ex",inv:["m5-chol.c5"],fixed:true,
+stem:"How many carbons and how many phosphate groups does isopentenyl diphosphate contain?",
+opts:["5 carbons, 2 phosphate groups","5 carbons, 3 phosphate groups","6 carbons, 2 phosphate groups","10 carbons, 2 phosphate groups"],ans:0,
+exp:"Isopentenyl diphosphate, also known as isopentenyl pyrophosphate, contains five carbons and two phosphate groups."},
+{id:"m5e08",lo:"5.3",src:"L5",ref:"m5-chol",type:"mc",kind:"fig",inv:["m5-chol.c5","m5-chol.c6","m5-chol.c7"],fig:"q-chol-c",fixed:true,
+stem:"The figure shows cholesterol synthesis. Where do the parts marked 1, 2 and 3 take place?",
+opts:["1 cytosol, 2 ER lumen, 3 ER membrane","1 cytosol, 2 ER membrane, 3 ER lumen","1 mitochondrial matrix, 2 ER lumen, 3 ER membrane","1 mitochondrial matrix, 2 cytosol, 3 ER lumen"],ans:0,
+exp:"Mevalonate and isopentenyl diphosphate are made in the cytosol. Squalene and lanosterol form in the lumen of the ER, and the final steps to cholesterol occur on the ER membrane."},
+{id:"m5e09",lo:"5.3",src:"L5",ref:"m5-chol",type:"mc",kind:"fig",inv:["m5-chol.c6"],fig:"q-chol-m",
+stem:"The figure shows cholesterol synthesis. Which molecule is 2?",
+opts:["Squalene","Palmitate","Phosphatidate","Malonyl CoA"],ans:0,
+exp:"In the lumen of the ER, six isopentenyl diphosphates condense to form squalene, which squalene epoxidase then folds into lanosterol."},
+{id:"m5e10",lo:"5.3",src:"L5",ref:"m5-chol",type:"mc",kind:"ex",inv:["m5-chol.c6"],fixed:true,
+stem:"How many carbons does squalene have, and how many isopentenyl diphosphates condense to make it?",
+opts:["27 carbons; six","30 carbons; five","30 carbons; six","15 carbons; three"],ans:2,
+exp:"Squalene is a 30 carbon molecule made from six isopentenyl diphosphates: C5 to C10 to C15 to C30."},
+{id:"m5e11",lo:"5.3",src:"L5",ref:"m5-chol",type:"mc",kind:"ex",inv:["m5-chol.c7"],
+stem:"Squalene folds into lanosterol, a structure close to a steroid nucleus. Which enzyme does this, and what does it require?",
+opts:["Squalene epoxidase; oxygen and NADPH","HMG-CoA reductase; oxygen and NADPH","Squalene epoxidase; ATP and carbon dioxide","Fatty acid synthase; NADPH only"],ans:0,
+exp:"Lanosterol forms via the mixed function oxidase squalene epoxidase, still in the lumen of the ER. The process requires oxygen and NADPH."},
+{id:"m5e12",lo:"5.3",src:"L5",ref:"m5-chol",type:"tf",kind:"ex",inv:["m5-chol.c7"],
+stem:"In the final step, three carbons are added to lanosterol to close the rings and form cholesterol.",ans:false,
+exp:"Three carbons are removed. On the membrane of the ER, bonds and elements within lanosterol are moved around to remove three carbons and close the rings."},
+{id:"m5e13",lo:"5.3",src:"L5",ref:"m5-cholreg",type:"mc",kind:"ex",inv:["m5-cholreg.c1"],
+stem:"What is the most common mechanism for controlling cholesterol synthesis?",
+opts:["SREBP controlling the transcription of HMG-CoA reductase","Mevalonate inhibiting squalene epoxidase","Citrate activating HMG-CoA reductase","Phosphorylation of acetyl-CoA carboxylase 1"],ans:0,
+exp:"The rate is controlled through HMG-CoA reductase. The most common mechanism is a sterol regulatory element-binding protein (SREBP) that controls the transcription of the enzyme."},
+{id:"m5e14",lo:"5.3",src:"L5",ref:"m5-cholreg",type:"mc",kind:"fig",inv:["m5-cholreg.c2"],fig:"q-hmgr",
+stem:"The figure shows the hormones that change HMG-CoA reductase activity. Which hormone belongs at 1?",
+opts:["Glucagon","Estrogen","Progesterone","Androgen"],ans:0,
+exp:"Glucagon and glucocorticoids decrease HMG-CoA reductase activity. Insulin and thyroid hormone increase it."},
+{id:"m5e15",lo:"5.3",src:"L5",ref:"m5-cholreg",type:"tf",kind:"ex",inv:["m5-cholreg.c2"],
+stem:"Insulin decreases HMG-CoA reductase activity and lowers cholesterol production.",ans:false,
+exp:"Insulin increases HMG-CoA reductase activity and cholesterol production, as does thyroid hormone. Glucagon and glucocorticoids decrease it."},
+{id:"m5e16",lo:"5.3",src:"L5",ref:"m5-lipoprot",type:"mc",kind:"why",inv:["m5-lipoprot.c1"],
+stem:"Why does cholesterol need lipoproteins to travel through the blood?",
+opts:["It is a lipid, so it is insoluble in water","It is too large to cross capillary walls","It must be kept out of the liver","It is broken down by enzymes in the plasma"],ans:0,
+exp:"Cholesterol is a lipid, so it is insoluble in water. Lipoproteins are the carrier molecules that take it through the blood to the tissues in need."},
+{id:"m5e17",lo:"5.3",src:"L5",ref:"m5-lipoprot",type:"mc",kind:"ex",inv:["m5-lipoprot.c1"],fixed:true,
+stem:"A lipoprotein has more lipid and less protein than another. How does its density compare, and which part determines its function?",
+opts:["Less dense; the proteins","More dense; the proteins","Less dense; the lipids","More dense; the lipids"],ans:0,
+exp:"Larger lipoproteins with more lipids and less protein are less dense. The proteins determine the function because they act as markers or receptors."},
+{id:"m5e18",lo:"5.3",src:"L5",ref:"m5-lipoprot",type:"mc",kind:"fig",inv:["m5-lipoprot.c2"],fig:"q-lpc",
+stem:"The figure shows how lipoproteins carry fat and cholesterol through the body. Which lipoprotein is 1?",
+opts:["Chylomicrons","VLDL","LDL","HDL"],ans:0,
+exp:"Chylomicrons are the lowest density lipoproteins and primarily transport dietary fats. They deliver fatty acids to the adipose tissue, heart, muscle and liver."},
+{id:"m5e19",lo:"5.3",src:"L5",ref:"m5-lipoprot",type:"mc",kind:"fig",inv:["m5-lipoprot.c3"],fig:"q-lpc",
+stem:"The figure shows how lipoproteins carry fat and cholesterol through the body. Which lipoprotein is 2?",
+opts:["VLDL","Chylomicrons","LDL","HDL"],ans:0,
+exp:"Triglycerides and cholesterol in excess of the liver's own needs are exported into the blood as VLDL. Lipoprotein lipases remove its fatty acids, leaving IDL."},
+{id:"m5e20",lo:"5.3",src:"L5",ref:"m5-lipoprot",type:"mc",kind:"ex",inv:["m5-lipoprot.c3"],
+stem:"Lipoprotein lipases on capillary surfaces hydrolyze the triglycerides in VLDL. What is left?",
+opts:["A cholesterol-rich IDL","A triglyceride-rich chylomicron","HDL carrying cholesterol to the liver","Free cholesterol in the plasma"],ans:0,
+exp:"Once the fatty acids are removed, what is left is a cholesterol-rich remnant, the intermediate-density lipoprotein. The liver takes it up, or it is further processed into LDL."},
+{id:"m5e21",lo:"5.3",src:"L5",ref:"m5-lipoprot",type:"mc",kind:"fig",inv:["m5-lipoprot.c4"],fig:"q-lpc",
+stem:"The figure shows how lipoproteins carry fat and cholesterol through the body. Which lipoprotein is 3?",
+opts:["LDL","HDL","VLDL","Chylomicrons"],ans:0,
+exp:"LDL is the major carrier of freshly synthesized cholesterol in the blood. It transports cholesterol to the peripheral tissues."},
+{id:"m5e22",lo:"5.3",src:"L5",ref:"m5-lipoprot",type:"mc",kind:"why",inv:["m5-lipoprot.c4"],
+stem:"Why are people with familial hypercholesterolemia susceptible to atherosclerosis?",
+opts:["Their LDL in the blood is 3 to 4 times the desired amount","Their HDL in the blood is 3 to 4 times the desired amount","They cannot make HMG-CoA reductase","Their chylomicrons are cleared from the blood too rapidly"],ans:0,
+exp:"Familial hypercholesterolemia is a genetic disorder with high concentrations of LDL in the blood, 3 to 4 times the desired amount. High cholesterol levels promote atherosclerosis."},
+{id:"m5e23",lo:"5.3",src:"L5",ref:"m5-lipoprot",type:"mc",kind:"fig",inv:["m5-lipoprot.c5"],fig:"q-lpc",
+stem:"The figure shows how lipoproteins carry fat and cholesterol through the body. Which lipoprotein is 4?",
+opts:["HDL","LDL","VLDL","Chylomicrons"],ans:0,
+exp:"HDL returns cholesterol from the tissues to the liver in reverse cholesterol transport, for excretion via the bile or feces."},
+{id:"m5e24",lo:"5.3",src:"L5",ref:"m5-lipoprot",type:"mc",kind:"why",inv:["m5-lipoprot.c5"],
+stem:"Why is HDL considered the \"good\" cholesterol?",
+opts:["It removes cholesterol from cells and returns it to the liver","It carries freshly synthesized cholesterol to the peripheral tissues","It has the lowest density of the lipoproteins","It carries the liver's excess triglycerides into the blood"],ans:0,
+exp:"HDL protects against atherosclerosis by removing cholesterol from cells. Once in the liver, the cholesterol can be excreted via the bile or feces."}
 ],
 
 drills:[]
@@ -789,7 +923,31 @@ m5d19:"Gangliosides are glycosphingolipids.",
 m5d20:"They are the target binding site for cholera toxin and for enterotoxigenic E. coli",
 m5d21:"This results in swollen, lipid-filled lysosomes.",
 m5d22:"It helps reduce surface tension and makes it easier to breathe.",
-m5d23:"is a demyelinating disease with loss of phospholipids and sphingolipids."};
+m5d23:"is a demyelinating disease with loss of phospholipids and sphingolipids.",
+m5e01:"The primary site of synthesis is the liver, where it is used to create bile salts for fat digestion",
+m5e02:"Cholesterol is made from 27 carbons, all derived from acetyl CoA.",
+m5e03:"HMG-CoA is then reduced to mevalonate by the enzyme HMG-CoA reductase.",
+m5e04:"is the commitment step for cholesterol synthesis.",
+m5e05:"It is also the rate-limiting step, so it is the point used to control the rate of cholesterol synthesis.",
+m5e06:"This costs three ATP, one per phosphorylation, and requires three kinases.",
+m5e07:"which contains five carbons and two phosphate groups.",
+m5e08:"the first two steps, acetyl CoA to isopentenyl diphosphate, happen in the cytosol.",
+m5e09:"Six isopentenyl diphosphates come together through a series of condensation reactions to form squalene",
+m5e10:"a 30 carbon molecule: C5 to C10 to C15 to C30.",
+m5e11:"This requires oxygen and NADPH.",
+m5e12:"to remove three carbons and close the rings",
+m5e13:"that controls the transcription of the enzyme.",
+m5e14:"Decrease HMG-CoA reductase activity: glucagon and glucocorticoids.",
+m5e15:"Increase HMG-CoA reductase activity, and therefore cholesterol production: insulin and thyroid hormone.",
+m5e16:"It is a lipid, so it is insoluble in water.",
+m5e17:"The proteins determine the function of the lipoprotein, because they act as markers or receptors.",
+m5e18:"Primarily transport dietary fats and are cleared from the blood rapidly as part of food digestion.",
+m5e19:"Triglycerides and cholesterol in excess of the liver's own needs are exported into the blood as VLDL.",
+m5e20:"The cholesterol-rich remnant left once the fatty acids are removed from VLDL.",
+m5e21:"The major carrier of freshly synthesized cholesterol in the blood.",
+m5e22:"It is characterized by high concentrations of LDL in the blood, 3 to 4 times the desired amount.",
+m5e23:"Returns cholesterol to the liver in reverse cholesterol transport.",
+m5e24:"HDL can protect against atherosclerosis by removing cholesterol from cells."};
 const M=MODS[MODS.length-1];M.questions.forEach(q=>{if(HL[q.id])q.hl=HL[q.id];});})();
 
 // Lecture window: question -> [lecture block, snippet copied verbatim from one text element of that block].
@@ -900,10 +1058,34 @@ m5d19:["m5L4-b26","Gangliosides are glycosphingolipids"],
 m5d20:["m5L4-b26","enterotoxigenic E. coli (the caustive agent for Traveller's diarrhea)"],
 m5d21:["m5L4-b26","This reasults in swollen, lipid-filled lysosomes."],
 m5d22:["m5L4-b26","This combo is important because it helps reduce surface tension and makes it easier to breathe."],
-m5d23:["m5L4-b26","Multiple Sclerosis is a demyelinating disease with loss of phospholipids and sphingolipids."]};
+m5d23:["m5L4-b26","Multiple Sclerosis is a demyelinating disease with loss of phospholipids and sphingolipids."],
+m5e01:["m5L5-b2","The primary site of synthesis is the liver, where it will be used to create bile salts for fat digestion"],
+m5e02:["m5L5-b2","cholesterol is made from 27 carbons, all of which are derived from the ever important Acetyl-CoA"],
+m5e03:["m5L5-b4","HMG-CoA is then reduced to form Mevalonate via the enzyme HMG-CoA reductase."],
+m5e04:["m5L5-b6","is the commitment step for cholesterol synthesis"],
+m5e05:["m5L5-b6","It is also the rate-limiting step, which means we are going to use this point to control the rate of cholesterol synthesis."],
+m5e06:["m5L5-b9","The formation of this molecule comes at the cost of three ATP (one per phosphorylation step) and requires three kinases."],
+m5e07:["m5L5-b9","It contains five carbons and two phosphate groups."],
+m5e08:["m5L5-b11","Next we move from the cytoplasm to the lumen of the endoplasmic reticulum."],
+m5e09:["m5L5-b11","six molecules of isopentenyl diphosphate come together through a series of condensation reactions to form squalene"],
+m5e10:["m5L5-b13","Squalene is a 30 carbon molecule."],
+m5e11:["m5L5-b13","This process requires oxygen and NADPH."],
+m5e12:["m5L5-b15","to be able to remove three carbons and close the rings of the molecule"],
+m5e13:["m5L5-b17","via a sterol regulatory element-binding protein (SREBP) that controls the transcription of the enzyme"],
+m5e14:["m5L5-b17","whereas glycagon and glucocorticoids increase SREBP/decrease HMG-CoA reducatase"],
+m5e15:["m5L5-b17","HMG-CoA reductase activity, and therefore cholesterol production, increases in the presence of insulin"],
+m5e16:["m5L5-b17","Remember, cholesterol is a lipid, which means it is going to be insoluble in water."],
+m5e17:["m5L5-b19","The proteins are what determine the function of the lipoprotein because they act as markers or receptors."],
+m5e18:["m5L5-b20","Chylomicrons are the lowest density lipoproteins, and they primarily transport dietary fats."],
+m5e19:["m5L5-b20","are exported into the blood in the form of very low-density lipoprotein."],
+m5e20:["m5L5-b20","what is left is a cholesterol-rich remnant known as an intermediate-density lipoprotein."],
+m5e21:["m5L5-b20","The role of LDL is to transport cholesterol to the peripheral tissues"],
+m5e22:["m5L5-b23","is characterized by high concentraions of LDL in the blood (3-4 times the desired amount)"],
+m5e23:["m5L5-b20","returns cholesterol to the liver in a process known as reverse cholesterol transport"],
+m5e24:["m5L5-b23","HDL can protect against atherosclerosis through removal of cholesterol from cells."]};
 const M=MODS[MODS.length-1];
 M.questions.forEach(q=>{const l=LEC[q.id];if(l)q.lec={b:l[0],hl:l[1]};});
 M.lecture="m5";
 // Lecture blocks whose wording is off -> the lesson whose note explains it.
-M.lecnotes={"m5L1-b11":["m5-sat"],"m5L1-b16":["m5-complex"],"m5L2-b8":["m5-carnitine"],"m5L2-b17":["m5-betaox"],"m5L3-b9":["m5-shuttle"],"m5L3-b25":["m5-elong"],"m5L4-b15":["m5-pl"]};
+M.lecnotes={"m5L1-b11":["m5-sat"],"m5L1-b16":["m5-complex"],"m5L2-b8":["m5-carnitine"],"m5L2-b17":["m5-betaox"],"m5L3-b9":["m5-shuttle"],"m5L3-b25":["m5-elong"],"m5L4-b15":["m5-pl"],"m5L5-b17":["m5-cholreg"]};
 })();
