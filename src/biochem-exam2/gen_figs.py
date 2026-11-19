@@ -604,8 +604,8 @@ def q_keto(hdr=("Liver","Blood","Other tissues"),ac="Acetone"):
 
 # ---------- L3: citrate-malate shuttle ----------
 def q_cit(cit=1,enz=2,nadph=3):
-    """Mitochondrion (left) and cytosol (right). Citrate crosses out, ATP-citrate lyase splits it, oxaloacetate goes to malate
-    (NADPH) and back in (dashed). cit, enz, nadph: a number draws a badge (cit blanks both citrates)."""
+    """Mitochondrion (left) and cytosol (right). Citrate crosses out, ATP-citrate lyase splits it, oxaloacetate goes to malate,
+    malate gives off NADPH and goes back in (dashed). cit, enz, nadph: a number draws a badge (cit blanks both citrates)."""
     o=_q(480,300,15)+[_ah("m5a",FG),_ah("m5s",MUT)]; xm,xc=100,300
     o.append(T(xm,24,"MITOCHONDRION",text_anchor="middle",fill=ACC,font_weight="700",font_size="14")+T(xc+40,24,"CYTOSOL",text_anchor="middle",fill=ACC,font_weight="700",font_size="14"))
     o.append('<rect x="174" y="36" width="30" height="256" fill="#f3f5f9"/><line x1="174" y1="36" x2="174" y2="292" stroke="%s"/><line x1="204" y1="36" x2="204" y2="292" stroke="%s"/>'%(LINE,LINE))
@@ -619,8 +619,8 @@ def q_cit(cit=1,enz=2,nadph=3):
     o.append(_num(xc+30,120,enz) if isinstance(enz,int) else "".join(T(xc+14,116+17*j,w,fill=ACC,font_size="14") for j,w in enumerate(enz.split("|"))))
     o.append(t(xc,168,"Oxaloacetate")+T(xc+56,168,"+ acetyl CoA",fill=FG,font_size="14"))
     o.append(_arr(xc,176,xc,232)+t(xc,252,"Malate"))
-    o.append('<path d="M%s 196 Q%s 210 %s 220" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#m5s)"/>'%(xc+4,xc+30,xc+60,MUT))
-    o.append(_num(xc+76,222,nadph) if isinstance(nadph,int) else T(xc+66,226,nadph,fill=MUT,font_size="14"))
+    o.append('<path d="M%s 254 Q%s 256 %s 272" fill="none" stroke="%s" stroke-width="1.5" marker-end="url(#m5s)"/>'%(xc+32,xc+58,xc+72,MUT))
+    o.append(_num(xc+88,280,nadph) if isinstance(nadph,int) else T(xc+80,284,nadph,fill=MUT,font_size="14"))
     o.append(_arr(xc-30,247,xm+52,247,dash=True))
     o.append('</svg>'); return "".join(o)
 
