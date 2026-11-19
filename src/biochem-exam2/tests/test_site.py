@@ -149,6 +149,7 @@ def drill_link(page, vw):
     nav(page, "practice")
     card = page.evaluate_handle("""()=>[...document.querySelectorAll('.plist .qcard')].find(c=>c.innerText.includes('The fasting state is also called the postprandial state'))""").as_element()
     check(card is not None, "found the m4-states T/F card")
+    card.evaluate("c=>{const m=c.querySelector('.opt.mine');if(m)m.click();}")  # an earlier random mock may have answered it already
     card.evaluate("c=>[...c.querySelectorAll('.opt')].find(b=>b.textContent==='True').click()")
     link = card.query_selector(".prac")
     check(link is not None and link.inner_text().startswith("Practice: "), "missed question shows a Practice link")
@@ -171,6 +172,81 @@ def drill_link(page, vw):
     page.evaluate("(k)=>{const S=JSON.parse(localStorage.getItem(k));S.q={};localStorage.setItem(k,JSON.stringify(S));}", KEY)
     page.reload(); page.wait_for_selector(".qcard")
 
+
+
+# answers the question on screen in a one-at-a-time run, right or (miss=True) wrong, using MODS to find the key
+ANSWER_JS = """(miss)=>{const v=[...document.querySelectorAll('#main .opt')],st=document.querySelector('#main .stem').innerHTML;
+  const T=x=>{const d=document.createElement('div');d.innerHTML=x;return d.textContent.trim();},vt=v.map(e=>e.textContent.trim()).sort().join('|');
+  let q=null;MODS.forEach(m=>m.questions.forEach(x=>{const ot=x.type==='tf'?'False|True':x.opts.map(T).sort().join('|');
+    if(st.startsWith(x.stem)&&ot===vt&&(!q||x.stem.length>q.stem.length))q=x;}));
+  const ans=T(q.type==='tf'?(q.ans?'True':'False'):q.opts[q.ans]);v[v.findIndex(e=>miss?e.textContent.trim()!==ans:e.textContent.trim()===ans)].click();return q.id;}"""
+
+
+def practice_mode(page):
+    """Multi-select objective filter (and migration of the old single value), Shuffle, Repeat missed until right."""
+    nav(page, "practice")
+    page.evaluate("document.querySelector('.lof').open=true")
+    nq = lambda: len(page.query_selector_all(".plist .qcard"))
+    by = lambda js: page.evaluate("MODS.reduce((a,m)=>a+m.questions.filter(q=>%s).length,0)" % js)
+    summ = lambda: page.inner_text(".lof > summary")
+    pill = lambda t: page.click(".lof button:has-text('%s')" % t)
+    pill("4.2 "); check(nq() == by("q.lo==='4.2'") and summ() == "Objectives: 4.2", "LO filter: one objective (%d)" % nq())
+    pill("5.2 "); check(nq() == by("q.lo==='4.2'||q.lo==='5.2'") and summ() == "Objectives: 4.2, 5.2", "LO filter: two objectives across modules")
+    pill("M4: all"); check(nq() == by("q.lo[0]==='4'||q.lo==='5.2'") and summ() == "Objectives: M4, 5.2", "LO filter: module pill adds its objectives")
+    pill("M4: all"); check(nq() == by("q.lo==='5.2'"), "LO filter: module pill again removes them")
+    pill("5.2 "); check(nq() == by("true") and summ() == "Objectives: All", "LO filter: removing the last one goes back to all")
+    # edit storage from another page on the same origin: the app saves its own state on pagehide
+    page.goto(URL.rsplit("/", 1)[0] + "/lectures/biochem-exam2/m4.json")
+    page.evaluate("""()=>{const s=JSON.parse(localStorage.getItem('bmsc3401-exam2'));s.set.pf.lo='mod:m5';localStorage.setItem('bmsc3401-exam2',JSON.stringify(s));}""")
+    page.goto(URL + "#practice"); page.wait_for_selector(".lof")
+    page.evaluate("document.querySelectorAll('.tut').forEach(t=>t.remove())")
+    check(nq() == by("q.mod.id==='m5'") and summ() == "Objectives: M5", "LO filter: old saved 'mod:m5' carries over")
+    check(page.evaluate("Array.isArray(JSON.parse(localStorage.getItem('bmsc3401-exam2')).set.pf.lo)"), "LO filter: saved as a list")
+    page.evaluate("document.querySelector('.lof').open=true"); pill("All objectives")
+    check(nq() == by("true"), "LO filter: All objectives")
+    # shuffle
+    ids = lambda: page.evaluate("[...document.querySelectorAll('.plist .qcard .stem')].map(e=>e.innerHTML.slice(0,50))")
+    grouped = ids(); page.click(".filters button:has-text('Shuffle')"); a = ids()
+    check(page.query_selector(".plist .lohead") is None and len(a) == len(grouped) and a != grouped, "Shuffle: one ungrouped random list")
+    page.click(".filters button:has-text('Show all answers')"); page.click(".filters button:has-text('Show all answers')")
+    nav(page, "sheet"); nav(page, "practice")
+    check(ids() == a, "Shuffle: order stays through Show all answers and a tab switch")
+    page.reload(); page.wait_for_selector(".plist .qcard"); page.evaluate("document.querySelectorAll('.tut').forEach(t=>t.remove())")
+    check(ids() == a and page.query_selector(".shufbar") is not None, "Shuffle: order stays after a reload")
+    page.click(".shufbar button:has-text('Reshuffle')"); b = ids()
+    check(b != a and len(b) == len(a), "Shuffle: Reshuffle gives a new order")
+    page.click(".filters button:has-text('Unanswered')"); page.click(".filters button:has-text('Unanswered')")
+    check(ids() != b, "Shuffle: changing a filter reshuffles")
+    page.click(".shufbar button:has-text('Back to normal order')")
+    check(page.query_selector(".plist .lohead") is not None and ids() == grouped and page.query_selector(".filters .pill.on:has-text('Shuffle')") is None
+          and page.query_selector(".shufbar") is None, "Shuffle: Back to normal order restores the grouped list and turns Shuffle off")
+    page.click(".filters button:has-text('Shuffle')"); c = ids(); page.click(".filters button:has-text('Shuffle')")
+    check(c != a and c != b and ids() == grouped, "Shuffle pill: off gives the grouped list, on again gives a new order")
+    # repeat missed until right, on 4.1 (one miss, the rest right)
+    page.evaluate("document.querySelector('.lof').open=true"); pill("4.1 ")
+    n41 = by("q.lo==='4.1'")
+    page.check(".filters .chk.rep input")
+    check(page.evaluate("JSON.parse(localStorage.getItem('bmsc3401-exam2')).set.pf.rep===true"), "Repeat: checkbox saved")
+    page.evaluate("[...document.querySelectorAll('.filters .btn.pri')].find(b=>b.textContent.includes('Quiz me')).click()"); page.wait_for_selector("#main .opt")
+    missed = page.evaluate(ANSWER_JS, True)
+    check(page.inner_text("#main .qhead span").startswith("1 / %d" % (n41 + 1)), "Repeat: a miss adds one showing (%d)" % (n41 + 1))
+    again = None
+    for k in range(1, n41 + 1):
+        page.evaluate("document.querySelector('#main .row .btn.pri').click()"); page.wait_for_timeout(20)
+        qid = page.evaluate(ANSWER_JS, False)
+        if page.query_selector("#main .qhead .again"):
+            again = (k, qid)
+    check(again == (4, missed), "Repeat: the missed question comes back 3 later, marked Again (%s)" % (again,))
+    page.evaluate("document.querySelector('#main .row .btn.pri').click()"); page.wait_for_selector("#main h1:has-text('done')")
+    check("%d / %d correct on the first try" % (n41 - 1, n41) in page.inner_text("#main"), "Repeat: score counts first tries")
+    check(page.query_selector("text=Retry the 1 missed") is not None, "Repeat: Retry offers the first-try miss")
+    check(page.evaluate("(id)=>JSON.parse(localStorage.getItem('bmsc3401-exam2')).q[id].c", missed) is True, "Repeat: right on the second try updates the record")
+    # without the checkbox a miss adds nothing
+    nav(page, "practice"); page.uncheck(".filters .chk.rep input")
+    page.evaluate("[...document.querySelectorAll('.filters .btn.pri')].find(b=>b.textContent.includes('Quiz me')).click()"); page.wait_for_selector("#main .opt"); page.evaluate(ANSWER_JS, True)
+    check(page.inner_text("#main .qhead span").startswith("1 / %d" % n41) and page.query_selector("#main .qhead .again") is None, "Repeat off: a miss adds nothing")
+    nav(page, "practice"); page.evaluate("document.querySelector('.lof').open=true"); pill("All objectives")
+    nav(page, "mock"); page.wait_for_selector("text=Start mock")  # the rest of run() starts from the mock tab
 
 def run(p, name, vw, vh):
     print("== %s %dx%d" % (name, vw, vh))
@@ -406,6 +482,7 @@ def run(p, name, vw, vh):
     drill_link(page, vw)
     new_tools(page)
     mock_mix(page)
+    practice_mode(page)
 
     # end a mock early: results page figures and lecture buttons
     page.click("text=Start mock"); page.wait_for_selector("#main .opt")

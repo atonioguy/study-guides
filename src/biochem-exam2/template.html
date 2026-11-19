@@ -150,6 +150,10 @@ body[data-tab=sheet] .hin,body[data-tab=sheet] main,body[data-tab=sheet] footer{
 .pill.on{background:var(--acc);border-color:var(--acc);color:#fff}
 .filters{background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px 14px;margin:12px 0 8px}
 .filters .row{margin:10px 0}
+.lof>summary{cursor:pointer;color:var(--acc);font-size:15px;padding:10px 0 4px}.lof[open]>summary{padding-bottom:0}
+.shufbar{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;margin:10px 0}.shufbar .btn.link{padding:4px 0;margin:0}
+.lof .row{margin:8px 0}.lof .pill{white-space:normal;text-align:left}.filters .chk.rep{margin:-2px 0 12px}
+.qhead .again{margin-left:8px;font-size:12px;font-weight:600;color:var(--acc);border:1px solid var(--acc);border-radius:999px;padding:1px 7px}
 h2.lohead{font-size:18px;margin:30px 0 10px;line-height:1.35}
 h2.lohead .eyebrow{display:block;margin-bottom:2px}
 .qcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0}
@@ -553,34 +557,56 @@ function savePos(){if((tab==="sheet"&&main.querySelector(".gwrap"))||(tab==="pra
 let st_;window.addEventListener("scroll",()=>{clearTimeout(st_);st_=setTimeout(savePos,250);},{passive:true});
 window.addEventListener("pagehide",savePos);
 
-function loSelect(id,withAll){
-  const s=h("select",{id});
-  if(withAll)s.append(h("option",{value:"all"},"All objectives"));
-  MODS.forEach(m=>{const g=h("optgroup",{label:m.name});g.append(h("option",{value:"mod:"+m.id},m.short+": all"));m.los.forEach(l=>g.append(h("option",{value:l.id},l.id+" "+l.title)));s.append(g);});
-  return s;
+// multi-select objective filter: PF.lo is an array of LO ids, empty means all
+function filterQ(los){if(!los||!los.length)return Q.slice();const k=new Set(los);return Q.filter(q=>k.has(q.lo));}
+function loPick(F,changed){
+  const sm=h("summary"),w=h("details",{class:"lof",open:matchMedia("(min-width:640px)").matches},sm),ps=[];
+  const pill=(label,title,on,click)=>{const b=h("button",{class:"pill",type:"button",title,onclick:click},label);b._on=on;ps.push(b);return b;};
+  const set=a=>{const ids=LOS.map(l=>l.id);a=ids.filter(id=>a.includes(id));F.lo=a.length===ids.length?[]:a;paint();changed();};
+  w.append(h("div",{class:"row pills"},pill("All objectives",null,()=>!F.lo.length,()=>set([]))));
+  MODS.forEach(m=>{const ids=m.los.map(l=>l.id),has=id=>F.lo.includes(id),full=()=>F.lo.length>0&&ids.every(has);
+    const r=h("div",{class:"row pills"},pill(m.short+": all",m.name,full,()=>set(full()?F.lo.filter(id=>!ids.includes(id)):F.lo.concat(ids))));
+    m.los.forEach(l=>r.append(pill(l.id+" "+l.nick,"LO "+l.id+": "+l.title,()=>has(l.id),()=>set(has(l.id)?F.lo.filter(x=>x!==l.id):F.lo.concat(l.id)))));
+    w.append(r);});
+  function paint(){ps.forEach(b=>{const on=!!b._on();b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false");});
+    const full=MODS.filter(m=>m.los.every(l=>F.lo.includes(l.id))),rest=F.lo.filter(id=>!full.some(m=>m.los.some(l=>l.id===id)));
+    sm.textContent="Objectives: "+(F.lo.length?full.map(m=>m.short).concat(rest).join(", "):"All");}
+  paint();return w;
 }
-function filterQ(v){if(v==="all")return Q.slice();if(v.startsWith("mod:"))return Q.filter(q=>q.mod.id===v.slice(4));return Q.filter(q=>q.lo===v);}
+// old saved filter was one string: "all", "mod:m4" or an LO id
+function loMigrate(v){const ids=LOS.map(l=>l.id);if(Array.isArray(v))return v.filter(x=>ids.includes(x));if(typeof v!=="string"||v==="all")return [];
+  if(v.startsWith("mod:")){const m=MODS.find(m=>m.id===v.slice(4));return m?m.los.map(l=>l.id):[];}return ids.includes(v)?[v]:[];}
 
 // ===== PRACTICE (full list) =====
-const PF=Object.assign({lo:"all",ty:"",missed:false,flag:false,un:false,show:false},S.set.pf||{});PF.ty="";
+const PF=Object.assign({lo:[],ty:"",missed:false,flag:false,un:false,show:false,shuf:false,rep:false},S.set.pf||{});PF.ty="";PF.lo=loMigrate(PF.lo);
+// shuffled full-list order is saved (S.set.pfOrd) and kept, reloads included, until Shuffle is toggled, Reshuffle is tapped or a filter changes
 tabs.practice={render(){
   main.append(h("h1",null,"Practice"));
-  main.append(h("p",{class:"mut"},"All the questions the mock exams use, grouped by objective. You can change an answer anytime. Tap your answer again to clear it."));
-  const sel=loSelect("psel",true);sel.value=PF.lo;
-    const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);draw();}},l);return b;};
-  const cnt=h("span",{class:"mut sm"});
-  const quiz=h("button",{class:"btn pri",onclick:()=>runPractice(pool(),"Practice")},"Quiz me one at a time");
+  main.append(h("p",{class:"mut"},"All the questions the mock exams use. You can change an answer anytime. Tap your answer again to clear it."));
+  const lof=loPick(PF,()=>draw());
+    const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),type:"button","aria-pressed":PF[k]?"true":"false",onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);b.setAttribute("aria-pressed",PF[k]?"true":"false");if(k==="shuf")delete S.set.pfOrd;draw();}},l);return b;};
+  const cnt=h("span",{class:"mut sm"}),shufB=tg("shuf","Shuffle");
+  const quiz=h("button",{class:"btn pri",onclick:()=>runPractice(pool(),"Practice",{rep:PF.rep})},"Quiz me one at a time");
+  const rc=h("input",{type:"checkbox",checked:!!PF.rep});rc.addEventListener("change",()=>{PF.rep=rc.checked;S.set.pf=PF;save();});
+  const rep=h("label",{class:"chk rep"},rc,"Repeat missed until right");
   const clr=h("button",{class:"btn sm",type:"button",onclick(){const P=pool().filter(q=>S.q[q.id]);if(!P.length)return;if(!clr.dataset.arm){clr.dataset.arm="1";clr.textContent="Tap again to reset "+P.length;setTimeout(()=>{delete clr.dataset.arm;draw();},3000);return;}delete clr.dataset.arm;P.forEach(q=>delete S.q[q.id]);save();draw();}});
-  main.append(h("div",{class:"filters"},h("div",{class:"row"},sel),h("div",{class:"row"},tg("missed","Missed"),tg("flag","Flagged"),tg("un","Unanswered"),tg("show","Show all answers")),h("div",{class:"row"},quiz,cnt,clr)));
+  main.append(h("div",{class:"filters"},lof,h("div",{class:"row"},tg("missed","Missed"),tg("flag","Flagged"),tg("un","Unanswered"),tg("show","Show all answers"),shufB),h("div",{class:"row"},quiz,cnt,clr),rep));
   const ds=[];MODS.forEach(m=>(m.drills||[]).forEach(d=>ds.push(d)));
   if(ds.length){const dw=h("details",{class:"drills"},h("summary",null,"Drills ("+ds.length+")"));ds.forEach(d=>{const st=S.drills[d.id];dw.append(h("div",{class:"card link",onclick:()=>openDrill(d)},h("b",null,d.title),h("span",{class:"mut sm"}," LO "+d.lo+(st?" · last: "+st:""))));});main.append(dw);}
   const list=h("div",{class:"plist"});main.append(list);
-  sel.addEventListener("change",()=>{PF.lo=sel.value;draw();});
   function pool(){return filterQ(PF.lo).filter(q=>(!PF.ty||q.type===PF.ty)&&(!PF.missed||(S.q[q.id]&&S.q[q.id].c===false))&&(!PF.flag||S.flag[q.id])&&(!PF.un||!S.q[q.id]));}
   function draw(){
     S.set.pf=PF;save();list.innerHTML="";const P=pool();cnt.textContent=P.length+" question"+(P.length===1?"":"s");quiz.disabled=!P.length;
     const na=P.filter(q=>S.q[q.id]).length;if(!clr.dataset.arm){clr.textContent="Reset answers";clr.disabled=!na;clr.title="Clears your answers to the questions shown with the current filters. Flags, bookmarks and mock history are kept.";}
     if(!P.length){list.append(h("p",{class:"mut"},"No questions match these filters."));return;}
+    if(PF.shuf){const key=JSON.stringify([PF.lo,PF.missed,PF.flag,PF.un]),so=S.set.pfOrd;
+      if(!so||so.k!==key){S.set.pfOrd={k:key,ids:shuffle(P).map(q=>q.id)};save();}
+      const r=new Map(S.set.pfOrd.ids.map((id,i)=>[id,i])),rank=q=>r.has(q.id)?r.get(q.id):1e9;
+      list.append(h("p",{class:"shufbar mut sm"},"Shuffled order",
+        h("button",{class:"btn link sm",type:"button",onclick:()=>{delete S.set.pfOrd;draw();}},"Reshuffle"),
+        h("button",{class:"btn link sm",type:"button",onclick:()=>shufB.click()},"Back to normal order")));
+      P.slice().sort((a,b)=>rank(a)-rank(b)).forEach(q=>list.append(qCard(q,PF.show)));return;}
+    delete S.set.pfOrd;
     LOS.forEach(l=>{const qs=P.filter(q=>q.lo===l.id);if(!qs.length)return;
       list.append(h("h2",{class:"lohead"},h("span",{class:"eyebrow"},loTag(l.id)," · "+qs.length),l.title));
       qs.forEach(q=>list.append(qCard(q,PF.show)));});
@@ -602,28 +628,36 @@ function qCard(q,show,label){
   return c;
 }
 
-function runPractice(pool,title){
+const REP_GAP=3; // a missed question comes back this many questions later
+function runPractice(pool,title,opt){
+  opt=opt||{};
   // unseen first, then oldest
   const qs=shuffle(pool).sort((a,b)=>((S.q[a.id]||{}).t||0)-((S.q[b.id]||{}).t||0));
-  // ord/picks per question so Back can show an answered question again (locked, with feedback)
-  let i=0,right=0;const missedIds=[],ord=qs.map(q=>optsFor(q)),picks=[];
+  // one entry per showing; with opt.rep a miss adds another showing of the same question
+  // ord/pick per entry so Back can show an answered question again (locked, with feedback)
+  const E=qs.map(q=>({q,ord:optsFor(q),pick:null,again:false}));
+  let i=0,right=0;const missedIds=[];
   function show(){
     // each new question (or the summary) closes the lecture window so it can't show the next answer
     closeLec();main.innerHTML="";
-    if(i>=qs.length){
-      main.append(h("h1",null,title+" done"),h("p",null,right+" / "+qs.length+" correct"));
+    if(i>=E.length){
+      main.append(h("h1",null,title+" done"),h("p",null,right+" / "+qs.length+" correct"+(opt.rep&&missedIds.length?" on the first try":"")));
       const r=h("div",{class:"row"});
-      if(missedIds.length)r.append(h("button",{class:"btn pri",onclick:()=>runPractice(missedIds.map(id=>QBY[id]),"Retry")},"Retry the "+missedIds.length+" missed"));
+      if(missedIds.length)r.append(h("button",{class:"btn pri",onclick:()=>runPractice(missedIds.map(id=>QBY[id]),"Retry",opt)},"Retry the "+missedIds.length+" missed"));
       r.append(h("button",{class:"btn",onclick:()=>go("practice")},"Back"));main.append(r);return;
     }
-    const q=qs[i];const order=ord[i];
-    main.append(h("div",{class:"qhead"},h("span",null,(i+1)+" / "+qs.length),h("span",null,loLabel(q,true)," ",flagBtn(q))));
-    main.append(h("div",{class:"bar"},h("i",{style:"width:"+(i/qs.length*100)+"%"})));
-    let done=picks[i]!=null;
-    const v=qView(q,order,{onPick(k){if(done)return;done=true;picks[i]=k;const ok=order[k].c;if(ok)right++;else missedIds.push(q.id);record(q,ok,order[k].t);v.paint(k,true);nx.disabled=false;nx.focus();}});
-    main.append(v.el);if(done)v.paint(picks[i],true);
-    const nx=h("button",{class:"btn pri",disabled:!done,onclick:()=>{i++;show();}},i===qs.length-1?"Finish":"Next");
-    main.append(h("div",{class:"row"},i>0?h("button",{class:"btn",onclick:()=>{i--;show();}},"Back"):null,nx,h("button",{class:"btn link",onclick:()=>{i=qs.length;show();}},"End")));
+    const e=E[i],q=e.q,order=e.ord;
+    const ctr=h("span",null,(i+1)+" / "+E.length);
+    main.append(h("div",{class:"qhead"},h("span",null,ctr,e.again?h("span",{class:"again"},"Again"):null),h("span",null,loLabel(q,true)," ",flagBtn(q))));
+    main.append(h("div",{class:"bar"},h("i",{style:"width:"+(i/E.length*100)+"%"})));
+    let done=e.pick!=null;
+    const v=qView(q,order,{onPick(k){if(done)return;done=true;e.pick=k;const ok=order[k].c;
+      if(!e.again){if(ok)right++;else missedIds.push(q.id);}
+      if(!ok&&opt.rep){E.splice(Math.min(i+1+REP_GAP,E.length),0,{q,ord:optsFor(q),pick:null,again:true});ctr.textContent=(i+1)+" / "+E.length;}
+      record(q,ok,order[k].t);v.paint(k,true);nx.disabled=false;nx.textContent=i===E.length-1?"Finish":"Next";nx.focus();}});
+    main.append(v.el);if(done)v.paint(e.pick,true);
+    const nx=h("button",{class:"btn pri",disabled:!done,onclick:()=>{i++;show();}},i===E.length-1?"Finish":"Next");
+    main.append(h("div",{class:"row"},i>0?h("button",{class:"btn",onclick:()=>{i--;show();}},"Back"):null,nx,h("button",{class:"btn link",onclick:()=>{i=E.length;show();}},"End")));
   }
   show();
 }

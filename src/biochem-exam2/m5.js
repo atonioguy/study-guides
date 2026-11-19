@@ -46,7 +46,7 @@ b:`<p>Fatty acids are sorted by their double bonds, and the bonds decide how tig
 <p>Trans fats also hide under another name, <b>partially hydrogenated oil</b>. It is used to increase the shelf life of products, but it converts the cis bonds to trans bonds.</p>
 <p><b>Omega-3 fatty acids</b> are unsaturated fatty acids in which the double bonding starts on the third carbon from the end of the chain. They are great for brain and nervous system power. Several are essential, meaning we must obtain them in our diet because we do not produce them ourselves. Fish and nuts are great sources.</p>
 <p>From the lecture's check: a fatty acid full of single bonds is a saturated fatty acid, a man-made unsaturated FA is a trans fat, and partially hydrogenated oil is another name for a trans fat.</p>`,
-nl:"Lecture wording",note:`The trans fat paragraph says trans fats end up with an even higher melting point than saturated fats. The points to know are that trans fats are man-made, harder to break down and likely to stay solid, while natural cis fats are liquid at room temperature.`,
+nl:"Lecture wording",note:`The trans fat paragraph says trans fats end up with an even higher melting point than saturated fats. The rest of the lecture describes trans fats only as likely to stay solid.`,
 so:"Saturated: single bonds, solid, animal. Cis: double bonds, liquid, plant. Trans: man-made, stays solid. Omega-3: double bonds start at the third carbon from the end."},
 {drill:"m5d1"},
 
@@ -113,7 +113,7 @@ b:`<p>Beta oxidation is the breakdown stage and the bulk of fatty acid degradati
 <li><b>Thiolysis</b> by <b>thiolase</b>. The end of the chain now looks a lot like an acetyl CoA, so it is cut off to release an acetyl CoA. The shortened fatty acid is ready for another round.</li></ol>
 <p>One round of beta oxidation gives one FADH₂, one NADH, and one acetyl CoA that can go into the citric acid cycle.</p>
 <p><b>Palmitate</b>, a 16 carbon fatty acid, takes 7 rounds of oxidation: 7 FADH₂, 7 NADH and 8 acetyl CoA. There is one more acetyl CoA than rounds because the last split turns a four carbon molecule into two acetyl CoA. After two ATP are used to activate the palmitate, 108 ATP are generated, for a net of 106 ATP. This is why fats are so much more efficient at providing energy than carbohydrates.</p>`,
-nl:"Lecture wording",note:`The lecture writes FAD+ and FADH for FAD and FADH₂, "enol-coA hydratase" for enoyl-CoA hydratase and "thiloase" for thiolase. Its thiolysis step also says a new acyl-CoA is added to the end of the fatty acid. What remains after the acetyl CoA is cut off is an acyl CoA two carbons shorter, ready for the next round.`,
+nl:"Lecture wording",note:`The lecture writes FAD+ and FADH for FAD and FADH₂. Its thiolysis step also says a new acyl-CoA is added to the end of the fatty acid. What remains after the acetyl CoA is cut off is an acyl CoA two carbons shorter, ready for the next round.`,
 so:"Oxidation, hydration, oxidation, thiolysis. Each round gives one FADH₂, one NADH and one acetyl CoA."},
 
 {id:"m5-odd",h:"Fatty acids that need extra handling",
@@ -185,7 +185,7 @@ b:`<p><b>Elongation</b> is where carbons are added to the fatty acid. It starts 
 <li>14 NADPH, two per round of elongation. Some is generated when malate returns to the mitochondria, and the rest comes from the pentose phosphate pathway.</li></ul>
 <p><b>Modification.</b> Fatty acid synthesis always results in a free palmitate. Fatty acids with more or fewer carbons, or unsaturated ones, come from modifications later on as needed. Further elongation can be stimulated, as can partial degradation of the chain, and additional enzymes can introduce double bonds.</p>
 <p>Mammals lack the enzymes to introduce double bonds at carbon atoms beyond C-9 of the fatty acid chain. Mammals require several such fatty acids, including linoleate and linolenate, which is why they are among the essential fatty acids.</p>`,
-nl:"Lecture wording",note:`The modification paragraph gives prostaglandins as an example of an enzyme that introduces double bonds. Lesson 1 describes prostaglandins as a type of fat that acts as a hormone. What matters here is that double bonds are added after palmitate is made, and that mammals cannot add them beyond C-9.`,
+nl:"Lecture wording",note:`The modification paragraph gives prostaglandins as an example of an enzyme that introduces double bonds. Lesson 1 describes prostaglandins as a type of fat that acts as a hormone.`,
 so:"Condensation, reduction, dehydration, reduction, all on fatty acid synthase. One palmitate takes 8 acetyl CoA, 7 ATP and 14 NADPH."},
 
 {id:"m5-vs",h:"Degradation and synthesis side by side",
@@ -202,7 +202,7 @@ so:"Degradation runs in the mitochondria on FAD and NAD⁺ and is controlled at 
 ],
 "5.3":[
 // ---------------- L4 Storage and Membrane Lipids ----------------
-{id:"m5-pa",h:"Phosphatidate, the shared starting point",
+{id:"m5-pa",h:"Phosphatidate",
 img:{src:"lectures/biochem-exam2/img/m5/file-62af86d734e36.webp",alt:"Glucose goes to DHAP and then glycerol 3-phosphate. In adipose tissue or diet, triacylglycerol breaks down into glycerol and free fatty acids. Glycerol 3-phosphate and fatty acids form phosphatidate in the endoplasmic reticulum, which becomes triacylglycerol in the liver or phospholipid with an activated alcohol.",credit:"Lecture figure, Lesson 4."},
 b:`<p>Storage lipids (triglycerides) and membrane lipids (phospholipids and sphingolipids) have something in common: they are fatty acids combined to an alcohol. This means the processes to create them are almost the same.</p>
 <p>Triglycerides and phospholipids start out exactly the same, because both involve the addition of the alcohol glycerol. Fatty acids and glycerol are joined to form <b>phosphatidate</b>. The parts come from pathways already covered: fatty acids from fatty acid synthesis, and glycerol from releasing fatty acids from a triglyceride. Phosphatidate is a diglyceride, meaning two fatty acids added to a glycerol molecule.</p>
@@ -269,7 +269,7 @@ b:`<p>The rate of cholesterol synthesis responds to feedback at the cellular lev
 <p>Hormones push HMG-CoA reductase activity up or down:</p>
 <ul><li><b>Increase</b> HMG-CoA reductase activity, and therefore cholesterol production: insulin and thyroid hormone.</li>
 <li><b>Decrease</b> HMG-CoA reductase activity: glucagon and glucocorticoids.</li></ul>`,
-nl:"Lecture wording",note:`The lecture says SREBP is inhibited by insulin and increased by glucagon and glucocorticoids, which runs opposite to the effect it gives for the enzyme. The effect on HMG-CoA reductase and cholesterol production is the part to know: insulin and thyroid hormone raise it, glucagon and glucocorticoids lower it.`,
+nl:"Lecture wording",note:`The lecture says SREBP is inhibited by insulin and increased by glucagon and glucocorticoids, which runs opposite to the hormone effects on HMG-CoA reductase listed below.`,
 so:"HMG-CoA reductase is controlled at transcription through SREBP. Insulin and thyroid hormone raise cholesterol production. Glucagon and glucocorticoids lower it."},
 
 {id:"m5-lipoprot",h:"Lipoproteins",
