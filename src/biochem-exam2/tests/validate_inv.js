@@ -32,6 +32,21 @@ for(const M of MODS)for(const q of M.questions||[]){nq++;
   if(!q.inv||!q.inv.length){if(q.tag!=='beyond')fail('question has no inventory item',q.id);continue;}
   for(const id of q.inv){if(!items[id])fail('unknown item',q.id,id);else items[id].q++;}
 }
+// Drills: every piece of text a drill shows ({t:...}) needs inv pointing at real items, les must name lessons of the
+// same module, lo must be one of the module's LOs, and the drill's card must sit in the guide exactly once.
+let nd=0;
+for(const M of MODS)for(const d of M.drills||[]){nd++;
+  if(!(M.los||[]).some(l=>l.id===d.lo))fail('drill lo not in module',d.id,d.lo);
+  if(!d.les||!d.les.length)fail('drill has no les',d.id);
+  for(const id of d.les||[]){const L=INV.find(x=>x.id===id);if(!L||L.mod!==M.id)fail('drill les not a lesson of',M.id,d.id,id);}
+  const cards=Object.values(M.guide||{}).flat().filter(b=>b.drill===d.id).length;if(cards!==1)fail('drill card in guide',cards,'times',d.id);
+  const walk=o=>{if(Array.isArray(o))return o.forEach(walk);if(!o||typeof o!=='object')return;
+    if(typeof o.t==='string'){const ids=[].concat(o.inv||[]);if(!ids.length)fail('drill text has no inv',d.id,JSON.stringify(o.t));
+      for(const id of ids)if(!items[id])fail('drill unknown item',d.id,id);}
+    for(const k in o)if(k!=='inv')walk(o[k]);};
+  walk(d);
+}
+console.log(nd,'drills checked');
 const per={};let core=0,target=0,side=0;
 for(const L of INV){side+=L.side.length;const k=L.mod+' '+L.lec;per[k]=per[k]||{lessons:0,core:0,target:0,q:0};per[k].lessons++;
   for(const [cid,,,n] of L.core){const it=items[L.id+'.'+cid];core++;target+=n;per[k].core++;per[k].target+=n;per[k].q+=it.q;
