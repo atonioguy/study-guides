@@ -151,6 +151,12 @@ Fixes:
 - `build.py` reads each lesson figure's size from its WebP header and emits `IMGDIM`; `block()` sets width/height on lesson images (b.img and inline `<img>` in lesson bodies), so they hold their height before loading.
 - `tab_spots()` in test_site also checks: same page object back after practice, a worked drill keeps its state, the spot holds, the answered count updates, the outline highlight still works, and with every .webp request aborted all 38 figures still keep their height. 308 ok, 0 failures.
 
+## v1.5: header stays put across tabs (Nov 23; pushed)
+Antonio: on desktop the title and tab buttons moved when switching tabs. Two causes: `.hin` widened from 760 to 1040 px on the study guide (title shifted left about 140 px, tabs right), and the bold active tab is about 1.5 px wider, nudging its neighbours.
+- `.hin` is 1040 px on every tab (main and footer keep their per-tab widths). Tab buttons carry `data-l` and a hidden bold `::after` copy that reserves the bold width.
+- test_site checks the title and all three tab buttons have the same position and width on mock, practice, study guide (both widths). 310 ok, 0 failures; quick_check ALL OK.
+- Not changed: on desktop, mock and practice content sits left of the header's left edge (it makes room for the lecture window), same as before.
+
 ## What's left for stage 7
 All five items below are done as of v1.2 (Nov 18); only the commit/push is left. Original list:
 1. Mock builder: 25 questions, 40 min, 10 fig / 10 ex / 5 why across M4 and M5, unseen first. Fix the setup line ("M1 and M2 and M3 not added yet").

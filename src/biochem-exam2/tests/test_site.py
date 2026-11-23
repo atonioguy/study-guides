@@ -299,6 +299,16 @@ def tab_spots(p, vw, vh):
     check(page.evaluate("!!document.querySelector('.outline a.cur')"), "outline highlight still follows the page")
     ctx.browser.close()
 
+    # the header (title and tab buttons) sits in the same place on every tab
+    ctx = p.chromium.launch().new_context(viewport={"width": vw, "height": vh})
+    page = ctx.new_page(); page.goto(URL + "#mock"); page.wait_for_selector("#nav button")
+    where = "[...document.querySelectorAll('.brand,#nav button')].map(e=>{const r=e.getBoundingClientRect();return [r.left,r.top,r.width].map(Math.round).join(',')}).join(' ')"
+    spots = []
+    for t in ("mock", "practice", "sheet", "mock"):
+        page.click('#nav button[data-t="%s"]' % t); page.wait_for_timeout(150); spots.append(page.evaluate(where))
+    check(len(set(spots)) == 1, "header title and tabs don't move between tabs " + ("" if len(set(spots)) == 1 else str(spots)))
+    ctx.browser.close()
+
     # lesson figures reserve their height before (or without) loading
     ctx = p.chromium.launch().new_context(viewport={"width": vw, "height": vh})
     page = ctx.new_page(); page.route("**/*.webp", lambda r: r.abort())

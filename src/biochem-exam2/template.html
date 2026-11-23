@@ -17,6 +17,9 @@ header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid v
 nav{display:flex;gap:2px;flex-wrap:wrap}
 nav button{font:inherit;font-size:15px;background:none;border:0;padding:7px 10px;border-radius:6px;color:var(--mut);cursor:pointer}
 nav button.on{color:var(--fg);background:var(--soft);font-weight:600}
+/* reserve the bold width so the active tab doesn't widen and push its neighbours */
+nav button{display:inline-flex;flex-direction:column;align-items:center}
+nav button::after{content:attr(data-l);font-weight:600;height:0;overflow:hidden;visibility:hidden;pointer-events:none}
 main{max-width:780px;margin:0 auto;padding:16px 16px 72px}
 h1{font-size:22px;margin:6px 0 6px}
 h2{font-size:18px;margin:28px 0 8px}
@@ -143,7 +146,9 @@ footer{max-width:780px;margin:0 auto;padding:0 16px 24px;font-size:13px;color:va
 body{background:#f6f6f3}
 header{background:#fff}
 .hin,main,footer{max-width:760px}
-body[data-tab=sheet] .hin,body[data-tab=sheet] main,body[data-tab=sheet] footer{max-width:1040px}
+body[data-tab=sheet] main,body[data-tab=sheet] footer{max-width:1040px}
+/* the header is the same width on every tab so the title and tabs never move */
+.hin{max-width:1040px}
 .btn{background:#fff}
 .eyebrow{font-size:13px;font-weight:600;color:var(--acc);letter-spacing:.02em}
 .pill{white-space:nowrap;font:inherit;font-size:14px;padding:6px 12px;border:1px solid #c8c8c8;border-radius:999px;background:#fff;color:var(--fg);cursor:pointer}
@@ -303,7 +308,7 @@ mark.lwhl{background:#fff4b8;box-shadow:0 0 0 3px #fff4b8;color:inherit;border-r
 <header><div class="hin">
 <div class="brand">BMSC 3401 · Exam 2 <span id="modlist"></span></div>
 <nav id="nav">
-<button data-t="mock">Mock exam</button><button data-t="practice">Practice</button><button data-t="sheet">Study guide</button>
+<button data-t="mock" data-l="Mock exam">Mock exam</button><button data-t="practice" data-l="Practice">Practice</button><button data-t="sheet" data-l="Study guide">Study guide</button>
 </nav></div></header>
 <main id="main"></main>
 <footer>__VERSION__ · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
