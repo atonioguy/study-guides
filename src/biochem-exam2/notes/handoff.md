@@ -157,6 +157,12 @@ Antonio: on desktop the title and tab buttons moved when switching tabs. Two cau
 - test_site checks the title and all three tab buttons have the same position and width on mock, practice, study guide (both widths). 310 ok, 0 failures; quick_check ALL OK.
 - Not changed: on desktop, mock and practice content sits left of the header's left edge (it makes room for the lecture window), same as before.
 
+## v1.6: sidebar marks the lesson you're reading; practice counter (Nov 23; pushed)
+An earlier v1.6 (answer positions dealt evenly) was dropped at Antonio's call: the old seeded order checked out as random (A<->B neighbour pairs 17% vs ~16.5% expected; same letter 27% vs ~25%). Don't redo it.
+- Study guide sidebar: the IntersectionObserver that only marked the objective is replaced by a scroll spy (`SPY`, one window scroll listener throttled to a frame, no-op while the study guide is parked). It marks the objective and the lesson whose top has passed 30% of the window (at the bottom, the last one on screen), and leaves the sidebar's own scroll alone (Antonio didn't want it auto-scrolling). `.outline a.les.cur` = bold, dark, grey background. Phones (sidebar hidden under 900 px) are unchanged.
+- Practice: each card shows `n/N` (its place within its objective in the list as shown; with Shuffle on it counts within the objective in shuffled order, and with filters it counts the filtered list). `qCard(q,show,label,num)`; the study guide's cards get no counter. Tooltip, set on hover so it's current: "Question n of N in LO x · a of 243 answered in the whole bank". No tooltip on phones.
+- test_site `sidebar_and_counter()`: the marked lesson matches the card at the 30% line and the sidebar didn't scroll itself (desktop), counters run 1..N per objective on all 243 cards, tooltip text. 319 ok, 0 failures.
+
 ## What's left for stage 7
 All five items below are done as of v1.2 (Nov 18); only the commit/push is left. Original list:
 1. Mock builder: 25 questions, 40 min, 10 fig / 10 ex / 5 why across M4 and M5, unseen first. Fix the setup line ("M1 and M2 and M3 not added yet").

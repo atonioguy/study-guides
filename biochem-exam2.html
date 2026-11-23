@@ -46,6 +46,7 @@ label.chk{display:flex;gap:6px;align-items:center;font-size:15px;cursor:pointer}
 @media (hover:hover){.card.link:hover{border-color:#999}.outline a:hover{background:#ecece8}}
 .card.link b{display:block}
 .qhead{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:var(--mut)}
+.qhead .qright{display:flex;align-items:center;gap:10px;flex:none}.qhead .qnum{font-size:13px;font-variant-numeric:tabular-nums;cursor:default}
 .bar{height:3px;background:#eee;margin:6px 0 14px}.bar i{display:block;height:100%;background:var(--acc)}
 .stem{font-size:17px;margin:12px 0}
 .tag{display:inline-block;font-size:12px;font-weight:500;color:var(--mut);border:1px solid var(--line);border-radius:4px;padding:0 5px;margin-left:4px;vertical-align:1px}
@@ -241,6 +242,7 @@ h2.lohead .eyebrow{display:block;margin-bottom:2px}
 .modal .card{margin:6px 0}
 .mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px 0}
 .outline a.les{display:block;padding:3px 8px 3px 42px;font-size:13px;color:#555}
+.outline a.les.cur{color:var(--fg);font-weight:600;background:#ecece8}
 .gtop .gjump{flex:1 1 auto;min-width:0;width:0}.gtop .pill{flex:none}
 .card .hl{background:#fff4b8!important;box-shadow:0 0 0 5px #fff4b8;border-radius:3px;animation:hlin 1.1s ease-out .15s both}
 @keyframes hlin{0%{background:transparent;box-shadow:0 0 0 5px transparent}35%{background:#ffe680;box-shadow:0 0 0 7px #ffe680}100%{background:#fff4b8;box-shadow:0 0 0 5px #fff4b8}}
@@ -311,7 +313,7 @@ mark.lwhl{background:#fff4b8;box-shadow:0 0 0 3px #fff4b8;color:inherit;border-r
 <button data-t="mock" data-l="Mock exam">Mock exam</button><button data-t="practice" data-l="Practice">Practice</button><button data-t="sheet" data-l="Study guide">Study guide</button>
 </nav></div></header>
 <main id="main"></main>
-<footer>v1.5 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
+<footer>v1.6 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
 <script>
 const MODS=[];
 </script>
@@ -2817,18 +2819,22 @@ tabs.practice={render(){
       list.append(h("p",{class:"shufbar mut sm"},"Shuffled order",
         h("button",{class:"btn link sm",type:"button",onclick:()=>{delete S.set.pfOrd;draw();}},"Reshuffle"),
         h("button",{class:"btn link sm",type:"button",onclick:()=>shufB.click()},"Back to normal order")));
-      P.slice().sort((a,b)=>rank(a)-rank(b)).forEach(q=>list.append(qCard(q,PF.show)));return;}
+      const sh=P.slice().sort((a,b)=>rank(a)-rank(b)),tot={},seen={};sh.forEach(q=>tot[q.lo]=(tot[q.lo]||0)+1);
+      sh.forEach(q=>{seen[q.lo]=(seen[q.lo]||0)+1;list.append(qCard(q,PF.show,null,[seen[q.lo],tot[q.lo]]));});return;}
     delete S.set.pfOrd;
     LOS.forEach(l=>{const qs=P.filter(q=>q.lo===l.id);if(!qs.length)return;
       list.append(h("h2",{class:"lohead"},h("span",{class:"eyebrow"},loTag(l.id)," · "+qs.length),l.title));
-      qs.forEach(q=>list.append(qCard(q,PF.show)));});
+      qs.forEach((q,i)=>list.append(qCard(q,PF.show,null,[i+1,qs.length])));});
   }
   draw();
 }};
 // one answerable question card (used in Practice list and in the study guide)
-function qCard(q,show,label){
+function qCard(q,show,label,num){
   const c=h("div",{class:"qcard"});
-  c.append(h("div",{class:"qhead"},h("span",null,label||loLabel(q,true)),flagBtn(q)));
+  let nb=null;if(num){nb=h("span",{class:"qnum"},num[0]+"/"+num[1]);
+    // the tooltip is worked out when you point at it, so it counts answers made since the list was drawn
+    nb.addEventListener("mouseenter",()=>{nb.title="Question "+num[0]+" of "+num[1]+" in LO "+q.lo+" · "+Q.filter(x=>S.q[x.id]).length+" of "+Q.length+" answered in the whole bank";});}
+  c.append(h("div",{class:"qhead"},h("span",null,label||loLabel(q,true)),nb?h("span",{class:"qright"},nb,flagBtn(q)):flagBtn(q)));
   const order=optsFor(q,"seed");let done=false;
   // tap another option to change the answer; tap your current answer again to clear the question
   let cur=null;
@@ -3691,6 +3697,7 @@ let io=null;
 // progress, loaded figures and the exact height above the reading spot. It is rebuilt only when what it
 // lists changes (Saved only, the saved set while that is on) or progress is reset.
 let SHEET=null;
+let SPY=()=>{},spyQ=0;window.addEventListener("scroll",()=>{if(spyQ)return;spyQ=requestAnimationFrame(()=>{spyQ=0;SPY();});},{passive:true});
 const sheetKey=()=>S.set.onlySaved?"saved:"+Object.keys(S.saved).sort().join(","):"all";
 tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},
 park(){if(!main.querySelector(".gwrap")||!SHEET)return;const f=document.createDocumentFragment();while(main.firstChild)f.append(main.firstChild);SHEET.frag=f;},
@@ -3708,7 +3715,7 @@ render(){
   body.querySelector(".gtop .pill").addEventListener("click",()=>{S.set.onlySaved=!onlySaved;S.pos.sheet=0;save();go("sheet");});
   jumpSel.addEventListener("change",()=>{const e=document.getElementById(jumpSel.value);if(e)e.scrollIntoView();jumpSel.value="";});
   if(onlySaved&&!Object.keys(S.saved).filter(k=>LES[k]).length)body.append(h("p",{class:"mut"},"Nothing saved yet. Tap the bookmark on any lesson."));
-  const links={},ups=[];
+  const links={},ups=[],lesLinks=[];
   MODS.forEach(m=>{
     const los=m.los.filter(l=>!onlySaved||((m.guide||{})[l.id]||[]).some(b=>b.id&&S.saved[b.id]));if(!los.length)return;
     outl.append(h("div",{class:"omod"},m.short+": "+m.name.split(": ")[1]));
@@ -3722,7 +3729,7 @@ render(){
       const a=h("a",{href:"#"+id,onclick:e=>{e.preventDefault();document.getElementById(id).scrollIntoView();}},h("span",null,l.id),h("span",{class:"ot"},l.nick||shortT(l.title)),pr);
       outl.append(a);links[id]=a;
       jumpSel.append(h("option",{value:id},l.id+" "+(l.nick||shortT(l.title))));
-      blocks.filter(b=>b.id).forEach(b=>{outl.append(h("a",{class:"les",href:"#"+b.id,onclick:e=>{e.preventDefault();document.getElementById(b.id).scrollIntoView();}},b.h));jumpSel.append(h("option",{value:b.id},"\u00a0\u00a0\u00a0"+b.h));});
+      blocks.filter(b=>b.id).forEach(b=>{const la=h("a",{class:"les",href:"#"+b.id,onclick:e=>{e.preventDefault();document.getElementById(b.id).scrollIntoView();}},b.h);outl.append(la);lesLinks.push([b.id,la]);jumpSel.append(h("option",{value:b.id},"\u00a0\u00a0\u00a0"+b.h));});
       const sec=h("section",{class:"unit",id});
       const upr=h("span",{class:"uprog"});const updProg=()=>{const t=prog();pr.textContent=t;upr.textContent=qids.length?t+" practice questions answered":"";};updProg();ups.push(updProg);
       sec.append(h("div",{class:"uhead"},h("div",null,h("div",{class:"eyebrow"},"Objective "+l.id),h("h2",null,l.title),upr)));
@@ -3731,11 +3738,19 @@ render(){
     });
   });
   // highlight current section in outline
-  const watch=()=>{try{io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){Object.values(links).forEach(a=>a.classList.remove("cur"));const a=links[e.target.id];if(a)a.classList.add("cur");}});},{rootMargin:"-30% 0px -60% 0px"});body.querySelectorAll(".unit").forEach(u=>io.observe(u));}catch(e){}};
-  watch();
+  // the objective and the lesson you're reading: the last one whose top has passed 30% of the window
+  // (at the very bottom, the last one on screen)
+  const units=[...body.querySelectorAll(".unit")],les=lesLinks.map(([id,a])=>[document.getElementById(id),a]).filter(x=>x[0]);let curU=null,curL=null;
+  const pick=list=>{const line=innerHeight*0.3,end=scrollY+innerHeight>=document.documentElement.scrollHeight-2;let got=null;
+    for(const x of list){const t=x[0].getBoundingClientRect().top;if(t<=line||(end&&t<innerHeight))got=x;else break;}return got;};
+  SPY=()=>{if(!outl.isConnected)return;
+    const u=pick(units.map(x=>[x,links[x.id]])),l=pick(les),ua=u&&u[1],la=l&&u&&u[0].contains(l[0])?l[1]:null;
+    if(ua!==curU){if(curU)curU.classList.remove("cur");if(ua)ua.classList.add("cur");curU=ua;}
+    if(la!==curL){if(curL)curL.classList.remove("cur");if(la)la.classList.add("cur");curL=la;}};
+  requestAnimationFrame(()=>SPY());
   // coming back: refresh what practice can change (answered counts, bookmarks, the saved count)
   SHEET={key:sheetKey(),frag:null,back(){ups.forEach(f=>f());main.querySelectorAll("[data-bmk]").forEach(x=>x.dispatchEvent(new Event("bmk")));
-    const n="Saved only ("+Object.keys(S.saved).filter(k=>LES[k]).length+")";[sv,body.querySelector(".gtop .pill")].forEach(b=>{if(b)b.textContent=n;});watch();}};
+    const n="Saved only ("+Object.keys(S.saved).filter(k=>LES[k]).length+")";[sv,body.querySelector(".gtop .pill")].forEach(b=>{if(b)b.textContent=n;});requestAnimationFrame(()=>SPY());}};
 }};
 function shortT(t){return t.replace(/^(Relate|Describe|Determine|Apply knowledge of|Summarize|Outline|Classify|Explain|Interpret|Categorize|Investigate|Apply|Diagram|Predict) /,"").replace(/^the /,"").replace(/^./,c=>c.toUpperCase());}
 function block(b,m){

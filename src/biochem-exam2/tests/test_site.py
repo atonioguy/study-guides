@@ -318,6 +318,35 @@ def tab_spots(p, vw, vh):
     ctx.browser.close()
 
 
+def sidebar_and_counter(p, vw, vh):
+    """Study guide sidebar marks the objective and lesson being read; practice cards number themselves
+    within their objective, with the whole-bank answered count in the tooltip."""
+    ctx = p.chromium.launch().new_context(viewport={"width": vw, "height": vh})
+    page = ctx.new_page(); page.goto(URL + "#sheet"); page.wait_for_selector(".unit")
+    page.add_style_tag(content=".tut{display:none!important}")
+    if page.evaluate("getComputedStyle(document.querySelector('.gside')).display") != "none":
+        page.mouse.move(vw // 2 + 100, vh // 2)
+        for n in (8, 40, 60):
+            for _ in range(n):
+                page.mouse.wheel(0, 500); page.wait_for_timeout(15)
+            page.wait_for_timeout(400)
+            got = page.evaluate("(()=>{const a=document.querySelector('.outline a.les.cur');const c=[...document.querySelectorAll('.gbody .card[id]')].filter(c=>c.getBoundingClientRect().top<=innerHeight*0.3).pop();"
+                                "return [a&&a.textContent,c&&c.querySelector('h3').textContent,document.querySelectorAll('.outline a.cur:not(.les)').length,document.querySelector('.gside').scrollTop]})()")
+            check(got[0] and got[0] == got[1] and got[2] == 1 and got[3] == 0, "sidebar marks the lesson being read and doesn't scroll itself (%s)" % got)
+    nav(page, "practice")
+    nums = page.evaluate("[...document.querySelectorAll('.plist .qnum')].map(e=>e.textContent)")
+    heads = page.evaluate("[...document.querySelectorAll('.plist .lohead .eyebrow')].map(e=>+e.textContent.split('·')[1])")
+    first = nums[:heads[0]]
+    check(first == ["%d/%d" % (i + 1, heads[0]) for i in range(heads[0])], "practice cards count 1..N within their objective")
+    check(len(nums) == sum(heads), "every practice card has a counter (%d of %d)" % (len(nums), sum(heads)))
+    page.query_selector_all(".plist .qcard")[0].query_selector(".opt").evaluate("e=>e.click()")
+    q = page.query_selector_all(".plist .qnum")[1]; q.scroll_into_view_if_needed(); q.hover()
+    t = q.get_attribute("title") or ""
+    total = page.evaluate("document.querySelectorAll('.plist .qcard').length")
+    check(t.endswith("1 of %d answered in the whole bank" % total) and t.startswith("Question 2 of %d in LO" % heads[0]), "counter tooltip: " + t)
+    ctx.browser.close()
+
+
 def run(p, name, vw, vh):
     print("== %s %dx%d" % (name, vw, vh))
     phone = vw <= 640
@@ -582,6 +611,7 @@ def run(p, name, vw, vh):
     ctx2.close()
 
     tab_spots(p, vw, vh)
+    sidebar_and_counter(p, vw, vh)
 
     check(not errs, "no page errors " + ("" if not errs else str(errs[:3])))
     check(not bad_req, "no failed local requests " + ("" if not bad_req else str(bad_req[:3])))
