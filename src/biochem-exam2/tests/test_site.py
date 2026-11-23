@@ -385,6 +385,34 @@ def run_survives_tabs(p, vw, vh):
     ctx.browser.close()
 
 
+def quiz_shuffle(p, vw, vh):
+    """Quiz me one at a time follows the Shuffle pill: off replays answered questions oldest first,
+    on is fully random."""
+    ctx = p.chromium.launch().new_context(viewport={"width": vw, "height": vh})
+    page = ctx.new_page(); page.goto(URL + "#practice"); page.wait_for_selector(".plist .qcard")
+    page.add_style_tag(content=".tut{display:none!important}")
+    cards = page.query_selector_all(".plist .qcard")
+    for c in cards:  # answer every shown question in list order, so answer times follow the list
+        c.query_selector(".opt").evaluate("e=>e.click()"); page.wait_for_timeout(3)
+    def first(k):
+        out = []
+        for _ in range(k):
+            out.append(page.evaluate("document.querySelector('main').innerText.split('\\n').slice(2,4).join(' ').slice(0,60)"))
+            page.click("main .opt >> nth=0"); page.click("main .row .btn.pri")
+        page.click("main .row .btn.link") if page.query_selector("main .row .btn.link") else None
+        page.click("main .row >> text=Back"); page.wait_for_selector(".plist .qcard")
+        return out
+    page.click("text=Quiz me one at a time"); page.wait_for_selector("main .bar")
+    off = first(8)
+    page.click("button.pill:has-text('Shuffle')"); page.wait_for_timeout(100)
+    runs = []
+    for _ in range(2):
+        page.click("text=Quiz me one at a time"); page.wait_for_selector("main .bar"); runs.append(first(8))
+    check(runs[0] != runs[1], "Shuffle on: two quizzes come out in different orders")
+    check(runs[0] != off and runs[1] != off, "Shuffle on: not the oldest-first order")
+    ctx.browser.close()
+
+
 def run(p, name, vw, vh):
     print("== %s %dx%d" % (name, vw, vh))
     phone = vw <= 640
@@ -651,6 +679,7 @@ def run(p, name, vw, vh):
     tab_spots(p, vw, vh)
     sidebar_and_counter(p, vw, vh)
     run_survives_tabs(p, vw, vh)
+    quiz_shuffle(p, vw, vh)
 
     check(not errs, "no page errors " + ("" if not errs else str(errs[:3])))
     check(not bad_req, "no failed local requests " + ("" if not bad_req else str(bad_req[:3])))

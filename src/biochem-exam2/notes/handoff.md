@@ -169,6 +169,11 @@ Antonio: going from "Quiz me one at a time" to the study guide and back dropped 
 - Not kept across a reload (it's in memory only).
 - test_site `run_survives_tabs()`: place kept after visiting the study guide and mock, answering still works, an answer given before leaving is still shown, the summary is kept, Back and a same-tab click return to the list, an open drill keeps its state. 335 ok, 0 failures.
 
+## v1.8: "Quiz me one at a time" follows the Shuffle pill (Nov 23; pushed)
+Antonio: the one-at-a-time quiz didn't feel shuffled. It ignored Shuffle and always went unseen first (random), then answered questions oldest answer first, which replays the list order if you worked the list top to bottom.
+- `runPractice(pool,title,{rep,shuf})`: `shuf` (passed from `PF.shuf`, carried into "Retry the missed") makes it a plain `shuffle(pool)`. Without it the order is unchanged. The missed-from-mock run doesn't pass it, so it keeps the unseen/oldest order.
+- test_site `quiz_shuffle()`: with every question answered in list order, two Shuffle-on quizzes come out in different orders and neither matches the Shuffle-off order. 339 ok, 0 failures.
+
 ## What's left for stage 7
 All five items below are done as of v1.2 (Nov 18); only the commit/push is left. Original list:
 1. Mock builder: 25 questions, 40 min, 10 fig / 10 ex / 5 why across M4 and M5, unseen first. Fix the setup line ("M1 and M2 and M3 not added yet").

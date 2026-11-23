@@ -613,7 +613,7 @@ tabs.practice={render(){
   const lof=loPick(PF,()=>draw());
     const tg=(k,l)=>{const b=h("button",{class:"pill"+(PF[k]?" on":""),type:"button","aria-pressed":PF[k]?"true":"false",onclick:()=>{PF[k]=!PF[k];b.classList.toggle("on",PF[k]);b.setAttribute("aria-pressed",PF[k]?"true":"false");if(k==="shuf")delete S.set.pfOrd;draw();}},l);return b;};
   const cnt=h("span",{class:"mut sm"}),shufB=tg("shuf","Shuffle");
-  const quiz=h("button",{class:"btn pri",onclick:()=>runPractice(pool(),"Practice",{rep:PF.rep})},"Quiz me one at a time");
+  const quiz=h("button",{class:"btn pri",onclick:()=>runPractice(pool(),"Practice",{rep:PF.rep,shuf:PF.shuf})},"Quiz me one at a time");
   const rc=h("input",{type:"checkbox",checked:!!PF.rep});rc.addEventListener("change",()=>{PF.rep=rc.checked;S.set.pf=PF;save();});
   const rep=h("label",{class:"chk rep"},rc,"Repeat missed until right");
   const clr=h("button",{class:"btn sm",type:"button",onclick(){const P=pool().filter(q=>S.q[q.id]);if(!P.length)return;if(!clr.dataset.arm){clr.dataset.arm="1";clr.textContent="Tap again to reset "+P.length;setTimeout(()=>{delete clr.dataset.arm;draw();},3000);return;}delete clr.dataset.arm;P.forEach(q=>delete S.q[q.id]);save();draw();}});
@@ -662,8 +662,8 @@ function qCard(q,show,label,num){
 const REP_GAP=3; // a missed question comes back this many questions later
 function runPractice(pool,title,opt){
   opt=opt||{};SUB={tab};
-  // unseen first, then oldest
-  const qs=shuffle(pool).sort((a,b)=>((S.q[a.id]||{}).t||0)-((S.q[b.id]||{}).t||0));
+  // opt.shuf (Practice's Shuffle pill): fully random. Otherwise unseen first (random among them), then oldest answer first
+  const qs=opt.shuf?shuffle(pool):shuffle(pool).sort((a,b)=>((S.q[a.id]||{}).t||0)-((S.q[b.id]||{}).t||0));
   // one entry per showing; with opt.rep a miss adds another showing of the same question
   // ord/pick per entry so Back can show an answered question again (locked, with feedback)
   const E=qs.map(q=>({q,ord:optsFor(q),pick:null,again:false}));
