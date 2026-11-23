@@ -174,6 +174,9 @@ Antonio: the one-at-a-time quiz didn't feel shuffled. It ignored Shuffle and alw
 - `runPractice(pool,title,{rep,shuf})`: `shuf` (passed from `PF.shuf`, carried into "Retry the missed") makes it a plain `shuffle(pool)`. Without it the order is unchanged. The missed-from-mock run doesn't pass it, so it keeps the unseen/oldest order.
 - test_site `quiz_shuffle()`: with every question answered in list order, two Shuffle-on quizzes come out in different orders and neither matches the Shuffle-off order. 339 ok, 0 failures.
 
+## v1.9: study guide sidebar keeps its own scroll across tab switches (Nov 23; pushed)
+Parking the study guide detaches its DOM, and a detached element loses its scrollTop, so the sidebar came back scrolled to the top. `park()` stores `.gside` scrollTop in `SHEET.sideY`; `SHEET.back()` puts it back. Tab switches only (not kept across a reload, and a rebuild such as Saved only starts at the top). test_site `sidebar_and_counter()` checks it on desktop.
+
 ## What's left for stage 7
 All five items below are done as of v1.2 (Nov 18); only the commit/push is left. Original list:
 1. Mock builder: 25 questions, 40 min, 10 fig / 10 ex / 5 why across M4 and M5, unseen first. Fix the setup line ("M1 and M2 and M3 not added yet").

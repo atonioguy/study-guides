@@ -313,7 +313,7 @@ mark.lwhl{background:#fff4b8;box-shadow:0 0 0 3px #fff4b8;color:inherit;border-r
 <button data-t="mock" data-l="Mock exam">Mock exam</button><button data-t="practice" data-l="Practice">Practice</button><button data-t="sheet" data-l="Study guide">Study guide</button>
 </nav></div></header>
 <main id="main"></main>
-<footer>v1.8 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
+<footer>v1.9 · Progress is saved in this browser. <button class="btn link" id="reset">Reset progress</button></footer>
 <script>
 const MODS=[];
 </script>
@@ -3703,7 +3703,7 @@ let SHEET=null;
 let SPY=()=>{},spyQ=0;window.addEventListener("scroll",()=>{if(spyQ)return;spyQ=requestAnimationFrame(()=>{spyQ=0;SPY();});},{passive:true});
 const sheetKey=()=>S.set.onlySaved?"saved:"+Object.keys(S.saved).sort().join(","):"all";
 tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},
-park(){if(!main.querySelector(".gwrap")||!SHEET)return;const f=document.createDocumentFragment();while(main.firstChild)f.append(main.firstChild);SHEET.frag=f;},
+park(){if(!main.querySelector(".gwrap")||!SHEET)return;const sd=main.querySelector(".gside");SHEET.sideY=sd?sd.scrollTop:0;const f=document.createDocumentFragment();while(main.firstChild)f.append(main.firstChild);SHEET.frag=f;},
 render(){
   if(SHEET&&SHEET.frag&&SHEET.key===sheetKey()){main.append(SHEET.frag);SHEET.frag=null;SHEET.back();return;}
   SHEET=null;
@@ -3752,7 +3752,8 @@ render(){
     if(la!==curL){if(curL)curL.classList.remove("cur");if(la)la.classList.add("cur");curL=la;}};
   requestAnimationFrame(()=>SPY());
   // coming back: refresh what practice can change (answered counts, bookmarks, the saved count)
-  SHEET={key:sheetKey(),frag:null,back(){ups.forEach(f=>f());main.querySelectorAll("[data-bmk]").forEach(x=>x.dispatchEvent(new Event("bmk")));
+  // a detached element loses its scroll, so the sidebar's own scroll is put back by hand
+  SHEET={key:sheetKey(),frag:null,sideY:0,back(){side.scrollTop=this.sideY||0;ups.forEach(f=>f());main.querySelectorAll("[data-bmk]").forEach(x=>x.dispatchEvent(new Event("bmk")));
     const n="Saved only ("+Object.keys(S.saved).filter(k=>LES[k]).length+")";[sv,body.querySelector(".gtop .pill")].forEach(b=>{if(b)b.textContent=n;});requestAnimationFrame(()=>SPY());}};
 }};
 function shortT(t){return t.replace(/^(Relate|Describe|Determine|Apply knowledge of|Summarize|Outline|Classify|Explain|Interpret|Categorize|Investigate|Apply|Diagram|Predict) /,"").replace(/^the /,"").replace(/^./,c=>c.toUpperCase());}

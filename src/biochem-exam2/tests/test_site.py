@@ -333,6 +333,10 @@ def sidebar_and_counter(p, vw, vh):
             got = page.evaluate("(()=>{const a=document.querySelector('.outline a.les.cur');const c=[...document.querySelectorAll('.gbody .card[id]')].filter(c=>c.getBoundingClientRect().top<=innerHeight*0.3).pop();"
                                 "return [a&&a.textContent,c&&c.querySelector('h3').textContent,document.querySelectorAll('.outline a.cur:not(.les)').length,document.querySelector('.gside').scrollTop]})()")
             check(got[0] and got[0] == got[1] and got[2] == 1 and got[3] == 0, "sidebar marks the lesson being read and doesn't scroll itself (%s)" % got)
+        page.evaluate("document.querySelector('.gside').scrollTop=500"); sy = page.evaluate("document.querySelector('.gside').scrollTop")
+        nav(page, "practice"); nav(page, "sheet")
+        check(sy > 0 and page.evaluate("document.querySelector('.gside').scrollTop") == sy, "sidebar keeps its own scroll across a tab switch (%d)" % sy)
+        page.evaluate("document.querySelector('.gside').scrollTop=0")
     nav(page, "practice")
     nums = page.evaluate("[...document.querySelectorAll('.plist .qnum')].map(e=>e.textContent)")
     heads = page.evaluate("[...document.querySelectorAll('.plist .lohead .eyebrow')].map(e=>+e.textContent.split('·')[1])")
