@@ -163,6 +163,12 @@ An earlier v1.6 (answer positions dealt evenly) was dropped at Antonio's call: t
 - Practice: each card shows `n/N` (its place within its objective in the list as shown; with Shuffle on it counts within the objective in shuffled order, and with filters it counts the filtered list). `qCard(q,show,label,num)`; the study guide's cards get no counter. Tooltip, set on hover so it's current: "Question n of N in LO x · a of 243 answered in the whole bank". No tooltip on phones.
 - test_site `sidebar_and_counter()`: the marked lesson matches the card at the 30% line and the sidebar didn't scroll itself (desktop), counters run 1..N per objective on all 243 cards, tooltip text. 319 ok, 0 failures.
 
+## v1.7: a one-at-a-time quiz or a drill survives a tab switch (Nov 23; pushed)
+Antonio: going from "Quiz me one at a time" to the study guide and back dropped the quiz; he had to start over.
+- `SUB` (next to `tab` in the globals): `runPractice()` and `openDrill()` set `SUB={tab}`. When `go()` leaves that tab, main's DOM is parked in `SUB.frag` with its scroll; coming back re-attaches it (closures keep the place, score, missed list, drill state) instead of rendering the list. A same-tab `go()` (clicking the tab you're on) drops it, as do `leaveSub(t)` (summary Back, drill "← Practice") and Reset progress. A run started from mock results parks under the mock tab.
+- Not kept across a reload (it's in memory only).
+- test_site `run_survives_tabs()`: place kept after visiting the study guide and mock, answering still works, an answer given before leaving is still shown, the summary is kept, Back and a same-tab click return to the list, an open drill keeps its state. 335 ok, 0 failures.
+
 ## What's left for stage 7
 All five items below are done as of v1.2 (Nov 18); only the commit/push is left. Original list:
 1. Mock builder: 25 questions, 40 min, 10 fig / 10 ex / 5 why across M4 and M5, unseen first. Fix the setup line ("M1 and M2 and M3 not added yet").

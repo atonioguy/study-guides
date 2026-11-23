@@ -347,6 +347,44 @@ def sidebar_and_counter(p, vw, vh):
     ctx.browser.close()
 
 
+def run_survives_tabs(p, vw, vh):
+    """A one-at-a-time quiz (and a drill) keeps its place across a trip to another tab; clicking the
+    Practice tab itself, or Back on the summary, leaves it for the list."""
+    ctx = p.chromium.launch().new_context(viewport={"width": vw, "height": vh})
+    page = ctx.new_page(); page.goto(URL + "#practice"); page.wait_for_selector(".plist .qcard")
+    page.add_style_tag(content=".tut{display:none!important}")
+    page.click("text=Quiz me one at a time"); page.wait_for_selector("main .bar")
+    for _ in range(3):
+        page.click("main .opt >> nth=0"); page.click("main .row .btn.pri")
+    where = lambda: (page.evaluate("document.querySelector('main .qhead span').textContent"), page.evaluate("document.querySelector('main').innerText.slice(0,300)"))
+    a = where()
+    for t in ("sheet", "mock"):
+        nav(page, t); nav(page, "practice")
+        check(where() == a, "quiz keeps its place after visiting the %s tab (%s)" % (t, a[0]))
+    page.click("main .opt >> nth=0"); page.wait_for_timeout(100)
+    check(page.evaluate("!document.querySelector('main .row .btn.pri').disabled"), "quiz still answers after coming back")
+    nav(page, "sheet"); nav(page, "practice")
+    check(page.evaluate("!!document.querySelector('main .opt.ok,main .opt.bad')") and page.evaluate("!document.querySelector('main .row .btn.pri').disabled"), "an answer given before leaving is still shown")
+    page.click("main .row .btn.link")  # End
+    page.wait_for_selector("text=Practice done")
+    nav(page, "sheet"); nav(page, "practice")
+    check(page.evaluate("!!document.querySelector('main h1') && document.querySelector('main h1').textContent==='Practice done'"), "the summary is kept too")
+    page.click("main .row >> text=Back"); page.wait_for_selector(".plist .qcard")
+    nav(page, "sheet"); nav(page, "practice")
+    check(page.evaluate("!!document.querySelector('.plist')"), "after Back, Practice opens on the list")
+    page.click("text=Quiz me one at a time"); page.wait_for_selector("main .bar")
+    page.click('#nav button[data-t="practice"]'); page.wait_for_timeout(200)
+    check(page.evaluate("!!document.querySelector('.plist')"), "clicking the Practice tab during a quiz goes back to the list")
+    # a drill keeps its state the same way
+    page.evaluate("document.querySelector('details.drills').open=true"); page.click("details.drills .card.link >> nth=0")
+    page.wait_for_timeout(200); page.evaluate("document.querySelector('main')._drill=1")
+    page.evaluate("()=>{const b=[...document.querySelectorAll('main button')].find(b=>!b.closest('.row')&&!b.disabled);if(b)b.click()}")
+    html = page.evaluate("document.querySelector('main').innerHTML.length")
+    nav(page, "sheet"); nav(page, "practice")
+    check(page.evaluate("document.querySelector('main').innerHTML.length") == html and page.evaluate("!!document.querySelector('main h1') && !document.querySelector('.plist')"), "an open drill keeps its state after visiting another tab")
+    ctx.browser.close()
+
+
 def run(p, name, vw, vh):
     print("== %s %dx%d" % (name, vw, vh))
     phone = vw <= 640
@@ -612,6 +650,7 @@ def run(p, name, vw, vh):
 
     tab_spots(p, vw, vh)
     sidebar_and_counter(p, vw, vh)
+    run_survives_tabs(p, vw, vh)
 
     check(not errs, "no page errors " + ("" if not errs else str(errs[:3])))
     check(not bad_req, "no failed local requests " + ("" if not bad_req else str(bad_req[:3])))

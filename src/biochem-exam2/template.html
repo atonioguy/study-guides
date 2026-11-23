@@ -562,9 +562,12 @@ function tutDrop(){if(!tutEl)return;tutEl.remove();tutEl=null;removeEventListene
 function tutDismiss(){tutDone=true;tutDrop();if(tutIO){tutIO.disconnect();tutIO=null;}}
 
 // ---- tabs ----
-let tab=null,st_,lastWheel=0,COAST=null;const tabs={};
+let tab=null,st_,lastWheel=0,COAST=null,SUB=null;const tabs={};
+// SUB: a one-at-a-time quiz or a drill open inside a tab. Switching to another tab parks its page (with
+// its place and score) and coming back re-attaches it. Clicking the same tab, Back, or "← Practice" leaves it.
+const leaveSub=t=>{SUB=null;go(t);};
 document.getElementById("nav").addEventListener("click",e=>{const t=e.target.dataset.t;if(t){go(t);}});
-function go(t,arg){const coast=performance.now()-lastWheel<150;stopAnims();clearTimeout(st_);savePos();if(COAST)COAST();if(tab&&tab!==t&&tabs[tab]&&tabs[tab].cleanup)tabs[tab].cleanup();if(tab&&tab!==t&&tabs[tab]&&tabs[tab].park)tabs[tab].park();tab=t;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(tabs[t].cleanup)tabs[t].cleanup();main.innerHTML="";document.body.dataset.tab=t;tabs[t].render(arg);window.scrollTo(0,(t==="sheet"||t==="practice")?(S.pos[t]||0):0);if(coast)holdCoast();S.tab=t;save();try{history.replaceState(null,"","#"+t);}catch(e){}}
+function go(t,arg){const coast=performance.now()-lastWheel<150;stopAnims();clearTimeout(st_);savePos();if(COAST)COAST();if(tab&&tab!==t&&tabs[tab]&&tabs[tab].cleanup)tabs[tab].cleanup();if(tab&&tab!==t&&SUB&&SUB.tab===tab&&!SUB.frag){const f=document.createDocumentFragment();while(main.firstChild)f.append(main.firstChild);SUB.frag=f;SUB.y=Math.round(scrollY);}else if(tab===t)SUB=null;if(tab&&tab!==t&&tabs[tab]&&tabs[tab].park)tabs[tab].park();tab=t;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(tabs[t].cleanup)tabs[t].cleanup();main.innerHTML="";document.body.dataset.tab=t;if(SUB&&SUB.tab===t&&SUB.frag&&arg==null){main.append(SUB.frag);SUB.frag=null;window.scrollTo(0,SUB.y);}else{if(SUB&&SUB.tab===t)SUB=null;tabs[t].render(arg);window.scrollTo(0,(t==="sheet"||t==="practice")?(S.pos[t]||0):0);}if(coast)holdCoast();S.tab=t;save();try{history.replaceState(null,"","#"+t);}catch(e){}}
 function savePos(){if(!COAST&&((tab==="sheet"&&main.querySelector(".gwrap"))||(tab==="practice"&&main.querySelector(".plist")))){S.pos[tab]=Math.round(window.scrollY);save();}}
 window.addEventListener("scroll",()=>{clearTimeout(st_);st_=setTimeout(savePos,250);},{passive:true});
 window.addEventListener("pagehide",savePos);
@@ -658,7 +661,7 @@ function qCard(q,show,label,num){
 
 const REP_GAP=3; // a missed question comes back this many questions later
 function runPractice(pool,title,opt){
-  opt=opt||{};
+  opt=opt||{};SUB={tab};
   // unseen first, then oldest
   const qs=shuffle(pool).sort((a,b)=>((S.q[a.id]||{}).t||0)-((S.q[b.id]||{}).t||0));
   // one entry per showing; with opt.rep a miss adds another showing of the same question
@@ -672,7 +675,7 @@ function runPractice(pool,title,opt){
       main.append(h("h1",null,title+" done"),h("p",null,right+" / "+qs.length+" correct"+(opt.rep&&missedIds.length?" on the first try":"")));
       const r=h("div",{class:"row"});
       if(missedIds.length)r.append(h("button",{class:"btn pri",onclick:()=>runPractice(missedIds.map(id=>QBY[id]),"Retry",opt)},"Retry the "+missedIds.length+" missed"));
-      r.append(h("button",{class:"btn",onclick:()=>go("practice")},"Back"));main.append(r);return;
+      r.append(h("button",{class:"btn",onclick:()=>leaveSub("practice")},"Back"));main.append(r);return;
     }
     const e=E[i],q=e.q,order=e.ord;
     const ctr=h("span",null,(i+1)+" / "+E.length);
@@ -692,8 +695,8 @@ function runPractice(pool,title,opt){
 
 // ===== DRILLS =====
 function openDrill(d){
-  stopAnims();main.innerHTML="";
-  main.append(h("div",{class:"row"},h("button",{class:"btn link",style:"margin-left:0;padding-left:0",onclick:()=>go("practice")},"← Practice")));
+  stopAnims();main.innerHTML="";SUB={tab};
+  main.append(h("div",{class:"row"},h("button",{class:"btn link",style:"margin-left:0;padding-left:0",onclick:()=>leaveSub("practice")},"← Practice")));
   main.append(h("h1",null,d.title),h("p",{class:"lohd"},loTag(d.lo)," · "+LOBY[d.lo].title),h("p",{class:"mut"},d.intro));
   const body=h("div");main.append(body);
   if(d.kind==="sort")sortDrill(d,body,0);
@@ -1594,7 +1597,7 @@ function block(b,m){
 }
 
 document.getElementById("reset").addEventListener("click",function(){
-  if(this.dataset.arm){S={q:{},mocks:0,set:S.set,drills:{},flag:{},saved:S.saved,pos:S.pos,hist:[]};SHEET=null;save();this.textContent="Reset progress";delete this.dataset.arm;go(tab);}
+  if(this.dataset.arm){S={q:{},mocks:0,set:S.set,drills:{},flag:{},saved:S.saved,pos:S.pos,hist:[]};SHEET=null;SUB=null;save();this.textContent="Reset progress";delete this.dataset.arm;go(tab);}
   else{this.dataset.arm="1";this.textContent="Tap again to reset";setTimeout(()=>{this.textContent="Reset progress";delete this.dataset.arm;},3000);}
 });
 const start=(location.hash||"").slice(1)||"mock";tab=null;go(tabs[start]?start:"mock");
