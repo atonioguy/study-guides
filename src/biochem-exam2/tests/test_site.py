@@ -248,6 +248,66 @@ def practice_mode(page):
     nav(page, "practice"); page.evaluate("document.querySelector('.lof').open=true"); pill("All objectives")
     nav(page, "mock"); page.wait_for_selector("text=Start mock")  # the rest of run() starts from the mock tab
 
+def tab_spots(p, vw, vh):
+    """Each of the study guide and practice keeps its own scroll spot, including when the tab is
+    clicked while a trackpad flick is still sending wheel events (they must not scroll the new tab)."""
+    ctx = p.chromium.launch().new_context(viewport={"width": vw, "height": vh})
+    page = ctx.new_page()
+    page.goto(URL + "#sheet"); page.wait_for_selector(".unit")
+    page.add_style_tag(content=".tut{display:none!important}")
+    page.mouse.move(vw // 2, vh // 2)
+    y = lambda: page.evaluate("Math.round(scrollY)")
+
+    def roll(dy):
+        for _ in range(dy // 500):
+            page.mouse.wheel(0, 500); page.wait_for_timeout(40)
+        page.wait_for_timeout(500)
+
+    def coast_to(t):
+        for _ in range(8):
+            page.mouse.wheel(0, 60); page.wait_for_timeout(16)
+        page.evaluate("t=>document.querySelector('#nav button[data-t=\"'+t+'\"]').click()", t)
+        for _ in range(30):
+            page.mouse.wheel(0, 60); page.wait_for_timeout(16)
+        page.wait_for_timeout(500)
+
+    roll(5000); s = y()
+    nav(page, "practice"); page.mouse.move(vw // 2, vh // 2); roll(8000); q = y()
+    nav(page, "sheet"); check(y() == s, "study guide spot kept after visiting practice (%d, want %d)" % (y(), s))
+    nav(page, "practice"); check(y() == q, "practice spot kept after visiting the study guide (%d, want %d)" % (y(), q))
+    coast_to("sheet"); check(y() == s, "study guide does not drift when clicked mid-flick (%d, want %d)" % (y(), s))
+    coast_to("practice"); check(abs(y() - (q + 480)) <= 1, "practice does not drift when clicked mid-flick (%d, want %d)" % (y(), q + 480))
+    check(page.evaluate("document.documentElement.style.overflow") == "", "page scrolls again after the flick ends")
+    page.wait_for_timeout(300); y0 = y(); roll(1000)
+    check(y() - y0 == 1000, "a fresh scroll after switching moves the page (%d)" % (y() - y0))
+
+    # the study guide comes back as the same page: a drill worked above the spot keeps its state and
+    # height, the spot holds, and what practice changed (answered counts) is refreshed
+    nav(page, "sheet")
+    page.evaluate("()=>{const d=document.querySelector('.gbody .drill');d.__kept=1;[...d.querySelectorAll('button')].slice(0,3).forEach(b=>b.click());d.scrollIntoView();scrollBy(0,d.offsetHeight+2000)}")
+    page.wait_for_timeout(400)
+    top = "()=>{const c=[...document.querySelectorAll('.gbody .card,.gbody .uhead')].find(e=>e.getBoundingClientRect().bottom>innerHeight*0.3);return [(c.querySelector('h3,h2')||c).textContent.trim(),Math.round(c.getBoundingClientRect().top)]}"
+    a = page.evaluate(top); n0 = page.evaluate("document.querySelector('.outline .oprog').textContent")
+    nav(page, "practice")
+    page.query_selector(".plist .qcard .opt").evaluate("e=>e.click()"); page.wait_for_timeout(200)
+    nav(page, "sheet"); page.wait_for_timeout(300)
+    check(page.evaluate("!!document.querySelector('.gbody .drill').__kept"), "study guide comes back as the same page (drill state kept)")
+    b = page.evaluate(top)
+    check(a == b, "study guide reading spot unchanged after practice (%s -> %s)" % (a, b))
+    n1 = page.evaluate("document.querySelector('.outline .oprog').textContent")
+    check(n1 != n0, "answered count refreshed on return (%s -> %s)" % (n0, n1))
+    check(page.evaluate("!!document.querySelector('.outline a.cur')"), "outline highlight still follows the page")
+    ctx.browser.close()
+
+    # lesson figures reserve their height before (or without) loading
+    ctx = p.chromium.launch().new_context(viewport={"width": vw, "height": vh})
+    page = ctx.new_page(); page.route("**/*.webp", lambda r: r.abort())
+    page.goto(URL + "#sheet"); page.wait_for_selector(".unit")
+    hs = page.evaluate("[...document.querySelectorAll('.gbody img')].map(i=>i.getBoundingClientRect().height)")
+    check(hs and min(hs) > 20, "lesson figures keep their height unloaded (%d figures, min %.0f px)" % (len(hs), min(hs) if hs else 0))
+    ctx.browser.close()
+
+
 def run(p, name, vw, vh):
     print("== %s %dx%d" % (name, vw, vh))
     phone = vw <= 640
@@ -510,6 +570,8 @@ def run(p, name, vw, vh):
     p2.click(".lw button:has-text('Try again')"); p2.wait_for_selector(".lw mark.lwhl", timeout=5000)
     check(True, "Try again loads the lecture")
     ctx2.close()
+
+    tab_spots(p, vw, vh)
 
     check(not errs, "no page errors " + ("" if not errs else str(errs[:3])))
     check(not bad_req, "no failed local requests " + ("" if not bad_req else str(bad_req[:3])))

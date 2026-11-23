@@ -1126,7 +1126,7 @@ m5e22:["m5L5-b23","is characterized by high concentraions of LDL in the blood (3
 m5e23:["m5L5-b20","returns cholesterol to the liver in a process known as reverse cholesterol transport"],
 m5e24:["m5L5-b23","HDL can protect against atherosclerosis through removal of cholesterol from cells."]};
 const M=MODS[MODS.length-1];
-M.questions.forEach(q=>{const l=LEC[q.id];if(l)q.lec={b:l[0],hl:l[1]};});
+M.questions.forEach(q=>{const l=LEC[q.id];if(l)q.lec=Object.assign({b:l[0],hl:l[1]},l[2]);});
 M.lecture="m5";
 // Lecture blocks whose wording is off -> the lesson whose note explains it.
 M.lecnotes={"m5L1-b11":["m5-sat"],"m5L1-b16":["m5-complex"],"m5L2-b8":["m5-carnitine"],"m5L2-b17":["m5-betaox"],"m5L3-b9":["m5-shuttle"],"m5L3-b25":["m5-elong"],"m5L4-b15":["m5-pl"],"m5L5-b17":["m5-cholreg"]};

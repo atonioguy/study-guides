@@ -128,6 +128,29 @@ Antonio's review list, fixed with nothing else changed:
 - Results: test_site 286 ok, 0 failures at 1280 and 390; build.py; validate_hl (243), validate_lec (243), validate_inv (0 problems, 13 thin as before); quick_check ALL OK (known m4-map 327/324 warning). VERSION v1.3, rebuilt.
 - Card screenshots by exact question id: `/tmp/tools/qshot.py <ids>` (throwaway, not in the repo; matches stem plus every option, so it finds m5c05 where quick_check would grab m5c02).
 
+## v1.4: m4a20 review and lecture point at the knowledge check (Nov 19; pushed Nov 23 with the two scroll fixes below)
+Antonio: for "Glucose and galactose are both ketoses." the review and lecture highlight should show the lecture's knowledge check figure (linear galactose, fructose, glucose) and its aldose/ketose answers.
+- Lesson `m4-aldket`: the "From the lecture's check" paragraph now also says where the carbonyl sits (carbon 1 for glucose and galactose, carbon 2 for fructose), and the check figure (`file-63319ed26ef0c.webp`, L1 b44) sits right under it as an inline `<figure class="limg">` in the body. The m4a20 HL is unchanged and still lands on that paragraph, so the review opens with the figure just below.
+- LEC entries take an optional third element: `{fig:"<block>"}` gives that image block the block highlight and scrolls it to the top of the window; `{ans:true}` makes a snippet that lands on a check-yourself item also open and mark that item's answer. Both build lines (m4.js, m5.js) merge it into `q.lec`; `lecHL()` in template.html handles it; validate_lec checks the fig block is an image in the same chapter and that `ans` blocks have answers. Only m4a20 uses it: `["m4L1-b45",["Glucose","Galactose"],{fig:"m4L1-b44",ans:true}]`.
+- Known limit: the figure plus the open answers are taller than the lecture window, so the Galactose answer is just below the fold at both widths (one short scroll).
+- Results: test_site 286 ok, 0 failures; validators 0 problems; quick_check ALL OK. VERSION v1.4.
+- `/tmp/tools/lecshot.py <id>` (throwaway) opens the lecture window and the review for one question and screenshots both widths.
+
+## Also in v1.4: tab scroll spots survive a trackpad flick (Nov 23; pushed)
+Antonio: switching between practice and the study guide loses his spot on both. Per-tab spots were already saved (`S.pos`, `savePos()`), and a plain switch restored them. What broke them: clicking a tab while a trackpad flick is still coasting. The remaining wheel events land on the tab that just opened and scroll it off its spot, and then that drifted spot gets saved. Going back and forth drifts both tabs.
+- Fix in `go()`: if a wheel event arrived in the 150 ms before the click, `holdCoast()` pins the page after the restore (`overflow:hidden` on html, `scrollbar-gutter:stable` so nothing reflows) until wheel events stop for 150 ms (3 s cap), or right away on a key, touch or pointer press. `savePos()` skips while pinned, and `go()` clears the pending debounced save. A normal click (no wheel just before it) does nothing different.
+- `test_site.py` has `tab_spots()` (own context, both widths): plain round trip, round trip mid-flick for both tabs, page unpinned afterwards, fresh scroll still works. 298 ok, 0 failures.
+- Not covered: touch momentum on a phone (iOS stops momentum on a tap, so it shouldn't carry over), and WebKit couldn't be tested here (Playwright's WebKit download is blocked).
+
+## Also in v1.4: the study guide comes back where you left it (Nov 23; pushed)
+Antonio, after the flick fix: study guide -> practice -> study guide, with no scrolling, still jumps down. Not reproducible in headless Chromium (spot was exact there), but two things could make it happen: every visit rebuilt the whole study guide from scratch, and
+- lesson figures had no width/height, so any figure above the spot that hadn't loaded yet on the fresh copy (lazy loading, likely in Safari) took no space and the saved scroll position landed lower;
+- drills worked above the spot reset on the rebuild, so the height above changed.
+Fixes:
+- `tabs.sheet.park()`: `go()` calls a tab's `park()` when leaving it; the study guide moves its DOM into a fragment (`SHEET`) and the next visit re-attaches it instead of rendering. `SHEET.back()` refreshes what practice can change (answered counts, bookmark icons, the Saved only count) and re-starts the outline observer. It rebuilds when `sheetKey()` changes (Saved only toggled, or the saved set while Saved only is on) and after Reset progress (`SHEET=null`). Practice still re-renders on each visit; its spot was already exact.
+- `build.py` reads each lesson figure's size from its WebP header and emits `IMGDIM`; `block()` sets width/height on lesson images (b.img and inline `<img>` in lesson bodies), so they hold their height before loading.
+- `tab_spots()` in test_site also checks: same page object back after practice, a worked drill keeps its state, the spot holds, the answered count updates, the outline highlight still works, and with every .webp request aborted all 38 figures still keep their height. 308 ok, 0 failures.
+
 ## What's left for stage 7
 All five items below are done as of v1.2 (Nov 18); only the commit/push is left. Original list:
 1. Mock builder: 25 questions, 40 min, 10 fig / 10 ex / 5 why across M4 and M5, unseen first. Fix the setup line ("M1 and M2 and M3 not added yet").

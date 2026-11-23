@@ -61,7 +61,8 @@ b:`<p>Most biologically important monosaccharides contain either an aldehyde or 
 <ul><li><b>Aldehyde:</b> the carbonyl is attached to a carbon at the end of the carbon chain. A sugar with an aldehyde is an <b>aldose</b>.</li>
 <li><b>Ketone:</b> the carbonyl is attached within the carbon chain. A sugar with a ketone is a <b>ketose</b>.</li></ul>
 <p>The two sugars on the right of the figure both have 3 carbons and the same formula, so they are isomers. The one with the carbonyl at the end is an aldotriose. The one with the carbonyl between two carbons is a ketotriose.</p>
-<p>From the lecture's check: glucose is an aldose, fructose is a ketose and galactose is an aldose.</p>
+<p>From the lecture's check: glucose is an aldose, fructose is a ketose and galactose is an aldose. Glucose and galactose have the carbonyl at the end of the chain, on carbon 1. Fructose has it inside the chain, on carbon 2.</p>
+<figure class="limg"><img src="lectures/biochem-exam2/img/m4/file-63319ed26ef0c.webp" alt="Linear structures of galactose, fructose and glucose. Galactose and glucose have the C=O on the top carbon; fructose has it on the second carbon." width="798" height="446" loading="lazy"><figcaption class="credit">Lecture figure, Lesson 1.</figcaption></figure>
 <p>A monosaccharide can also alternate between two isomeric forms, a linear chain and a ring. In the chain form, the carbonyl reacts with a hydroxyl group (O-H) in the same carbon chain, which closes the ring. You don't need to recall the reaction. In solutions like those in the body this cyclization occurs automatically, so the carbohydrates in food and in our cells exist in the ring structure.</p>`,
 so:"Carbonyl at the end makes an aldose, inside the chain a ketose. In the body, sugars are rings."}
 ],
@@ -951,7 +952,7 @@ m4a16:["m4L1-b30","Stereoisomers, in contrast, have the same chemical formulas a
 m4a17:["m4L1-b30","the enzymes we use to metabolize glucose only recognize and act on this form"],
 m4a18:["m4L1-b37","In ketones, the carbonyl is attached within the carbon chain."],
 m4a19:["m4L1-b39","Those that contain a ketone group are called ketoses."],
-m4a20:["m4L1-b39","Those that contain an alodehyde group are called aldoses."],
+m4a20:["m4L1-b45",["Glucose","Galactose"],{fig:"m4L1-b44",ans:true}],
 m4a21:["m4L1-b42","in solutions (like those in the human body) this cyclization occurs automatically"],
 m4b01:["m4L2-b5","The synthesis (anabolism) of glucose occurs through"],
 m4b02:["m4L2-b7","Storing glucose requires energy (-ATP)."],
@@ -1049,4 +1050,4 @@ const M=MODS[MODS.length-1];
 M.lecture="m4";
 // Lecture blocks whose wording is off -> the lesson whose note explains it.
 M.lecnotes={"m4L5-b3":["m4-gng"],"m4L4-b17":["m4-states"],"m4L4-b22":["m4-genesis"],"m4L4-b27":["m4-lysis"],"m4L1-b22":["m4-formula"],"m4L3-b13":["m4-ph2"],"m4L3-b14":["m4-ph2"],"m4L3-b19":["m4-reg2"],"m4L3-b31":["m4-pdh"],"m4L3-b32":["m4-anaer"],"m4L3-b38":["m4-anaer"],"m4L2-b14":["m4-map"],"m4L2-b29":["m4-ph1"],"m4L2-b37":["m4-hkgk"],"m4L2-b43":["m4-reg1"]};
-M.questions.forEach(q=>{if(LEC[q.id])q.lec={b:LEC[q.id][0],hl:LEC[q.id][1]};});})();
+M.questions.forEach(q=>{if(LEC[q.id])q.lec=Object.assign({b:LEC[q.id][0],hl:LEC[q.id][1]},LEC[q.id][2]);});})();

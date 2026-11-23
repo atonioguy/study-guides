@@ -426,7 +426,7 @@ function openLesson(id,hl){
 }
 
 // ---- lecture window ----
-// q.lec={b,hl} points at a block of lectures/biochem-exam2/<mod>.json (fetched on first open, then cached).
+// q.lec={b,hl,fig?,ans?} points at a block of lectures/biochem-exam2/<mod>.json (fetched on first open, then cached).
 // Desktop: floating window, drag by the header, resize from the corner, position/size kept in localStorage.
 // Phone: bottom sheet; drag the handle or header to change its height. Clicking another lecture button swaps the
 // lesson (or just re-scrolls if it's the same one). Re-rendering or closing removes the DOM, which stops any video.
@@ -473,6 +473,8 @@ function lecWrap(el,re){
 }
 // same segment rule as tests/validate_lec.js: each snippet sits inside one text element of the block.
 // ref.hl is a string or a list of snippets (all marked; the first one found is scrolled to).
+// ref.ans: a snippet that marks a check-yourself item also opens and marks that item's answer.
+// ref.fig: a figure block shown with it; it gets the block highlight and is scrolled to the top.
 function lecHL(ref){
   const B=LW.body;B.querySelectorAll("mark.lwhl").forEach(m=>m.replaceWith(...m.childNodes));B.querySelectorAll(".lwhit").forEach(e=>e.classList.remove("lwhit"));B.normalize();
   const blk=B.querySelector('[data-b="'+ref.b+'"]');if(!blk)return;
@@ -483,10 +485,13 @@ function lecHL(ref){
     const vis=els.filter(e=>!e.closest(".lw-ans"));const pool=vis.length?vis:els;
     const el=pool.find(e=>!pool.some(o=>o!==e&&e.contains(o)));
     const mk=el?lecWrap(el,re):null;
-    if(mk){for(let d=mk.closest("details");d;d=d.parentElement&&d.parentElement.closest("details"))d.open=true;if(!tgt)tgt=mk;}
+    if(mk){for(let d=mk.closest("details");d;d=d.parentElement&&d.parentElement.closest("details"))d.open=true;if(!tgt)tgt=mk;
+      const li=ref.ans&&mk.closest(".lw-q li"),an=li&&li.querySelector(":scope>details.lw-ans");
+      if(an){an.open=true;const p=an.querySelector("p");if(p&&p.textContent.trim())lecWrap(p,/\S(?:[\s\S]*\S)?/);}}
   }
   if(!tgt){blk.classList.add("lwhit");tgt=blk;}
-  requestAnimationFrame(()=>{if(!LW)return;B.scrollTop+=tgt.getBoundingClientRect().top-B.getBoundingClientRect().top-B.clientHeight*0.3;});
+  const fg=ref.fig&&B.querySelector('[data-b="'+ref.fig+'"]');if(fg)fg.classList.add("lwhit");
+  requestAnimationFrame(()=>{if(!LW)return;B.scrollTop+=fg?fg.getBoundingClientRect().top-B.getBoundingClientRect().top-12:tgt.getBoundingClientRect().top-B.getBoundingClientRect().top-B.clientHeight*0.3;});
 }
 function buildLW(){
   const grip=h("div",{class:"lwgrip","aria-hidden":"true"},h("i")),title=h("div",{class:"lwtitle"});
@@ -550,12 +555,24 @@ function tutDrop(){if(!tutEl)return;tutEl.remove();tutEl=null;removeEventListene
 function tutDismiss(){tutDone=true;tutDrop();if(tutIO){tutIO.disconnect();tutIO=null;}}
 
 // ---- tabs ----
-let tab=null;const tabs={};
+let tab=null,st_,lastWheel=0,COAST=null;const tabs={};
 document.getElementById("nav").addEventListener("click",e=>{const t=e.target.dataset.t;if(t){go(t);}});
-function go(t,arg){stopAnims();savePos();if(tab&&tab!==t&&tabs[tab]&&tabs[tab].cleanup)tabs[tab].cleanup();tab=t;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(tabs[t].cleanup)tabs[t].cleanup();main.innerHTML="";document.body.dataset.tab=t;tabs[t].render(arg);window.scrollTo(0,(t==="sheet"||t==="practice")?(S.pos[t]||0):0);S.tab=t;save();try{history.replaceState(null,"","#"+t);}catch(e){}}
-function savePos(){if((tab==="sheet"&&main.querySelector(".gwrap"))||(tab==="practice"&&main.querySelector(".plist"))){S.pos[tab]=Math.round(window.scrollY);save();}}
-let st_;window.addEventListener("scroll",()=>{clearTimeout(st_);st_=setTimeout(savePos,250);},{passive:true});
+function go(t,arg){const coast=performance.now()-lastWheel<150;stopAnims();clearTimeout(st_);savePos();if(COAST)COAST();if(tab&&tab!==t&&tabs[tab]&&tabs[tab].cleanup)tabs[tab].cleanup();if(tab&&tab!==t&&tabs[tab]&&tabs[tab].park)tabs[tab].park();tab=t;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(tabs[t].cleanup)tabs[t].cleanup();main.innerHTML="";document.body.dataset.tab=t;tabs[t].render(arg);window.scrollTo(0,(t==="sheet"||t==="practice")?(S.pos[t]||0):0);if(coast)holdCoast();S.tab=t;save();try{history.replaceState(null,"","#"+t);}catch(e){}}
+function savePos(){if(!COAST&&((tab==="sheet"&&main.querySelector(".gwrap"))||(tab==="practice"&&main.querySelector(".plist")))){S.pos[tab]=Math.round(window.scrollY);save();}}
+window.addEventListener("scroll",()=>{clearTimeout(st_);st_=setTimeout(savePos,250);},{passive:true});
 window.addEventListener("pagehide",savePos);
+// A trackpad flick keeps sending wheel events for a second or two after a tab is clicked, and they would
+// scroll the tab that just opened off its saved spot. If wheel events were still arriving when the tab was clicked,
+// the page is pinned (overflow hidden, gutter kept so nothing reflows) until they stop.
+
+window.addEventListener("wheel",()=>{lastWheel=performance.now();},{passive:true,capture:true});
+function holdCoast(){
+  const r=document.documentElement.style,t0=performance.now();let q;
+  const done=()=>{clearInterval(q);r.overflow="";r.scrollbarGutter="";["keydown","touchstart","pointerdown"].forEach(e=>removeEventListener(e,done,true));COAST=null;};
+  r.scrollbarGutter="stable";r.overflow="hidden";COAST=done;
+  ["keydown","touchstart","pointerdown"].forEach(e=>addEventListener(e,done,true));
+  q=setInterval(()=>{const n=performance.now();if(n-Math.max(lastWheel,t0)>150||n-t0>3000)done();},50);
+}
 
 // multi-select objective filter: PF.lo is an array of LO ids, empty means all
 function filterQ(los){if(!los||!los.length)return Q.slice();const k=new Set(los);return Q.filter(q=>k.has(q.lo));}
@@ -1475,7 +1492,16 @@ function resumeMock(){
 
 // ===== STUDY GUIDE =====
 let io=null;
-tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},render(){
+// Leaving the study guide parks its DOM instead of dropping it, so coming back shows the same page: drill
+// progress, loaded figures and the exact height above the reading spot. It is rebuilt only when what it
+// lists changes (Saved only, the saved set while that is on) or progress is reset.
+let SHEET=null;
+const sheetKey=()=>S.set.onlySaved?"saved:"+Object.keys(S.saved).sort().join(","):"all";
+tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},
+park(){if(!main.querySelector(".gwrap")||!SHEET)return;const f=document.createDocumentFragment();while(main.firstChild)f.append(main.firstChild);SHEET.frag=f;},
+render(){
+  if(SHEET&&SHEET.frag&&SHEET.key===sheetKey()){main.append(SHEET.frag);SHEET.frag=null;SHEET.back();return;}
+  SHEET=null;
   const onlySaved=!!S.set.onlySaved;
   const wrap=h("div",{class:"gwrap"});const side=h("aside",{class:"gside"});const body=h("div",{class:"gbody"});wrap.append(side,body);main.append(wrap);
   // sidebar / outline
@@ -1487,7 +1513,7 @@ tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},render(){
   body.querySelector(".gtop .pill").addEventListener("click",()=>{S.set.onlySaved=!onlySaved;S.pos.sheet=0;save();go("sheet");});
   jumpSel.addEventListener("change",()=>{const e=document.getElementById(jumpSel.value);if(e)e.scrollIntoView();jumpSel.value="";});
   if(onlySaved&&!Object.keys(S.saved).filter(k=>LES[k]).length)body.append(h("p",{class:"mut"},"Nothing saved yet. Tap the bookmark on any lesson."));
-  const links={};
+  const links={},ups=[];
   MODS.forEach(m=>{
     const los=m.los.filter(l=>!onlySaved||((m.guide||{})[l.id]||[]).some(b=>b.id&&S.saved[b.id]));if(!los.length)return;
     outl.append(h("div",{class:"omod"},m.short+": "+m.name.split(": ")[1]));
@@ -1503,14 +1529,18 @@ tabs.sheet={cleanup(){if(io){io.disconnect();io=null;}},render(){
       jumpSel.append(h("option",{value:id},l.id+" "+(l.nick||shortT(l.title))));
       blocks.filter(b=>b.id).forEach(b=>{outl.append(h("a",{class:"les",href:"#"+b.id,onclick:e=>{e.preventDefault();document.getElementById(b.id).scrollIntoView();}},b.h));jumpSel.append(h("option",{value:b.id},"\u00a0\u00a0\u00a0"+b.h));});
       const sec=h("section",{class:"unit",id});
-      const upr=h("span",{class:"uprog"});const updProg=()=>{const t=prog();pr.textContent=t;upr.textContent=qids.length?t+" practice questions answered":"";};updProg();
+      const upr=h("span",{class:"uprog"});const updProg=()=>{const t=prog();pr.textContent=t;upr.textContent=qids.length?t+" practice questions answered":"";};updProg();ups.push(updProg);
       sec.append(h("div",{class:"uhead"},h("div",null,h("div",{class:"eyebrow"},"Objective "+l.id),h("h2",null,l.title),upr)));
       blocks.forEach(b=>sec.append(block(b,m)));
       body.append(sec);
     });
   });
   // highlight current section in outline
-  try{io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){Object.values(links).forEach(a=>a.classList.remove("cur"));const a=links[e.target.id];if(a)a.classList.add("cur");}});},{rootMargin:"-30% 0px -60% 0px"});body.querySelectorAll(".unit").forEach(u=>io.observe(u));}catch(e){}
+  const watch=()=>{try{io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){Object.values(links).forEach(a=>a.classList.remove("cur"));const a=links[e.target.id];if(a)a.classList.add("cur");}});},{rootMargin:"-30% 0px -60% 0px"});body.querySelectorAll(".unit").forEach(u=>io.observe(u));}catch(e){}};
+  watch();
+  // coming back: refresh what practice can change (answered counts, bookmarks, the saved count)
+  SHEET={key:sheetKey(),frag:null,back(){ups.forEach(f=>f());main.querySelectorAll("[data-bmk]").forEach(x=>x.dispatchEvent(new Event("bmk")));
+    const n="Saved only ("+Object.keys(S.saved).filter(k=>LES[k]).length+")";[sv,body.querySelector(".gtop .pill")].forEach(b=>{if(b)b.textContent=n;});watch();}};
 }};
 function shortT(t){return t.replace(/^(Relate|Describe|Determine|Apply knowledge of|Summarize|Outline|Classify|Explain|Interpret|Categorize|Investigate|Apply|Diagram|Predict) /,"").replace(/^the /,"").replace(/^./,c=>c.toUpperCase());}
 function block(b,m){
@@ -1533,17 +1563,18 @@ function block(b,m){
   const w=h("div",{class:"card",id:b.id||null});
   if(b.h)w.append(h("div",{class:"lhead"},h("h3",{html:b.h+(b.beyond?' <span class="tag">beyond lecture</span>':"")}),b.id?bmkBtn(b.id):null));
   const bodyEl=h("div",{class:"cb",html:b.b||""});
+  bodyEl.querySelectorAll("img:not([width])").forEach(i=>{const d=IMGDIM[i.getAttribute("src")];if(d){i.setAttribute("width",d[0]);i.setAttribute("height",d[1]);}});
   bodyEl.querySelectorAll("table").forEach(t=>{const x=h("div",{class:"tw"});t.replaceWith(x);x.append(t);});
   const f=b.fig?fig(b.fig):null;
   if(f&&(b.fig==="phscale"||b.fig==="forces"||b.fig==="classes"||b.fig==="water"||b.fig==="bicarb")){w.append(f,bodyEl);}else{w.append(bodyEl);if(f)w.append(f);}
-  if(b.img){const fi=h("figure",{class:"limg"},h("img",{src:b.img.src,alt:b.img.alt,loading:"lazy"}),h("figcaption",{class:"credit",html:b.img.credit}));w.insertBefore(fi,bodyEl.nextSibling);}
+  if(b.img){const d=IMGDIM[b.img.src]||[];const fi=h("figure",{class:"limg"},h("img",{src:b.img.src,alt:b.img.alt,width:d[0],height:d[1],loading:"lazy"}),h("figcaption",{class:"credit",html:b.img.credit}));w.insertBefore(fi,bodyEl.nextSibling);}
   if(b.note)w.append(h("div",{class:"call note"},h("b",null,b.nl||"Note"),h("div",{html:b.note})));
   if(b.so)w.append(h("p",{class:"so",html:b.so}));
   return w;
 }
 
 document.getElementById("reset").addEventListener("click",function(){
-  if(this.dataset.arm){S={q:{},mocks:0,set:S.set,drills:{},flag:{},saved:S.saved,pos:S.pos,hist:[]};save();this.textContent="Reset progress";delete this.dataset.arm;go(tab);}
+  if(this.dataset.arm){S={q:{},mocks:0,set:S.set,drills:{},flag:{},saved:S.saved,pos:S.pos,hist:[]};SHEET=null;save();this.textContent="Reset progress";delete this.dataset.arm;go(tab);}
   else{this.dataset.arm="1";this.textContent="Tap again to reset";setTimeout(()=>{this.textContent="Reset progress";delete this.dataset.arm;},3000);}
 });
 const start=(location.hash||"").slice(1)||"mock";tab=null;go(tabs[start]?start:"mock");
