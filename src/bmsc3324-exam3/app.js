@@ -20,8 +20,11 @@ const sheetHTML = t => SHEET[t].replace(/@(o_\w+)/g, (m, k) => IMG[k] || '');
 // ---------- nav ----------
 // remember where you were on each tab
 const SCROLL = {}; let CUR_VIEW = null;
+let SIDE_Y = 0;
 function go(v) {
   if (CUR_VIEW) SCROLL[CUR_VIEW] = window.scrollY;
+  if (CUR_VIEW === 'sheet' && $('#side')) SIDE_Y = $('#side').scrollTop;
+  document.body.classList.toggle('wide', v === 'sheet');
   CUR_VIEW = v; S.view = v; save(); stopTimer();
   document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
   if (v === 'cards') { if (QZ) drawQuiz(); else cardsView(); }
@@ -112,7 +115,7 @@ function mockView() {
   <h2>Past mocks</h2>
   ${S.hist.length ? `<p class="sm"><button class="btn link sm" id="clrHist" style="margin-left:0;padding-left:0">Clear mock history</button> <span class="mut">Question answers stay.</span></p>
   <table class="res"><tr><th>#</th><th>Date</th><th>Score</th></tr>${S.hist.slice().reverse().map(x => `<tr><td>${x.n}</td><td>${new Date(x.d).toLocaleDateString()}</td><td>${x.s} / ${x.of}</td></tr>`).join('')}</table>` : '<p class="mut sm">None yet.</p>'}
-  <p class="sm mut" style="margin-top:28px"><button class="btn link sm" id="reset" style="margin-left:0;padding-left:0">Reset progress</button> · v1.0</p>`;
+  <p class="sm mut" style="margin-top:28px"><button class="btn link sm" id="reset" style="margin-left:0;padding-left:0">Reset progress</button> · v1.1</p>`;
   document.querySelectorAll('[data-mod]').forEach(c => c.onchange = () => { S.set[c.dataset.mod] = c.checked; save(); mockView(); });
   document.querySelectorAll('.seg button').forEach(b => b.onclick = () => { const k = b.parentNode.dataset.key; const v = b.dataset.v; S.set[k] = v === 'true' ? true : v === 'false' ? false : isNaN(+v) ? v : +v; save(); mockView(); });
   $('#startMock').onclick = () => startMock();
@@ -247,7 +250,7 @@ function prDraw() {
   prClr(P);
   if (!P.length) { list.innerHTML = '<p class="mut">No questions match these filters.</p>'; return; }
   let last = null;
-  list.innerHTML = P.map(q => { const head = q.t !== last ? `<h2 class="sechead"><span class="mut sm">M${TOPICS[q.t].m} · ${P.filter(x => x.t === q.t).length}</span><br>${esc(TOPICS[q.t].name)}</h2>` : ''; last = q.t; return head + `<div class="qcard" data-q="${q.id}"></div>`; }).join('');
+  list.innerHTML = P.map(q => { const head = q.t !== last ? `<h2 class="sechead"><span class="mut sm">M${TOPICS[q.t].m} · ${P.filter(x => x.t === q.t).length}</span><br>${esc(TOPICS[q.t].name)}</h2>` : ''; last = q.t; return head + `<div class="qcard" data-q="${q.id}" data-n="${P.indexOf(q) + 1}"></div>`; }).join('');
   if (!S.pf.rec) {
     const R = BANK.filter(q => q.rec && inSec(q, S.pf.sec)).sort((a, b) => ORDER.indexOf(a.t) - ORDER.indexOf(b.t));
     if (R.length) list.insertAdjacentHTML('beforeend', `<details class="recyc"><summary>Recycled: original definition versions (${R.length})</summary><p class="mut sm">Each of these was replaced by a scenario version. They don't count toward the totals or the filters above, and mocks skip them unless you turn them on in the Mock exam tab.</p>${R.map(q => `<div class="qcard" data-q="${q.id}"></div>`).join('')}</details>`);
@@ -259,10 +262,11 @@ function prClr(P) {
   const na = P.filter(q => S.q[q.id]).length; delete clr.dataset.arm; clr.textContent = 'Reset answers'; clr.disabled = !na;
   armBtn(clr, `Tap again to reset ${na}`, () => { P.forEach(q => delete S.q[q.id]); save(); prDraw(); });
 }
+function qTag(q, num) { return `<span class="qn"><b>${num}</b> · M${TOPICS[q.t].m} · ${esc(TOPICS[q.t].name)}</span>`; }
 function qCard(c) {
   const q = QBYID[c.dataset.q], order = optOrder(q, 'list'), r = S.q[q.id];
   const picked = r && r.p != null ? r.p : null;
-  c.innerHTML = `<div class="qhead"><span></span>${flagBtn(q)}</div>${qBody(q, order, picked, picked != null, true)}${picked != null ? fb(q, picked) : S.pf.show ? fb(q, null, true) : ''}`;
+  c.innerHTML = `<div class="qhead">${qTag(q, c.dataset.n ? 'Q' + c.dataset.n : 'Recycled')}${flagBtn(q)}</div>${qBody(q, order, picked, picked != null, true)}${picked != null ? fb(q, picked) : S.pf.show ? fb(q, null, true) : ''}`;
   c.querySelectorAll('.opt').forEach(b => b.onclick = () => {
     const i = +b.dataset.i;
     if (S.q[q.id] && S.q[q.id].p === i) delete S.q[q.id]; else record(q, i);
@@ -286,7 +290,7 @@ function prShow() {
   }
   const q = p.qs[p.i], order = optOrder(q, p.seed), pk = p.picks[q.id], done = pk !== undefined, last = p.i === p.qs.length - 1;
   $('#app').innerHTML = `
-  <div class="qhead"><span>${esc(p.title)} · ${p.i + 1} of ${p.qs.length}</span><span>${esc(secName(q.t))} ${flagBtn(q)}</span></div>
+  <div class="qhead">${qTag(q, (p.i + 1) + ' of ' + p.qs.length)}${flagBtn(q)}</div>
   <div class="bar"><i style="width:${p.i / p.qs.length * 100}%"></i></div>
   ${qBody(q, order, done ? pk : null, done, false)}
   <div id="fb">${done ? fb(q, pk) : ''}</div>
@@ -511,16 +515,33 @@ document.addEventListener('keydown', e => {
 
 // ---------- cheat sheet ----------
 function sheetView() {
-  $('#app').innerHTML = `
+  const mods = [5, 6], mt = m => m === 5 ? 'Lifespan development' : 'Emotion and motivation';
+  $('#app').innerHTML = `<div class="sgrid">
+  <aside id="side" aria-label="Contents">${mods.map(m => `<p class="sidem">Module ${m}</p>` +
+    ORDER.filter(t => TOPICS[t].m === m).map(t => `<a href="#s-${t}" data-t="${t}">${esc(TOPICS[t].name)}</a>`).join('')).join('')}</aside>
+  <div class="scont">
   <h1>Cheat sheet</h1>
   <p class="mut sm"><b class="bt">Blue</b>: blue terms in the lecture notes. <span class="tbm">textbook</span>: from the textbook only.</p>
-  <div class="jump"><select id="jump">${[5, 6].map(m => `<optgroup label="Module ${m}">${ORDER.filter(t => TOPICS[t].m === m).map(t => `<option value="${t}">${TOPICS[t].name}</option>`).join('')}</optgroup>`).join('')}</select></div>
-  ${[5, 6].map(m => `<h2 class="mod">Module ${m}: ${m === 5 ? 'Lifespan development' : 'Emotion and motivation'}</h2>` +
-    ORDER.filter(t => TOPICS[t].m === m).map(t => `<section class="sheet" id="s-${t}"><h3>${TOPICS[t].name}</h3>${sheetHTML(t)}</section>`).join('')).join('')}`;
-  const j = $('#jump');
-  j.onchange = () => document.getElementById('s-' + j.value).scrollIntoView();
+  <div class="jump"><select id="jump">${mods.map(m => `<optgroup label="Module ${m}">${ORDER.filter(t => TOPICS[t].m === m).map(t => `<option value="${t}">${TOPICS[t].name}</option>`).join('')}</optgroup>`).join('')}</select></div>
+  ${mods.map(m => `<h2 class="mod">Module ${m}: ${mt(m)}</h2>` +
+    ORDER.filter(t => TOPICS[t].m === m).map(t => `<section class="sheet" id="s-${t}"><h3>${TOPICS[t].name}</h3>${sheetHTML(t)}</section>`).join('')).join('')}
+  </div></div>`;
+  const j = $('#jump'), side = $('#side');
+  const toSec = t => document.getElementById('s-' + t).scrollIntoView();
+  j.onchange = () => toSec(j.value);
+  side.querySelectorAll('a').forEach(a => a.onclick = e => { e.preventDefault(); toSec(a.dataset.t); mark(a.dataset.t); });
+  side.scrollTop = SIDE_Y;
+  function mark(t) {
+    j.value = t;
+    side.querySelectorAll('a').forEach(a => a.classList.toggle('on', a.dataset.t === t));
+    const a = side.querySelector('a.on'); if (!a || !side.clientHeight) return;
+    // keep the current entry visible inside the sidebar without moving the page
+    const top = a.offsetTop - side.offsetTop, bot = top + a.offsetHeight;
+    if (top < side.scrollTop + 8) side.scrollTop = top - 8;
+    else if (bot > side.scrollTop + side.clientHeight - 8) side.scrollTop = bot - side.clientHeight + 8;
+  }
   if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) j.value = en.target.id.slice(2); }), { rootMargin: '-140px 0px -65% 0px' });
+    const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) mark(en.target.id.slice(2)); }), { rootMargin: '-140px 0px -65% 0px' });
     document.querySelectorAll('section.sheet').forEach(s => io.observe(s));
   }
 }
@@ -531,6 +552,10 @@ const setHH = () => document.documentElement.style.setProperty('--hh', document.
 setHH(); window.addEventListener('resize', setHH);
 $('#zoom').onclick = () => { $('#zoom').hidden = true; };
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (!$('#zoom').hidden) $('#zoom').hidden = true; else if (!$('#peek').hidden) closePeek(); } });
+const thm = $('#thm');
+const setThm = d => { document.documentElement.dataset.theme = d ? 'dark' : 'light'; thm.setAttribute('aria-checked', d); thm.title = d ? 'Switch to light mode' : 'Switch to dark mode'; };
+setThm(document.documentElement.dataset.theme === 'dark');
+thm.onclick = () => { const d = document.documentElement.dataset.theme !== 'dark'; setThm(d); try { localStorage.setItem('bmsc3324_theme', d ? 'dark' : 'light'); } catch (e) {} };
 go('cards');
 
 </script>
