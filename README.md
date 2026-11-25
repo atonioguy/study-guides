@@ -8,6 +8,7 @@ page is a single HTML file you can open directly or serve over GitHub Pages.
 | File | What it is |
 |------|------------|
 | `bmsc3324-exam1.html` | BMSC 3324 Psychology — Exam 1 (Modules 1 & 2): flashcards, mock exams, cheat sheet. Images embedded, no `images/` files. |
+| `bmsc3324-exam3.html` | BMSC 3324 Psychology — Exam 3 (Modules 5 & 6): flashcards with in-context lines, mock exam and practice tabs, cheat sheet. **Built file — edit `src/bmsc3324-exam3/` and run `python3 figs.py <media dir>` (figures) then `python3 build.py`.** |
 | `bmsc3324-exam2.html` | BMSC 3324 Psychology — Exam 2 (Modules 3 & 4): flashcards with in-context lines, mock exam and practice tabs (biochem-style), cheat sheet. **Built file — edit `src/bmsc3324-exam2/` and run `python3 figs.py <media dir>` (figures) then `python3 build.py`.** |
 | `exam3.html` | Microbiology — Exam 3 (Modules 5 & 6) review |
 | `exam2.html` | BMSC 3404 — Exam 2 (Modules 3 & 4) review |
@@ -38,6 +39,13 @@ Side Quest game or the Aquamarine dashboard — those live in the separate
 `src/biochem-exam1/` holds `template.html` (UI), `figs.js` (from `gen_figs.py`) and one
 data file per module (`m1.js`, `m2.js`, `m3.js`). `build.py` inlines them into the
 standalone `biochem-exam1.html`. Each question carries its exam LO and lecture lesson.
+
+### bmsc3324-exam3 source
+
+`src/bmsc3324-exam3/` reuses the Exam 2 shell with the Exam 2-only pieces removed (no `idmap.js`, no v1.0/v1.2 migrations;
+storage key `bmsc3324_exam3_v1`). Same layout: `figs.py` → `figs.js`, `sheet.js`, `cards.js`, `bank_m5.js` / `bank_m6.js`, `hl.js`,
+`build.py` → `bmsc3324-exam3.html`. Figure sources are the images embedded in the Chapter 5/6 notes PDFs.
+Question ids are positional within each section: after release, only append; removing questions needs an id-remap migration like Exam 2's `idmap.js`.
 
 ### bmsc3324-exam2 source
 
